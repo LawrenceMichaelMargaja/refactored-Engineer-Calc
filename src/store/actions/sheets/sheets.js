@@ -1,5 +1,5 @@
 import {
-    ADD_NEW_SHEET,
+    ADD_NEW_SHEET, SET_ROUTE_URL,
     SET_SELECTED_SHEET,
     SET_TAB_STATE
 } from "../actionTypes";
@@ -25,3 +25,9 @@ export const setSelectedSheet = (data) => {
     }
 }
 
+export const setRouteUrl = (data, sheetIndex) => {
+    return {
+        type: SET_ROUTE_URL,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}

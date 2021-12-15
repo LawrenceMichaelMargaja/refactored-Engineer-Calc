@@ -13,6 +13,7 @@ export const SET_METHOD_DROPDOWN = '@@methodDropdown/SET_METHOD_DROPDOWN'
 export const ADD_NEW_SHEET = '@@sheets/ADD_NEW_SHEET'
 export const SET_TAB_STATE = '@@sheets/SET_TAB_STATE'
 export const SET_SELECTED_SHEET = '@@sheets/SET_SELECTED_SHEET'
+export const SET_ROUTE_URL = '@@sheets/SET_ROUTE_URL'
 
 /**
  * Sheet Details

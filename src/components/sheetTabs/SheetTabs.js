@@ -4,12 +4,17 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import AddIcon from '@material-ui/icons/Add';
 import {useDispatch, useSelector} from "react-redux";
 import {size} from "lodash";
-import {addNewSheet, setSelectedSheet} from "../../store/actions/sheets/sheets";
+import {addNewSheet, setRouteUrl, setSelectedSheet} from "../../store/actions/sheets/sheets";
+import {useNavigate} from "react-router";
 
 const SheetTabs = () => {
 
     const dispatch = useDispatch()
     const sheets = useSelector(state => state.sheets.sheets)
+    const selectedSheet = useSelector(state => state.sheets.selectedSheet)
+    const tabState = useSelector(state => state.sheets.sheets[selectedSheet].tabState)
+
+    const navigate = useNavigate()
 
     const insertSheet = () => {
         if (size(sheets) === 0) {
@@ -137,6 +142,10 @@ const SheetTabs = () => {
 
     const renderSheets = () => {
 
+        const activeTabHandler = () => {
+            navigate(`${tabState}`)
+        }
+
         const tabs = []
 
         for (let currentSheetIndex in sheets) {
@@ -147,7 +156,10 @@ const SheetTabs = () => {
                         backgroundColor: '#fff',
                         fontWeight: 'bold'
                     }}
-                    onClick={() => dispatch(setSelectedSheet(currentSheetIndex))}
+                    onClick={() => {
+                        activeTabHandler()
+                        dispatch(setSelectedSheet(currentSheetIndex))
+                    }}
                     label={
                         <span style={{width: '100%', zIndex: 1}}>
                             SHEET <CancelIcon color='primary' style={{width: '20%', marginRight: '-5px', float: 'right'}}/>

@@ -21,7 +21,7 @@ import {
     SET_PROJECT_NAME,
     SET_PROJECT_NOTES,
     SET_PROJECT_UNIT,
-    SET_PROVISION_DROPDOWN, SET_REMOVED_MEMBER_ROW_ARRAY,
+    SET_PROVISION_DROPDOWN, SET_REMOVED_MEMBER_ROW_ARRAY, SET_ROUTE_URL,
     SET_SAFETY_FACTOR_FOR_COMPRESSION,
     SET_SAFETY_FACTOR_FOR_FLEXURE,
     SET_SAFETY_FACTOR_FOR_SHEAR,
@@ -50,6 +50,7 @@ const initialState = {
             system: "Metric",
             method: "Investigation",
             removedMemberRowArray: [],
+            route: '',
             details: {
                 projectUnit: '',
                 projectName: '',
@@ -192,6 +193,8 @@ const Reducer = (state = initialState, action) => {
             return setRemovedMemberRowArray(state, action.payload)
         case SHIFT_REMOVED_MEMBER_ROW_ARRAY:
             return shiftRemovedMemberRowsArray(state, action.payload)
+        case SET_ROUTE_URL:
+            return setRouteUrl(state, action.payload)
         default:
             return state
     }
@@ -225,6 +228,16 @@ const setSelectedSheet = (state, payload) => {
     return {
         ...state,
         selectedSheet: payload
+    }
+}
+
+const setRouteUrl = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets[payload.sheetIndex],
+            route: payload.data
+        }
     }
 }
 
