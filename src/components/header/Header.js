@@ -21,15 +21,15 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = () => {
 
-    const selectedSheet = useSelector(state => state.sheets)
+    const selectedSheet = useSelector(state => state.sheets.sheets)
 
     const classes = useStyles()
 
     return (
         <div>
-            {/*<div style={{width: '50vw'}}>*/}
-            {/*    <p style={{width: '50%'}}>selectedSheet = {JSON.stringify(selectedSheet)}</p>*/}
-            {/*</div>*/}
+            <div style={{width: '50vw'}}>
+                <p style={{width: '50%'}}>selectedSheet = {JSON.stringify(selectedSheet)}</p>
+            </div>
             <div className={classes.root}>
                 <div className={classes.titleContainer}>
                     <p className={classes.title}>TITLE HERE</p>

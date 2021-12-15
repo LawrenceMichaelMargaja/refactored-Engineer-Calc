@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {AppBar, Tab, Tabs} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {setTabState} from "../../store/actions/sheets/sheets";
@@ -15,10 +15,32 @@ const useStyles = makeStyles((theme) => ({
 
 
 const SheetCalculationNavigation = () => {
+
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
+    const tabState = useSelector(state => state.sheets.sheets[selectedSheet].tabState)
     const classes = useStyles()
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    const [highlighted, setHighlighted] = useState(0)
+
+    useEffect(() => {
+        if (tabState === 'details') {
+            setHighlighted(0)
+        }
+        if (tabState === 'factors') {
+            setHighlighted(1)
+        }
+        if (tabState === 'members') {
+            setHighlighted(2)
+        }
+        if (tabState === 'forces') {
+            setHighlighted(3)
+        }
+        if (tabState === 'results') {
+            setHighlighted(4)
+        }
+    }, [tabState])
 
     const detailsNavigationHandler = () => {
         navigate('/details')
@@ -48,6 +70,7 @@ const SheetCalculationNavigation = () => {
                 margin: '0 auto'
             }} position="static">
                 <Tabs
+                    value={highlighted}
                     indicatorColor="primary"
                     aria-label="disabled tabs example"
                 >

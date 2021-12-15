@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Tab, Tabs} from "@material-ui/core";
+import {Button, Paper, Tab, Tabs} from "@material-ui/core";
 import CancelIcon from "@material-ui/icons/Cancel";
 import AddIcon from '@material-ui/icons/Add';
 import {useDispatch, useSelector} from "react-redux";
@@ -14,15 +14,8 @@ const useStyles = makeStyles((theme) => ({
         // transition: 'linear',
         height: '100%',
         zIndex: 0,
-        opacity: 0.8
+        // opacity: 0.7
     },
-    inactiveTabs: {
-        backgroundColor: '#4d4d4d',
-        // transition: 'linear',
-        height: '100%',
-        zIndex: 0,
-        opacity: 0.7
-    }
 }));
 
 const SheetTabs = () => {
@@ -34,6 +27,10 @@ const SheetTabs = () => {
     const tabState = useSelector(state => state.sheets.sheets[selectedSheet].tabState)
 
     const navigate = useNavigate()
+
+    const getSheetTabSelected = (currentSheetIndex) => {
+        alert(currentSheetIndex)
+    }
 
     const insertSheet = () => {
         if (size(sheets) === 0) {
@@ -94,6 +91,8 @@ const SheetTabs = () => {
                 }
             }
             dispatch(addNewSheet(newSheet))
+            navigate('/details')
+            getSheetTabSelected(0)
             dispatch(setSelectedSheet(0))
         } else {
             const newSizeIndex = size(sheets)
@@ -155,6 +154,8 @@ const SheetTabs = () => {
                 }
             }
             dispatch(addNewSheet(currentSheets))
+            navigate('/details')
+            getSheetTabSelected(newSizeIndex)
             dispatch(setSelectedSheet(newSizeIndex))
         }
     }
@@ -180,14 +181,11 @@ const SheetTabs = () => {
         for (let currentSheetIndex in sheets) {
             tabs.push(
                 <Tab
-                    style={{
-                        borderRight: '1px solid grey',
-                        backgroundColor: '#fff',
-                        fontWeight: 'bold'
-                    }}
+                    style={{borderRight: '1px solid grey', fontWeight: 'bold'}}
                     onClick={() => {
                         activeTabHandler()
                         dispatch(setSelectedSheet(currentSheetIndex))
+                        getSheetTabSelected(currentSheetIndex)
                     }}
                     label={
                         <span style={{width: '100%', zIndex: 1}}>
@@ -199,16 +197,25 @@ const SheetTabs = () => {
         }
 
         return (
-            <paper style={{display: 'flex', backgroundColor: '#d3d3d3'}}>
-                <Tabs className={classes.indicator} aria-label="disabled tabs example" >
+            <Paper style={{backgroundColor: '#d3d3d3'}}>
+                <Tabs
+                    value={parseFloat(selectedSheet)}
+                    classes={{
+                        indicator: classes.indicator
+                    }}
+                    onChange={(event, value) => {
+                        dispatch(setSelectedSheet(parseFloat(value)))
+                    }}
+                    aria-label="disabled tabs example"
+                >
                     {tabs}
                 </Tabs>
-            </paper>
+            </Paper>
         )
     }
 
     return (
-        <div style={{display: 'flex'}}>
+        <div style={{display: 'flex', backgroundColor: '#d1d1d1'}}>
             {renderSheets()}
             <Button onClick={insertSheet}>
                 <AddIcon/>
