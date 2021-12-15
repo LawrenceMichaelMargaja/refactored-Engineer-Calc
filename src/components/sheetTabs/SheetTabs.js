@@ -4,11 +4,30 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import AddIcon from '@material-ui/icons/Add';
 import {useDispatch, useSelector} from "react-redux";
 import {size} from "lodash";
-import {addNewSheet, setRouteUrl, setSelectedSheet} from "../../store/actions/sheets/sheets";
+import {addNewSheet, setRouteUrl, setSelectedSheet, setTabState} from "../../store/actions/sheets/sheets";
 import {useNavigate} from "react-router";
+import {makeStyles} from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+    indicator: {
+        backgroundColor: '#f1f1f1',
+        // transition: 'linear',
+        height: '100%',
+        zIndex: 0,
+        opacity: 0.8
+    },
+    inactiveTabs: {
+        backgroundColor: '#4d4d4d',
+        // transition: 'linear',
+        height: '100%',
+        zIndex: 0,
+        opacity: 0.7
+    }
+}));
 
 const SheetTabs = () => {
 
+    const classes = useStyles()
     const dispatch = useDispatch()
     const sheets = useSelector(state => state.sheets.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
@@ -143,7 +162,17 @@ const SheetTabs = () => {
     const renderSheets = () => {
 
         const activeTabHandler = () => {
-            navigate(`${tabState}`)
+            if(tabState === 'details') {
+                navigate('/details')
+            } else if(tabState === 'factors') {
+                navigate('/factors')
+            } else if(tabState === 'members') {
+                navigate('/members')
+            } else if(tabState === 'forces') {
+                navigate('/forces')
+            } else if(tabState === 'results') {
+                navigate('/results')
+            }
         }
 
         const tabs = []
@@ -151,8 +180,8 @@ const SheetTabs = () => {
         for (let currentSheetIndex in sheets) {
             tabs.push(
                 <Tab
-                    color='primary'
                     style={{
+                        borderRight: '1px solid grey',
                         backgroundColor: '#fff',
                         fontWeight: 'bold'
                     }}
@@ -165,14 +194,13 @@ const SheetTabs = () => {
                             SHEET <CancelIcon color='primary' style={{width: '20%', marginRight: '-5px', float: 'right'}}/>
                         </span>
                     }>
-                    SHEET
                 </Tab>
             )
         }
 
         return (
-            <paper style={{display: 'flex'}}>
-                <Tabs style={{backgroundColor: '#d1d1d1'}}>
+            <paper style={{display: 'flex', backgroundColor: '#d3d3d3'}}>
+                <Tabs className={classes.indicator} aria-label="disabled tabs example" >
                     {tabs}
                 </Tabs>
             </paper>
@@ -182,9 +210,9 @@ const SheetTabs = () => {
     return (
         <div style={{display: 'flex'}}>
             {renderSheets()}
-            <div style={{display: 'flex', overflow: 'auto', backgroundColor: '#d1d1d1'}} value={false}>
-                <Button style={{marginLeft: '10px'}} onClick={insertSheet}><AddIcon/></Button>
-            </div>
+            <Button onClick={insertSheet}>
+                <AddIcon/>
+            </Button>
         </div>
     )
 }

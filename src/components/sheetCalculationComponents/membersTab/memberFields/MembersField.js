@@ -17,7 +17,7 @@ const Members = () => {
 
     const dispatch = useDispatch()
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
-    const system = useSelector(state => state.systemDropdown.system)
+    const system = useSelector(state => state.sheets.sheets[selectedSheet].system)
     const members = useSelector(state => state.sheets.sheets[selectedSheet].members)
     const removedMemberRowsArray = useSelector(state => state.sheets.sheets[selectedSheet].removedMemberRowArray)
 
