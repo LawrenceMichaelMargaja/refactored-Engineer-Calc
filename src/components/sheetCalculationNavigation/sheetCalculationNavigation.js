@@ -27,18 +27,23 @@ const SheetCalculationNavigation = () => {
     useEffect(() => {
         if (tabState === 'details') {
             setHighlighted(0)
+            navigate('/details')
         }
         if (tabState === 'factors') {
             setHighlighted(1)
+            navigate('/factors')
         }
         if (tabState === 'members') {
             setHighlighted(2)
+            navigate('/members')
         }
         if (tabState === 'forces') {
             setHighlighted(3)
+            navigate('/forces')
         }
         if (tabState === 'results') {
             setHighlighted(4)
+            navigate('/results')
         }
     }, [tabState])
 

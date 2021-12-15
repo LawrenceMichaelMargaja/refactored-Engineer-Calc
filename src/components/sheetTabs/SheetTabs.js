@@ -92,7 +92,7 @@ const SheetTabs = () => {
             }
             dispatch(addNewSheet(newSheet))
             navigate('/details')
-            getSheetTabSelected(0)
+            // getSheetTabSelected(0)
             dispatch(setSelectedSheet(0))
         } else {
             const newSizeIndex = size(sheets)
@@ -155,7 +155,7 @@ const SheetTabs = () => {
             }
             dispatch(addNewSheet(currentSheets))
             navigate('/details')
-            getSheetTabSelected(newSizeIndex)
+            // getSheetTabSelected(newSizeIndex)
             dispatch(setSelectedSheet(newSizeIndex))
         }
     }
@@ -184,9 +184,11 @@ const SheetTabs = () => {
                     style={{borderRight: '1px solid grey', fontWeight: 'bold'}}
                     onClick={() => {
                         activeTabHandler()
+                        // alert("the index  =  " + currentSheetIndex)
                         dispatch(setSelectedSheet(currentSheetIndex))
-                        getSheetTabSelected(currentSheetIndex)
+                        // getSheetTabSelected(currentSheetIndex)
                     }}
+                    // value={currentSheetIndex}
                     label={
                         <span style={{width: '100%', zIndex: 1}}>
                             SHEET <CancelIcon color='primary' style={{width: '20%', marginRight: '-5px', float: 'right'}}/>
