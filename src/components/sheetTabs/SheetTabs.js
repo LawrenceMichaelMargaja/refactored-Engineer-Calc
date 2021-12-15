@@ -162,20 +162,6 @@ const SheetTabs = () => {
 
     const renderSheets = () => {
 
-        const activeTabHandler = () => {
-            if(tabState === 'details') {
-                navigate('/details')
-            } else if(tabState === 'factors') {
-                navigate('/factors')
-            } else if(tabState === 'members') {
-                navigate('/members')
-            } else if(tabState === 'forces') {
-                navigate('/forces')
-            } else if(tabState === 'results') {
-                navigate('/results')
-            }
-        }
-
         const tabs = []
 
         for (let currentSheetIndex in sheets) {
@@ -183,7 +169,6 @@ const SheetTabs = () => {
                 <Tab
                     style={{borderRight: '1px solid grey', fontWeight: 'bold'}}
                     onClick={() => {
-                        activeTabHandler()
                         // alert("the index  =  " + currentSheetIndex)
                         dispatch(setSelectedSheet(currentSheetIndex))
                         // getSheetTabSelected(currentSheetIndex)

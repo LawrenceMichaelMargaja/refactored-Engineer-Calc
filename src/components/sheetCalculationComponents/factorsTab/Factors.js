@@ -25,8 +25,8 @@ const useStyles = makeStyles((theme) => ({
 const Factors = () => {
 
     const dispatch = useDispatch()
-    const provisionState = useSelector(state => state.provisionDropdown.provision)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
+    const provisionState = useSelector(state => state.sheets.sheets[selectedSheet].provision)
 
     const safetyFactorForTensile = useSelector(state => state.sheets.sheets[selectedSheet].factors.safetyFactorForTensile)
     const safetyFactorForCompression = useSelector(state => state.sheets.sheets[selectedSheet].factors.safetyFactorForCompression)

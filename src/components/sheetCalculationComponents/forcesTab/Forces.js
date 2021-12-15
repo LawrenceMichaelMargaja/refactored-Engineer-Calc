@@ -25,7 +25,7 @@ const Forces = () => {
     const classes = useStyles()
 
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
-    const system = useSelector(state => state.systemDropdown.system)
+    const system = useSelector(state => state.sheets.sheets[selectedSheet].system)
     const dispatch = useDispatch()
 
     const bendingMomentAlongXAxis = useSelector(state => state.sheets.sheets[selectedSheet].forces.bendingMomentAlongXAxis)
