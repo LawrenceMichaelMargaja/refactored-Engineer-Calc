@@ -4,16 +4,90 @@ import React from "react";
 import MaterialProperties from "../materialProperties/MaterialProperties";
 import SectionProperties from "../sectionProperties/SectionProperties";
 import MemberFieldRows from "./memberFieldRows/MemberFieldRows";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {ENGLISH, METRIC} from "../../../../config";
+import {size} from "lodash";
+import {
+    addInitialMember,
+    shiftRemovedMemberRows
+} from "../../../../store/actions/sheets/sheetCalculationComponents/memberFields/memberFields";
 
 
 const Members = () => {
 
+    const dispatch = useDispatch()
+    const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     const system = useSelector(state => state.systemDropdown.system)
+    const members = useSelector(state => state.sheets.sheets[selectedSheet].members)
+    const removedMemberRowsArray = useSelector(state => state.sheets.sheets[selectedSheet].removedMemberRowArray)
 
     const unitHandler = () => {
         return system === 'Metric' ? METRIC : ENGLISH
+    }
+
+    const insertNewMember = () => {
+        if(size(members) === 0) {
+            let initialMember = {}
+            initialMember[0] = {
+                memberId: 1,
+                materialId: 1,
+                sectionId: 1,
+                totalLengthOfMember: 1,
+                yAxisUnbracedLength: 1,
+                yAxisEffectiveLengthFactor: 1,
+                zAxisUnbracedLength: 1,
+                zAxisEffectiveLengthFactor: 1,
+                LLT: '1.0',
+                unbracedLengthLateralTorsional: 1.0,
+                lateralTorsionalModificationFactor: 1.0,
+                slendernessRatioInCompression: 200,
+                LST: 300
+            }
+            dispatch(addInitialMember(initialMember, selectedSheet))
+        } else if(removedMemberRowsArray.length > 0) {
+            alert("I am called")
+            // const newSizeIndex = Object.keys(members).length - 1
+            const sortedRemovedMemberRowsArray = removedMemberRowsArray.sort()
+            const newSizeIndex = sortedRemovedMemberRowsArray.shift()
+            alert("the new size " + newSizeIndex)
+            const currentMembers = {...members}
+            currentMembers[newSizeIndex] = {
+                memberId: parseFloat(newSizeIndex) + parseFloat(1),
+                materialId: 1,
+                sectionId: 1,
+                totalLengthOfMember: 1,
+                yAxisUnbracedLength: 1,
+                yAxisEffectiveLengthFactor: 1,
+                zAxisUnbracedLength: 1,
+                zAxisEffectiveLengthFactor: 1,
+                LLT: '1.0',
+                unbracedLengthLateralTorsional: 1.0,
+                lateralTorsionalModificationFactor: 1.0,
+                slendernessRatioInCompression: 200,
+                LST: 300
+            }
+            dispatch(addInitialMember(currentMembers, selectedSheet))
+            // dispatch(shiftRemovedMemberRows(newRemovedMemberRowsArray, selectedSheet))
+        } else {
+            const newSizeIndex = size(members)
+            const currentMembers = {...members}
+            currentMembers[newSizeIndex] = {
+                memberId: size(members) + 1,
+                materialId: 1,
+                sectionId: 1,
+                totalLengthOfMember: 1,
+                yAxisUnbracedLength: 1,
+                yAxisEffectiveLengthFactor: 1,
+                zAxisUnbracedLength: 1,
+                zAxisEffectiveLengthFactor: 1,
+                LLT: '1.0',
+                unbracedLengthLateralTorsional: 1.0,
+                lateralTorsionalModificationFactor: 1.0,
+                slendernessRatioInCompression: 200,
+                LST: 300
+            }
+            dispatch(addInitialMember(currentMembers, selectedSheet))
+        }
     }
 
     return (
@@ -25,7 +99,14 @@ const Members = () => {
                     backgroundColor: '#fff',
                     textAlign: 'right',
                 }}>
-                    <Button style={{margin: '5px'}} variant='contained' color='primary'>ADD MEMBER</Button>
+                    <Button
+                        style={{margin: '5px'}}
+                        variant='contained'
+                        color='primary'
+                        onClick={() => insertNewMember()}
+                    >
+                        ADD MEMBER
+                    </Button>
                     <Button style={{margin: '5px'}} variant='contained' color='secondary'>REMOVE ALL</Button>
                 </div>
                 <Card style={{

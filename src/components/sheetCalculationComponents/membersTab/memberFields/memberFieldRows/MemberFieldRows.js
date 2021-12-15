@@ -2,10 +2,11 @@ import React from "react";
 import {Button, TextField} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {
+    removeMemberRow,
     setLateralTorsionalModificationFactor,
     setLLT, setLST,
     setMaterialId,
-    setMemberId,
+    setMemberId, setRemovedMemberRows,
     setSectionId, setSlendernessRatioInCompression, setSlendernessRatioInTension,
     setTotalLengthOfMember, setUnbracedLengthLateralTorsional,
     setYAxisEffectiveLengthFactor,
@@ -13,6 +14,7 @@ import {
     setZAxisUnbracedLength
 } from "../../../../../store/actions/sheets/sheetCalculationComponents/memberFields/memberFields";
 import {makeStyles} from "@material-ui/core/styles";
+import {size} from "lodash";
 
 const useStyles = makeStyles((theme) => ({
     textField: {
@@ -32,6 +34,17 @@ const MemberFieldRows = () => {
     const sheets = useSelector(state => state.sheets)
 
     const memberFieldRows = []
+
+    const removeSelectedMember = (memberIndex) => {
+        const proceed = window.confirm("Are you sure you want to delete this member row?")
+        if(size(members) === 1 && proceed) {
+            dispatch(setRemovedMemberRows(memberIndex, selectedSheet))
+            dispatch(removeMemberRow(selectedSheet, memberIndex))
+        } else if(proceed) {
+            dispatch(setRemovedMemberRows(memberIndex, selectedSheet))
+            dispatch(removeMemberRow(selectedSheet, memberIndex))
+        }
+    }
 
     for(let memberIndex in members) {
 
@@ -104,6 +117,8 @@ const MemberFieldRows = () => {
         const LSTHandler = (event) => {
             dispatch(setLST(event.target.value, selectedSheet, memberIndex))
         }
+
+
 
         memberFieldRows.push(
             <div style={{
@@ -435,6 +450,7 @@ const MemberFieldRows = () => {
                         }}
                         variant='contained'
                         color='secondary'
+                        onClick={() => removeSelectedMember(memberIndex)}
                     >
                         REMOVE
                     </Button>

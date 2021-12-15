@@ -1,9 +1,17 @@
 import {
-    ADD_NEW_SHEET,
+    ADD_INITIAL_MEMBER,
+    ADD_NEW_SHEET, REMOVE_MEMBER_ROW,
     SET_AXIAL,
     SET_BENDING_MOMENT_ALONG_X_AXIS,
-    SET_BENDING_MOMENT_ALONG_Y_AXIS, SET_LATERAL_TORSIONAL_MODIFICATION_FACTOR, SET_LLT, SET_LST,
+    SET_BENDING_MOMENT_ALONG_Y_AXIS,
+    SET_LATERAL_TORSIONAL_MODIFICATION_FACTOR,
+    SET_LLT,
+    SET_LST,
     SET_MATERIAL_ID,
+    SET_MATERIAL_PROPERTIES_EMPA,
+    SET_MATERIAL_PROPERTIES_FUMPA,
+    SET_MATERIAL_PROPERTIES_FYMPA,
+    SET_MATERIAL_PROPERTIES_ID, SET_MATERIAL_PROPERTIES_SELECTED_MATERIAL,
     SET_MEMBER_ID,
     SET_METHOD_DROPDOWN,
     SET_PROJECT_CLIENT,
@@ -13,7 +21,7 @@ import {
     SET_PROJECT_NAME,
     SET_PROJECT_NOTES,
     SET_PROJECT_UNIT,
-    SET_PROVISION_DROPDOWN,
+    SET_PROVISION_DROPDOWN, SET_REMOVED_MEMBER_ROW_ARRAY,
     SET_SAFETY_FACTOR_FOR_COMPRESSION,
     SET_SAFETY_FACTOR_FOR_FLEXURE,
     SET_SAFETY_FACTOR_FOR_SHEAR,
@@ -21,13 +29,16 @@ import {
     SET_SECTION_ID,
     SET_SELECTED_SHEET,
     SET_SHEAR_ALONG_X_AXIS,
-    SET_SHEAR_ALONG_Y_AXIS, SET_SLENDERNESS_RATIO_IN_COMPRESSION,
+    SET_SHEAR_ALONG_Y_AXIS,
+    SET_SLENDERNESS_RATIO_IN_COMPRESSION,
     SET_SYSTEM_DROPDOWN,
     SET_TAB_STATE,
-    SET_TOTAL_LENGTH_OF_MEMBER, SET_UNBRACED_LENGTH_LATERAL_TORSIONAL,
+    SET_TOTAL_LENGTH_OF_MEMBER,
+    SET_UNBRACED_LENGTH_LATERAL_TORSIONAL,
     SET_Y_AXIS_EFFECTIVE_LENGTH_FACTOR,
-    SET_Y_AXIS_UNBRACED_LENGTH, SET_Z_AXIS_EFFECTIVE_LENGTH_FACTOR,
-    SET_Z_AXIS_UNBRACED_LENGTH
+    SET_Y_AXIS_UNBRACED_LENGTH,
+    SET_Z_AXIS_EFFECTIVE_LENGTH_FACTOR,
+    SET_Z_AXIS_UNBRACED_LENGTH, SHIFT_REMOVED_MEMBER_ROW_ARRAY
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -38,6 +49,7 @@ const initialState = {
             provision: 'ASD',
             system: "Metric",
             method: "Investigation",
+            removedMemberRowArray: [],
             details: {
                 projectUnit: '',
                 projectName: '',
@@ -62,6 +74,15 @@ const initialState = {
                     lateralTorsionalModificationFactor: 1.0,
                     slendernessRatioInCompression: 200,
                     LST: 300
+                }
+            },
+            materialProperties: {
+                0: {
+                    materialPropertiesId: 1,
+                    materialPropertiesEMPA: 'Sugar',
+                    materialPropertiesFYMPA: 'Pestle',
+                    materialPropertiesFUMPA: 'Bowl',
+                    materialPropertiesSelectedMaterial: 'Cabbage'
                 }
             },
             factors: {
@@ -153,10 +174,32 @@ const Reducer = (state = initialState, action) => {
             return setSlendernessRatioInCompression(state, action.payload)
         case SET_LST:
             return setLST(state, action.payload)
+        case SET_MATERIAL_PROPERTIES_ID:
+            return setMaterialPropertiesId(state, action.payload)
+        case SET_MATERIAL_PROPERTIES_EMPA:
+            return setMaterialPropertiesEMPA(state, action.payload)
+        case SET_MATERIAL_PROPERTIES_FYMPA:
+            return setMaterialPropertiesFYMPA(state, action.payload)
+        case SET_MATERIAL_PROPERTIES_FUMPA:
+            return setMaterialPropertiesFUMPA(state, action.payload)
+        case SET_MATERIAL_PROPERTIES_SELECTED_MATERIAL:
+            return setMaterialPropertiesSelectedMaterial(state, action.payload)
+        case ADD_INITIAL_MEMBER:
+            return addInitialMember(state, action.payload)
+        case REMOVE_MEMBER_ROW:
+            return removeMemberRow(state, action.payload)
+        case SET_REMOVED_MEMBER_ROW_ARRAY:
+            return setRemovedMemberRowArray(state, action.payload)
+        case SHIFT_REMOVED_MEMBER_ROW_ARRAY:
+            return shiftRemovedMemberRowsArray(state, action.payload)
         default:
             return state
     }
 }
+
+/**
+ * Sheets
+ */
 
 const addNewSheet = (state, payload) => {
     return {
@@ -184,6 +227,14 @@ const setSelectedSheet = (state, payload) => {
         selectedSheet: payload
     }
 }
+
+/**
+ * End of Sheets
+ */
+
+/**
+ * Sheet DropDowns
+ */
 
 const setProvisionDropdown = (state, payload) => {
     return {
@@ -223,6 +274,14 @@ const setMethodDropdown = (state, payload) => {
         }
     }
 }
+
+/**
+ * End of Sheet DropDowns
+ */
+
+/**
+ * Sheet Details
+ */
 
 const setProjectUnit = (state, payload) => {
     return {
@@ -336,6 +395,14 @@ const setProjectNotes = (state, payload) => {
     }
 }
 
+/**
+ * End of Sheet Details
+ */
+
+/**
+ * Sheet Factors
+ */
+
 const setSafetyFactorForTensile = (state, payload) => {
     return {
         ...state,
@@ -399,6 +466,14 @@ const setSafetyFactorForShear = (state, payload) => {
         }
     }
 }
+
+/**
+ * End of Sheet Factors
+ */
+
+/**
+ * Sheet Forces
+ */
 
 const setBendingMomentAlongXAxis = (state, payload) => {
     return {
@@ -475,6 +550,60 @@ const setAxial = (state, payload) => {
                     ...state.sheets[payload.sheetIndex].forces,
                     axial: payload.data
                 }
+            }
+        }
+    }
+}
+
+/**
+ * End of Sheet Forces
+ */
+
+/**
+ * Sheet MemberFields
+ */
+
+const addInitialMember = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                members: payload.data
+            }
+        }
+    }
+}
+
+const removeMemberRow = (state, payload) => {
+    let newState = {...state}
+    delete newState.sheets[payload.sheetIndex].members[payload.memberIndex]
+    return newState
+}
+
+const setRemovedMemberRowArray = (state, payload) => {
+    alert("at the reducer == " + JSON.stringify(payload.data))
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                removedMemberRowArray: [...state.sheets[payload.sheetIndex].removedMemberRowArray, payload.data]
+            }
+        }
+    }
+}
+
+const shiftRemovedMemberRowsArray = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                removedMemberRowArray: [payload.data]
             }
         }
     }
@@ -720,6 +849,109 @@ const setLST = (state, payload) => {
                     [payload.memberIndex]: {
                         ...state.sheets[payload.sheetIndex].members[payload.memberIndex],
                         LST: payload.data
+                    }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * End of Sheet MemberFields
+ */
+
+/**
+ * Sheet Material Properties
+ */
+
+const setMaterialPropertiesId = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                materialProperties: {
+                    ...state.sheets[payload.sheetIndex].materialProperties,
+                    [payload.materialPropertyIndex]: {
+                        ...state.sheets[payload.sheetIndex].materialProperties[payload.materialPropertyIndex],
+                        materialPropertiesId: payload.data
+                    }
+                }
+            }
+        }
+    }
+}
+
+const setMaterialPropertiesEMPA = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                materialProperties: {
+                    ...state.sheets[payload.sheetIndex].materialProperties,
+                    [payload.materialPropertyIndex]: {
+                        ...state.sheets[payload.sheetIndex].materialProperties[payload.materialPropertyIndex],
+                        materialPropertiesEMPA: payload.data
+                    }
+                }
+            }
+        }
+    }
+}
+
+const setMaterialPropertiesFYMPA = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                materialProperties: {
+                    ...state.sheets[payload.sheetIndex].materialProperties,
+                    [payload.materialPropertyIndex]: {
+                        ...state.sheets[payload.sheetIndex].materialProperties[payload.materialPropertyIndex],
+                        materialPropertiesFYMPA: payload.data
+                    }
+                }
+            }
+        }
+    }
+}
+
+const setMaterialPropertiesFUMPA = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                materialProperties: {
+                    ...state.sheets[payload.sheetIndex].materialProperties,
+                    [payload.materialPropertyIndex]: {
+                        ...state.sheets[payload.sheetIndex].materialProperties[payload.materialPropertyIndex],
+                        materialPropertiesFUMPA: payload.data
+                    }
+                }
+            }
+        }
+    }
+}
+
+const setMaterialPropertiesSelectedMaterial = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                materialProperties: {
+                    ...state.sheets[payload.sheetIndex].materialProperties,
+                    [payload.materialPropertyIndex]: {
+                        ...state.sheets[payload.sheetIndex].materialProperties[payload.materialPropertyIndex],
+                        materialPropertiesSelectedMaterial: payload.data
                     }
                 }
             }

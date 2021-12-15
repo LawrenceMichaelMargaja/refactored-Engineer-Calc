@@ -19,6 +19,7 @@ const SheetTabs = () => {
                 provision: 'ASD',
                 system: "Metric",
                 method: "Investigation",
+                removedMemberRowArray: [],
                 details: {
                     projectUnit: '',
                     projectName: '',
@@ -70,6 +71,7 @@ const SheetTabs = () => {
                 provision: 'ASD',
                 system: "Metric",
                 method: "Investigation",
+                removedMemberRowArray: [],
                 details: {
                     projectUnit: '',
                     projectName: '',

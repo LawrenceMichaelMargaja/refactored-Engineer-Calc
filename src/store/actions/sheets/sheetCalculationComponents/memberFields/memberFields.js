@@ -1,12 +1,52 @@
 import {
+    ADD_INITIAL_MEMBER,
+    REMOVE_MEMBER_ROW,
     SET_LATERAL_TORSIONAL_MODIFICATION_FACTOR,
-    SET_LLT, SET_LST,
+    SET_LLT,
+    SET_LST,
     SET_MATERIAL_ID,
     SET_MEMBER_ID,
-    SET_SECTION_ID, SET_SLENDERNESS_RATIO_IN_COMPRESSION, SET_SLENDERNESS_RATIO_IN_TENSION,
-    SET_TOTAL_LENGTH_OF_MEMBER, SET_UNBRACED_LENGTH_LATERAL_TORSIONAL, SET_Y_AXIS_EFFECTIVE_LENGTH_FACTOR,
-    SET_Y_AXIS_UNBRACED_LENGTH, SET_Z_AXIS_EFFECTIVE_LENGTH_FACTOR, SET_Z_AXIS_UNBRACED_LENGTH
+    SET_REMOVED_MEMBER_ROW_ARRAY,
+    SET_SECTION_ID,
+    SET_SLENDERNESS_RATIO_IN_COMPRESSION,
+    SET_SLENDERNESS_RATIO_IN_TENSION,
+    SET_TOTAL_LENGTH_OF_MEMBER,
+    SET_UNBRACED_LENGTH_LATERAL_TORSIONAL,
+    SET_Y_AXIS_EFFECTIVE_LENGTH_FACTOR,
+    SET_Y_AXIS_UNBRACED_LENGTH,
+    SET_Z_AXIS_EFFECTIVE_LENGTH_FACTOR,
+    SET_Z_AXIS_UNBRACED_LENGTH,
+    SHIFT_REMOVED_MEMBER_ROW_ARRAY
 } from "../../../actionTypes";
+
+export const addInitialMember = (data, sheetIndex) => {
+    return {
+        type: ADD_INITIAL_MEMBER,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const removeMemberRow = (sheetIndex, memberIndex) => {
+    return {
+        type: REMOVE_MEMBER_ROW,
+        payload: {sheetIndex: sheetIndex, memberIndex: memberIndex}
+    }
+}
+
+export const setRemovedMemberRows = (data, sheetIndex) => {
+    alert("the member index to be removed == " + data)
+    return {
+        type: SET_REMOVED_MEMBER_ROW_ARRAY,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const shiftRemovedMemberRows = (data, sheetIndex) => {
+    return {
+        type: SHIFT_REMOVED_MEMBER_ROW_ARRAY,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
 
 export const setMemberId = (data, sheetIndex, memberIndex) => {
     return {
