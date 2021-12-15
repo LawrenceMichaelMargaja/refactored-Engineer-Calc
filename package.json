@@ -9,15 +9,20 @@
     "@material-ui/icons": "^4.11.2",
     "@mui/material": "^5.2.3",
     "@mui/styles": "^5.2.3",
+    "@react-spring/web": "^9.3.1",
     "@reduxjs/toolkit": "^1.7.0",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "history": "^5.1.0",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
+    "react-router": "^6.1.1",
+    "react-router-dom": "^6.1.1",
     "react-scripts": "4.0.3",
+    "react-spring": "^9.3.2",
     "react-tabs": "^3.2.3",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
@@ -46,5 +51,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "prop-types": "^15.7.2"
   }
 }

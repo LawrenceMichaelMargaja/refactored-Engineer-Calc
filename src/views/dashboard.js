@@ -8,6 +8,12 @@ import SheetComponentsHandler from "../components/sheetComponentHandler/sheetCom
 import {makeStyles} from "@material-ui/core/styles";
 import {useSelector} from "react-redux";
 import SheetTabs from "../components/sheetTabs/SheetTabs";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Details from "../components/sheetCalculationComponents/detailsTab/Details";
+import Factors from "../components/sheetCalculationComponents/factorsTab/Factors";
+import Members from "../components/sheetCalculationComponents/membersTab/memberFields/MembersField";
+import Forces from "../components/sheetCalculationComponents/forcesTab/Forces";
+import Results from "../components/sheetCalculationComponents/resultsTab/Results";
 
 const useStyles = makeStyles((theme) => ({
     mainTab: {
@@ -24,15 +30,25 @@ const Dashboard = () => {
 
     return (
         <div style={{margin: '0', padding: '0', width:'100vw'}}>
-            <Header/>
-            <MenuButtons/>
-            <DashboardDropdownContainer/>
-            <DashboardInformation/>
-            <div className={classes.mainTab}>
-                <SheetTabs/>
-                <SheetCalculationNavigation/>
-                <SheetComponentsHandler/>
-            </div>
+            <BrowserRouter>
+                <Header/>
+                <MenuButtons/>
+                <DashboardDropdownContainer/>
+                <DashboardInformation/>
+                <div className={classes.mainTab}>
+                    <SheetTabs/>
+                    <SheetCalculationNavigation/>
+                    <Routes>
+                        <Route path='/' element={<Details/>} />
+                        <Route path='/details' element={<Details/>} />
+                        <Route path='/factors' element={<Factors/>} />
+                        <Route path='/members' element={<Members/>} />
+                        <Route path='/forces' element={<Forces/>} />
+                        <Route path='/results' element={<Results/>} />
+                    </Routes>
+                    {/*<SheetComponentsHandler/>*/}
+                </div>
+            </BrowserRouter>
         </div>
     )
 }

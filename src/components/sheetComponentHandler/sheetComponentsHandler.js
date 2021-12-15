@@ -7,6 +7,9 @@ import Factors from "../sheetCalculationComponents/factorsTab/Factors";
 import Members from "../sheetCalculationComponents/membersTab/memberFields/MembersField";
 import Forces from "../sheetCalculationComponents/forcesTab/Forces";
 import ResultsTab from "../sheetCalculationComponents/resultsTab/Results";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Header from "../header/Header";
+import Results from "../sheetCalculationComponents/resultsTab/Results";
 
 const useStyles = makeStyles((theme) => ({
     sheetTabBackground: {
@@ -41,9 +44,16 @@ const SheetComponentsHandler = () => {
 
     return (
         <div className={classes.sheetTabBackground}>
-            <Card className={classes.sheetTabContainer}>
-                {display()}
-            </Card>
+            <BrowserRouter>
+                <Routes>
+                    <Route path='/' element={<Details/>} />
+                    <Route path='/details' element={<Details/>} />
+                    <Route path='/factors' element={<Factors/>} />
+                    <Route path='/members' element={<Members/>} />
+                    <Route path='/forces' element={<Forces/>} />
+                    <Route path='/results' element={<Results/>} />
+                </Routes>
+            </BrowserRouter>
         </div>
     )
 }

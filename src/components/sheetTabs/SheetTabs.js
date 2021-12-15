@@ -52,6 +52,15 @@ const SheetTabs = () => {
                     safetyFactorForFlexure: 1.67,
                     safetyFactorForShear: 1.67
                 },
+                materialProperties: {
+                    0: {
+                        materialPropertiesId: 1,
+                        materialPropertiesEMPA: 'Sugar',
+                        materialPropertiesFYMPA: 'Pestle',
+                        materialPropertiesFUMPA: 'Bowl',
+                        materialPropertiesSelectedMaterial: 'Cabbage'
+                    }
+                },
                 forces: {
                     bendingMomentAlongXAxis: 0,
                     bendingMomentAlongYAxis: 0,
@@ -103,6 +112,15 @@ const SheetTabs = () => {
                     safetyFactorForCompression: 1.67,
                     safetyFactorForFlexure: 1.67,
                     safetyFactorForShear: 1.67
+                },
+                materialProperties: {
+                    0: {
+                        materialPropertiesId: 1,
+                        materialPropertiesEMPA: 'Sugar',
+                        materialPropertiesFYMPA: 'Pestle',
+                        materialPropertiesFUMPA: 'Bowl',
+                        materialPropertiesSelectedMaterial: 'Cabbage'
+                    }
                 },
                 forces: {
                     bendingMomentAlongXAxis: 0,
