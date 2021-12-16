@@ -261,7 +261,7 @@ const getMaterialPropertiesData = (state, payload) => {
             [payload.sheetIndex]: {
                 ...state.sheets[payload.sheetIndex],
                 apiData: {
-                    materialProperties: payload.data
+                    materialProperty: payload.data
                 }
             }
         }

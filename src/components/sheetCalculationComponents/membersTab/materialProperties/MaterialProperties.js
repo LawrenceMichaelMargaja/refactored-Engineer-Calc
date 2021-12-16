@@ -40,7 +40,7 @@ const MaterialProperties = () => {
     const system = useSelector(state => state.systemDropdown.system)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
 
-    const apiData = useSelector(state => state.sheets.sheets[selectedSheet].apiData.materialProperties)
+    const apiData = useSelector(state => state.sheets.sheets[selectedSheet].apiData.materialProperty)
     const dispatch = useDispatch()
 
     const unitHandler = () => {
@@ -84,6 +84,15 @@ const MaterialProperties = () => {
     }
 
     const [openNestedModal, setOpenNestedModal] = React.useState(false);
+    const getMaterialProperties = () => {
+        fetch("http://127.0.0.1:8080/tshapemetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getMaterialPropertiesData(data, selectedSheet)))
+            //     .then((data) => alert(JSON.stringify(data)))
+            .catch((error) => {
+                console.log(error)
+            });
+    }
 
     const handleOpenNestedModal = () => {
         setOpenNestedModal(true);
@@ -92,7 +101,7 @@ const MaterialProperties = () => {
     // let materialData = null
 
     const displayApiData = () => {
-        alert("the api data = " + JSON.stringify(apiData))
+        // alert("the api data = " + JSON.stringify(apiData))
         return (
             apiData.map((data) =>
                 <MenuItem value={data.t_shape_metric_name}>{data.t_shape_metric_name}</MenuItem>
@@ -100,21 +109,10 @@ const MaterialProperties = () => {
         )
     }
 
-    // const getMaterialProperties = () => {
-    //         fetch("http://127.0.0.1:8080/tshapemetric")
-    //         .then((response) => response.json())
-    //         .then((data) => dispatch(getMaterialPropertiesData(data, selectedSheet)))
-    //         //     .then((data) => alert(JSON.stringify(data)))
-    //         .catch((error) => {
-    //             console.log(error)
-    //         });
-    //         materialData = apiData.map(data =>
-    //             <MenuItem value={data.t_shape_metric_name}>{data.t_shape_metric_name}</MenuItem>
-    //         )
-    // }
+
     //
     useEffect(() => {
-        // getMaterialProperties()
+        getMaterialProperties()
         displayApiData()
     }, [])
 
