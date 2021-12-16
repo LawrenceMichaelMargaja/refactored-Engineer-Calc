@@ -12,6 +12,7 @@ const SectionPropertiesRows = () => {
             margin: '0 auto'
             // height: '100%'
         }}
+             key={1}
              id='ModalContainer'
         >
             <div style={{

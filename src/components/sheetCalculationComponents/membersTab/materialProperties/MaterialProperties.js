@@ -11,6 +11,7 @@ import NestedModal from "../../../modal/materialPropertiesModal/MaterialProperti
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import {setMethodDropdown} from "../../../../store/actions/dashboardDropdowns/methodDropdown";
+import axios from "axios";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -85,6 +86,21 @@ const MaterialProperties = () => {
         setOpenNestedModal(true);
     };
 
+    const getMaterialPropertiesData = () => {
+        return fetch("http://127.0.0.1:8080/tshapemetric")
+            .then((response) => response.json())
+            .then((data) => console.log(data))
+            .catch((error) => {
+                console.log(error)
+            });
+    }
+
+    useEffect(() => {
+        getMaterialPropertiesData()
+    }, [])
+
+
+
     const NestedModal = () => {
 
         const [nestedModalDisabled, setNestedModalDisabled] = useState(true)
@@ -94,6 +110,10 @@ const MaterialProperties = () => {
         const handleChange = (event) => {
             dispatch(setMethodDropdown(event.target.value, selectedSheet))
         };
+
+        // const modalOptions = () => {
+        //     for(let option in )
+        // }
 
         const steelTypeHandler = () => {
             return (
@@ -117,6 +137,7 @@ const MaterialProperties = () => {
             }
         }, [nestedModalDisabled])
 
+        // const newOptions = data.map((user) => ({value: `${user.steel_type_metric_name}`, label: `${user.steel_type_metric_name}`}))
 
         return (
             <div>

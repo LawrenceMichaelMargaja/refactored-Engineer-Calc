@@ -37,6 +37,7 @@ const SheetTabs = () => {
             const newSheet = {}
             newSheet[0] = {
                 tabState: 'details',
+                data: [],
                 provision: 'ASD',
                 system: "Metric",
                 method: "Investigation",
@@ -173,6 +174,7 @@ const SheetTabs = () => {
                         dispatch(setSelectedSheet(currentSheetIndex))
                         // getSheetTabSelected(currentSheetIndex)
                     }}
+                    key={currentSheetIndex}
                     // value={currentSheetIndex}
                     label={
                         <span style={{width: '100%', zIndex: 1}}>

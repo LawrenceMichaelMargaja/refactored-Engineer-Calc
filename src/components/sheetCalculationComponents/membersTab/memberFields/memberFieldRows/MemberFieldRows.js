@@ -125,6 +125,7 @@ const MemberFieldRows = () => {
                 display: 'flex',
                 width: '100%',
             }}
+                 key={memberIndex}
             >
                 <div style={{
                     paddingRight: '0px',
@@ -140,10 +141,11 @@ const MemberFieldRows = () => {
                             className={classes.textField}
                             onChange={(event) => memberIdHandler(event)}
                             value={memberId}
-                            disabled='true'
+                            disabled={true}
                             type='number'
                             inputProps={{style: {textAlign: 'center'}}}
                             InputProps={{disableUnderline: true}}
+
                         />
                     </div>
                 </div>
@@ -213,6 +215,8 @@ const MemberFieldRows = () => {
                                     textAlign: 'center',
                                 }
                             }}
+                            // InputProps={{disableUnderline: 'true'}}
+                            inputProps={{style: {textAlign: 'center'}}}
                             InputProps={{disableUnderline: true}}
                         />
                     </div>
@@ -437,7 +441,7 @@ const MemberFieldRows = () => {
                 </div>
 
                 {/*// =================================================================== DELETE =============================================================*/}
-                <box style={{
+                <div style={{
                     paddingRight: '0px',
                     paddingLeft: '0px',
                     width: '7.14%',
@@ -454,7 +458,7 @@ const MemberFieldRows = () => {
                     >
                         REMOVE
                     </Button>
-                </box>
+                </div>
             </div>
         )
     }

@@ -43,6 +43,7 @@ const MaterialPropertiesRows = () => {
                 margin: '0 auto 2%',
                 // marginBottom: '2%'
             }}
+                 key={materialPropertiesIndex}
                  id='ModalContainer'
             >
                 <div style={{
