@@ -12,7 +12,11 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import {setMethodDropdown} from "../../../../store/actions/dashboardDropdowns/methodDropdown";
 import axios from "axios";
-import {getMaterialPropertiesData} from "../../../../store/actions/sheets/sheets";
+import {
+    getMaterialPropertiesData,
+    getSteelTypesEnglishAPI,
+    getSteelTypesMetricAPI, setSelectedSteelType
+} from "../../../../store/actions/sheets/sheets";
 import {Autocomplete} from "@mui/material";
 
 
@@ -38,10 +42,12 @@ const useStyles = makeStyles((theme) => ({
 
 const MaterialProperties = () => {
 
-    const system = useSelector(state => state.systemDropdown.system)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
+    const system = useSelector(state => state.sheets.sheets[selectedSheet].system)
+
 
     const apiData = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesMetric)
+    const englishApi = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesEnglish)
     const dispatch = useDispatch()
 
     const unitHandler = () => {
@@ -85,10 +91,20 @@ const MaterialProperties = () => {
     }
 
     const [openNestedModal, setOpenNestedModal] = React.useState(false);
-    const getMaterialProperties = () => {
+    const getSteelTypesMetric = () => {
         fetch("http://127.0.0.1:8080/steeltypesmetric")
             .then((response) => response.json())
-            .then((data) => dispatch(getMaterialPropertiesData(data, selectedSheet)))
+            .then((data) => dispatch(getSteelTypesMetricAPI(data, selectedSheet)))
+            //     .then((data) => alert(JSON.stringify(data)))
+            .catch((error) => {
+                console.log(error)
+            });
+    }
+
+    const getSteelTypesEnglish = () => {
+        fetch("http://127.0.0.1:8080/steeltypesenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(getSteelTypesEnglishAPI(data, selectedSheet)))
             //     .then((data) => alert(JSON.stringify(data)))
             .catch((error) => {
                 console.log(error)
@@ -104,16 +120,39 @@ const MaterialProperties = () => {
     const displayApiData = () => {
         // alert("the api data = " + JSON.stringify(apiData))
         const newOptions = apiData.map((data) => ({value: `${data.steel_type_metric_name}`, label: `${data.steel_type_metric_name}`}))
+
         return (
             newOptions
         )
     }
 
-    //
+    const displayEnglishApi = () => {
+        const newEnglish = englishApi.map((data) => ({value: `${data.steel_type_english_name}`, label: `${data.steel_type_english_name}`}))
+        return newEnglish
+    }
+
+    const systemCheck = () => {
+        if(system === 'Metric') {
+            // alert("Metric === " + JSON.stringify(apiData))
+            return displayApiData()
+        } else if (system === 'English') {
+            // alert("English === " + JSON.stringify(englishApi))
+            return displayEnglishApi()
+        }
+    }
+
     useEffect(() => {
-        getMaterialProperties()
-        displayApiData()
+        getSteelTypesMetric()
+        getSteelTypesEnglish()
+        // displayApiData()
+        // displayEnglishApi()
     }, [])
+
+    // useEffect(() => {
+    //     getSteelTypesMetric()
+    //     getSteelTypesEnglish()
+    //     displayApiData()
+    // }, [apiData, englishApi])
 
     const NestedModal = () => {
 
@@ -151,6 +190,11 @@ const MaterialProperties = () => {
             }
         }, [nestedModalDisabled])
 
+        const autoCompleteOnChangeHandler = (event) => {
+            // alert("the selected sheet = " + event.target.value)
+            dispatch(setSelectedSteelType(event.target.value, selectedSheet))
+        }
+
         // const newOptions = data.map((user) => ({value: `${user.steel_type_metric_name}`, label: `${user.steel_type_metric_name}`}))
 
         return (
@@ -176,14 +220,17 @@ const MaterialProperties = () => {
                         textAlign: 'center'
                     }}>
                         <h2 style={{padding: '1em 0'}} id="parent-modal-title">SELECT PROPERTIES FOR MATERIAL</h2>
+
                         <div style={{width: '80%', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                             <div style={{width: '30%'}}>
                                 <FormControl fullWidth>
                                     {/*<InputLabel id="demo-simple-select-label">Preset Steel Types</InputLabel>*/}
+                                    {/*<Button variant='contained' color='secondary' onClick={() => systemCheck()}>TEST</Button>*/}
                                     <Autocomplete
                                         disablePortal
                                         id="combo-box-demo"
-                                        options={displayApiData()}
+                                        options={systemCheck()}
+                                        onSelect={(event) => autoCompleteOnChangeHandler(event)}
                                         sx={{ width: 300 }}
                                         renderInput={(params) => <TextField {...params} label="Preset Steel Types" />}
                                     />

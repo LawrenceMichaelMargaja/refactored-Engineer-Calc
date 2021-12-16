@@ -1,7 +1,9 @@
 /**
  * API
  */
-export const GET_MATERIAL_PROPERTIES_DATA = '@@sheets/GET_MATERIAL_PROPERTIES_DATA'
+export const GET_STEEL_TYPES_METRIC_API = '@@sheets/GET_STEEL_TYPES_METRIC_API'
+export const GET_STEEL_TYPES_ENGLISH_API = '@@sheets/GET_STEEL_TYPES_ENGLISH_API'
+export const SET_SELECTED_STEEL_TYPE = '@@sheets/SET_SELECTED_STEEL_TYPE'
 
 /**
  * Dashboard drop downs

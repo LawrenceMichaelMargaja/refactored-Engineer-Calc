@@ -3,6 +3,7 @@ import {Card, FormControl, InputLabel, MenuItem, Select} from "@material-ui/core
 import {makeStyles} from "@material-ui/core/styles";
 import {useDispatch, useSelector} from "react-redux";
 import {setSystemDropdown} from "../../../store/actions/dashboardDropdowns/systemDropdown";
+import {getSteelTypesEnglishAPI, getSteelTypesMetricAPI} from "../../../store/actions/sheets/sheets";
 
 const useStyles = makeStyles((theme) => ({
     dropDown: {
@@ -26,6 +27,28 @@ const SystemDropdown = () => {
         dispatch(setSystemDropdown(event.target.value, selectedSheet))
     };
 
+
+    const getMaterialProperties = () => {
+        if(systemValue === 'Metric') {
+            fetch("http://127.0.0.1:8080/steeltypesmetric")
+                .then((response) => response.json())
+                .then((data) => dispatch(getSteelTypesMetricAPI(data, selectedSheet)))
+                //     .then((data) => alert(JSON.stringify(data)))
+                .catch((error) => {
+                    console.log(error)
+                });
+        } else if(systemValue === 'English') {
+            fetch("http://127.0.0.1:8080/steeltypesenglish")
+                .then((response) => response.json())
+                .then((data) => dispatch(getSteelTypesEnglishAPI(data, selectedSheet)))
+                //     .then((data) => alert(JSON.stringify(data)))
+                .catch((error) => {
+                    console.log(error)
+                });
+        }
+    }
+
+
     return (
         <div sx={{ minWidth: 120 }} className={classes.dropDown}>
             <FormControl fullWidth>
@@ -36,7 +59,10 @@ const SystemDropdown = () => {
                     value={systemValue}
                     label="Age"
                     defaultValue={systemValue}
-                    onChange={handleChange}
+                    onChange={(event) => {
+                        handleChange(event)
+                        getMaterialProperties()
+                    }}
                 >
                     <MenuItem value={'Metric'}>Metric</MenuItem>
                     <MenuItem value={'English'}>English</MenuItem>

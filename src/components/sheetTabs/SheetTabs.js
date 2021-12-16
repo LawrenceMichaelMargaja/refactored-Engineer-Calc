@@ -42,6 +42,21 @@ const SheetTabs = () => {
                 system: "Metric",
                 method: "Investigation",
                 removedMemberRowArray: [],
+                route: '',
+                apiData: {
+                    steelTypesMetric: {
+                        steelType: '',
+                        EMPA: '',
+                        FYMPA: '',
+                        FUMPA: '',
+                    },
+                    steelTypesEnglish: {
+                        steelType: '',
+                        EMPA: '',
+                        FYMPA: '',
+                        FUMPA: '',
+                    }
+                },
                 details: {
                     projectUnit: '',
                     projectName: '',
@@ -104,7 +119,22 @@ const SheetTabs = () => {
                 provision: 'ASD',
                 system: "Metric",
                 method: "Investigation",
+                route: '',
                 removedMemberRowArray: [],
+                apiData: {
+                    steelTypesMetric: {
+                        steelType: '',
+                        EMPA: '',
+                        FYMPA: '',
+                        FUMPA: '',
+                    },
+                    steelTypesEnglish: {
+                        steelType: '',
+                        EMPA: '',
+                        FYMPA: '',
+                        FUMPA: '',
+                    }
+                },
                 details: {
                     projectUnit: '',
                     projectName: '',

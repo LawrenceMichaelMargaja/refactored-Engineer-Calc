@@ -12,7 +12,7 @@ import {
     setProjectNotes,
     setProjectUnit
 } from "../../../store/actions/sheets/sheetCalculationComponents/details/details";
-import {getMaterialPropertiesData} from "../../../store/actions/sheets/sheets";
+import {getMaterialPropertiesData, getSteelTypesMetricAPI} from "../../../store/actions/sheets/sheets";
 
 const useStyles = makeStyles((theme) => ({
     textField: {
@@ -70,7 +70,7 @@ const Details = () => {
     const getMaterialProperties = () => {
         fetch("http://127.0.0.1:8080/steeltypesmetric")
             .then((response) => response.json())
-            .then((data) => dispatch(getMaterialPropertiesData(data, selectedSheet)))
+            .then((data) => dispatch(getSteelTypesMetricAPI(data, selectedSheet)))
             //     .then((data) => alert(JSON.stringify(data)))
             .catch((error) => {
                 console.log(error)

@@ -1,6 +1,10 @@
 import {
     ADD_INITIAL_MEMBER,
-    ADD_NEW_SHEET, GET_MATERIAL_PROPERTIES_DATA, REMOVE_MEMBER_ROW,
+    ADD_NEW_SHEET,
+    GET_MATERIAL_PROPERTIES_DATA,
+    GET_STEEL_TYPES_ENGLISH_API,
+    GET_STEEL_TYPES_METRIC_API,
+    REMOVE_MEMBER_ROW,
     SET_AXIAL,
     SET_BENDING_MOMENT_ALONG_X_AXIS,
     SET_BENDING_MOMENT_ALONG_Y_AXIS,
@@ -11,7 +15,8 @@ import {
     SET_MATERIAL_PROPERTIES_EMPA,
     SET_MATERIAL_PROPERTIES_FUMPA,
     SET_MATERIAL_PROPERTIES_FYMPA,
-    SET_MATERIAL_PROPERTIES_ID, SET_MATERIAL_PROPERTIES_SELECTED_MATERIAL,
+    SET_MATERIAL_PROPERTIES_ID,
+    SET_MATERIAL_PROPERTIES_SELECTED_MATERIAL,
     SET_MEMBER_ID,
     SET_METHOD_DROPDOWN,
     SET_PROJECT_CLIENT,
@@ -21,13 +26,15 @@ import {
     SET_PROJECT_NAME,
     SET_PROJECT_NOTES,
     SET_PROJECT_UNIT,
-    SET_PROVISION_DROPDOWN, SET_REMOVED_MEMBER_ROW_ARRAY, SET_ROUTE_URL,
+    SET_PROVISION_DROPDOWN,
+    SET_REMOVED_MEMBER_ROW_ARRAY,
+    SET_ROUTE_URL,
     SET_SAFETY_FACTOR_FOR_COMPRESSION,
     SET_SAFETY_FACTOR_FOR_FLEXURE,
     SET_SAFETY_FACTOR_FOR_SHEAR,
     SET_SAFETY_FACTOR_FOR_TENSILE,
     SET_SECTION_ID,
-    SET_SELECTED_SHEET,
+    SET_SELECTED_SHEET, SET_SELECTED_STEEL_TYPE,
     SET_SHEAR_ALONG_X_AXIS,
     SET_SHEAR_ALONG_Y_AXIS,
     SET_SLENDERNESS_RATIO_IN_COMPRESSION,
@@ -38,7 +45,8 @@ import {
     SET_Y_AXIS_EFFECTIVE_LENGTH_FACTOR,
     SET_Y_AXIS_UNBRACED_LENGTH,
     SET_Z_AXIS_EFFECTIVE_LENGTH_FACTOR,
-    SET_Z_AXIS_UNBRACED_LENGTH, SHIFT_REMOVED_MEMBER_ROW_ARRAY
+    SET_Z_AXIS_UNBRACED_LENGTH,
+    SHIFT_REMOVED_MEMBER_ROW_ARRAY
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -52,7 +60,11 @@ const initialState = {
             removedMemberRowArray: [],
             route: '',
             apiData: {
-                steelTypesMetric: [1,2,3,4]
+                steelTypesMetric: [],
+                steelTypesEnglish: [],
+            },
+            apiMap: {
+              selectedSteelType: '',
             },
             details: {
                 projectUnit: '',
@@ -198,8 +210,12 @@ const Reducer = (state = initialState, action) => {
             return shiftRemovedMemberRowsArray(state, action.payload)
         case SET_ROUTE_URL:
             return setRouteUrl(state, action.payload)
-        case GET_MATERIAL_PROPERTIES_DATA:
-            return getMaterialPropertiesData(state, action.payload)
+        case GET_STEEL_TYPES_METRIC_API:
+            return getSteelTypesMetricAPI(state, action.payload)
+        case GET_STEEL_TYPES_ENGLISH_API:
+            return getSteelTypesEnglishAPI(state, action.payload)
+        case SET_SELECTED_STEEL_TYPE:
+            return setSelectedSteelType(state, action.payload)
         default:
             return state
     }
@@ -253,7 +269,7 @@ const setRouteUrl = (state, payload) => {
  * API
  */
 
-const getMaterialPropertiesData = (state, payload) => {
+const getSteelTypesMetricAPI = (state, payload) => {
     return {
         ...state,
         sheets: {
@@ -261,7 +277,39 @@ const getMaterialPropertiesData = (state, payload) => {
             [payload.sheetIndex]: {
                 ...state.sheets[payload.sheetIndex],
                 apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
                     steelTypesMetric: payload.data
+                }
+            }
+        }
+    }
+}
+
+const getSteelTypesEnglishAPI = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    steelTypesEnglish: payload.data
+                }
+            }
+        }
+    }
+}
+
+const setSelectedSteelType = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    selectedSteelType: payload.data
                 }
             }
         }
