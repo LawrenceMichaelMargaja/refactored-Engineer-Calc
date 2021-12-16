@@ -68,7 +68,7 @@ const Details = () => {
     }
 
     const getMaterialProperties = () => {
-        fetch("http://127.0.0.1:8080/tshapemetric")
+        fetch("http://127.0.0.1:8080/steeltypesmetric")
             .then((response) => response.json())
             .then((data) => dispatch(getMaterialPropertiesData(data, selectedSheet)))
             //     .then((data) => alert(JSON.stringify(data)))

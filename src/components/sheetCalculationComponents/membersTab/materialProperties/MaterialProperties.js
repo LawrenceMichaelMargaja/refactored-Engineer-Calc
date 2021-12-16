@@ -41,7 +41,7 @@ const MaterialProperties = () => {
     const system = useSelector(state => state.systemDropdown.system)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
 
-    const apiData = useSelector(state => state.sheets.sheets[selectedSheet].apiData.materialProperty)
+    const apiData = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesMetric)
     const dispatch = useDispatch()
 
     const unitHandler = () => {
@@ -86,7 +86,7 @@ const MaterialProperties = () => {
 
     const [openNestedModal, setOpenNestedModal] = React.useState(false);
     const getMaterialProperties = () => {
-        fetch("http://127.0.0.1:8080/tshapemetric")
+        fetch("http://127.0.0.1:8080/steeltypesmetric")
             .then((response) => response.json())
             .then((data) => dispatch(getMaterialPropertiesData(data, selectedSheet)))
             //     .then((data) => alert(JSON.stringify(data)))
@@ -103,7 +103,7 @@ const MaterialProperties = () => {
 
     const displayApiData = () => {
         // alert("the api data = " + JSON.stringify(apiData))
-        const newOptions = apiData.map((data) => ({value: `${data.t_shape_metric_name}`, label: `${data.t_shape_metric_name}`}))
+        const newOptions = apiData.map((data) => ({value: `${data.steel_type_metric_name}`, label: `${data.steel_type_metric_name}`}))
         return (
             newOptions
         )

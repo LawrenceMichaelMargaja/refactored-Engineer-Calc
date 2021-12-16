@@ -52,7 +52,7 @@ const initialState = {
             removedMemberRowArray: [],
             route: '',
             apiData: {
-                materialProperty: [1,2,3,4]
+                steelTypesMetric: [1,2,3,4]
             },
             details: {
                 projectUnit: '',
@@ -261,7 +261,7 @@ const getMaterialPropertiesData = (state, payload) => {
             [payload.sheetIndex]: {
                 ...state.sheets[payload.sheetIndex],
                 apiData: {
-                    materialProperty: payload.data
+                    steelTypesMetric: payload.data
                 }
             }
         }
