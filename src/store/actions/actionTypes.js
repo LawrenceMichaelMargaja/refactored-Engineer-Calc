@@ -1,4 +1,7 @@
-
+/**
+ * API
+ */
+export const GET_MATERIAL_PROPERTIES_DATA = '@@sheets/GET_MATERIAL_PROPERTIES_DATA'
 
 /**
  * Dashboard drop downs

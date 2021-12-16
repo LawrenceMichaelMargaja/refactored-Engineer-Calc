@@ -1,6 +1,6 @@
 import {
     ADD_INITIAL_MEMBER,
-    ADD_NEW_SHEET, REMOVE_MEMBER_ROW,
+    ADD_NEW_SHEET, GET_MATERIAL_PROPERTIES_DATA, REMOVE_MEMBER_ROW,
     SET_AXIAL,
     SET_BENDING_MOMENT_ALONG_X_AXIS,
     SET_BENDING_MOMENT_ALONG_Y_AXIS,
@@ -51,6 +51,9 @@ const initialState = {
             method: "Investigation",
             removedMemberRowArray: [],
             route: '',
+            apiData: {
+                materialProperty: [1,2,3,4]
+            },
             details: {
                 projectUnit: '',
                 projectName: '',
@@ -195,6 +198,8 @@ const Reducer = (state = initialState, action) => {
             return shiftRemovedMemberRowsArray(state, action.payload)
         case SET_ROUTE_URL:
             return setRouteUrl(state, action.payload)
+        case GET_MATERIAL_PROPERTIES_DATA:
+            return getMaterialPropertiesData(state, action.payload)
         default:
             return state
     }
@@ -235,8 +240,30 @@ const setRouteUrl = (state, payload) => {
     return {
         ...state,
         sheets: {
-            ...state.sheets[payload.sheetIndex],
-            route: payload.data
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                route: payload.data
+            }
+        }
+    }
+}
+
+/**
+ * API
+ */
+
+const getMaterialPropertiesData = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    materialProperties: payload.data
+                }
+            }
         }
     }
 }

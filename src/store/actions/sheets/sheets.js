@@ -1,5 +1,5 @@
 import {
-    ADD_NEW_SHEET, SET_ROUTE_URL,
+    ADD_NEW_SHEET, GET_MATERIAL_PROPERTIES_DATA, SET_ROUTE_URL,
     SET_SELECTED_SHEET,
     SET_TAB_STATE
 } from "../actionTypes";
@@ -28,6 +28,17 @@ export const setSelectedSheet = (data) => {
 export const setRouteUrl = (data, sheetIndex) => {
     return {
         type: SET_ROUTE_URL,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+/**
+ * API
+ */
+
+export const getMaterialPropertiesData = (data, sheetIndex) => {
+    return {
+        type: GET_MATERIAL_PROPERTIES_DATA,
         payload: {data: data, sheetIndex: sheetIndex}
     }
 }

@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Grid from "@material-ui/core/Grid";
-import {Card, TextField} from "@material-ui/core";
+import {Card, MenuItem, TextField} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -12,6 +12,7 @@ import {
     setProjectNotes,
     setProjectUnit
 } from "../../../store/actions/sheets/sheetCalculationComponents/details/details";
+import {getMaterialPropertiesData} from "../../../store/actions/sheets/sheets";
 
 const useStyles = makeStyles((theme) => ({
     textField: {
@@ -65,6 +66,21 @@ const Details = () => {
     const projectNotesHandler = (event) => {
         dispatch(setProjectNotes(event.target.value, selectedSheet))
     }
+
+    const getMaterialProperties = () => {
+        fetch("http://127.0.0.1:8080/tshapemetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getMaterialPropertiesData(data, selectedSheet)))
+            //     .then((data) => alert(JSON.stringify(data)))
+            .catch((error) => {
+                console.log(error)
+            });
+    }
+
+    useEffect(() => {
+        getMaterialProperties()
+        // displayApiData()
+    }, [])
 
     return (
         <Grid>

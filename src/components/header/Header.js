@@ -20,8 +20,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Header = () => {
-
-    const selectedSheet = useSelector(state => state.sheets.sheets)
+    const theSheetSelected = useSelector(state => state.sheets.selectedSheet)
+    const selectedSheet = useSelector(state => state.sheets.sheets[theSheetSelected].apiData)
 
     const classes = useStyles()
 

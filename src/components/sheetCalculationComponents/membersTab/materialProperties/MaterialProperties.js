@@ -12,6 +12,7 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import {setMethodDropdown} from "../../../../store/actions/dashboardDropdowns/methodDropdown";
 import axios from "axios";
+import {getMaterialPropertiesData} from "../../../../store/actions/sheets/sheets";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -38,6 +39,8 @@ const MaterialProperties = () => {
 
     const system = useSelector(state => state.systemDropdown.system)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
+
+    const apiData = useSelector(state => state.sheets.sheets[selectedSheet].apiData.materialProperties)
     const dispatch = useDispatch()
 
     const unitHandler = () => {
@@ -86,17 +89,33 @@ const MaterialProperties = () => {
         setOpenNestedModal(true);
     };
 
-    const getMaterialPropertiesData = () => {
-        return fetch("http://127.0.0.1:8080/tshapemetric")
-            .then((response) => response.json())
-            .then((data) => console.log(data))
-            .catch((error) => {
-                console.log(error)
-            });
+    // let materialData = null
+
+    const displayApiData = () => {
+        alert("the api data = " + JSON.stringify(apiData))
+        return (
+            apiData.map((data) =>
+                <MenuItem value={data.t_shape_metric_name}>{data.t_shape_metric_name}</MenuItem>
+            )
+        )
     }
 
+    // const getMaterialProperties = () => {
+    //         fetch("http://127.0.0.1:8080/tshapemetric")
+    //         .then((response) => response.json())
+    //         .then((data) => dispatch(getMaterialPropertiesData(data, selectedSheet)))
+    //         //     .then((data) => alert(JSON.stringify(data)))
+    //         .catch((error) => {
+    //             console.log(error)
+    //         });
+    //         materialData = apiData.map(data =>
+    //             <MenuItem value={data.t_shape_metric_name}>{data.t_shape_metric_name}</MenuItem>
+    //         )
+    // }
+    //
     useEffect(() => {
-        getMaterialPropertiesData()
+        // getMaterialProperties()
+        displayApiData()
     }, [])
 
 
@@ -173,9 +192,11 @@ const MaterialProperties = () => {
                                         label="Age"
                                         onChange={handleChange}
                                     >
-                                        <MenuItem value={10}>Ten</MenuItem>
-                                        <MenuItem value={20}>Twenty</MenuItem>
-                                        <MenuItem value={30}>Thirty</MenuItem>
+                                        {displayApiData()}
+                                        {/*{materialData}*/}
+                                        {/*<MenuItem value={10}>Ten</MenuItem>*/}
+                                        {/*<MenuItem value={20}>Twenty</MenuItem>*/}
+                                        {/*<MenuItem value={30}>Thirty</MenuItem>*/}
                                     </Select>
                                 </FormControl>
                             </div>
