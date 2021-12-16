@@ -1,4 +1,4 @@
-import {Button, Card, FormControl, Input, InputLabel, MenuItem, Select} from "@material-ui/core";
+import {Button, Card, FormControl, Input, InputLabel, MenuItem, Select, TextField} from "@material-ui/core";
 import React, {useCallback, useEffect, useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import MaterialPropertiesRows from "./materialPropertiesRows/MaterialPropertiesRows";
@@ -13,6 +13,7 @@ import Box from "@mui/material/Box";
 import {setMethodDropdown} from "../../../../store/actions/dashboardDropdowns/methodDropdown";
 import axios from "axios";
 import {getMaterialPropertiesData} from "../../../../store/actions/sheets/sheets";
+import {Autocomplete} from "@mui/material";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -102,21 +103,17 @@ const MaterialProperties = () => {
 
     const displayApiData = () => {
         // alert("the api data = " + JSON.stringify(apiData))
+        const newOptions = apiData.map((data) => ({value: `${data.t_shape_metric_name}`, label: `${data.t_shape_metric_name}`}))
         return (
-            apiData.map((data) =>
-                <MenuItem value={data.t_shape_metric_name}>{data.t_shape_metric_name}</MenuItem>
-            )
+            newOptions
         )
     }
-
 
     //
     useEffect(() => {
         getMaterialProperties()
         displayApiData()
     }, [])
-
-
 
     const NestedModal = () => {
 
@@ -182,20 +179,14 @@ const MaterialProperties = () => {
                         <div style={{width: '80%', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                             <div style={{width: '30%'}}>
                                 <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label">Preset Steel Types</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        // value={age}
-                                        label="Age"
-                                        onChange={handleChange}
-                                    >
-                                        {displayApiData()}
-                                        {/*{materialData}*/}
-                                        {/*<MenuItem value={10}>Ten</MenuItem>*/}
-                                        {/*<MenuItem value={20}>Twenty</MenuItem>*/}
-                                        {/*<MenuItem value={30}>Thirty</MenuItem>*/}
-                                    </Select>
+                                    {/*<InputLabel id="demo-simple-select-label">Preset Steel Types</InputLabel>*/}
+                                    <Autocomplete
+                                        disablePortal
+                                        id="combo-box-demo"
+                                        options={displayApiData()}
+                                        sx={{ width: 300 }}
+                                        renderInput={(params) => <TextField {...params} label="Preset Steel Types" />}
+                                    />
                                 </FormControl>
                             </div>
                             <div style={{width: '30%',}}>
