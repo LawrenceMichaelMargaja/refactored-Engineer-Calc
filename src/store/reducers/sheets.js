@@ -7,10 +7,10 @@ import {
     REMOVE_MEMBER_ROW,
     SET_AXIAL,
     SET_BENDING_MOMENT_ALONG_X_AXIS,
-    SET_BENDING_MOMENT_ALONG_Y_AXIS,
+    SET_BENDING_MOMENT_ALONG_Y_AXIS, SET_ENGLISH_EMPA, SET_ENGLISH_FUMPA, SET_ENGLISH_FYMPA,
     SET_LATERAL_TORSIONAL_MODIFICATION_FACTOR,
     SET_LLT,
-    SET_LST,
+    SET_LST, SET_MAPPED_STEEL_TYPE_ENGLISH, SET_MAPPED_STEEL_TYPE_METRIC,
     SET_MATERIAL_ID,
     SET_MATERIAL_PROPERTIES_EMPA,
     SET_MATERIAL_PROPERTIES_FUMPA,
@@ -18,7 +18,7 @@ import {
     SET_MATERIAL_PROPERTIES_ID,
     SET_MATERIAL_PROPERTIES_SELECTED_MATERIAL,
     SET_MEMBER_ID,
-    SET_METHOD_DROPDOWN,
+    SET_METHOD_DROPDOWN, SET_METRIC_EMPA, SET_METRIC_FUMPA, SET_METRIC_FYMPA, SET_METRIC_MATERIAL_STEEL_TYPES,
     SET_PROJECT_CLIENT,
     SET_PROJECT_COMPANY,
     SET_PROJECT_DESIGNER,
@@ -64,7 +64,9 @@ const initialState = {
                 steelTypesEnglish: [],
             },
             apiMap: {
-              selectedSteelType: '',
+                selectedSteelType: '',
+                steelTypeMetricProperties: null,
+                steelTypeEnglishProperties: null,
             },
             details: {
                 projectUnit: '',
@@ -190,16 +192,6 @@ const Reducer = (state = initialState, action) => {
             return setSlendernessRatioInCompression(state, action.payload)
         case SET_LST:
             return setLST(state, action.payload)
-        case SET_MATERIAL_PROPERTIES_ID:
-            return setMaterialPropertiesId(state, action.payload)
-        case SET_MATERIAL_PROPERTIES_EMPA:
-            return setMaterialPropertiesEMPA(state, action.payload)
-        case SET_MATERIAL_PROPERTIES_FYMPA:
-            return setMaterialPropertiesFYMPA(state, action.payload)
-        case SET_MATERIAL_PROPERTIES_FUMPA:
-            return setMaterialPropertiesFUMPA(state, action.payload)
-        case SET_MATERIAL_PROPERTIES_SELECTED_MATERIAL:
-            return setMaterialPropertiesSelectedMaterial(state, action.payload)
         case ADD_INITIAL_MEMBER:
             return addInitialMember(state, action.payload)
         case REMOVE_MEMBER_ROW:
@@ -216,6 +208,24 @@ const Reducer = (state = initialState, action) => {
             return getSteelTypesEnglishAPI(state, action.payload)
         case SET_SELECTED_STEEL_TYPE:
             return setSelectedSteelType(state, action.payload)
+        case SET_METRIC_EMPA:
+            return setMetricEMPA(state, action.payload)
+        case SET_METRIC_FYMPA:
+            return setMetricFYMPA(state, action.payload)
+        case SET_METRIC_FUMPA:
+            return setMetricFUMPA(state, action.payload)
+        case SET_ENGLISH_EMPA:
+            return setEnglishEMPA(state, action.payload)
+        case SET_ENGLISH_FYMPA:
+            return setEnglishFYMPA(state, action.payload)
+        case SET_ENGLISH_FUMPA:
+            return setEnglishFUMPA(state, action.payload)
+        case SET_MAPPED_STEEL_TYPE_METRIC:
+            return setMappedSteelTypeMetric(state, action.payload)
+        case SET_MAPPED_STEEL_TYPE_ENGLISH:
+            return setMappedSteelTypeEnglish(state, action.payload)
+        case SET_METRIC_MATERIAL_STEEL_TYPES:
+            return setMetricMaterialSteelType(state, action.payload)
         default:
             return state
     }
@@ -309,7 +319,154 @@ const setSelectedSteelType = (state, payload) => {
             [payload.sheetIndex]: {
                 ...state.sheets[payload.sheetIndex],
                 apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
                     selectedSteelType: payload.data
+                }
+            }
+        }
+    }
+}
+
+const setMetricEMPA = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    steelTypeMetricProperties: {
+                        ...state.sheets[payload.sheetIndex].apiMap.steelTypeMetricProperties,
+                        EMPA: payload.data
+                    }
+                }
+            }
+        }
+    }
+}
+
+const setMetricFYMPA = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    steelTypeMetricProperties: {
+                        ...state.sheets[payload.sheetIndex].apiMap.steelTypeMetricProperties,
+                        FYMPA: payload.data
+                    }
+                }
+            }
+        }
+    }
+}
+
+const setMetricFUMPA = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    steelTypeMetricProperties: {
+                        ...state.sheets[payload.sheetIndex].apiMap.steelTypeMetricProperties,
+                        FUMPA: payload.data
+                    }
+                }
+            }
+        }
+    }
+}
+
+const setEnglishEMPA = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    steelTypeEnglishProperties: {
+                        ...state.sheets[payload.sheetIndex].apiMap.steelTypeEnglishProperties,
+                        EMPA: payload.data
+                    }
+                }
+            }
+        }
+    }
+}
+
+const setEnglishFYMPA = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    steelTypeEnglishProperties: {
+                        ...state.sheets[payload.sheetIndex].apiMap.steelTypeEnglishProperties,
+                        FYMPA: payload.data
+                    }
+                }
+            }
+        }
+    }
+}
+
+const setEnglishFUMPA = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    steelTypeEnglishProperties: {
+                        ...state.sheets[payload.sheetIndex].apiMap.steelTypeEnglishProperties,
+                        FUMPA: payload.data
+                    }
+                }
+            }
+        }
+    }
+}
+
+const setMappedSteelTypeMetric = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    mappedSteelTypeMetric: payload.data
+                }
+            }
+        }
+    }
+}
+
+const setMappedSteelTypeEnglish = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    mappedSteelTypeEnglish: payload.data
                 }
             }
         }
@@ -952,99 +1109,21 @@ const setLST = (state, payload) => {
  * Sheet Material Properties
  */
 
-const setMaterialPropertiesId = (state, payload) => {
+const setMetricMaterialSteelType = (state, payload) => {
     return {
         ...state,
         sheets: {
             ...state.sheets,
             [payload.sheetIndex]: {
                 ...state.sheets[payload.sheetIndex],
-                materialProperties: {
-                    ...state.sheets[payload.sheetIndex].materialProperties,
-                    [payload.materialPropertyIndex]: {
-                        ...state.sheets[payload.sheetIndex].materialProperties[payload.materialPropertyIndex],
-                        materialPropertiesId: payload.data
-                    }
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    steelTypeMetricProperties: payload.data
                 }
             }
         }
     }
 }
 
-const setMaterialPropertiesEMPA = (state, payload) => {
-    return {
-        ...state,
-        sheets: {
-            ...state.sheets,
-            [payload.sheetIndex]: {
-                ...state.sheets[payload.sheetIndex],
-                materialProperties: {
-                    ...state.sheets[payload.sheetIndex].materialProperties,
-                    [payload.materialPropertyIndex]: {
-                        ...state.sheets[payload.sheetIndex].materialProperties[payload.materialPropertyIndex],
-                        materialPropertiesEMPA: payload.data
-                    }
-                }
-            }
-        }
-    }
-}
-
-const setMaterialPropertiesFYMPA = (state, payload) => {
-    return {
-        ...state,
-        sheets: {
-            ...state.sheets,
-            [payload.sheetIndex]: {
-                ...state.sheets[payload.sheetIndex],
-                materialProperties: {
-                    ...state.sheets[payload.sheetIndex].materialProperties,
-                    [payload.materialPropertyIndex]: {
-                        ...state.sheets[payload.sheetIndex].materialProperties[payload.materialPropertyIndex],
-                        materialPropertiesFYMPA: payload.data
-                    }
-                }
-            }
-        }
-    }
-}
-
-const setMaterialPropertiesFUMPA = (state, payload) => {
-    return {
-        ...state,
-        sheets: {
-            ...state.sheets,
-            [payload.sheetIndex]: {
-                ...state.sheets[payload.sheetIndex],
-                materialProperties: {
-                    ...state.sheets[payload.sheetIndex].materialProperties,
-                    [payload.materialPropertyIndex]: {
-                        ...state.sheets[payload.sheetIndex].materialProperties[payload.materialPropertyIndex],
-                        materialPropertiesFUMPA: payload.data
-                    }
-                }
-            }
-        }
-    }
-}
-
-const setMaterialPropertiesSelectedMaterial = (state, payload) => {
-    return {
-        ...state,
-        sheets: {
-            ...state.sheets,
-            [payload.sheetIndex]: {
-                ...state.sheets[payload.sheetIndex],
-                materialProperties: {
-                    ...state.sheets[payload.sheetIndex].materialProperties,
-                    [payload.materialPropertyIndex]: {
-                        ...state.sheets[payload.sheetIndex].materialProperties[payload.materialPropertyIndex],
-                        materialPropertiesSelectedMaterial: payload.data
-                    }
-                }
-            }
-        }
-    }
-}
 
 export default Reducer

@@ -1,5 +1,5 @@
 import {Button, Card, FormControl, Input, InputLabel, MenuItem, Select, TextField} from "@material-ui/core";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import MaterialPropertiesRows from "./materialPropertiesRows/MaterialPropertiesRows";
 import {ENGLISH, METRIC} from "../../../../config";
@@ -15,10 +15,17 @@ import axios from "axios";
 import {
     getMaterialPropertiesData,
     getSteelTypesEnglishAPI,
-    getSteelTypesMetricAPI, setSelectedSteelType
+    getSteelTypesMetricAPI,
+    setEnglishEMPA, setEnglishFUMPA,
+    setEnglishFYMPA, setMappedSteelTypeEnglish, setMappedSteelTypeMetric,
+    setMetricEMPA,
+    setMetricFUMPA,
+    setMetricFYMPA,
+    setSelectedSteelType
 } from "../../../../store/actions/sheets/sheets";
 import {Autocomplete} from "@mui/material";
-
+import {setMetricMaterialSteelType} from "../../../../store/actions/sheets/sheetCalculationComponents/materialProperties/materialProperties";
+import {size} from "lodash";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -45,9 +52,17 @@ const MaterialProperties = () => {
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     const system = useSelector(state => state.sheets.sheets[selectedSheet].system)
 
+    const steelTypesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesMetric)
+    const steelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesEnglish)
 
-    const apiData = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesMetric)
-    const englishApi = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesEnglish)
+    const insertedSteelTypesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeMetricProperties)
+    const insertedSteelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeEnglishProperties)
+
+    const selectedSteelType = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.selectedSteelType)
+    // const metricEMPAValue = objectChecker('sheets', ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties', 'EMPA'])
+    // const metricFYMPAValue = objectChecker('sheets', ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties', 'FYMPA'])
+    // const metricFUMPAValue = objectChecker('sheets', ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties', 'FUMPA'])
+
     const dispatch = useDispatch()
 
     const unitHandler = () => {
@@ -58,37 +73,26 @@ const MaterialProperties = () => {
         }
     }
 
-    const ChildModal = () => {
 
-        const classes = useStyles()
-        const [open, setOpen] = React.useState(false);
-        const handleOpen = () => {
-            setOpen(true);
-        };
-        const handleClose = () => {
-            setOpen(false);
-        };
 
-        return (
-            <React.Fragment>
-                <Modal
-                    hideBackdrop
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="child-modal-title"
-                    aria-describedby="child-modal-description"
-                >
-                    <Box className={classes.modal} sx={{ width: 200 }}>
-                        <h2 id="child-modal-title">Text in a child modal</h2>
-                        <p id="child-modal-description">
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                        </p>
-                        <Button onClick={handleClose}>Close Child Modal</Button>
-                    </Box>
-                </Modal>
-            </React.Fragment>
-        );
+    class HashTable {
+
+        table = new Map()
+
+        getItem = key => {
+            const idx = parseFloat(key);
+            return this.table[idx]
+        }
     }
+
+
+    // const getItem = key => {
+    //     return hash[key]
+    // }
+
+    // alert("the map == " + JSON.stringify(hash))
+    // alert(getItem(JSON.stringify(0)))
+
 
     const [openNestedModal, setOpenNestedModal] = React.useState(false);
     const getSteelTypesMetric = () => {
@@ -101,11 +105,14 @@ const MaterialProperties = () => {
             });
     }
 
+    const getSteelTypesMetrixAxios = () => {
+        axios.get("http://127.0.0.1:8080/steeltypesmetric")
+    }
+
     const getSteelTypesEnglish = () => {
         fetch("http://127.0.0.1:8080/steeltypesenglish")
             .then((response) => response.json())
             .then((data) => dispatch(getSteelTypesEnglishAPI(data, selectedSheet)))
-            //     .then((data) => alert(JSON.stringify(data)))
             .catch((error) => {
                 console.log(error)
             });
@@ -115,19 +122,15 @@ const MaterialProperties = () => {
         setOpenNestedModal(true);
     };
 
-    // let materialData = null
-
     const displayApiData = () => {
-        // alert("the api data = " + JSON.stringify(apiData))
-        const newOptions = apiData.map((data) => ({value: `${data.steel_type_metric_name}`, label: `${data.steel_type_metric_name}`}))
-
+        const newOptions = steelTypesMetric.map((data) => ({value: `${data.steel_type_metric_name}`, label: `${data.steel_type_metric_name}`}))
         return (
             newOptions
         )
     }
 
     const displayEnglishApi = () => {
-        const newEnglish = englishApi.map((data) => ({value: `${data.steel_type_english_name}`, label: `${data.steel_type_english_name}`}))
+        const newEnglish = steelTypesEnglish.map((data) => ({value: `${data.steel_type_english_name}`, label: `${data.steel_type_english_name}`}))
         return newEnglish
     }
 
@@ -154,19 +157,34 @@ const MaterialProperties = () => {
     //     displayApiData()
     // }, [apiData, englishApi])
 
+    const hashMetric = useMemo(() => {
+        let hash = {}
+        for(let i in steelTypesMetric) {
+            let {
+                steel_type_metric_name,
+            } = steelTypesMetric[i]
+            hash[steel_type_metric_name] = steelTypesMetric[i]
+        }
+        // dispatch(setMappedSteelTypeMetric(hash, selectedSheet))
+        return hash
+    }, [steelTypesMetric])
+
+    const hashEnglish = useMemo(() => {
+        let hash = {}
+        for(let i in steelTypesEnglish) {
+            let {
+                steel_type_english_name,
+            } = steelTypesEnglish[i]
+            hash[steel_type_english_name] = steelTypesEnglish[i]
+        }
+        return hash
+    }, [steelTypesEnglish])
+
     const NestedModal = () => {
 
         const [nestedModalDisabled, setNestedModalDisabled] = useState(true)
         const [customButtonColor, setCustomButtonColor] = useState('primary')
         const [customButtonText, setCustomButtonText] = useState('CUSTOM')
-
-        const handleChange = (event) => {
-            dispatch(setMethodDropdown(event.target.value, selectedSheet))
-        };
-
-        // const modalOptions = () => {
-        //     for(let option in )
-        // }
 
         const steelTypeHandler = () => {
             return (
@@ -190,12 +208,86 @@ const MaterialProperties = () => {
             }
         }, [nestedModalDisabled])
 
+        const [selectedSteelType, setSelectedSteelType] = useState('')
+
         const autoCompleteOnChangeHandler = (event) => {
-            // alert("the selected sheet = " + event.target.value)
-            dispatch(setSelectedSteelType(event.target.value, selectedSheet))
+            // alert(event.target.textContent)
+            setSelectedSteelType(event.target.textContent)
         }
 
-        // const newOptions = data.map((user) => ({value: `${user.steel_type_metric_name}`, label: `${user.steel_type_metric_name}`}))
+        const EMPAValueSetter = () => {
+            if(system === 'Metric') {
+                if(selectedSteelType === '') {
+                    return
+                } else  {
+                    return hashMetric[selectedSteelType].steel_type_metric_e
+                }
+            } else {
+                if(selectedSteelType === '') {
+                    return
+                } else {
+                    return hashEnglish[selectedSteelType].steel_type_english_e
+                }
+            }
+        }
+
+        const FYMPAValueSetter = () => {
+            if(system === 'Metric') {
+                if(selectedSteelType === '') {
+                    return
+                } else  {
+                    return hashMetric[selectedSteelType].steel_type_metric_fy
+                }
+            } else {
+                if(selectedSteelType === '') {
+                    return
+                } else {
+                    return hashEnglish[selectedSteelType].steel_type_english_fy
+                }
+            }
+        }
+
+        const FUMPAValueSetter = () => {
+            if(system === 'Metric') {
+                if(selectedSteelType === '') {
+                    return
+                } else  {
+                    return hashMetric[selectedSteelType].steel_type_metric_fu
+                }
+            } else {
+                if(selectedSteelType === '') {
+                    return
+                } else {
+                    return hashEnglish[selectedSteelType].steel_type_english_fu
+                }
+            }
+        }
+
+        const insertMaterialProperty = () => {
+            if(insertedSteelTypesMetric === null) {
+                const initialMaterial = {}
+                initialMaterial[0] = {
+                    name: selectedSteelType,
+                    EMPA: hashMetric[selectedSteelType].steel_type_metric_e,
+                    FYMPA: hashMetric[selectedSteelType].steel_type_metric_fy,
+                    FUMPA: hashMetric[selectedSteelType].steel_type_metric_fu
+                }
+                // alert("yooooo")
+                console.log(initialMaterial)
+                // dispatch(setMetricMaterialSteelType(initialMaterial, selectedSheet))
+            } else if(insertedSteelTypesMetric !== null) {
+                const newMaterialIndex = size(insertedSteelTypesMetric)
+                const currentMaterial = {...insertedSteelTypesMetric}
+                currentMaterial[newMaterialIndex] = {
+                    name: selectedSteelType,
+                    EMPA: hashEnglish[selectedSteelType].steel_type_english_e,
+                    FYMPA: hashEnglish[selectedSteelType].steel_type_english_fy,
+                    FUMPA: hashEnglish[selectedSteelType].steel_type_english_fu
+                }
+                // dispatch(setMetricMaterialSteelType(currentMaterial, selectedSheet))
+            }
+
+        }
 
         return (
             <div>
@@ -230,7 +322,8 @@ const MaterialProperties = () => {
                                         disablePortal
                                         id="combo-box-demo"
                                         options={systemCheck()}
-                                        onSelect={(event) => autoCompleteOnChangeHandler(event)}
+                                        value={selectedSteelType}
+                                        onChange={(event) => autoCompleteOnChangeHandler(event)}
                                         sx={{ width: 300 }}
                                         renderInput={(params) => <TextField {...params} label="Preset Steel Types" />}
                                     />
@@ -256,6 +349,7 @@ const MaterialProperties = () => {
                                 <p style={{textAlign: 'initial'}}><strong>E(MPa)</strong></p>
                                 <Input placeholder='Value will be displayed here...'
                                        disabled={nestedModalDisabled}
+                                       value={EMPAValueSetter()}
                                        style={{width: '100%', margin: '0 auto', color: 'black'}}
                                 />
                             </div>
@@ -263,6 +357,7 @@ const MaterialProperties = () => {
                                 <p style={{textAlign: 'initial'}}><strong>FyMPa</strong></p>
                                 <Input placeholder='Value will be displayed here...'
                                        disabled={nestedModalDisabled}
+                                       value={FYMPAValueSetter()}
                                        style={{width: '100%', margin: '0 auto', color: 'black'}}
                                 />
                             </div>
@@ -270,6 +365,7 @@ const MaterialProperties = () => {
                                 <p style={{textAlign: 'initial'}}><strong>FuMPa</strong></p>
                                 <Input placeholder='Value will be displayed here...'
                                        disabled={nestedModalDisabled}
+                                       value={FUMPAValueSetter()}
                                        style={{width: '100%', margin: '0 auto', color: 'black'}}
                                 />
                             </div>
@@ -288,7 +384,13 @@ const MaterialProperties = () => {
                                         // margin: '1em'
                                     }}
                                     variant='contained'
-                                    color='primary'>
+                                    color='primary'
+                                    onClick={() => {
+                                        insertMaterialProperty()
+                                        setOpenNestedModal(false)
+                                        // console.log(insertedSteelTypesMetric)
+                                    }}
+                                >
                                         ADD
                                 </Button>
                                 <Button
@@ -296,7 +398,9 @@ const MaterialProperties = () => {
                                         width: '20%',
                                         margin: '1em'
                                     }}
-                                    onClick={() => setOpenNestedModal(false)}
+                                    onClick={() => {
+                                        setOpenNestedModal(false)
+                                    }}
                                     variant='contained'
                                     color='secondary'>
                                         CANCEL

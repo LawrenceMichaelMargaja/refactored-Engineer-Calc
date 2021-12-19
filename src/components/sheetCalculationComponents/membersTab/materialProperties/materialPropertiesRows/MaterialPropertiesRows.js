@@ -19,7 +19,6 @@ const MaterialPropertiesRows = () => {
     const dispatch = useDispatch()
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     const materialProperties = useSelector(state => state.sheets.sheets[selectedSheet].materialProperties)
-    const sheets = useSelector(state => state.sheets)
 
     const materialPropertiesRows = []
 
@@ -31,9 +30,9 @@ const MaterialPropertiesRows = () => {
         const materialFuMPa = materialProperties[materialPropertiesIndex].materialPropertiesFUMPA
         const materialSelectedMaterial = materialProperties[materialPropertiesIndex].materialPropertiesSelectedMaterial
 
-        const materialIdHandler = () => {
-            dispatch()
-        }
+        // const materialIdHandler = () => {
+        //     dispatch()
+        // }
 
         materialPropertiesRows.push(
             <div style={{

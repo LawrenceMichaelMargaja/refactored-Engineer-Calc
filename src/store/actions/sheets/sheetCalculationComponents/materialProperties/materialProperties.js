@@ -1,7 +1,7 @@
 import {
     SET_MATERIAL_PROPERTIES_EMPA, SET_MATERIAL_PROPERTIES_FUMPA,
     SET_MATERIAL_PROPERTIES_FYMPA,
-    SET_MATERIAL_PROPERTIES_ID, SET_MATERIAL_PROPERTIES_SELECTED_MATERIAL
+    SET_MATERIAL_PROPERTIES_ID, SET_MATERIAL_PROPERTIES_SELECTED_MATERIAL, SET_METRIC_MATERIAL_STEEL_TYPES
 } from "../../../actionTypes";
 
 export const setMaterialPropertiesId = (data, sheetIndex, materialPropertyIndex) => {
@@ -37,4 +37,12 @@ export const setMaterialPropertiesSelectedMaterial = (data, sheetIndex, material
         type: SET_MATERIAL_PROPERTIES_SELECTED_MATERIAL,
         payload: {data: data, sheetIndex: sheetIndex, materialPropertyIndex: materialPropertyIndex}
     }
+}
+
+export const setMetricMaterialSteelType = (data, sheetIndex) => {
+    return {
+        type: SET_METRIC_MATERIAL_STEEL_TYPES,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+
 }

@@ -44,17 +44,20 @@ const SheetTabs = () => {
                 removedMemberRowArray: [],
                 route: '',
                 apiData: {
-                    steelTypesMetric: {
-                        steelType: '',
+                    steelTypesMetric: [],
+                    steelTypesEnglish: [],
+                },
+                apiMap: {
+                    selectedSteelType: '',
+                    steelTypeMetricProperties: {
                         EMPA: '',
                         FYMPA: '',
-                        FUMPA: '',
+                        FUMPA: ''
                     },
-                    steelTypesEnglish: {
-                        steelType: '',
+                    steelTypeEnglishProperties: {
                         EMPA: '',
                         FYMPA: '',
-                        FUMPA: '',
+                        FUMPA: ''
                     }
                 },
                 details: {
@@ -122,17 +125,20 @@ const SheetTabs = () => {
                 route: '',
                 removedMemberRowArray: [],
                 apiData: {
-                    steelTypesMetric: {
-                        steelType: '',
+                    steelTypesMetric: [],
+                    steelTypesEnglish: [],
+                },
+                apiMap: {
+                    selectedSteelType: '',
+                    steelTypeMetricProperties: {
                         EMPA: '',
                         FYMPA: '',
-                        FUMPA: '',
+                        FUMPA: ''
                     },
-                    steelTypesEnglish: {
-                        steelType: '',
+                    steelTypeEnglishProperties: {
                         EMPA: '',
                         FYMPA: '',
-                        FUMPA: '',
+                        FUMPA: ''
                     }
                 },
                 details: {
