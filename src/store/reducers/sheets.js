@@ -6,7 +6,7 @@ import {
     GET_STEEL_TYPES_ENGLISH_API,
     GET_STEEL_TYPES_METRIC_API,
     REMOVE_ALL_MEMBER_ROWS,
-    REMOVE_MEMBER_ROW, REMOVE_METRIC_MATERIAL_PROPERTY_ROW,
+    REMOVE_MEMBER_ROW, REMOVE_METRIC_MATERIAL_PROPERTY_ROW, REMOVE_SHEET,
     SET_AXIAL,
     SET_BENDING_MOMENT_ALONG_X_AXIS,
     SET_BENDING_MOMENT_ALONG_Y_AXIS, SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX,
@@ -157,6 +157,8 @@ const Reducer = (state = initialState, action) => {
             return setSelectedSheet(state, action.payload)
         case ADD_NEW_SHEET:
             return addNewSheet(state, action.payload)
+        case REMOVE_SHEET:
+            return removeSheet(state, action.payload)
         case SET_PROVISION_DROPDOWN:
             return setProvisionDropdown(state, action.payload)
         case SET_SYSTEM_DROPDOWN:
@@ -285,6 +287,12 @@ const addNewSheet = (state, payload) => {
     }
 }
 
+const removeSheet = (state, payload) => {
+    let newState = {...state}
+    delete newState.sheets[payload]
+    return newState
+}
+
 const setTabState = (state, payload) => {
     return {
         ...state,
@@ -299,6 +307,7 @@ const setTabState = (state, payload) => {
 }
 
 const setSelectedSheet = (state, payload) => {
+    // console.log("tooooo")
     return {
         ...state,
         selectedSheet: payload

@@ -32,6 +32,7 @@ export const ADD_NEW_SHEET = '@@sheets/ADD_NEW_SHEET'
 export const SET_TAB_STATE = '@@sheets/SET_TAB_STATE'
 export const SET_SELECTED_SHEET = '@@sheets/SET_SELECTED_SHEET'
 export const SET_ROUTE_URL = '@@sheets/SET_ROUTE_URL'
+export const REMOVE_SHEET = '@@sheets/REMOVE_SHEET'
 
 /**
  * Sheet Details

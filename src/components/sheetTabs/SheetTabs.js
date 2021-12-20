@@ -4,7 +4,7 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import AddIcon from '@material-ui/icons/Add';
 import {useDispatch, useSelector} from "react-redux";
 import {size} from "lodash";
-import {addNewSheet, setRouteUrl, setSelectedSheet, setTabState} from "../../store/actions/sheets/sheets";
+import {addNewSheet, removeSheet, setRouteUrl, setSelectedSheet, setTabState} from "../../store/actions/sheets/sheets";
 import {useNavigate} from "react-router";
 import {makeStyles} from "@material-ui/core/styles";
 
@@ -197,6 +197,23 @@ const SheetTabs = () => {
         }
     }
 
+    const removeSelectedSheet = (sheetIndex, event) => {
+        if(event.button === 0) {
+            const proceed = window.confirm("Are you sure you want to remove this sheet?")
+            if(proceed) {
+                // alert(selectedSheet)
+                dispatch(setSelectedSheet(selectedSheet - 1))
+                dispatch(removeSheet(sheetIndex))
+                // console.log(selectedSheet)
+                setTimeout(() => {
+                    console.log(selectedSheet)
+                }, 5000)
+            } else {
+                return
+            }
+        }
+    }
+
     const renderSheets = () => {
 
         const tabs = []
@@ -207,14 +224,23 @@ const SheetTabs = () => {
                     style={{borderRight: '1px solid grey', fontWeight: 'bold'}}
                     onClick={() => {
                         // alert("the index  =  " + currentSheetIndex)
-                        dispatch(setSelectedSheet(currentSheetIndex))
+                        // dispatch(setSelectedSheet(currentSheetIndex))
                         // getSheetTabSelected(currentSheetIndex)
                     }}
                     key={currentSheetIndex}
                     // value={currentSheetIndex}
                     label={
                         <span style={{width: '100%', zIndex: 1}}>
-                            SHEET <CancelIcon color='primary' style={{width: '20%', marginRight: '-5px', float: 'right'}}/>
+                            SHEET
+                            <CancelIcon
+                                color='primary'
+                                style={{
+                                    width: '20%',
+                                    marginRight: '-5px',
+                                    float: 'right'
+                                }}
+                                onMouseDown={(event) => removeSelectedSheet(currentSheetIndex, event)}
+                            />
                         </span>
                     }>
                 </Tab>
@@ -228,9 +254,9 @@ const SheetTabs = () => {
                     classes={{
                         indicator: classes.indicator
                     }}
-                    onChange={(event, value) => {
-                        dispatch(setSelectedSheet(parseFloat(value)))
-                    }}
+                    // onChange={(event, value) => {
+                    //     dispatch(setSelectedSheet(parseFloat(value)))
+                    // }}
                     aria-label="disabled tabs example"
                 >
                     {tabs}

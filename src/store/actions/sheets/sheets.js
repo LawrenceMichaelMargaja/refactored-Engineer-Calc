@@ -2,7 +2,7 @@ import {
     ADD_NEW_SHEET, EDIT_SELECTED_METRIC_MATERIAL_PROPERTIES, EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
     GET_MATERIAL_PROPERTIES_DATA,
     GET_STEEL_TYPES_ENGLISH_API,
-    GET_STEEL_TYPES_METRIC_API,
+    GET_STEEL_TYPES_METRIC_API, REMOVE_SHEET,
     SET_ENGLISH_EMPA,
     SET_ENGLISH_FUMPA,
     SET_ENGLISH_FYMPA,
@@ -24,6 +24,13 @@ export const addNewSheet = (data) => {
     }
 }
 
+export const removeSheet = (data) => {
+    return {
+        type: REMOVE_SHEET,
+        payload: data
+    }
+}
+
 export const setTabState = (data, sheetIndex) => {
     return {
         type: SET_TAB_STATE,
@@ -31,7 +38,8 @@ export const setTabState = (data, sheetIndex) => {
     }
 }
 
-export const setSelectedSheet = (data) => {
+export const setSelectedSheet = data => {
+    // alert("the action = " + data)
     return {
         type: SET_SELECTED_SHEET,
         payload: data
