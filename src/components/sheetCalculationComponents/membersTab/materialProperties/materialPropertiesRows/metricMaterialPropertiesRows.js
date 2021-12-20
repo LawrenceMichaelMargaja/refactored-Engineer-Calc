@@ -4,6 +4,7 @@ import BorderColorIcon from '@material-ui/icons/BorderColor';
 import {useDispatch, useSelector} from "react-redux";
 import {makeStyles} from "@material-ui/core/styles";
 import {
+    editSelectedMetricMaterialProperty,
     removeMetricMaterialPropertyRow, setCurrentMetricMaterialPropertiesIndex, setEnglishMaterialSteelType,
     setMetricMaterialSteelType
 } from "../../../../../store/actions/sheets/sheetCalculationComponents/materialProperties/materialProperties";
@@ -39,6 +40,8 @@ const MetricMaterialPropertiesRows = () => {
     const metricName = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeMetricProperties[currentMetricMaterialPropertyIndex].name)
     const insertedSteelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeEnglishProperties)
     const selectedSteel = useSelector(state => state.sheets.sheets[selectedSheet].apiMap)
+
+    const [edit, setEdit] = useState(false)
 
     const hashMetric = useMemo(() => {
         let hash = {}
@@ -170,8 +173,7 @@ const MetricMaterialPropertiesRows = () => {
                 if(selectedSteelType === '') {
                     return
                 } else  {
-                    return
-                    // return hashMetric[selectedSteelType].steel_type_metric_fy
+                    return hashMetric[selectedSteelType].steel_type_metric_fy
                 }
             } else {
                 if(selectedSteelType === '') {
@@ -186,9 +188,8 @@ const MetricMaterialPropertiesRows = () => {
             if(system === 'Metric') {
                 if(selectedSteelType === '') {
                     return
-                } else  {
-                    return
-                    // return hashMetric[selectedSteelType].steel_type_metric_fu
+                } else {
+                    return hashMetric[selectedSteelType].steel_type_metric_fu
                 }
             } else {
                 if(selectedSteelType === '') {
@@ -213,7 +214,9 @@ const MetricMaterialPropertiesRows = () => {
             }
         }
 
-        const insertMaterialProperty = () => {
+
+
+        const editMaterialProperty = () => {
             if(selectedSteelType === '') {
                 setErrorDisplay(true)
                 return
@@ -227,19 +230,16 @@ const MetricMaterialPropertiesRows = () => {
                             FYMPA: hashMetric[selectedSteelType].steel_type_metric_fy,
                             FUMPA: hashMetric[selectedSteelType].steel_type_metric_fu
                         }
-                        dispatch(setMetricMaterialSteelType(initialMaterial, selectedSheet))
+                        dispatch(editSelectedMetricMaterialProperty(initialMaterial, selectedSheet, currentMetricMaterialPropertyIndex))
                         setOpenNestedModal(false)
                     } else {
-                        const newMaterialIndex = size(insertedSteelTypesMetric)
-                        const currentMaterial = {...insertedSteelTypesMetric}
-                        currentMaterial[newMaterialIndex] = {
-                            name: selectedSteelType,
-                            EMPA: hashMetric[selectedSteelType].steel_type_metric_e,
-                            FYMPA: hashMetric[selectedSteelType].steel_type_metric_fy,
-                            FUMPA: hashMetric[selectedSteelType].steel_type_metric_fu
+                        const proceed = window.confirm("Are you sure you want to keep these changes?")
+                        if(proceed) {
+                            dispatch(editSelectedMetricMaterialProperty(selectedSteelType, hashMetric[selectedSteelType].steel_type_metric_e, hashMetric[selectedSteelType].steel_type_metric_fy, hashMetric[selectedSteelType].steel_type_metric_fu, selectedSheet, currentMetricMaterialPropertyIndex))
+                            setOpenNestedModal(false)
+                        } else {
+                            return;
                         }
-                        dispatch(setMetricMaterialSteelType(currentMaterial, selectedSheet))
-                        setOpenNestedModal(false)
                     }
                 } else if(system === 'English') {
                     if(size(insertedSteelTypesMetric) === 0) {
@@ -250,7 +250,7 @@ const MetricMaterialPropertiesRows = () => {
                             FYMPA: hashEnglish[selectedSteelType].steel_type_english_fy,
                             FUMPA: hashEnglish[selectedSteelType].steel_type_english_fu
                         }
-                        dispatch(setEnglishMaterialSteelType(initialMaterial, selectedSheet))
+                        dispatch(editSelectedMetricMaterialProperty(initialMaterial, selectedSheet, currentMetricMaterialPropertyIndex))
                         setOpenNestedModal(false)
                     } else {
                         const newMaterialIndex = size(insertedSteelTypesEnglish)
@@ -261,7 +261,7 @@ const MetricMaterialPropertiesRows = () => {
                             FYMPA: hashEnglish[selectedSteelType].steel_type_english_fy,
                             FUMPA: hashEnglish[selectedSteelType].steel_type_english_fu
                         }
-                        dispatch(setEnglishMaterialSteelType(currentMaterial, selectedSheet))
+                        dispatch(editSelectedMetricMaterialProperty(currentMaterial, selectedSheet, currentMetricMaterialPropertyIndex))
                         setOpenNestedModal(false)
                     }
                 }
@@ -366,12 +366,7 @@ const MetricMaterialPropertiesRows = () => {
                                     variant='contained'
                                     color='primary'
                                     onClick={() => {
-                                        insertMaterialProperty()
-                                        // if(errorDisplay) {
-                                        //     return
-                                        // } else if(errorDisplay === false) {
-                                        //     setOpenNestedModal(false)
-                                        // }
+                                        editMaterialProperty()
                                     }}
                                 >
                                     ADD
@@ -397,9 +392,13 @@ const MetricMaterialPropertiesRows = () => {
     }
 
     const displayModal = () => {
-        return (
-            <NestedModal/>
-        )
+        if(edit === true) {
+            return (
+                <NestedModal/>
+            )
+        } else if(edit === false) {
+            return
+        }
     }
 
     for(let materialPropertiesIndex in materialPropertiesMetric) {
@@ -516,6 +515,7 @@ const MetricMaterialPropertiesRows = () => {
                                     color='primary'
                                     onClick={() => {
                                         // alert(materialPropertiesIndex)
+                                        setEdit(true)
                                         dispatch(setCurrentMetricMaterialPropertiesIndex(materialPropertiesIndex, selectedSheet))
                                         handleOpenNestedModal()
                                     }}
