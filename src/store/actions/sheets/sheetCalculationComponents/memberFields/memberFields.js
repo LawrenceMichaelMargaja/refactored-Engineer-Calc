@@ -1,5 +1,5 @@
 import {
-    ADD_INITIAL_MEMBER,
+    ADD_INITIAL_MEMBER, CLEAR_REMOVED_MEMBERS_ARRAY, REMOVE_ALL_MEMBER_ROWS,
     REMOVE_MEMBER_ROW,
     SET_LATERAL_TORSIONAL_MODIFICATION_FACTOR,
     SET_LLT,
@@ -30,6 +30,20 @@ export const removeMemberRow = (sheetIndex, memberIndex) => {
     return {
         type: REMOVE_MEMBER_ROW,
         payload: {sheetIndex: sheetIndex, memberIndex: memberIndex}
+    }
+}
+
+export const removeAllMemberRows = sheetIndex => {
+    return {
+        type: REMOVE_ALL_MEMBER_ROWS,
+        payload: sheetIndex
+    }
+}
+
+export const clearRemovedMembersArray = (sheetIndex) => {
+    return {
+        type: CLEAR_REMOVED_MEMBERS_ARRAY,
+        payload: sheetIndex
     }
 }
 

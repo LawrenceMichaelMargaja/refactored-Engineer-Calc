@@ -1,96 +1,82 @@
-import {Button, Card, FormControl, Input, InputLabel, MenuItem, Select, TextField} from "@material-ui/core";
-import React, {useCallback, useEffect, useMemo, useState} from "react";
-import {makeStyles} from "@material-ui/core/styles";
-import MaterialPropertiesRows from "./materialPropertiesRows/metricMaterialPropertiesRows";
-import {ENGLISH, METRIC} from "../../../../config";
+import React, {useEffect, useMemo, useState} from "react";
+import CancelIcon from '@material-ui/icons/Cancel';
+import BorderColorIcon from '@material-ui/icons/BorderColor';
 import {useDispatch, useSelector} from "react-redux";
-import MaterialPropertiesModal from "../../../modal/materialPropertiesModal/MaterialPropertiesModal";
-import MaterialSelectModal from "../../../modal/materialPropertiesModal/MaterialPropertiesModal";
-import SpringModal from "../../../modal/materialPropertiesModal/MaterialPropertiesModal";
-import NestedModal from "../../../modal/materialPropertiesModal/MaterialPropertiesModal";
+import {makeStyles} from "@material-ui/core/styles";
+import {
+    removeMetricMaterialPropertyRow, setCurrentMetricMaterialPropertiesIndex, setEnglishMaterialSteelType,
+    setMetricMaterialSteelType
+} from "../../../../../store/actions/sheets/sheetCalculationComponents/materialProperties/materialProperties";
+import {Button, FormControl, Input, TextField} from "@material-ui/core";
+import {size} from "lodash";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import {setMethodDropdown} from "../../../../store/actions/dashboardDropdowns/methodDropdown";
-import axios from "axios";
-import {
-    getMaterialPropertiesData,
-    getSteelTypesEnglishAPI,
-    getSteelTypesMetricAPI,
-    setEnglishEMPA, setEnglishFUMPA,
-    setEnglishFYMPA, setMappedSteelTypeEnglish, setMappedSteelTypeMetric,
-    setMetricEMPA,
-    setMetricFUMPA,
-    setMetricFYMPA,
-    setSelectedSteelType
-} from "../../../../store/actions/sheets/sheets";
 import {Autocomplete} from "@mui/material";
-import {
-    setEnglishMaterialSteelType,
-    setMetricMaterialSteelType
-} from "../../../../store/actions/sheets/sheetCalculationComponents/materialProperties/materialProperties";
-import {size} from "lodash";
-import MetricMaterialPropertiesRows from "./materialPropertiesRows/metricMaterialPropertiesRows";
-import EnglishMaterialPropertiesRows from "./materialPropertiesRows/englishMaterialPropertiesRow";
 
 const useStyles = makeStyles((theme) => ({
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 200,
-    },
-    modal: {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        backgroundColor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        pt: 2,
-        px: 4,
-        pb: 3,
-    },
+    textField: {
+        width: '90%',
+        margin: '10px 0',
+        fontWeight: 'bold',
+        color: 'black'
+    }
 }));
 
-const MaterialProperties = () => {
 
+
+const MetricMaterialPropertiesRows = () => {
+
+    const dispatch = useDispatch()
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
+    const materialPropertiesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeMetricProperties)
     const system = useSelector(state => state.sheets.sheets[selectedSheet].system)
 
     const steelTypesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesMetric)
     const steelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesEnglish)
+    const currentMetricMaterialPropertyIndex = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.currentMetricMaterialPropertyIndex)
 
     const insertedSteelTypesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeMetricProperties)
+    const metricName = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeMetricProperties[currentMetricMaterialPropertyIndex].name)
     const insertedSteelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeEnglishProperties)
+    const selectedSteel = useSelector(state => state.sheets.sheets[selectedSheet].apiMap)
 
-    const dispatch = useDispatch()
-
-    const unitHandler = () => {
-        if(system === 'Metric') {
-            return 'MPa'
-        } else {
-            return 'ksi'
+    const hashMetric = useMemo(() => {
+        let hash = {}
+        // alert(JSON.stringify(steelTypesMetric))
+        for(let i in steelTypesMetric) {
+            let {
+                steel_type_metric_name,
+            } = steelTypesMetric[i]
+            hash[steel_type_metric_name] = steelTypesMetric[i]
         }
-    }
+        return hash
+    }, [steelTypesMetric])
 
+    const hashEnglish = useMemo(() => {
+        let hash = {}
+        for(let i in steelTypesEnglish) {
+            let {
+                steel_type_english_name,
+            } = steelTypesEnglish[i]
+            hash[steel_type_english_name] = steelTypesEnglish[i]
+        }
+        return hash
+    }, [steelTypesEnglish])
+
+    const materialPropertiesRows = []
+
+    const [rowsInt, setRowsInt] = useState(0)
     const [openNestedModal, setOpenNestedModal] = React.useState(false);
-    const getSteelTypesMetric = () => {
-        fetch("http://127.0.0.1:8080/steeltypesmetric")
-            .then((response) => response.json())
-            .then((data) => dispatch(getSteelTypesMetricAPI(data, selectedSheet)))
-            //     .then((data) => alert(JSON.stringify(data)))
-            .catch((error) => {
-                console.log(error)
-            });
-    }
 
-    const getSteelTypesEnglish = () => {
-        fetch("http://127.0.0.1:8080/steeltypesenglish")
-            .then((response) => response.json())
-            .then((data) => dispatch(getSteelTypesEnglishAPI(data, selectedSheet)))
-            .catch((error) => {
-                console.log(error)
-            });
+    const deleteMetricMaterialPropertyRow = (materialPropertiesIndex) => {
+        const proceed = window.confirm("Are you sure you want to delete this material property row?")
+        if(proceed) {
+            // alert("hola!")
+            setRowsInt(rowsInt + 1)
+            dispatch(removeMetricMaterialPropertyRow(materialPropertiesIndex, selectedSheet))
+        } else {
+            return
+        }
     }
 
     const handleOpenNestedModal = () => {
@@ -114,45 +100,6 @@ const MaterialProperties = () => {
             return displayApiData()
         } else if (system === 'English') {
             return displayEnglishApi()
-        }
-    }
-
-    useEffect(() => {
-        getSteelTypesMetric()
-        getSteelTypesEnglish()
-    }, [])
-
-    const hashMetric = useMemo(() => {
-        let hash = {}
-        for(let i in steelTypesMetric) {
-            let {
-                steel_type_metric_name,
-            } = steelTypesMetric[i]
-            hash[steel_type_metric_name] = steelTypesMetric[i]
-        }
-        return hash
-    }, [steelTypesMetric])
-
-    const hashEnglish = useMemo(() => {
-        let hash = {}
-        for(let i in steelTypesEnglish) {
-            let {
-                steel_type_english_name,
-            } = steelTypesEnglish[i]
-            hash[steel_type_english_name] = steelTypesEnglish[i]
-        }
-        return hash
-    }, [steelTypesEnglish])
-
-    const renderRows = () => {
-        if(system === 'Metric') {
-            return (
-                <MetricMaterialPropertiesRows/>
-            )
-        } else if(system === 'English') {
-            return (
-                <EnglishMaterialPropertiesRows/>
-            )
         }
     }
 
@@ -184,7 +131,15 @@ const MaterialProperties = () => {
             }
         }, [nestedModalDisabled])
 
-        const [selectedSteelType, setSelectedSteelType] = useState('')
+        const useStateValue = () => {
+            if(steelTypesMetric === [] || steelTypesMetric.length === 0) {
+                return ''
+            } else {
+                return insertedSteelTypesMetric[currentMetricMaterialPropertyIndex].name
+            }
+        }
+
+        const [selectedSteelType, setSelectedSteelType] = useState(useStateValue())
 
         const autoCompleteOnChangeHandler = (event) => {
             setSelectedSteelType(event.target.textContent)
@@ -193,8 +148,12 @@ const MaterialProperties = () => {
         const EMPAValueSetter = () => {
             if(system === 'Metric') {
                 if(selectedSteelType === '') {
+                    // alert("over here")
+                    // alert(JSON.stringify(insertedSteelTypesMetric))
                     return
-                } else  {
+                } else if(selectedSteelType !== '') {
+                    // alert("steel types metric" + steelTypesMetric)
+                    // alert(JSON.stringify(insertedSteelTypesMetric[currentMetricMaterialPropertyIndex].name))
                     return hashMetric[selectedSteelType].steel_type_metric_e
                 }
             } else {
@@ -211,7 +170,8 @@ const MaterialProperties = () => {
                 if(selectedSteelType === '') {
                     return
                 } else  {
-                    return hashMetric[selectedSteelType].steel_type_metric_fy
+                    return
+                    // return hashMetric[selectedSteelType].steel_type_metric_fy
                 }
             } else {
                 if(selectedSteelType === '') {
@@ -227,7 +187,8 @@ const MaterialProperties = () => {
                 if(selectedSteelType === '') {
                     return
                 } else  {
-                    return hashMetric[selectedSteelType].steel_type_metric_fu
+                    return
+                    // return hashMetric[selectedSteelType].steel_type_metric_fu
                 }
             } else {
                 if(selectedSteelType === '') {
@@ -356,7 +317,7 @@ const MaterialProperties = () => {
                                     variant='contained'
                                     onClick={() => setNestedModalDisabled(currVal => !currVal)}
                                     color={customButtonColor}>
-                                        {customButtonText}
+                                    {customButtonText}
                                 </Button>
                             </div>
                         </div>
@@ -413,7 +374,7 @@ const MaterialProperties = () => {
                                         // }
                                     }}
                                 >
-                                        ADD
+                                    ADD
                                 </Button>
                                 <Button
                                     style={{
@@ -425,7 +386,7 @@ const MaterialProperties = () => {
                                     }}
                                     variant='contained'
                                     color='secondary'>
-                                        CANCEL
+                                    CANCEL
                                 </Button>
                             </div>
                         </div>
@@ -441,121 +402,146 @@ const MaterialProperties = () => {
         )
     }
 
-    return (
-        <div style={{
-            width: '60%'
-        }}>
+    for(let materialPropertiesIndex in materialPropertiesMetric) {
+
+        const materialEMPa = materialPropertiesMetric[materialPropertiesIndex].EMPA
+        const materialFyMPa = materialPropertiesMetric[materialPropertiesIndex].FYMPA
+        const materialFuMPa = materialPropertiesMetric[materialPropertiesIndex].FUMPA
+        const materialSelectedMaterial = materialPropertiesMetric[materialPropertiesIndex].name
+
+        materialPropertiesRows.push(
             <div style={{
-                margin: '0 auto'
-            }}>
+                display: 'flex',
+                height: '100%',
+                width: '90%',
+                margin: '0 auto',
+                // marginBottom: '2%'
+            }}
+                 key={materialPropertiesIndex}
+                 id='ModalContainer'
+            >
                 <div style={{
-                    width: '90%',
-                    margin: '0 auto',
-                    padding: '15px',
-                }}
-                >
-                    <div>
-                        <div
-                            style={{
-                                textAlign: 'right'
-                            }}
-                        >
-                            <Button
-                                style={{
-                                    margin: '10px'
-                                }}
-                                onClick={() => handleOpenNestedModal()}
-                                variant='contained' color='primary'>
-                                Add Material Property
-                            </Button>
-                            <Button
-                                 variant='contained' color='secondary'>
-                                Remove All
-                            </Button>
-                        </div>
-                    </div>
-                    <Card style={{
-                        marginBottom: '0px',
-                        border: '1px solid black',
-                        padding: '5px',
-                        backgroundColor: '#e2e2e2',
-                        width: '100%',
+                    border: '1px solid black',
+                    margin: '0px',
+                    width: '16.66%',
+                    // display: 'inline-block',
+                    height: '100%',
+                    backgroundColor: '#fff'
+                }}>
+                    <p style={{
+                        margin: '0%',
+                        padding: '7%',
                         textAlign: 'center'
                     }}>
-                        <p style={{margin: '0px'}}><strong>MATERIAL PROPERTIES</strong></p>
-                    </Card>
+                        {parseFloat(materialPropertiesIndex) + parseFloat(1)}
+                    </p>
+                </div>
+                <div style={{
+                    border: '1px solid black',
+                    margin: '0px',
+                    width: '16.66%',
+                    height: '100%',
+                    backgroundColor: '#fff'
+                }}>
+                    <p style={{
+                        margin: '0%',
+                        padding: '7%',
+                        textAlign: 'center'
+                    }}>
+                        {materialSelectedMaterial}
+                    </p>
+                </div>
+                <div style={{
+                    border: '1px solid black',
+                    margin: '0px',
+                    width: '16.66%',
+                    height: '100%',
+                    backgroundColor: '#fff',
+                    textAlign: 'center'
+                }}>
+                    <p style={{
+                        margin: '0%',
+                        padding: '7%',
+                    }}>
+                        {materialEMPa}
+                    </p>
+                </div>
+                <div style={{
+                    border: '1px solid black',
+                    margin: '0px',
+                    width: '16.66%',
+                    height: '100%',
+                    backgroundColor: '#fff',
+                    textAlign: 'center'
+                }}>
+                    <p style={{
+                        margin: '0%',
+                        padding: '7%',
+                    }}>
+                        {materialFyMPa}
+                    </p>
+                </div>
+                <div style={{
+                    border: '1px solid black',
+                    margin: '0px',
+                    width: '16.66%',
+                    height: '100%',
+                    backgroundColor: '#fff',
+                    textAlign: 'center'
+                }}>
+                    <p style={{
+                        margin: '0%',
+                        padding: '7%',
+                    }}>
+                        {materialFuMPa}
+                    </p>
+                </div>
+                <div
+                    style={{
+                        margin: '0px',
+                        width: '16.66%'
+                    }}>
                     <div style={{
                         display: 'flex',
-                        height: '100%',
-                        width: '100%'
+                        margin: '0%',
                     }}>
                         <div style={{
-                            paddingRight: '0px',
-                            width: '20%',
+                            width: '100%',
+                            margin: '0 auto',
                             textAlign: 'center'
                         }}>
-                            <p>
-                                <strong>ID</strong>
-                            </p>
-                        </div>
-                        <div style={{
-                            paddingRight: '0px',
-                            width: '20%',
-                            textAlign: 'center'
-                        }}>
-                            <p>
-                                <strong>Steel Type</strong>
-                            </p>
-                        </div>
-                        <div style={{
-                            paddingRight: '0px',
-                            width: '20%',
-                            textAlign: 'center'
-                        }}>
-                            <p>
-                                <strong>E({unitHandler()})</strong>
-                            </p>
-                        </div>
-
-                        <div style={{
-                            paddingRight: '0px',
-                            width: '20%',
-                            textAlign: 'center'
-                        }}>
-                            <p>
-                                <strong>F<sub>y</sub>({unitHandler()})</strong>
-                            </p>
-                        </div>
-                        <div style={{
-                            paddingRight: '0px',
-                            width: '20%',
-                            textAlign: 'center'
-                        }}>
-                            <p>
-                                <strong>F<sub>u</sub>({unitHandler()})</strong>
-                            </p>
-                        </div>
-                        <div style={{
-                            paddingRight: '0px',
-                            width: '20%',
-                            textAlign: 'center'
-                        }}>
-                            <p>
-                                <strong>Edit</strong>
+                            <p style={{margin: '7px 0px 5px'}}>
+                                <BorderColorIcon
+                                    variant='contained'
+                                    color='primary'
+                                    onClick={() => {
+                                        // alert(materialPropertiesIndex)
+                                        dispatch(setCurrentMetricMaterialPropertiesIndex(materialPropertiesIndex, selectedSheet))
+                                        handleOpenNestedModal()
+                                    }}
+                                >
+                                    EDIT
+                                </BorderColorIcon>
+                                <CancelIcon
+                                    variant='contained' color='secondary'
+                                    style={{margin: '2px 5px'}}
+                                    onClick={() => deleteMetricMaterialPropertyRow(materialPropertiesIndex)}
+                                >
+                                    REMOVE
+                                </CancelIcon>
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div style={{margin: '0 auto', width: '100%', marginBottom: '2%'}}>
-                {
-                    renderRows()
-                }
-            </div>
-            {
-                displayModal()
-            }
+        )
+    }
+
+    return (
+        <div>
+            {materialPropertiesRows}
+            {displayModal()}
         </div>
     )
 }
-export default MaterialProperties
+export default MetricMaterialPropertiesRows

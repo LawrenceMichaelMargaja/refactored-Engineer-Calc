@@ -21,8 +21,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = () => {
     const theSheetSelected = useSelector(state => state.sheets.selectedSheet)
-    const steelTypeMetric = useSelector(state => state.sheets.sheets[theSheetSelected].apiData.steelTypesMetric)
-    const selectedSteelType = useSelector(state => state.sheets.sheets[theSheetSelected].apiMap.selectedSteelType)
 
     const classes = useStyles()
 

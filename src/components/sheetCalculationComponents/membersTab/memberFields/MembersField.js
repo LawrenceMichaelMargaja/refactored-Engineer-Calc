@@ -1,6 +1,6 @@
 import Grid from "@material-ui/core/Grid";
 import {Button, Card} from "@material-ui/core";
-import React from "react";
+import React, {useEffect} from "react";
 import MaterialProperties from "../materialProperties/MaterialProperties";
 import SectionProperties from "../sectionProperties/SectionProperties";
 import MemberFieldRows from "./memberFieldRows/MemberFieldRows";
@@ -8,9 +8,10 @@ import {useDispatch, useSelector} from "react-redux";
 import {ENGLISH, METRIC} from "../../../../config";
 import {size} from "lodash";
 import {
-    addInitialMember,
+    addInitialMember, clearRemovedMembersArray, removeAllMemberRows,
     shiftRemovedMemberRows
 } from "../../../../store/actions/sheets/sheetCalculationComponents/memberFields/memberFields";
+import {getSteelTypesEnglishAPI, getSteelTypesMetricAPI} from "../../../../store/actions/sheets/sheets";
 
 
 const Members = () => {
@@ -24,6 +25,30 @@ const Members = () => {
     const unitHandler = () => {
         return system === 'Metric' ? METRIC : ENGLISH
     }
+
+    const getSteelTypesMetric = () => {
+        fetch("http://127.0.0.1:8080/steeltypesmetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getSteelTypesMetricAPI(data, selectedSheet)))
+            //     .then((data) => alert(JSON.stringify(data)))
+            .catch((error) => {
+                console.log(error)
+            });
+    }
+
+    const getSteelTypesEnglish = () => {
+        fetch("http://127.0.0.1:8080/steeltypesenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(getSteelTypesEnglishAPI(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            });
+    }
+
+    useEffect(() => {
+        getSteelTypesMetric()
+        getSteelTypesEnglish()
+    }, [])
 
     const insertNewMember = () => {
         if(size(members) === 0) {
@@ -90,6 +115,21 @@ const Members = () => {
         }
     }
 
+    const deleteAllMemberRows = () => {
+
+        if (size(members) === 0) {
+            return;
+        } else if (size(members) !== 0) {
+            const proceed = window.confirm("Are you sure you want to delete all member rows?");
+            if (proceed) {
+                dispatch(removeAllMemberRows(selectedSheet))
+                dispatch(clearRemovedMembersArray(selectedSheet))
+            } else {
+                return
+            }
+        }
+    }
+
     return (
             <Grid style={{
                 margin: '0 auto',
@@ -107,7 +147,14 @@ const Members = () => {
                     >
                         ADD MEMBER
                     </Button>
-                    <Button style={{margin: '5px'}} variant='contained' color='secondary'>REMOVE ALL</Button>
+                    <Button
+                        style={{margin: '5px'}}
+                        variant='contained'
+                        color='secondary'
+                        onClick={deleteAllMemberRows}
+                    >
+                        REMOVE ALL
+                    </Button>
                 </div>
                 <Card style={{
                     backgroundColor: '#efefef',

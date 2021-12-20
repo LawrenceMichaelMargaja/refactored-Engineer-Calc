@@ -13,33 +13,26 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const MaterialPropertiesRows = () => {
+const EnglishMaterialPropertiesRows = () => {
 
-    const classes = useStyles()
-    const dispatch = useDispatch()
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
-    const materialProperties = useSelector(state => state.sheets.sheets[selectedSheet].materialProperties)
+    const materialPropertiesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeEnglishProperties)
 
     const materialPropertiesRows = []
 
-    for(let materialPropertiesIndex in materialProperties) {
+    for(let materialPropertiesIndex in materialPropertiesEnglish) {
 
-        const materialId = materialProperties[materialPropertiesIndex].materialPropertiesId
-        const materialEMPa = materialProperties[materialPropertiesIndex].materialPropertiesEMPA
-        const materialFyMPa = materialProperties[materialPropertiesIndex].materialPropertiesFYMPA
-        const materialFuMPa = materialProperties[materialPropertiesIndex].materialPropertiesFUMPA
-        const materialSelectedMaterial = materialProperties[materialPropertiesIndex].materialPropertiesSelectedMaterial
-
-        // const materialIdHandler = () => {
-        //     dispatch()
-        // }
+        const materialEMPa = materialPropertiesEnglish[materialPropertiesIndex].EMPA
+        const materialFyMPa = materialPropertiesEnglish[materialPropertiesIndex].FYMPA
+        const materialFuMPa = materialPropertiesEnglish[materialPropertiesIndex].FUMPA
+        const materialSelectedMaterial = materialPropertiesEnglish[materialPropertiesIndex].name
 
         materialPropertiesRows.push(
             <div style={{
                 display: 'flex',
                 height: '100%',
                 width: '90%',
-                margin: '0 auto 2%',
+                margin: '0 auto',
                 // marginBottom: '2%'
             }}
                  key={materialPropertiesIndex}
@@ -58,7 +51,7 @@ const MaterialPropertiesRows = () => {
                         padding: '7%',
                         textAlign: 'center'
                     }}>
-                        {materialId}
+                        {parseFloat(materialPropertiesIndex) + parseFloat(1)}
                     </p>
                 </div>
                 <div style={{
@@ -159,4 +152,4 @@ const MaterialPropertiesRows = () => {
         </div>
     )
 }
-export default MaterialPropertiesRows
+export default EnglishMaterialPropertiesRows

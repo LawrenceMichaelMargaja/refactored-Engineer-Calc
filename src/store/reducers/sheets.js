@@ -1,16 +1,24 @@
 import {
     ADD_INITIAL_MEMBER,
     ADD_NEW_SHEET,
+    CLEAR_REMOVED_MEMBERS_ARRAY,
     GET_MATERIAL_PROPERTIES_DATA,
     GET_STEEL_TYPES_ENGLISH_API,
     GET_STEEL_TYPES_METRIC_API,
-    REMOVE_MEMBER_ROW,
+    REMOVE_ALL_MEMBER_ROWS,
+    REMOVE_MEMBER_ROW, REMOVE_METRIC_MATERIAL_PROPERTY_ROW,
     SET_AXIAL,
     SET_BENDING_MOMENT_ALONG_X_AXIS,
-    SET_BENDING_MOMENT_ALONG_Y_AXIS, SET_ENGLISH_EMPA, SET_ENGLISH_FUMPA, SET_ENGLISH_FYMPA,
+    SET_BENDING_MOMENT_ALONG_Y_AXIS, SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX,
+    SET_ENGLISH_EMPA,
+    SET_ENGLISH_FUMPA,
+    SET_ENGLISH_FYMPA,
+    SET_ENGLISH_MATERIAL_STEEL_TYPES,
     SET_LATERAL_TORSIONAL_MODIFICATION_FACTOR,
     SET_LLT,
-    SET_LST, SET_MAPPED_STEEL_TYPE_ENGLISH, SET_MAPPED_STEEL_TYPE_METRIC,
+    SET_LST,
+    SET_MAPPED_STEEL_TYPE_ENGLISH,
+    SET_MAPPED_STEEL_TYPE_METRIC,
     SET_MATERIAL_ID,
     SET_MATERIAL_PROPERTIES_EMPA,
     SET_MATERIAL_PROPERTIES_FUMPA,
@@ -18,7 +26,11 @@ import {
     SET_MATERIAL_PROPERTIES_ID,
     SET_MATERIAL_PROPERTIES_SELECTED_MATERIAL,
     SET_MEMBER_ID,
-    SET_METHOD_DROPDOWN, SET_METRIC_EMPA, SET_METRIC_FUMPA, SET_METRIC_FYMPA, SET_METRIC_MATERIAL_STEEL_TYPES,
+    SET_METHOD_DROPDOWN,
+    SET_METRIC_EMPA,
+    SET_METRIC_FUMPA,
+    SET_METRIC_FYMPA,
+    SET_METRIC_MATERIAL_STEEL_TYPES,
     SET_PROJECT_CLIENT,
     SET_PROJECT_COMPANY,
     SET_PROJECT_DESIGNER,
@@ -34,7 +46,8 @@ import {
     SET_SAFETY_FACTOR_FOR_SHEAR,
     SET_SAFETY_FACTOR_FOR_TENSILE,
     SET_SECTION_ID,
-    SET_SELECTED_SHEET, SET_SELECTED_STEEL_TYPE,
+    SET_SELECTED_SHEET,
+    SET_SELECTED_STEEL_TYPE,
     SET_SHEAR_ALONG_X_AXIS,
     SET_SHEAR_ALONG_Y_AXIS,
     SET_SLENDERNESS_RATIO_IN_COMPRESSION,
@@ -65,8 +78,24 @@ const initialState = {
             },
             apiMap: {
                 selectedSteelType: '',
-                steelTypeMetricProperties: null,
-                steelTypeEnglishProperties: null,
+                currentMetricMaterialPropertyIndex: 0,
+                currentMetricEnglishPropertyIndex: '',
+                steelTypeMetricProperties: {
+                    0: {
+                        name: 'A36',
+                        EMPA: 'testEMPAMetric',
+                        FYMPA: 'testFYMPAMetric',
+                        FUMPA: 'tesstFUMPAMetric'
+                    }
+                },
+                steelTypeEnglishProperties: {
+                    0: {
+                        name: 'testNameEnglish',
+                        EMPA: 'testEMPAEnglish',
+                        FYMPA: 'testFYMPAEnglish',
+                        FUMPA: 'tesstFUMPAEnglish'
+                    }
+                },
             },
             details: {
                 projectUnit: '',
@@ -196,6 +225,10 @@ const Reducer = (state = initialState, action) => {
             return addInitialMember(state, action.payload)
         case REMOVE_MEMBER_ROW:
             return removeMemberRow(state, action.payload)
+        case REMOVE_ALL_MEMBER_ROWS:
+            return removeAllMemberRows(state, action.payload)
+        case CLEAR_REMOVED_MEMBERS_ARRAY:
+            return clearRemovedMembersArray(state, action.payload)
         case SET_REMOVED_MEMBER_ROW_ARRAY:
             return setRemovedMemberRowArray(state, action.payload)
         case SHIFT_REMOVED_MEMBER_ROW_ARRAY:
@@ -226,6 +259,12 @@ const Reducer = (state = initialState, action) => {
             return setMappedSteelTypeEnglish(state, action.payload)
         case SET_METRIC_MATERIAL_STEEL_TYPES:
             return setMetricMaterialSteelType(state, action.payload)
+        case SET_ENGLISH_MATERIAL_STEEL_TYPES:
+            return setEnglishMaterialSteelType(state, action.payload)
+        case REMOVE_METRIC_MATERIAL_PROPERTY_ROW:
+            return removeMetricMaterialPropertyRow(state, action.payload)
+        case SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX:
+            return setCurrentMetricMaterialPropertyIndex(state, action.payload)
         default:
             return state
     }
@@ -827,6 +866,33 @@ const removeMemberRow = (state, payload) => {
     return newState
 }
 
+const removeAllMemberRows = (state, payload) => {
+    // alert(payload)
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload]: {
+                ...state.sheets[payload],
+                members: {}
+            }
+        }
+    }
+}
+
+const clearRemovedMembersArray = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                removedMemberRowArray: []
+            }
+        }
+    }
+}
+
 const setRemovedMemberRowArray = (state, payload) => {
     alert("at the reducer == " + JSON.stringify(payload.data))
     return {
@@ -1125,5 +1191,44 @@ const setMetricMaterialSteelType = (state, payload) => {
     }
 }
 
+const setEnglishMaterialSteelType = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    steelTypeEnglishProperties: payload.data
+                }
+            }
+        }
+    }
+}
+
+const removeMetricMaterialPropertyRow = (state, payload) => {
+    // alert("HOW")
+    // alert("at the reducer == " + payload.sheetIndex)
+    let newState = {...state}
+    delete newState.sheets[payload.sheetIndex].apiMap.steelTypeMetricProperties[payload.data]
+    return newState
+}
+
+const setCurrentMetricMaterialPropertyIndex = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    currentMetricMaterialPropertyIndex: payload.data
+                }
+            }
+        }
+    }
+}
 
 export default Reducer

@@ -1,6 +1,6 @@
 import {Button, Card} from "@material-ui/core";
 import React from "react";
-import MaterialPropertiesRows from "../materialProperties/materialPropertiesRows/MaterialPropertiesRows";
+import MaterialPropertiesRows from "../materialProperties/materialPropertiesRows/metricMaterialPropertiesRows";
 import SectionPropertiesRows from "./sectionPropertiesRows/SectionPropertiesRows";
 
 
