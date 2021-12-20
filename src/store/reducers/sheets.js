@@ -1,6 +1,6 @@
 import {
     ADD_INITIAL_MEMBER,
-    ADD_NEW_SHEET,
+    ADD_NEW_SHEET, CLEAR_METRIC_MATERIAL_PROPERTIES,
     CLEAR_REMOVED_MEMBERS_ARRAY, EDIT_SELECTED_METRIC_MATERIAL_PROPERTIES, EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
     GET_MATERIAL_PROPERTIES_DATA,
     GET_STEEL_TYPES_ENGLISH_API,
@@ -267,6 +267,8 @@ const Reducer = (state = initialState, action) => {
             return setCurrentMetricMaterialPropertyIndex(state, action.payload)
         case EDIT_SELECTED_METRIC_MATERIAL_PROPERTY:
             return editSelectedMetricMaterialProperty(state, action.payload)
+        case CLEAR_METRIC_MATERIAL_PROPERTIES:
+            return clearMetricMaterialProperties(state, action.payload)
         default:
             return state
     }
@@ -1251,6 +1253,22 @@ const editSelectedMetricMaterialProperty = (state, payload) => {
                             FUMPA: payload.FUMPA
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+const clearMetricMaterialProperties = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload]: {
+                ...state.sheets[payload],
+                apiMap: {
+                    ...state.sheets[payload].apiMap,
+                    steelTypeMetricProperties: null
                 }
             }
         }

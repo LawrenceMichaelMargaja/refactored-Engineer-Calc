@@ -25,6 +25,7 @@ import {
 } from "../../../../store/actions/sheets/sheets";
 import {Autocomplete} from "@mui/material";
 import {
+    clearMetricMaterialProperties,
     setEnglishMaterialSteelType,
     setMetricMaterialSteelType
 } from "../../../../store/actions/sheets/sheetCalculationComponents/materialProperties/materialProperties";
@@ -441,6 +442,16 @@ const MaterialProperties = () => {
         )
     }
 
+    const deleteAllMetricMaterialProperties = () => {
+        // alert(selectedSheet)
+        const proceed = window.confirm("Are you sure you want to remove all Material Property rows?")
+        if(proceed) {
+            dispatch(clearMetricMaterialProperties(selectedSheet))
+        } else {
+            return
+        }
+    }
+
     return (
         <div style={{
             width: '60%'
@@ -469,7 +480,10 @@ const MaterialProperties = () => {
                                 Add Material Property
                             </Button>
                             <Button
-                                 variant='contained' color='secondary'>
+                                 variant='contained'
+                                 color='secondary'
+                                 onClick={() => deleteAllMetricMaterialProperties()}
+                            >
                                 Remove All
                             </Button>
                         </div>

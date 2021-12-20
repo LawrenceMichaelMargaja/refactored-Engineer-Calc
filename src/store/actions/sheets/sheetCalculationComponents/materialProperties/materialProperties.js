@@ -1,4 +1,5 @@
 import {
+    CLEAR_METRIC_MATERIAL_PROPERTIES,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
     REMOVE_METRIC_MATERIAL_PROPERTY_ROW, SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX,
     SET_ENGLISH_MATERIAL_STEEL_TYPES,
@@ -75,5 +76,12 @@ export const editSelectedMetricMaterialProperty = (name, EMPA, FYMPA, FUMPA, she
     return {
         type: EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
         payload: {name: name, EMPA: EMPA, FYMPA: FYMPA, FUMPA: FUMPA, sheetIndex: sheetIndex, materialIndex: materialIndex}
+    }
+}
+
+export const clearMetricMaterialProperties = (sheetIndex) => {
+    return {
+        type: CLEAR_METRIC_MATERIAL_PROPERTIES,
+        payload: sheetIndex
     }
 }
