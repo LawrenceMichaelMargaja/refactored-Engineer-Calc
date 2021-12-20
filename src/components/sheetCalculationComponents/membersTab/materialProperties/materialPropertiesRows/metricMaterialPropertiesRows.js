@@ -37,7 +37,6 @@ const MetricMaterialPropertiesRows = () => {
     const currentMetricMaterialPropertyIndex = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.currentMetricMaterialPropertyIndex)
 
     const insertedSteelTypesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeMetricProperties)
-    const metricName = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeMetricProperties[currentMetricMaterialPropertyIndex].name)
     const insertedSteelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeEnglishProperties)
     const selectedSteel = useSelector(state => state.sheets.sheets[selectedSheet].apiMap)
 
@@ -104,6 +103,10 @@ const MetricMaterialPropertiesRows = () => {
         } else if (system === 'English') {
             return displayEnglishApi()
         }
+    }
+
+    const removeSelectedMetricMaterialProperty = () => {
+
     }
 
     const NestedModal = () => {
