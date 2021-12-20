@@ -6,7 +6,8 @@ const useStyles = makeStyles((theme) => ({
     buttonsContainer: {
         display: 'flex',
         flexGrow: '1',
-        backgroundColor: "#e3e3e3"
+        backgroundColor: "#e3e3e3",
+        padding: '1em'
     },
     buttons: {
         margin: '5px'
