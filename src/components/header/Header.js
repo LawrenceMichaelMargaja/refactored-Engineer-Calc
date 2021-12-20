@@ -21,13 +21,20 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = () => {
     const theSheetSelected = useSelector(state => state.sheets.selectedSheet)
+    const sheetTabs = useSelector(state => state.sheets.sheets)
+
+    let tabs = null
+
+    for(let sheetIndex in sheetTabs) {
+        tabs = sheetTabs[sheetIndex]
+    }
 
     const classes = useStyles()
 
     return (
         <div>
             {/*<div style={{width: '50vw'}}>*/}
-            {/*    <p style={{width: '50%'}}>selectedSheet = {JSON.stringify(steelTypeMetric)} hello</p>*/}
+            {/*    <p style={{width: '50%'}}>selectedSheet = {JSON.stringify(sheetTabs)} hello</p>*/}
             {/*</div>*/}
             <div className={classes.root}>
                 <div className={classes.titleContainer}>

@@ -71,29 +71,29 @@ const Details = () => {
         dispatch(setProjectNotes(event.target.value, selectedSheet))
     }
 
-    const getSteelTypesMetric = () => {
-        fetch("http://127.0.0.1:8080/steeltypesmetric")
-            .then((response) => response.json())
-            .then((data) => dispatch(getSteelTypesMetricAPI(data, selectedSheet)))
-            //     .then((data) => alert(JSON.stringify(data)))
-            .catch((error) => {
-                console.log(error)
-            });
-    }
-
-    const getSteelTypesEnglish = () => {
-        fetch("http://127.0.0.1:8080/steeltypesenglish")
-            .then((response) => response.json())
-            .then((data) => dispatch(getSteelTypesEnglishAPI(data, selectedSheet)))
-            .catch((error) => {
-                console.log(error)
-            });
-    }
-
-    useEffect(() => {
-        getSteelTypesMetric()
-        getSteelTypesEnglish()
-    }, [])
+    // const getSteelTypesMetric = () => {
+    //     fetch("http://127.0.0.1:8080/steeltypesmetric")
+    //         .then((response) => response.json())
+    //         .then((data) => dispatch(getSteelTypesMetricAPI(data, selectedSheet)))
+    //         //     .then((data) => alert(JSON.stringify(data)))
+    //         .catch((error) => {
+    //             console.log(error)
+    //         });
+    // }
+    //
+    // const getSteelTypesEnglish = () => {
+    //     fetch("http://127.0.0.1:8080/steeltypesenglish")
+    //         .then((response) => response.json())
+    //         .then((data) => dispatch(getSteelTypesEnglishAPI(data, selectedSheet)))
+    //         .catch((error) => {
+    //             console.log(error)
+    //         });
+    // }
+    //
+    // useEffect(() => {
+    //     getSteelTypesMetric()
+    //     getSteelTypesEnglish()
+    // }, [])
 
     return (
         <Grid>

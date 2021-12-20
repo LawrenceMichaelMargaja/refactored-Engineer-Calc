@@ -3,7 +3,7 @@ import {Button, Paper, Tab, Tabs} from "@material-ui/core";
 import CancelIcon from "@material-ui/icons/Cancel";
 import AddIcon from '@material-ui/icons/Add';
 import {useDispatch, useSelector} from "react-redux";
-import {size} from "lodash";
+import {mapKeys, size} from "lodash";
 import {addNewSheet, removeSheet, setRouteUrl, setSelectedSheet, setTabState} from "../../store/actions/sheets/sheets";
 import {useNavigate} from "react-router";
 import {makeStyles} from "@material-ui/core/styles";
@@ -24,20 +24,14 @@ const SheetTabs = () => {
     const dispatch = useDispatch()
     const sheets = useSelector(state => state.sheets.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
-    const tabState = useSelector(state => state.sheets.sheets[selectedSheet].tabState)
 
     const navigate = useNavigate()
-
-    const getSheetTabSelected = (currentSheetIndex) => {
-        alert(currentSheetIndex)
-    }
 
     const insertSheet = () => {
         if (size(sheets) === 0) {
             const newSheet = {}
             newSheet[0] = {
                 tabState: 'details',
-                data: [],
                 provision: 'ASD',
                 system: "Metric",
                 method: "Investigation",
@@ -49,16 +43,24 @@ const SheetTabs = () => {
                 },
                 apiMap: {
                     selectedSteelType: '',
+                    currentMetricMaterialPropertyIndex: 0,
+                    currentMetricEnglishPropertyIndex: '',
                     steelTypeMetricProperties: {
-                        EMPA: '',
-                        FYMPA: '',
-                        FUMPA: ''
+                        0: {
+                            name: 'A36',
+                            EMPA: 'testEMPAMetric',
+                            FYMPA: 'testFYMPAMetric',
+                            FUMPA: 'tesstFUMPAMetric'
+                        }
                     },
                     steelTypeEnglishProperties: {
-                        EMPA: '',
-                        FYMPA: '',
-                        FUMPA: ''
-                    }
+                        0: {
+                            name: 'testNameEnglish',
+                            EMPA: 'testEMPAEnglish',
+                            FYMPA: 'testFYMPAEnglish',
+                            FUMPA: 'tesstFUMPAEnglish'
+                        }
+                    },
                 },
                 details: {
                     projectUnit: '',
@@ -86,12 +88,6 @@ const SheetTabs = () => {
                         LST: 300
                     }
                 },
-                factors: {
-                    safetyFactorForTensile: 1.67,
-                    safetyFactorForCompression: 1.67,
-                    safetyFactorForFlexure: 1.67,
-                    safetyFactorForShear: 1.67
-                },
                 materialProperties: {
                     0: {
                         materialPropertiesId: 1,
@@ -100,6 +96,12 @@ const SheetTabs = () => {
                         materialPropertiesFUMPA: 'Bowl',
                         materialPropertiesSelectedMaterial: 'Cabbage'
                     }
+                },
+                factors: {
+                    safetyFactorForTensile: 1.67,
+                    safetyFactorForCompression: 1.67,
+                    safetyFactorForFlexure: 1.67,
+                    safetyFactorForShear: 1.67
                 },
                 forces: {
                     bendingMomentAlongXAxis: 0,
@@ -122,24 +124,32 @@ const SheetTabs = () => {
                 provision: 'ASD',
                 system: "Metric",
                 method: "Investigation",
-                route: '',
                 removedMemberRowArray: [],
+                route: '',
                 apiData: {
                     steelTypesMetric: [],
                     steelTypesEnglish: [],
                 },
                 apiMap: {
                     selectedSteelType: '',
+                    currentMetricMaterialPropertyIndex: 0,
+                    currentMetricEnglishPropertyIndex: '',
                     steelTypeMetricProperties: {
-                        EMPA: '',
-                        FYMPA: '',
-                        FUMPA: ''
+                        0: {
+                            name: 'A36',
+                            EMPA: 'testEMPAMetric',
+                            FYMPA: 'testFYMPAMetric',
+                            FUMPA: 'tesstFUMPAMetric'
+                        }
                     },
                     steelTypeEnglishProperties: {
-                        EMPA: '',
-                        FYMPA: '',
-                        FUMPA: ''
-                    }
+                        0: {
+                            name: 'testNameEnglish',
+                            EMPA: 'testEMPAEnglish',
+                            FYMPA: 'testFYMPAEnglish',
+                            FUMPA: 'tesstFUMPAEnglish'
+                        }
+                    },
                 },
                 details: {
                     projectUnit: '',
@@ -167,12 +177,6 @@ const SheetTabs = () => {
                         LST: 300
                     }
                 },
-                factors: {
-                    safetyFactorForTensile: 1.67,
-                    safetyFactorForCompression: 1.67,
-                    safetyFactorForFlexure: 1.67,
-                    safetyFactorForShear: 1.67
-                },
                 materialProperties: {
                     0: {
                         materialPropertiesId: 1,
@@ -181,6 +185,12 @@ const SheetTabs = () => {
                         materialPropertiesFUMPA: 'Bowl',
                         materialPropertiesSelectedMaterial: 'Cabbage'
                     }
+                },
+                factors: {
+                    safetyFactorForTensile: 1.67,
+                    safetyFactorForCompression: 1.67,
+                    safetyFactorForFlexure: 1.67,
+                    safetyFactorForShear: 1.67
                 },
                 forces: {
                     bendingMomentAlongXAxis: 0,
@@ -198,18 +208,97 @@ const SheetTabs = () => {
     }
 
     const removeSelectedSheet = (sheetIndex, event) => {
-        if(event.button === 0) {
+        if (event.button === 0) {
             const proceed = window.confirm("Are you sure you want to remove this sheet?")
-            if(proceed) {
-                // alert(selectedSheet)
-                dispatch(setSelectedSheet(selectedSheet - 1))
-                dispatch(removeSheet(sheetIndex))
-                // console.log(selectedSheet)
-                setTimeout(() => {
-                    console.log(selectedSheet)
-                }, 5000)
-            } else {
-                return
+            if (proceed) {
+                if (parseFloat(selectedSheet) === 0 && parseFloat(Math.max(size(sheets) - 1)) === 0) {
+                    alert("condition 1: We want this condition to run when there is only 1 sheet and we delete it.");
+                    dispatch(removeSheet(sheetIndex))
+                    dispatch(setSelectedSheet(null))
+                    // return;
+                } else if (parseFloat(selectedSheet) === 0 && size(sheets) !== 1 && Math.max(size(sheets)) > parseFloat(sheetIndex) && parseFloat(sheetIndex) === 0) {
+                    alert("Condition 2: We want this condition to run when we are deleting the primary sheet and there is more than one sheet open.");
+                    dispatch(removeSheet(sheetIndex))
+
+                    let newNumber = 0
+
+                    const objectMapper = (object) => {
+                        let newObj = mapKeys(object, (value, key) => newNumber++)
+                        return newObj
+                    }
+                    dispatch(addNewSheet(objectMapper(sheets)))
+
+                    dispatch(setSelectedSheet(parseFloat(sheetIndex)))
+                } else if (parseFloat(selectedSheet) > 0 && parseFloat(sheetIndex) === 0 && Math.max(size(sheets) - 1) > 1) {
+                    alert("Condition 3: We want this condition to run when we are removing the primary sheet and there are more than one sheet open and the selected sheet is not the primary sheet.");
+                    dispatch(removeSheet(sheetIndex))
+
+                    let newNumber = 0
+
+                    const objectMapper = (object) => {
+                        let newObj = mapKeys(object, (value, key) => newNumber++)
+                        return newObj
+                    }
+                    dispatch(addNewSheet(objectMapper(sheets)))
+
+                    dispatch(setSelectedSheet(parseFloat(selectedSheet) - 1))
+                } else if (parseFloat(sheetIndex) > 0 && parseFloat(sheetIndex) < parseFloat(Math.max(size(sheets)) - 1) && parseFloat(selectedSheet) <= Math.max(size(sheets) - 1)) {
+                    alert("Condition 4: We want this condition to run when we are removing a sheet that is not the primary sheet, there is more than one sheet open and the selected sheet is not the last sheet.");
+                    // const tabInSheet = sheets.sheets[parseFloat(currentSheetIndex) - 1].newTabsState
+                    dispatch(removeSheet(sheetIndex))
+                    let newNumber = 0
+
+                    const objectMapper = (object) => {
+                        let newObj = mapKeys(object, (value, key) => newNumber++)
+                        return newObj
+                    }
+                    dispatch(addNewSheet(objectMapper(sheets)))
+
+                    if (parseFloat(sheetIndex) > parseFloat(selectedSheet)) {
+                        // dispatch(setSelectedSheet(parseFloat(selectedSheet)))
+                        // dispatch(setSelectedTool(parseFloat(selectedSheet)))
+                    } else if (parseFloat(sheetIndex) < parseFloat(selectedSheet)) {
+                        dispatch(setSelectedSheet(parseFloat(selectedSheet) - 1))
+                    }
+                } else if (parseFloat(sheetIndex) === Math.max(size(sheets) - 1) && parseFloat(selectedSheet) === Math.max(size(sheets) - 1)) {
+                    // alert("sheet Index = " + selectedSheet)
+                    dispatch(removeSheet(sheetIndex))
+                    alert("Condition 5: We want this condition to run when we are removing the last sheet and the selected sheet is the last sheet.");
+                    let newNumber = 0
+
+                    const objectMapper = (object) => {
+                        let newObj = mapKeys(object, (value, key) => newNumber++)
+                        return newObj
+                    }
+                    dispatch(addNewSheet(objectMapper(sheets)))
+
+                    dispatch(setSelectedSheet(parseFloat(Math.max(size(sheets) - 1))))
+                } else if (parseFloat(selectedSheet) < Math.max(size(sheets) - 1) && size(sheets) > 1) {
+                    // const tabInSheet = dashboard.sheets[parseFloat(currentSheetIndex) - 1].newTabsState
+                    dispatch(removeSheet(sheetIndex))
+                    alert("Condition 6: We want this condition run when are removing the last sheet, there is more than one sheet open, and the selected sheet is not the last sheet.");
+                    let newNumber = 0
+
+                    const objectMapper = (object) => {
+                        let newObj = mapKeys(object, (value, key) => newNumber++)
+                        return newObj
+                    }
+                    dispatch(addNewSheet(objectMapper(sheets)))
+
+                    dispatch(setSelectedSheet(parseFloat(selectedSheet)))
+
+                    // if(tabInSheet === 'details') {
+                    //     dispatch(setTabsState('details'))
+                    // } else if(tabInSheet === 'factors') {
+                    //     dispatch(setTabsState('factors'))
+                    // } else if(tabInSheet === 'members') {
+                    //     dispatch(setTabsState('members'))
+                    // } else if(tabInSheet === 'forces') {
+                    //     dispatch(setTabsState('forces'))
+                    // } else if(tabInSheet === 'results') {
+                    //     dispatch(setTabsState('results'))
+                    // }
+                }
             }
         }
     }
@@ -224,7 +313,7 @@ const SheetTabs = () => {
                     style={{borderRight: '1px solid grey', fontWeight: 'bold'}}
                     onClick={() => {
                         // alert("the index  =  " + currentSheetIndex)
-                        // dispatch(setSelectedSheet(currentSheetIndex))
+                        dispatch(setSelectedSheet(currentSheetIndex))
                         // getSheetTabSelected(currentSheetIndex)
                     }}
                     key={currentSheetIndex}
@@ -268,7 +357,7 @@ const SheetTabs = () => {
     return (
         <div style={{display: 'flex', backgroundColor: '#d1d1d1'}}>
             {renderSheets()}
-            <Button onClick={insertSheet}>
+            <Button onClick={() => insertSheet()}>
                 <AddIcon/>
             </Button>
         </div>
