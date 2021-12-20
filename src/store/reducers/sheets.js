@@ -1,8 +1,8 @@
 import {
     ADD_INITIAL_MEMBER,
-    ADD_NEW_SHEET, CLEAR_METRIC_MATERIAL_PROPERTIES,
+    ADD_NEW_SHEET, ADD_SECTION_PROPERTY, CLEAR_METRIC_MATERIAL_PROPERTIES,
     CLEAR_REMOVED_MEMBERS_ARRAY, EDIT_SELECTED_METRIC_MATERIAL_PROPERTIES, EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
-    GET_MATERIAL_PROPERTIES_DATA,
+    GET_MATERIAL_PROPERTIES_DATA, GET_SECTION_PROPERTIES_METRIC,
     GET_STEEL_TYPES_ENGLISH_API,
     GET_STEEL_TYPES_METRIC_API,
     REMOVE_ALL_MEMBER_ROWS,
@@ -75,6 +75,7 @@ const initialState = {
             apiData: {
                 steelTypesMetric: [],
                 steelTypesEnglish: [],
+                sectionPropertiesMetric: []
             },
             apiMap: {
                 selectedSteelType: '',
@@ -130,6 +131,21 @@ const initialState = {
                     materialPropertiesFYMPA: 'Pestle',
                     materialPropertiesFUMPA: 'Bowl',
                     materialPropertiesSelectedMaterial: 'Cabbage'
+                }
+            },
+            sectionProperties: {
+                0: {
+                    sectionId: 1,
+                    sectionShape: '',
+                    sectionName: '',
+                    // sectionView: '',
+                    // sectionA: '',
+                    // sectionIW: '',
+                    // sectionIXP: '',
+                    // sectionIYP: '',
+                    // sectionJ: '',
+                    // sectionSXP: '',
+                    // sectionSYP: '',
                 }
             },
             factors: {
@@ -271,6 +287,10 @@ const Reducer = (state = initialState, action) => {
             return editSelectedMetricMaterialProperty(state, action.payload)
         case CLEAR_METRIC_MATERIAL_PROPERTIES:
             return clearMetricMaterialProperties(state, action.payload)
+        case ADD_SECTION_PROPERTY:
+            return addSectionProperty(state, action.payload)
+        case GET_SECTION_PROPERTIES_METRIC:
+            return getSectionPropertiesMetric(state, action.payload)
         default:
             return state
     }
@@ -373,6 +393,22 @@ const setSelectedSteelType = (state, payload) => {
                 apiMap: {
                     ...state.sheets[payload.sheetIndex].apiMap,
                     selectedSteelType: payload.data
+                }
+            }
+        }
+    }
+}
+
+const getSectionPropertiesMetric = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    sectionPropertiesMetric: payload.data
                 }
             }
         }
@@ -1279,6 +1315,23 @@ const clearMetricMaterialProperties = (state, payload) => {
                     ...state.sheets[payload].apiMap,
                     steelTypeMetricProperties: null
                 }
+            }
+        }
+    }
+}
+
+/**
+ * Sheet Section Properties
+ */
+
+const addSectionProperty = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                sectionProperties: payload.data
             }
         }
     }

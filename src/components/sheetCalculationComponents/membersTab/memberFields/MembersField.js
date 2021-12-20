@@ -11,7 +11,11 @@ import {
     addInitialMember, clearRemovedMembersArray, removeAllMemberRows,
     shiftRemovedMemberRows
 } from "../../../../store/actions/sheets/sheetCalculationComponents/memberFields/memberFields";
-import {getSteelTypesEnglishAPI, getSteelTypesMetricAPI} from "../../../../store/actions/sheets/sheets";
+import {
+    getSectionPropertiesMetric,
+    getSteelTypesEnglishAPI,
+    getSteelTypesMetricAPI
+} from "../../../../store/actions/sheets/sheets";
 
 
 const Members = () => {
@@ -45,9 +49,20 @@ const Members = () => {
             });
     }
 
+    const fetchSectionPropertiesMetric = () => {
+        fetch("http://127.0.0.1:8080/sectionpropertiesmetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getSectionPropertiesMetric(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+
     useEffect(() => {
         getSteelTypesMetric()
         getSteelTypesEnglish()
+        fetchSectionPropertiesMetric()
     }, [])
 
     const insertNewMember = () => {

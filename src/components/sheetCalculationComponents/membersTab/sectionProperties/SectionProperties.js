@@ -1,10 +1,54 @@
 import {Button, Card} from "@material-ui/core";
-import React from "react";
+import React, {useMemo} from "react";
 import MaterialPropertiesRows from "../materialProperties/materialPropertiesRows/metricMaterialPropertiesRows";
 import SectionPropertiesRows from "./sectionPropertiesRows/SectionPropertiesRows";
+import {useDispatch, useSelector} from "react-redux";
+import {addSectionProperty} from "../../../../store/actions/sheets/sheetCalculationComponents/sectionProperties/sectionProperties";
+import {size} from "lodash";
 
 
 const SectionProperties = () => {
+
+
+
+    const dispatch = useDispatch()
+    const selectedSheet = useSelector(state => state.sheets.selectedSheet)
+
+    const sectionPropertiesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiData.sectionPropertiesMetric)
+    const insertedSectionPropertiesMetric = useSelector(state => state.sheets.sheets[selectedSheet].sectionProperties)
+
+    const hashSectionsMetric = useMemo(() => {
+        let hash = {}
+        for(let i in sectionPropertiesMetric) {
+            let {
+                section_properties_metric_name
+            } = sectionPropertiesMetric[i]
+            hash[section_properties_metric_name] = sectionPropertiesMetric[i]
+        }
+        return hash
+    }, [sectionPropertiesMetric])
+
+    const insertSectionProperty = () => {
+        // console.log(sectionPropertiesMetric)
+        if(size(insertedSectionPropertiesMetric) === 0) {
+            let initialSection = {}
+            initialSection[0] = {
+                id: 2,
+                name: 'test',
+                shape: 'test2',
+            }
+            dispatch(addSectionProperty(initialSection, selectedSheet))
+        } else {
+            let currentSections = {...insertedSectionPropertiesMetric}
+            const newSectionSize = size(insertedSectionPropertiesMetric)
+            currentSections[newSectionSize] = {
+                id: 3,
+                name: 'Hey',
+                shape: 'You'
+            }
+            dispatch(addSectionProperty(currentSections, selectedSheet))
+        }
+    }
 
 
     return (
@@ -26,7 +70,10 @@ const SectionProperties = () => {
                             style={{
                                 margin: '10px'
                             }}
-                            variant='contained' color='primary'>
+                            variant='contained'
+                            color='primary'
+                            onClick={() => insertSectionProperty()}
+                        >
                             Add Section
                         </Button>
                         <Button
