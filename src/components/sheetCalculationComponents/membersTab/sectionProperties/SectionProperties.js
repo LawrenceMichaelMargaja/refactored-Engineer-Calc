@@ -27,10 +27,9 @@ const SectionProperties = () => {
 
     const steelTypesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesMetric)
     const steelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesEnglish)
+    const [openNestedModal, setOpenNestedModal] = useState(false);
 
-    const [openNestedModal, setOpenNestedModal] = React.useState(false);
-    const [selectedSectionName, setSelectedSectionName] = useState('')
-    const [selectedSectionShape, setSelectedSectionShape] = useState('')
+
 
     const getSteelTypesMetric = () => {
         fetch("http://127.0.0.1:8080/steeltypesmetric")
@@ -51,28 +50,27 @@ const SectionProperties = () => {
             });
     }
 
-    const hashSectionName = useMemo(() => {
+    const hashMetric = useMemo(() => {
         let hash = {}
-        for (let i in sectionPropertiesMetric) {
+        for(let i in steelTypesMetric) {
             let {
-                section_properties_metric_name
-            } = sectionPropertiesMetric[i]
-            hash[section_properties_metric_name] = sectionPropertiesMetric[i]
+                steel_type_metric_name,
+            } = steelTypesMetric[i]
+            hash[steel_type_metric_name] = steelTypesMetric[i]
         }
         return hash
-    }, [sectionPropertiesMetric])
+    }, [steelTypesMetric])
 
-    const hashSectionShape = useMemo(() => {
+    const hashEnglish = useMemo(() => {
         let hash = {}
-        for (let i in sectionPropertiesMetric) {
+        for(let i in steelTypesEnglish) {
             let {
-                section_properties_metric_name
-            } = sectionPropertiesMetric[i]
-            hash[section_properties_metric_name] = sectionPropertiesMetric[i]
+                steel_type_english_name,
+            } = steelTypesEnglish[i]
+            hash[steel_type_english_name] = steelTypesEnglish[i]
         }
         return hash
-    }, [sectionPropertiesMetric])
-
+    }, [steelTypesEnglish])
     const insertSectionProperty = () => {
         // console.log(sectionPropertiesMetric)
         if (size(insertedSectionPropertiesMetric) === 0) {
@@ -93,6 +91,8 @@ const SectionProperties = () => {
             }
         }
     }
+
+
 
     const displayApiData = () => {
         const newOptions = steelTypesMetric.map((data) => ({value: `${data.steel_type_metric_name}`, label: `${data.steel_type_metric_name}`}))
@@ -125,12 +125,18 @@ const SectionProperties = () => {
 
     const NestedModal = () => {
 
-        const [nestedModalDisabled, setNestedModalDisabled] = useState(true)
-        const [customButtonColor, setCustomButtonColor] = useState('primary')
-        const [customButtonText, setCustomButtonText] = useState('CUSTOM')
-
-
         const [errorDisplay, setErrorDisplay] = useState(false)
+
+        const [selectedSectionName, setSelectedSectionName] = useState('')
+        const [selectedSectionShape, setSelectedSectionShape] = useState('')
+
+        const setSectionName = (event) => {
+            setSelectedSectionName(event.target.textContent)
+        }
+
+        const setSectionShape = (event) => {
+            setSelectedSectionShape(event.target.textContent)
+        }
 
         const displayError = () => {
             if (errorDisplay === false) {
@@ -192,6 +198,7 @@ const SectionProperties = () => {
                                             sx={{width: '100%', overflow: 'visible'}}
                                             // ListboxProps={{ style: { maxHeight: 200, overflow: 'visible', zIndex: 1} }}
                                             options={systemCheck()}
+                                            onChange={(event) => setSectionName(event)}
                                             value={selectedSectionName}
                                             renderInput={(params) => <TextField {...params} label="Preset Section Names..."/>}
                                         />
@@ -214,7 +221,8 @@ const SectionProperties = () => {
                                             id="combo-box-demo"
                                             sx={{width: '100%'}}
                                             options={systemCheck()}
-                                            value={selectedSectionName}
+                                            onChange={(event) => setSectionShape(event)}
+                                            value={selectedSectionShape}
                                             renderInput={(params) => <TextField {...params} label="Preset Section Shapes"/>}
                                         />
                                     </FormControl>
@@ -261,9 +269,13 @@ const SectionProperties = () => {
     }
 
     const displayModal = () => {
-        return (
-            <NestedModal/>
-        )
+        if(openNestedModal) {
+            return (
+                <NestedModal/>
+            )
+        } else {
+            return
+        }
     }
 
     return (
