@@ -12,6 +12,7 @@ import {
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import {Autocomplete} from "@mui/material";
+import {getSteelTypesEnglishAPI, getSteelTypesMetricAPI} from "../../../../store/actions/sheets/sheets";
 
 
 const SectionProperties = () => {
@@ -19,13 +20,49 @@ const SectionProperties = () => {
 
     const dispatch = useDispatch()
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
+    const system = useSelector(state => state.sheets.sheets[selectedSheet].system)
 
     const sectionPropertiesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiData.sectionPropertiesMetric)
     const insertedSectionPropertiesMetric = useSelector(state => state.sheets.sheets[selectedSheet].sectionProperties)
 
-    const [openNestedModal, setOpenNestedModal] = React.useState(false);
+    const steelTypesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesMetric)
+    const steelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesEnglish)
 
-    const hashSectionsMetric = useMemo(() => {
+    const [openNestedModal, setOpenNestedModal] = React.useState(false);
+    const [selectedSectionName, setSelectedSectionName] = useState('')
+    const [selectedSectionShape, setSelectedSectionShape] = useState('')
+
+    const getSteelTypesMetric = () => {
+        fetch("http://127.0.0.1:8080/steeltypesmetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getSteelTypesMetricAPI(data, selectedSheet)))
+            //     .then((data) => alert(JSON.stringify(data)))
+            .catch((error) => {
+                console.log(error)
+            });
+    }
+
+    const getSteelTypesEnglish = () => {
+        fetch("http://127.0.0.1:8080/steeltypesenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(getSteelTypesEnglishAPI(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            });
+    }
+
+    const hashSectionName = useMemo(() => {
+        let hash = {}
+        for (let i in sectionPropertiesMetric) {
+            let {
+                section_properties_metric_name
+            } = sectionPropertiesMetric[i]
+            hash[section_properties_metric_name] = sectionPropertiesMetric[i]
+        }
+        return hash
+    }, [sectionPropertiesMetric])
+
+    const hashSectionShape = useMemo(() => {
         let hash = {}
         for (let i in sectionPropertiesMetric) {
             let {
@@ -56,6 +93,31 @@ const SectionProperties = () => {
             }
         }
     }
+
+    const displayApiData = () => {
+        const newOptions = steelTypesMetric.map((data) => ({value: `${data.steel_type_metric_name}`, label: `${data.steel_type_metric_name}`}))
+        return (
+            newOptions
+        )
+    }
+
+    const displayEnglishApi = () => {
+        const newEnglish = steelTypesEnglish.map((data) => ({value: `${data.steel_type_english_name}`, label: `${data.steel_type_english_name}`}))
+        return newEnglish
+    }
+
+    const systemCheck = () => {
+        if(system === 'Metric') {
+            return displayApiData()
+        } else if (system === 'English') {
+            return displayEnglishApi()
+        }
+    }
+
+    useEffect(() => {
+        getSteelTypesMetric()
+        getSteelTypesEnglish()
+    }, [])
 
     const handleOpenNestedModal = () => {
         setOpenNestedModal(true);
@@ -110,7 +172,7 @@ const SectionProperties = () => {
                             backgroundColor: '#fff',
                             width: '80%',
                             margin: '0 auto',
-                            padding: '2em'
+                            padding: '2em',
                         }}>
                             <div style={{
                                 width: '80%',
@@ -125,9 +187,12 @@ const SectionProperties = () => {
                                     <FormControl fullWidth>
                                         <p style={{color: '#000', fontWeight: 'bold', width: 'fit-content', float: 'left', margin: '0'}}>Name</p>
                                         <Autocomplete
-                                            disablePortal
+                                            // disablePortal
                                             id="combo-box-demo"
-                                            sx={{width: '100%'}}
+                                            sx={{width: '100%', overflow: 'visible'}}
+                                            // ListboxProps={{ style: { maxHeight: 200, overflow: 'visible', zIndex: 1} }}
+                                            options={systemCheck()}
+                                            value={selectedSectionName}
                                             renderInput={(params) => <TextField {...params} label="Preset Section Names..."/>}
                                         />
                                     </FormControl>
@@ -145,9 +210,11 @@ const SectionProperties = () => {
                                     <FormControl fullWidth>
                                         <p style={{color: '#000', fontWeight: 'bold', width: 'fit-content', float: 'left', margin: '0'}}>Shape</p>
                                         <Autocomplete
-                                            disablePortal
+                                            // disablePortal
                                             id="combo-box-demo"
                                             sx={{width: '100%'}}
+                                            options={systemCheck()}
+                                            value={selectedSectionName}
                                             renderInput={(params) => <TextField {...params} label="Preset Section Shapes"/>}
                                         />
                                     </FormControl>
