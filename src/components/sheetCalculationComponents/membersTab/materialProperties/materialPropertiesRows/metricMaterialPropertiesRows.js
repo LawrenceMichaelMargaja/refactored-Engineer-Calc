@@ -137,15 +137,19 @@ const MetricMaterialPropertiesRows = () => {
             }
         }, [nestedModalDisabled])
 
-        const useStateValue = () => {
-            if(steelTypesMetric === [] || steelTypesMetric.length === 0) {
-                return ''
-            } else {
-                return insertedSteelTypesMetric[currentMetricMaterialPropertyIndex].name
-            }
-        }
+        // const useStateValue = () => {
+        //     if(steelTypesMetric === [] || steelTypesMetric.length === 0) {
+        //         return ''
+        //     } else {
+        //         return insertedSteelTypesMetric[currentMetricMaterialPropertyIndex].name
+        //     }
+        // }
 
-        const [selectedSteelType, setSelectedSteelType] = useState(useStateValue())
+        useEffect(() => {
+            setSelectedSteelType(insertedSteelTypesMetric[currentMetricMaterialPropertyIndex].name)
+        }, [insertedSteelTypesMetric])
+
+        const [selectedSteelType, setSelectedSteelType] = useState('')
 
         const autoCompleteOnChangeHandler = (event) => {
             setSelectedSteelType(event.target.textContent)
