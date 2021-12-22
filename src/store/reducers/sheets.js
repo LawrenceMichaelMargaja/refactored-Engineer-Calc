@@ -849,7 +849,7 @@ const setShearAlongXAxis = (state, payload) => {
                 ...state.sheets[payload.sheetIndex],
                 forces: {
                     ...state.sheets[payload.sheetIndex].forces,
-                    shearMomentAlongXAxis: payload.data
+                    shearAlongXAxis: payload.data
                 }
             }
         }
@@ -865,7 +865,7 @@ const setShearAlongYAxis = (state, payload) => {
                 ...state.sheets[payload.sheetIndex],
                 forces: {
                     ...state.sheets[payload.sheetIndex].forces,
-                    shearMomentAlongYAxis: payload.data
+                    shearAlongYAxis: payload.data
                 }
             }
         }

@@ -21,6 +21,7 @@ export const setBendingMomentAlongYAxis = (data, sheetIndex) => {
 }
 
 export const setShearAlongXAxis = (data, sheetIndex) => {
+    // alert(JSON.stringify(sheetIndex))
     return {
         type: SET_SHEAR_ALONG_X_AXIS,
         payload: {data: data, sheetIndex: sheetIndex}

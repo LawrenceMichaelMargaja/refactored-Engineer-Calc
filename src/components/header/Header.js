@@ -76,15 +76,15 @@ const Header = () => {
             {/*    <p style={{width: '50%'}}>Project Client = {JSON.stringify(projectClient)}</p>*/}
             {/*    <p style={{width: '50%'}}>Project Notes = {JSON.stringify(projectNotes)}</p>*/}
             {/*</div>*/}
-            <div style={{width: '50vw', margin: '1em'}}>
-                <p style={{width: '50%'}}>safetyFactorForTensile = {JSON.stringify(safetyFactorForTensile)}</p>
-                <p style={{width: '50%'}}>safetyFactorForCompression = {JSON.stringify(safetyFactorForCompression)}</p>
-                <p style={{width: '50%'}}>safetyFactorForFlexure = {JSON.stringify(safetyFactorForFlexure)}</p>
-                <p style={{width: '50%'}}>safetyFactorForShear = {JSON.stringify(safetyFactorForShear)}</p>
-            </div>
-            <div>
-                <p>{JSON.stringify(provisionState)}</p>
-            </div>
+            {/*<div style={{width: '50vw', margin: '1em'}}>*/}
+            {/*    <p style={{width: '50%'}}>safetyFactorForTensile = {JSON.stringify(safetyFactorForTensile)}</p>*/}
+            {/*    <p style={{width: '50%'}}>safetyFactorForCompression = {JSON.stringify(safetyFactorForCompression)}</p>*/}
+            {/*    <p style={{width: '50%'}}>safetyFactorForFlexure = {JSON.stringify(safetyFactorForFlexure)}</p>*/}
+            {/*    <p style={{width: '50%'}}>safetyFactorForShear = {JSON.stringify(safetyFactorForShear)}</p>*/}
+            {/*</div>*/}
+            {/*<div>*/}
+            {/*    <p>{JSON.stringify(provisionState)}</p>*/}
+            {/*</div>*/}
             <div className={classes.root}>
                 <div className={classes.titleContainer}>
                     <p className={classes.title}>TITLE HERE</p>

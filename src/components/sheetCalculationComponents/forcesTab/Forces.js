@@ -1,6 +1,6 @@
 import Grid from "@material-ui/core/Grid";
 import {Card, TextField} from "@material-ui/core";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -8,6 +8,7 @@ import {
     setBendingMomentAlongXAxis,
     setBendingMomentAlongYAxis, setShearAlongXAxis, setShearAlongYAxis
 } from "../../../store/actions/sheets/sheetCalculationComponents/forces/forces";
+import {objectChecker} from "../../../utilities/utilities";
 
 const useStyles = makeStyles((theme) => ({
     textField: {
@@ -22,17 +23,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Forces = () => {
+
     const classes = useStyles()
-
-    const selectedSheet = useSelector(state => state.sheets.selectedSheet)
-    const system = useSelector(state => state.sheets.sheets[selectedSheet].system)
     const dispatch = useDispatch()
+    const selectedSheet = useSelector(state => state.sheets.selectedSheet)
+    const sheets = useSelector(state => state.sheets)
 
-    const bendingMomentAlongXAxis = useSelector(state => state.sheets.sheets[selectedSheet].forces.bendingMomentAlongXAxis)
-    const bendingMomentAlongYAxis = useSelector(state => state.sheets.sheets[selectedSheet].forces.bendingMomentAlongYAxis)
-    const shearAlongXAxis = useSelector(state => state.sheets.sheets[selectedSheet].forces.shearAlongXAxis)
-    const shearAlongYAxis = useSelector(state => state.sheets.sheets[selectedSheet].forces.shearAlongYAxis)
-    const axial = useSelector(state => state.sheets.sheets[selectedSheet].forces.axial)
+    // const system = useSelector(state => state.sheets.sheets[selectedSheet].system)
+    const system = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
+    // const bendingMomentAlongXAxis = useSelector(state => state.sheets.sheets[selectedSheet].forces.bendingMomentAlongXAxis)
+    const bendingMomentAlongXAxis = objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'bendingMomentAlongXAxis'])
+    // const bendingMomentAlongYAxis = useSelector(state => state.sheets.sheets[selectedSheet].forces.bendingMomentAlongYAxis)
+    const bendingMomentAlongYAxis = objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'bendingMomentAlongYAxis'])
+    // const shearAlongXAxis = useSelector(state => state.sheets.sheets[selectedSheet].forces.shearAlongXAxis)
+    const shearAlongXAxis = objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'shearAlongXAxis'])
+    // const shearAlongYAxis = useSelector(state => state.sheets.sheets[selectedSheet].forces.shearAlongYAxis)
+    const shearAlongYAxis = objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'shearAlongYAxis'])
+    // const axial = useSelector(state => state.sheets.sheets[selectedSheet].forces.axial)
+    const axial = objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'axial'])
 
 
     const bendingMomentAlongXAxisHandler = (event) => {
@@ -70,6 +78,48 @@ const Forces = () => {
         }
     }
 
+    const bendingMomentAlongXAxisValue = bendingMomentAlongXAxis === 0 || bendingMomentAlongXAxis ? bendingMomentAlongXAxis : ''
+    const bendingMomentAlongYAxisValue = bendingMomentAlongYAxis === 0 || bendingMomentAlongYAxis ? bendingMomentAlongYAxis : ''
+    const shearAlongXAxisValue = shearAlongXAxis === 0 || shearAlongXAxis ? shearAlongXAxis : ''
+    const shearAlongYAxisValue = shearAlongYAxis === 0 || shearAlongYAxis ? shearAlongYAxis : ''
+    const axialValue = axial === 0 || axial ? axial : ''
+
+
+    const focusValueChecker = (event) => {
+        if(event.target.value === 0 || event.target.value === '0') {
+            if(document.activeElement.id === 'bendingMomentAlongXAxis') {
+                dispatch(setBendingMomentAlongXAxis(null, selectedSheet))
+            } else if(document.activeElement.id === 'bendingMomentAlongYAxis') {
+                dispatch(setBendingMomentAlongYAxis(null, selectedSheet))
+            } else if(document.activeElement.id === 'shearAlongXAxis') {
+                dispatch(setShearAlongXAxis(null, selectedSheet))
+            } else if(document.activeElement.id === 'shearAlongYAxis') {
+                dispatch(setShearAlongYAxis(null,selectedSheet))
+            } else if(document.activeElement.id === 'axial') {
+                dispatch(setAxial(null, selectedSheet))
+            }
+        } else if(event.target.value !== '0') {
+            return
+        }
+    }
+
+    const blurValueChecker = (event) => {
+        if(event.target.value === '') {
+            if(bendingMomentAlongXAxis === null) {
+                dispatch(setBendingMomentAlongXAxis(0, selectedSheet))
+            } else if(bendingMomentAlongYAxis === null) {
+                dispatch(setBendingMomentAlongYAxis(0, selectedSheet))
+            } else if(shearAlongXAxis === null) {
+                dispatch(setShearAlongXAxis(0, selectedSheet))
+            } else if(shearAlongYAxis === null) {
+                dispatch(setShearAlongYAxis(0, selectedSheet))
+            } else if(axial === null) {
+                dispatch(setAxial(0, selectedSheet))
+            }
+        } else if(event.target.value !== '') {
+            return
+        }
+    }
 
     return (
         <Grid>
@@ -95,11 +145,14 @@ const Forces = () => {
                             </div>
                             <TextField
                                 type='number'
+                                id='bendingMomentAlongXAxis'
                                 className={classes.input}
                                 label={`Bending Moment along X-axis`}
                                 variant="outlined"
                                 type='number'
-                                value={bendingMomentAlongXAxis}
+                                value={bendingMomentAlongXAxisValue}
+                                onFocus={(event) => focusValueChecker(event)}
+                                onBlur={(event) => blurValueChecker(event)}
                                 onChange={(event) => bendingMomentAlongXAxisHandler(event)}
                             />
                         </form>
@@ -110,11 +163,14 @@ const Forces = () => {
                             </div>
                             <TextField
                                 type='number'
+                                id='bendingMomentAlongYAxis'
                                 className={classes.input}
                                 label={`Bending Moment along Y-axis`}
                                 variant="outlined"
                                 type='number'
-                                value={bendingMomentAlongYAxis}
+                                onFocus={(event) => focusValueChecker(event)}
+                                onBlur={(event) => blurValueChecker(event)}
+                                value={bendingMomentAlongYAxisValue}
                                 onChange={(event) => bendingMomentAlongYAxisHandler(event)}
                             />
                         </form>
@@ -125,11 +181,14 @@ const Forces = () => {
                             </div>
                             <TextField
                                 type='number'
+                                id='shearAlongXAxis'
                                 className={classes.input}
                                 label={`Shear along X-axis`}
                                 variant="outlined"
                                 type='number'
-                                value={shearAlongXAxis}
+                                onFocus={(event) => focusValueChecker(event)}
+                                onBlur={(event) => blurValueChecker(event)}
+                                value={shearAlongXAxisValue}
                                 onChange={(event) => shearAlongXAxisHandler(event)}
                             />
 
@@ -141,11 +200,14 @@ const Forces = () => {
                             </div>
                             <TextField
                                 type='number'
+                                id='shearAlongYAxis'
                                 className={classes.input}
                                 label={`Shear along Y-axis`}
                                 variant="outlined"
                                 type='number'
-                                value={shearAlongYAxis}
+                                onFocus={(event) => focusValueChecker(event)}
+                                onBlur={(event) => blurValueChecker(event)}
+                                value={shearAlongYAxisValue}
                                 onChange={(event) => shearAlongYAxisHandler(event)}
                             />
                         </form>
@@ -156,11 +218,14 @@ const Forces = () => {
                             </div>
                             <TextField
                                 type='number'
+                                id='axial'
                                 className={classes.input}
                                 label={`Axial`}
                                 variant="outlined"
                                 type='number'
-                                value={axial}
+                                onFocus={(event) => focusValueChecker(event)}
+                                onBlur={(event) => blurValueChecker(event)}
+                                value={axialValue}
                                 onChange={(event) => axialHandler(event)}
                             />
                         </form>
