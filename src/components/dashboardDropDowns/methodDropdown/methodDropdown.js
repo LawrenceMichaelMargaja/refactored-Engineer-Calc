@@ -1,9 +1,10 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {Card, FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {useDispatch, useSelector} from "react-redux";
 import {setMethodDropdown} from "../../../store/actions/dashboardDropdowns/methodDropdown";
 import {objectChecker} from "../../../utilities/utilities";
+import {size} from "lodash";
 
 const useStyles = makeStyles((theme) => ({
     dropDown: {
@@ -20,10 +21,19 @@ const MethodDropdown = () => {
 
     const dispatch = useDispatch()
     const sheets = useSelector(state => state.sheets)
+    const sheetTabs = useSelector(state => state.sheets.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     // const methodValue = useSelector(state => state.sheets.sheets[selectedSheet].method)
     const methodValue = objectChecker(sheets, ['sheets', selectedSheet, 'method'])
     const classes = useStyles()
+
+    const disable = () => {
+        if(size(sheetTabs) === 0) {
+            return true
+        } else {
+            return false
+        }
+    }
 
     const handleChange = (event) => {
         dispatch(setMethodDropdown(event.target.value, selectedSheet))
@@ -34,6 +44,7 @@ const MethodDropdown = () => {
             <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Method</InputLabel>
                 <Select
+                    disabled={disable()}
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={methodValue}

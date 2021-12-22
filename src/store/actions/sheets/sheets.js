@@ -2,7 +2,7 @@ import {
     ADD_NEW_SHEET, EDIT_SELECTED_METRIC_MATERIAL_PROPERTIES, EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
     GET_MATERIAL_PROPERTIES_DATA, GET_SECTION_PROPERTIES_METRIC,
     GET_STEEL_TYPES_ENGLISH_API,
-    GET_STEEL_TYPES_METRIC_API, REMOVE_SHEET,
+    GET_STEEL_TYPES_METRIC_API, REMOVE_SHEET, SET_DISABLE_MENU_BUTTONS,
     SET_ENGLISH_EMPA,
     SET_ENGLISH_FUMPA,
     SET_ENGLISH_FYMPA,
@@ -50,6 +50,17 @@ export const setRouteUrl = (data, sheetIndex) => {
     return {
         type: SET_ROUTE_URL,
         payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+/**
+ * Menu Buttons
+ */
+
+export const setDisableMenuButtons = data => {
+    return {
+        type: SET_DISABLE_MENU_BUTTONS,
+        payload: data
     }
 }
 

@@ -32,16 +32,6 @@ const Dashboard = () => {
     const classes = useStyles()
     const sheets = useSelector(state => state.sheets.sheets)
 
-    const renderMainWinder = () => {
-        if(size(sheets) === 0) {
-            return (
-                <div>
-                    <p>ADD A SHEET.</p>
-                </div>
-            )
-        }
-    }
-
     return (
         <div style={{margin: '0', padding: '0', width:'100vw'}}>
             <BrowserRouter>

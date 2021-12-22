@@ -85,6 +85,9 @@ const Header = () => {
             {/*<div>*/}
             {/*    <p>{JSON.stringify(provisionState)}</p>*/}
             {/*</div>*/}
+            {/*<div>*/}
+            {/*    <p style={{width: '50%', margin: '1em'}}>{JSON.stringify(sheetTabs)}</p>*/}
+            {/*</div>*/}
             <div className={classes.root}>
                 <div className={classes.titleContainer}>
                     <p className={classes.title}>TITLE HERE</p>

@@ -4,7 +4,14 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import AddIcon from '@material-ui/icons/Add';
 import {useDispatch, useSelector} from "react-redux";
 import {mapKeys, size} from "lodash";
-import {addNewSheet, removeSheet, setRouteUrl, setSelectedSheet, setTabState} from "../../store/actions/sheets/sheets";
+import {
+    addNewSheet,
+    removeSheet,
+    setDisableMenuButtons,
+    setRouteUrl,
+    setSelectedSheet,
+    setTabState
+} from "../../store/actions/sheets/sheets";
 import {useNavigate} from "react-router";
 import {makeStyles} from "@material-ui/core/styles";
 
@@ -129,6 +136,7 @@ const SheetTabs = () => {
             dispatch(addNewSheet(newSheet))
             navigate('/details')
             // getSheetTabSelected(0)
+            dispatch(setDisableMenuButtons(false))
             dispatch(setSelectedSheet(0))
         } else {
             const newSizeIndex = size(sheets)
@@ -231,6 +239,7 @@ const SheetTabs = () => {
                 }
             }
             dispatch(addNewSheet(currentSheets))
+            dispatch(setDisableMenuButtons(false))
             navigate('/details')
             // getSheetTabSelected(newSizeIndex)
             dispatch(setSelectedSheet(newSizeIndex))
@@ -245,6 +254,7 @@ const SheetTabs = () => {
                     alert("condition 1: We want this condition to run when there is only 1 sheet and we delete it.");
                     dispatch(removeSheet(sheetIndex))
                     dispatch(setSelectedSheet(null))
+                    dispatch(setDisableMenuButtons(true))
                     navigate('/no-sheet')
                     // return;
                 } else if (parseFloat(selectedSheet) === 0 && size(sheets) !== 1 && Math.max(size(sheets)) > parseFloat(sheetIndex) && parseFloat(sheetIndex) === 0) {
@@ -258,7 +268,7 @@ const SheetTabs = () => {
                         return newObj
                     }
                     dispatch(addNewSheet(objectMapper(sheets)))
-
+                    dispatch(setDisableMenuButtons(false))
                     dispatch(setSelectedSheet(parseFloat(sheetIndex)))
                 } else if (parseFloat(selectedSheet) > 0 && parseFloat(sheetIndex) === 0 && Math.max(size(sheets) - 1) > 1) {
                     alert("Condition 3: We want this condition to run when we are removing the primary sheet and there are more than one sheet open and the selected sheet is not the primary sheet.");
@@ -271,7 +281,7 @@ const SheetTabs = () => {
                         return newObj
                     }
                     dispatch(addNewSheet(objectMapper(sheets)))
-
+                    dispatch(setDisableMenuButtons(false))
                     dispatch(setSelectedSheet(parseFloat(selectedSheet) - 1))
                 } else if (parseFloat(sheetIndex) > 0 && parseFloat(sheetIndex) < parseFloat(Math.max(size(sheets)) - 1) && parseFloat(selectedSheet) <= Math.max(size(sheets) - 1)) {
                     alert("Condition 4: We want this condition to run when we are removing a sheet that is not the primary sheet, there is more than one sheet open and the selected sheet is not the last sheet.");
@@ -284,7 +294,7 @@ const SheetTabs = () => {
                         return newObj
                     }
                     dispatch(addNewSheet(objectMapper(sheets)))
-
+                    dispatch(setDisableMenuButtons(false))
                     if (parseFloat(sheetIndex) > parseFloat(selectedSheet)) {
                         // dispatch(setSelectedSheet(parseFloat(selectedSheet)))
                         // dispatch(setSelectedTool(parseFloat(selectedSheet)))
@@ -302,7 +312,7 @@ const SheetTabs = () => {
                         return newObj
                     }
                     dispatch(addNewSheet(objectMapper(sheets)))
-
+                    dispatch(setDisableMenuButtons(false))
                     dispatch(setSelectedSheet(parseFloat(Math.max(size(sheets) - 1))))
                 } else if (parseFloat(selectedSheet) < Math.max(size(sheets) - 1) && size(sheets) > 1) {
                     // const tabInSheet = dashboard.sheets[parseFloat(currentSheetIndex) - 1].newTabsState
@@ -315,7 +325,7 @@ const SheetTabs = () => {
                         return newObj
                     }
                     dispatch(addNewSheet(objectMapper(sheets)))
-
+                    dispatch(setDisableMenuButtons(false))
                     dispatch(setSelectedSheet(parseFloat(selectedSheet)))
 
                     // if(tabInSheet === 'details') {

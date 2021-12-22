@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {Card, FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {useDispatch, useSelector} from "react-redux";
@@ -8,6 +8,7 @@ import {
     setSafetyFactorForTensile
 } from "../../../store/actions/sheets/sheetCalculationComponents/factors/factors";
 import {objectChecker} from "../../../utilities/utilities";
+import {size} from "lodash";
 
 const useStyles = makeStyles((theme) => ({
     dropDown: {
@@ -26,8 +27,17 @@ const ProvisionDropdown = () => {
     const classes = useStyles()
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     const sheets = useSelector(state => state.sheets)
+    const sheetTabs = useSelector(state => state.sheets.sheets)
     // const provision = useSelector(state => state.sheets.sheets[selectedSheet].provision)
     const provision = objectChecker(sheets, ['sheets', selectedSheet, 'provision'])
+
+    const disable = () => {
+        if(size(sheetTabs) === 0) {
+            return true
+        } else {
+            return false
+        }
+    }
 
     const handleChange = (event) => {
         alert("the provision == " + selectedSheet)
@@ -50,6 +60,7 @@ const ProvisionDropdown = () => {
             <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Provision</InputLabel>
                 <Select
+                    disabled={disable()}
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     label="Age"

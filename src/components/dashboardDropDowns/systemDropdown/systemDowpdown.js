@@ -1,10 +1,11 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {Card, FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {useDispatch, useSelector} from "react-redux";
 import {setSystemDropdown} from "../../../store/actions/dashboardDropdowns/systemDropdown";
 import {getSteelTypesEnglishAPI, getSteelTypesMetricAPI} from "../../../store/actions/sheets/sheets";
 import {objectChecker} from "../../../utilities/utilities";
+import {size} from "lodash";
 
 const useStyles = makeStyles((theme) => ({
     dropDown: {
@@ -21,6 +22,7 @@ const SystemDropdown = () => {
 
     const dispatch = useDispatch()
     const sheets = useSelector(state => state.sheets)
+    const sheetTabs = useSelector(state => state.sheets.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     // const systemValue = useSelector(state => state.sheets.sheets[selectedSheet].system)
     const systemValue = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
@@ -29,6 +31,14 @@ const SystemDropdown = () => {
     const handleChange = (event) => {
         dispatch(setSystemDropdown(event.target.value, selectedSheet))
     };
+
+    const disable = () => {
+        if(size(sheetTabs) === 0) {
+            return true
+        } else {
+            return false
+        }
+    }
 
 
     const getMaterialProperties = () => {
@@ -57,6 +67,7 @@ const SystemDropdown = () => {
             <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">System</InputLabel>
                 <Select
+                    disabled={disable()}
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={systemValue}

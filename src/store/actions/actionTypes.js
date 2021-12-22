@@ -47,6 +47,11 @@ export const SET_PROJECT_CLIENT = '@@sheets/SET_PROJECT_CLIENT'
 export const SET_PROJECT_NOTES = '@@sheets/SET_PROJECT_NOTES'
 
 /**
+ * Menu Buttons
+ */
+export const SET_DISABLE_MENU_BUTTONS = '@@sheets/SET_DISABLE_MENU_BUTTONS'
+
+/**
  * Sheet Factors
  */
 export const SET_SAFETY_FACTOR_FOR_TENSILE = '@@sheets/SET_SAFETY_FACTOR_FOR_TENSILE'
