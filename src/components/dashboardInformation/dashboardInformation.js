@@ -2,6 +2,7 @@ import React from 'react'
 import {makeStyles} from "@material-ui/core/styles";
 import {Card} from "@material-ui/core";
 import {useSelector} from "react-redux";
+import {objectChecker} from "../../utilities/utilities";
 
 const useStyles = makeStyles((theme) => ({
     dashboardInfoContainer: {
@@ -26,10 +27,11 @@ const useStyles = makeStyles((theme) => ({
 
 const DashboardInformation = () => {
 
-    const selectedSheet = useSelector(state => state.sheets.selectedSheet)
-
     const classes = useStyles()
-    const provision = useSelector(state => state.sheets.sheets[selectedSheet].provision)
+    const sheets = useSelector(state => state.sheets)
+    const selectedSheet = useSelector(state => state.sheets.selectedSheet)
+    // const provision = useSelector(state => state.sheets.sheets[selectedSheet].provision)
+    const provision = objectChecker(sheets, ['sheets', selectedSheet, 'provision'])
 
     const dashboardInformationHandler = () => {
         if(provision === 'ASD') {

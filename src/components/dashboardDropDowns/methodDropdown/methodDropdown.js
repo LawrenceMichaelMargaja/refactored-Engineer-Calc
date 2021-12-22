@@ -3,6 +3,7 @@ import {Card, FormControl, InputLabel, MenuItem, Select} from "@material-ui/core
 import {makeStyles} from "@material-ui/core/styles";
 import {useDispatch, useSelector} from "react-redux";
 import {setMethodDropdown} from "../../../store/actions/dashboardDropdowns/methodDropdown";
+import {objectChecker} from "../../../utilities/utilities";
 
 const useStyles = makeStyles((theme) => ({
     dropDown: {
@@ -18,8 +19,10 @@ const useStyles = makeStyles((theme) => ({
 const MethodDropdown = () => {
 
     const dispatch = useDispatch()
+    const sheets = useSelector(state => state.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
-    const methodValue = useSelector(state => state.sheets.sheets[selectedSheet].method)
+    // const methodValue = useSelector(state => state.sheets.sheets[selectedSheet].method)
+    const methodValue = objectChecker(sheets, ['sheets', selectedSheet, 'method'])
     const classes = useStyles()
 
     const handleChange = (event) => {

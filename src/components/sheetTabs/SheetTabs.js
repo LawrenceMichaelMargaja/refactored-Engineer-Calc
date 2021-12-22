@@ -245,6 +245,7 @@ const SheetTabs = () => {
                     alert("condition 1: We want this condition to run when there is only 1 sheet and we delete it.");
                     dispatch(removeSheet(sheetIndex))
                     dispatch(setSelectedSheet(null))
+                    navigate('/no-sheet')
                     // return;
                 } else if (parseFloat(selectedSheet) === 0 && size(sheets) !== 1 && Math.max(size(sheets)) > parseFloat(sheetIndex) && parseFloat(sheetIndex) === 0) {
                     alert("Condition 2: We want this condition to run when we are deleting the primary sheet and there is more than one sheet open.");

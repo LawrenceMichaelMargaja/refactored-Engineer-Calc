@@ -14,6 +14,8 @@ import Factors from "../components/sheetCalculationComponents/factorsTab/Factors
 import Members from "../components/sheetCalculationComponents/membersTab/memberFields/MembersField";
 import Forces from "../components/sheetCalculationComponents/forcesTab/Forces";
 import Results from "../components/sheetCalculationComponents/resultsTab/Results";
+import {size} from "lodash/collection";
+import EmptySheet from "../components/sheetCalculationComponents/emptySheet/emptySheet";
 
 const useStyles = makeStyles((theme) => ({
     mainTab: {
@@ -26,7 +28,19 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Dashboard = () => {
+
     const classes = useStyles()
+    const sheets = useSelector(state => state.sheets.sheets)
+
+    const renderMainWinder = () => {
+        if(size(sheets) === 0) {
+            return (
+                <div>
+                    <p>ADD A SHEET.</p>
+                </div>
+            )
+        }
+    }
 
     return (
         <div style={{margin: '0', padding: '0', width:'100vw'}}>
@@ -39,6 +53,7 @@ const Dashboard = () => {
                     <SheetTabs/>
                     <SheetCalculationNavigation/>
                     <Routes>
+                        <Route path='/no-sheet' element={<EmptySheet/>} />
                         <Route path='/' element={<Details/>} />
                         <Route path='/details' element={<Details/>} />
                         <Route path='/factors' element={<Factors/>} />

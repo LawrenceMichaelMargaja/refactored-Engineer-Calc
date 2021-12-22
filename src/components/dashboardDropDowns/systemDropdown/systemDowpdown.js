@@ -4,6 +4,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import {useDispatch, useSelector} from "react-redux";
 import {setSystemDropdown} from "../../../store/actions/dashboardDropdowns/systemDropdown";
 import {getSteelTypesEnglishAPI, getSteelTypesMetricAPI} from "../../../store/actions/sheets/sheets";
+import {objectChecker} from "../../../utilities/utilities";
 
 const useStyles = makeStyles((theme) => ({
     dropDown: {
@@ -19,8 +20,10 @@ const useStyles = makeStyles((theme) => ({
 const SystemDropdown = () => {
 
     const dispatch = useDispatch()
+    const sheets = useSelector(state => state.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
-    const systemValue = useSelector(state => state.sheets.sheets[selectedSheet].system)
+    // const systemValue = useSelector(state => state.sheets.sheets[selectedSheet].system)
+    const systemValue = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
     const classes = useStyles()
 
     const handleChange = (event) => {
