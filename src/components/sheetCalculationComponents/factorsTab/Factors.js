@@ -1,12 +1,13 @@
 import Grid from "@material-ui/core/Grid";
 import {Card, TextField} from "@material-ui/core";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import {useDispatch, useSelector} from "react-redux";
 import {
     setSafetyFactorForCompression, setSafetyFactorForFlexure, setSafetyFactorForShear,
     setSafetyFactorForTensile
 } from "../../../store/actions/sheets/sheetCalculationComponents/factors/factors";
+import {objectChecker} from "../../../utilities/utilities";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -26,12 +27,18 @@ const Factors = () => {
 
     const dispatch = useDispatch()
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
-    const provisionState = useSelector(state => state.sheets.sheets[selectedSheet].provision)
+    const sheets = useSelector(state => state.sheets)
 
-    const safetyFactorForTensile = useSelector(state => state.sheets.sheets[selectedSheet].factors.safetyFactorForTensile)
-    const safetyFactorForCompression = useSelector(state => state.sheets.sheets[selectedSheet].factors.safetyFactorForCompression)
-    const safetyFactorForFlexure = useSelector(state => state.sheets.sheets[selectedSheet].factors.safetyFactorForFlexure)
-    const safetyFactorForShear = useSelector(state => state.sheets.sheets[selectedSheet].factors.safetyFactorForShear)
+    // const provisionState = useSelector(state => state.sheets.sheets[selectedSheet].provision)
+    const provisionState = objectChecker(sheets, ['sheets', selectedSheet, 'provision'])
+    // const safetyFactorForTensile = useSelector(state => state.sheets.sheets[selectedSheet].factors.safetyFactorForTensile)
+    const safetyFactorForTensile = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForTensile'])
+    // const safetyFactorForCompression = useSelector(state => state.sheets.sheets[selectedSheet].factors.safetyFactorForCompression)
+    const safetyFactorForCompression = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForCompression'])
+    // const safetyFactorForFlexure = useSelector(state => state.sheets.sheets[selectedSheet].factors.safetyFactorForFlexure)
+    const safetyFactorForFlexure = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForFlexure'])
+    // const safetyFactorForShear = useSelector(state => state.sheets.sheets[selectedSheet].factors.safetyFactorForShear)
+    const safetyFactorForShear = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForShear'])
 
     const safetyFactorForTensileHandler = (event) => {
         dispatch(setSafetyFactorForTensile(event.target.value, selectedSheet))

@@ -3,6 +3,11 @@ import {Card, FormControl, InputLabel, MenuItem, Select} from "@material-ui/core
 import {makeStyles} from "@material-ui/core/styles";
 import {useDispatch, useSelector} from "react-redux";
 import {setProvisionDropdown} from "../../../store/actions/dashboardDropdowns/provisionDropdown";
+import {
+    setSafetyFactorForCompression, setSafetyFactorForFlexure, setSafetyFactorForShear,
+    setSafetyFactorForTensile
+} from "../../../store/actions/sheets/sheetCalculationComponents/factors/factors";
+import {objectChecker} from "../../../utilities/utilities";
 
 const useStyles = makeStyles((theme) => ({
     dropDown: {
@@ -20,11 +25,24 @@ const ProvisionDropdown = () => {
     const dispatch = useDispatch()
     const classes = useStyles()
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
-    const provision = useSelector(state => state.sheets.sheets[selectedSheet].provision)
+    const sheets = useSelector(state => state.sheets)
+    // const provision = useSelector(state => state.sheets.sheets[selectedSheet].provision)
+    const provision = objectChecker(sheets, ['sheets', selectedSheet, 'provision'])
 
     const handleChange = (event) => {
         alert("the provision == " + selectedSheet)
         dispatch(setProvisionDropdown(event.target.value, selectedSheet))
+        if(event.target.value === 'ASD') {
+            dispatch(setSafetyFactorForTensile(1.67, selectedSheet))
+            dispatch(setSafetyFactorForCompression(1.67, selectedSheet))
+            dispatch(setSafetyFactorForFlexure(1.67, selectedSheet))
+            dispatch(setSafetyFactorForShear(1.67, selectedSheet))
+        } else if(event.target.value === 'LRFD') {
+            dispatch(setSafetyFactorForTensile(0.9, selectedSheet))
+            dispatch(setSafetyFactorForCompression(0.9, selectedSheet))
+            dispatch(setSafetyFactorForFlexure(0.9, selectedSheet))
+            dispatch(setSafetyFactorForShear(0.9, selectedSheet))
+        }
     };
 
     return (

@@ -12,11 +12,14 @@ import {
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import {Autocomplete} from "@mui/material";
-import {getSteelTypesEnglishAPI, getSteelTypesMetricAPI} from "../../../../store/actions/sheets/sheets";
+import {
+    getSectionPropertiesMetric,
+    getSteelTypesEnglishAPI,
+    getSteelTypesMetricAPI
+} from "../../../../store/actions/sheets/sheets";
 
 
 const SectionProperties = () => {
-
 
     const dispatch = useDispatch()
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
@@ -29,13 +32,11 @@ const SectionProperties = () => {
     const steelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesEnglish)
     const [openNestedModal, setOpenNestedModal] = useState(false);
 
-
-
     const getSteelTypesMetric = () => {
-        fetch("http://127.0.0.1:8080/steeltypesmetric")
+        fetch("http://127.0.0.1:8080/sectionpropertiesmetric")
             .then((response) => response.json())
-            .then((data) => dispatch(getSteelTypesMetricAPI(data, selectedSheet)))
-            //     .then((data) => alert(JSON.stringify(data)))
+            .then((data) => dispatch(getSectionPropertiesMetric(data, selectedSheet)))
+            .then((data) => console.log(sectionPropertiesMetric))
             .catch((error) => {
                 console.log(error)
             });
@@ -71,14 +72,15 @@ const SectionProperties = () => {
         }
         return hash
     }, [steelTypesEnglish])
+
     const insertSectionProperty = () => {
-        // console.log(sectionPropertiesMetric)
         if (size(insertedSectionPropertiesMetric) === 0) {
             let initialSection = {}
             initialSection[0] = {
                 id: 2,
                 name: 'test',
                 shape: 'test2',
+
             }
             dispatch(addSectionProperty())
         } else {
@@ -92,17 +94,15 @@ const SectionProperties = () => {
         }
     }
 
-
-
     const displayApiData = () => {
-        const newOptions = steelTypesMetric.map((data) => ({value: `${data.steel_type_metric_name}`, label: `${data.steel_type_metric_name}`}))
+        const newOptions = sectionPropertiesMetric.map((data) => ({value: `${data.section_properties_metric_name}`, label: `${data.section_properties_metric_name}`}))
         return (
             newOptions
         )
     }
 
     const displayEnglishApi = () => {
-        const newEnglish = steelTypesEnglish.map((data) => ({value: `${data.steel_type_english_name}`, label: `${data.steel_type_english_name}`}))
+        const newEnglish = sectionPropertiesMetric.map((data) => ({value: `${data.section_properties_metric_name}`, label: `${data.section_properties_metric_name}`}))
         return newEnglish
     }
 
@@ -149,7 +149,6 @@ const SectionProperties = () => {
                 )
             }
         }
-
 
         return (
             <div>
@@ -200,7 +199,7 @@ const SectionProperties = () => {
                                             options={systemCheck()}
                                             onChange={(event) => setSectionName(event)}
                                             value={selectedSectionName}
-                                            renderInput={(params) => <TextField {...params} label="Preset Section Names..."/>}
+                                            renderInput={(params) => <TextField {...params} label="Preset Section Names"/>}
                                         />
                                     </FormControl>
                                 </div>

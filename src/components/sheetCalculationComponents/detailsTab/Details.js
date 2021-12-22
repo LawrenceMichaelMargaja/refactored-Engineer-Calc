@@ -17,6 +17,7 @@ import {
     getSteelTypesEnglishAPI,
     getSteelTypesMetricAPI
 } from "../../../store/actions/sheets/sheets";
+import {objectChecker} from "../../../utilities/utilities";
 
 const useStyles = makeStyles((theme) => ({
     textField: {
@@ -33,15 +34,23 @@ const useStyles = makeStyles((theme) => ({
 const Details = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
-
+    const sheets = useSelector(state => state.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
-    const projectUnit = useSelector(state => state.sheets.sheets[selectedSheet].details.projectUnit)
-    const projectName = useSelector(state => state.sheets.sheets[selectedSheet].details.projectName)
-    const projectId = useSelector(state => state.sheets.sheets[selectedSheet].details.projectId)
-    const projectCompany = useSelector(state => state.sheets.sheets[selectedSheet].details.projectCompany)
-    const projectDesigner = useSelector(state => state.sheets.sheets[selectedSheet].details.projectDesigner)
-    const projectClient = useSelector(state => state.sheets.sheets[selectedSheet].details.projectClient)
-    const projectNotes = useSelector(state => state.sheets.sheets[selectedSheet].details.projectNotes)
+
+    // const projectUnit = useSelector(state => state.sheets.sheets[selectedSheet].details.projectUnit)
+    const projectUnit = objectChecker(sheets, ['sheets', selectedSheet, 'details', 'projectUnit'])
+    // const projectName = useSelector(state => state.sheets.sheets[selectedSheet].details.projectName)
+    const projectName = objectChecker(sheets, ['sheets', selectedSheet, 'details', 'projectName'])
+    // const projectId = useSelector(state => state.sheets.sheets[selectedSheet].details.projectId)
+    const projectId = objectChecker(sheets, ['sheets', selectedSheet, 'details', 'projectId'])
+    // const projectCompany = useSelector(state => state.sheets.sheets[selectedSheet].details.projectCompany)
+    const projectCompany = objectChecker(sheets, ['sheets', selectedSheet, 'details', 'projectCompany'])
+    // const projectDesigner = useSelector(state => state.sheets.sheets[selectedSheet].details.projectDesigner)
+    const projectDesigner = objectChecker(sheets, ['sheets', selectedSheet, 'details', 'projectDesigner'])
+    // const projectClient = useSelector(state => state.sheets.sheets[selectedSheet].details.projectClient)
+    const projectClient = objectChecker(sheets, ['sheets', selectedSheet, 'details', 'projectClient'])
+    // const projectNotes = useSelector(state => state.sheets.sheets[selectedSheet].details.projectNotes)
+    const projectNotes = objectChecker(sheets, ['sheets', selectedSheet, 'details', 'projectNotes'])
 
     const projectUnitHandler = (event) => {
         dispatch(setProjectUnit(event.target.value, selectedSheet))

@@ -57,12 +57,11 @@ const MaterialProperties = () => {
 
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     const system = useSelector(state => state.sheets.sheets[selectedSheet].system)
-
     const steelTypesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesMetric)
     const steelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesEnglish)
-
     const insertedSteelTypesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeMetricProperties)
     const insertedSteelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeEnglishProperties)
+    const [openNestedModal, setOpenNestedModal] = React.useState(false);
 
     const dispatch = useDispatch()
 
@@ -74,7 +73,6 @@ const MaterialProperties = () => {
         }
     }
 
-    const [openNestedModal, setOpenNestedModal] = React.useState(false);
     const getSteelTypesMetric = () => {
         fetch("http://127.0.0.1:8080/steeltypesmetric")
             .then((response) => response.json())
@@ -338,7 +336,7 @@ const MaterialProperties = () => {
                                 <div style={{width: '30%'}}>
                                     <FormControl fullWidth>
                                         <Autocomplete
-                                            disablePortal
+                                            // disablePortal
                                             id="combo-box-demo"
                                             options={systemCheck()}
                                             value={selectedSteelType}

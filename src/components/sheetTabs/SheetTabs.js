@@ -97,6 +97,21 @@ const SheetTabs = () => {
                         materialPropertiesSelectedMaterial: 'Cabbage'
                     }
                 },
+                sectionProperties: {
+                    0: {
+                        sectionId: 1,
+                        sectionShape: '',
+                        sectionName: '',
+                        // sectionView: '',
+                        // sectionA: '',
+                        // sectionIW: '',
+                        // sectionIXP: '',
+                        // sectionIYP: '',
+                        // sectionJ: '',
+                        // sectionSXP: '',
+                        // sectionSYP: '',
+                    }
+                },
                 factors: {
                     safetyFactorForTensile: 1.67,
                     safetyFactorForCompression: 1.67,
@@ -184,6 +199,21 @@ const SheetTabs = () => {
                         materialPropertiesFYMPA: 'Pestle',
                         materialPropertiesFUMPA: 'Bowl',
                         materialPropertiesSelectedMaterial: 'Cabbage'
+                    }
+                },
+                sectionProperties: {
+                    0: {
+                        sectionId: 1,
+                        sectionShape: '',
+                        sectionName: '',
+                        // sectionView: '',
+                        // sectionA: '',
+                        // sectionIW: '',
+                        // sectionIXP: '',
+                        // sectionIYP: '',
+                        // sectionJ: '',
+                        // sectionSXP: '',
+                        // sectionSYP: '',
                     }
                 },
                 factors: {

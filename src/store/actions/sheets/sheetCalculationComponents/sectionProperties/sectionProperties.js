@@ -6,3 +6,10 @@ export const addSectionProperty = (data, sheetIndex) => {
         payload: {data: data, sheetIndex: sheetIndex}
     }
 }
+
+export const getSectionPropertiesMetric = (data, sheetIndex) => {
+    return {
+        type: GET_SECTION_PROPERTIES_METRIC,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
