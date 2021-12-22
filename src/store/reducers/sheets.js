@@ -84,9 +84,9 @@ const initialState = {
                 steelTypeMetricProperties: {
                     0: {
                         name: 'A36',
-                        EMPA: 'testEMPAMetric',
-                        FYMPA: 'testFYMPAMetric',
-                        FUMPA: 'tesstFUMPAMetric'
+                        EMPA: 200000,
+                        FYMPA: 248,
+                        FUMPA: 400
                     }
                 },
                 steelTypeEnglishProperties: {

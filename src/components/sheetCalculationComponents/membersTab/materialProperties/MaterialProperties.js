@@ -32,6 +32,7 @@ import {
 import {size} from "lodash";
 import MetricMaterialPropertiesRows from "./materialPropertiesRows/metricMaterialPropertiesRows";
 import EnglishMaterialPropertiesRows from "./materialPropertiesRows/englishMaterialPropertiesRow";
+import {objectChecker} from "../../../../utilities/utilities";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -55,15 +56,21 @@ const useStyles = makeStyles((theme) => ({
 
 const MaterialProperties = () => {
 
-    const selectedSheet = useSelector(state => state.sheets.selectedSheet)
-    const system = useSelector(state => state.sheets.sheets[selectedSheet].system)
-    const steelTypesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesMetric)
-    const steelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesEnglish)
-    const insertedSteelTypesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeMetricProperties)
-    const insertedSteelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeEnglishProperties)
-    const [openNestedModal, setOpenNestedModal] = React.useState(false);
-
     const dispatch = useDispatch()
+    const sheets = useSelector(state => state.sheets)
+    const selectedSheet = useSelector(state => state.sheets.selectedSheet)
+    // const system = useSelector(state => state.sheets.sheets[selectedSheet].system)
+    const system = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
+    // const steelTypesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesMetric)
+    const steelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesMetric'])
+    // const steelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesEnglish)
+    const steelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesEnglish'])
+    // const insertedSteelTypesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeMetricProperties)
+    const insertedSteelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties'])
+    // const insertedSteelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeEnglishProperties)
+    const insertedSteelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeEnglishProperties'])
+
+    const [openNestedModal, setOpenNestedModal] = React.useState(false);
 
     const unitHandler = () => {
         if(system === 'Metric') {
