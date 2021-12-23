@@ -6,7 +6,7 @@ import {
     GET_STEEL_TYPES_ENGLISH_API,
     GET_STEEL_TYPES_METRIC_API,
     REMOVE_ALL_MEMBER_ROWS,
-    REMOVE_MEMBER_ROW, REMOVE_METRIC_MATERIAL_PROPERTY_ROW, REMOVE_SHEET,
+    REMOVE_MEMBER_ROW, REMOVE_METRIC_MATERIAL_PROPERTY_ROW, REMOVE_SELECTED_SECTION_PROPERTY, REMOVE_SHEET,
     SET_AXIAL,
     SET_BENDING_MOMENT_ALONG_X_AXIS,
     SET_BENDING_MOMENT_ALONG_Y_AXIS, SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX, SET_DISABLE_MENU_BUTTONS,
@@ -294,6 +294,8 @@ const Reducer = (state = initialState, action) => {
             return addSectionProperty(state, action.payload)
         case GET_SECTION_PROPERTIES_METRIC:
             return getSectionPropertiesMetric(state, action.payload)
+        case REMOVE_SELECTED_SECTION_PROPERTY:
+            return removeSelectedSectionProperty(state, action.payload)
         default:
             return state
     }
@@ -948,8 +950,8 @@ const clearRemovedMembersArray = (state, payload) => {
         ...state,
         sheets: {
             ...state.sheets,
-            [payload.sheetIndex]: {
-                ...state.sheets[payload.sheetIndex],
+            [payload]: {
+                ...state.sheets[payload],
                 removedMemberRowArray: []
             }
         }
@@ -1350,6 +1352,12 @@ const addSectionProperty = (state, payload) => {
             }
         }
     }
+}
+
+const removeSelectedSectionProperty = (state, payload) => {
+    let newState = {...state}
+    delete newState.sheets[payload.sheetIndex].sectionProperties[payload.sectionIndex]
+    return newState
 }
 
 export default Reducer

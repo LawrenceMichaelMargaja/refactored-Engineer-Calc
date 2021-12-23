@@ -13,6 +13,7 @@ import {size} from "lodash";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import {Autocomplete} from "@mui/material";
+import {objectChecker} from "../../../../../utilities/utilities";
 
 const useStyles = makeStyles((theme) => ({
     textField: {
@@ -28,17 +29,22 @@ const useStyles = makeStyles((theme) => ({
 const MetricMaterialPropertiesRows = () => {
 
     const dispatch = useDispatch()
+    const sheets = useSelector(state => state.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
-    const materialPropertiesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeMetricProperties)
-    const system = useSelector(state => state.sheets.sheets[selectedSheet].system)
+    const system = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
+    // const materialPropertiesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeMetricProperties)
+    const materialPropertiesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties'])
+    // const steelTypesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesMetric)
+    const steelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesMetric'])
+    // const steelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesEnglish)
+    const steelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesEnglish'])
+    // const currentMetricMaterialPropertyIndex = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.currentMetricMaterialPropertyIndex)
+    const currentMetricMaterialPropertyIndex = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'currentMetricMaterialPropertyIndex'])
+    // const insertedSteelTypesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeMetricProperties)
+    const insertedSteelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties'])
+    // const insertedSteelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeEnglishProperties)
+    const insertedSteelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeEnglishProperties'])
 
-    const steelTypesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesMetric)
-    const steelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesEnglish)
-    const currentMetricMaterialPropertyIndex = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.currentMetricMaterialPropertyIndex)
-
-    const insertedSteelTypesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeMetricProperties)
-    const insertedSteelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeEnglishProperties)
-    const selectedSteel = useSelector(state => state.sheets.sheets[selectedSheet].apiMap)
 
     const [edit, setEdit] = useState(false)
 
@@ -105,10 +111,6 @@ const MetricMaterialPropertiesRows = () => {
         }
     }
 
-    const removeSelectedMetricMaterialProperty = () => {
-
-    }
-
     const NestedModal = () => {
 
         const [nestedModalDisabled, setNestedModalDisabled] = useState(true)
@@ -137,14 +139,6 @@ const MetricMaterialPropertiesRows = () => {
             }
         }, [nestedModalDisabled])
 
-        // const useStateValue = () => {
-        //     if(steelTypesMetric === [] || steelTypesMetric.length === 0) {
-        //         return ''
-        //     } else {
-        //         return insertedSteelTypesMetric[currentMetricMaterialPropertyIndex].name
-        //     }
-        // }
-
         useEffect(() => {
             setSelectedSteelType(insertedSteelTypesMetric[currentMetricMaterialPropertyIndex].name)
         }, [insertedSteelTypesMetric])
@@ -158,12 +152,8 @@ const MetricMaterialPropertiesRows = () => {
         const EMPAValueSetter = () => {
             if(system === 'Metric') {
                 if(selectedSteelType === '') {
-                    // alert("over here")
-                    // alert(JSON.stringify(insertedSteelTypesMetric))
                     return
                 } else if(selectedSteelType !== '') {
-                    // alert("steel types metric" + steelTypesMetric)
-                    // alert(JSON.stringify(insertedSteelTypesMetric[currentMetricMaterialPropertyIndex].name))
                     return hashMetric[selectedSteelType].steel_type_metric_e
                 }
             } else {

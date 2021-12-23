@@ -2,15 +2,66 @@ import React, {useMemo} from "react";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import HelpIcon from '@material-ui/icons/Help';
 import CancelIcon from '@material-ui/icons/Cancel';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {objectChecker} from "../../../../../utilities/utilities";
+import size from "lodash/size";
+import {removeSelectedSectionProperty} from "../../../../../store/actions/sheets/sheetCalculationComponents/sectionProperties/sectionProperties";
 
 const SectionPropertiesRows = () => {
 
+    const dispatch = useDispatch()
     const sheets = useSelector(state => state.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     // const insertedSectionPropertiesMetric = useSelector(state => state.sheets.sheets[selectedSheet].sectionProperties)
     const insertedSectionPropertiesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'sectionProperties'])
+
+    const removeSection = (selectedSheet, sectionIndex) => {
+
+        const proceed = window.confirm("Are you sure you want to delete this section row?")
+
+        if (size(insertedSectionPropertiesMetric) === 1 && proceed) {
+            console.log("at remove section || if triggered");
+            dispatch(removeSelectedSectionProperty(null, selectedSheet, sectionIndex))
+            // dispatch(setLatestRemovedSectionIndex(selectedSheet, sectionIndex))
+            // dispatch(clearRemovedSectionsArray(selectedSheet, null))
+            // dispatch(setRemovedSectionArray(selectedSheet, sectionIndex))
+            // let sortedSectionIndex = currentSections.sort(function (a, b) {
+            //     return a - b;
+            // })
+            // sortedSectionIndex.shift()
+            // dispatch(removeElementCurrentSectionsArray(selectedSheet, sortedSectionIndex))
+        } else if (size(insertedSectionPropertiesMetric) !== 1 && proceed) {
+            console.log("at remove section || else triggered");
+            dispatch(removeSelectedSectionProperty(null, selectedSheet, sectionIndex))
+            // dispatch(removeSelectedSection(selectedSheet, sectionIndex))
+            // dispatch(setRemovedSectionArray(selectedSheet, sectionIndex))
+            // let sortedSectionIndex = currentSections.sort()
+            // for (let theCurrentSectionIndex in currentSections) {
+            //     if (sectionId === currentSections[theCurrentSectionIndex]) {
+            //         sortedSectionIndex.splice(theCurrentSectionIndex, 1)
+            //         console.log("at the remove material = " + theCurrentSectionIndex)
+            //         dispatch(removeElementCurrentSectionsArray(selectedSheet, sortedSectionIndex))
+            //     }
+            // }
+        } else {
+            return
+        }
+    }
+
+    const clearAllSections = () => {
+
+        if (size(insertedSectionPropertiesMetric) === 0) {
+            return;
+        } else if (size(insertedSectionPropertiesMetric) !== 0) {
+            const proceed = window.confirm("Are you sure you want to delete all section rows?");
+            if (proceed) {
+                // dispatch(clearSectionObject(null, selectedSheet))
+                // dispatch(clearRemovedSectionsArray(selectedSheet, null))
+            } else {
+                return
+            }
+        }
+    }
 
     const sectionRows = []
 
@@ -110,6 +161,7 @@ const SectionPropertiesRows = () => {
                             />
                             <CancelIcon
                                 color='secondary'
+                                onClick={() => removeSection(selectedSheet, sectionIndex)}
                             />
                         </p>
                     </div>

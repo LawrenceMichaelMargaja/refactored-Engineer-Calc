@@ -17,19 +17,25 @@ import {
     getSteelTypesEnglishAPI,
     getSteelTypesMetricAPI
 } from "../../../../store/actions/sheets/sheets";
+import {objectChecker} from "../../../../utilities/utilities";
 
 
 const SectionProperties = () => {
 
     const dispatch = useDispatch()
+    const sheets = useSelector(state => state.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
-    const system = useSelector(state => state.sheets.sheets[selectedSheet].system)
+    // const system = useSelector(state => state.sheets.sheets[selectedSheet].system)
+    const system = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
 
-    const sectionPropertiesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiData.sectionPropertiesMetric)
-    const insertedSectionPropertiesMetric = useSelector(state => state.sheets.sheets[selectedSheet].sectionProperties)
-
-    const steelTypesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesMetric)
-    const steelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesEnglish)
+    // const sectionPropertiesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiData.sectionPropertiesMetric)
+    const sectionPropertiesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'sectionPropertiesMetric'])
+    // const insertedSectionPropertiesMetric = useSelector(state => state.sheets.sheets[selectedSheet].sectionProperties)
+    const insertedSectionPropertiesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'sectionProperties'])
+    // const steelTypesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesMetric)
+    const steelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesMetric'])
+    // const steelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesEnglish)
+    const steelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesEnglish'])
     const [openNestedModal, setOpenNestedModal] = useState(false);
 
     const getSteelTypesMetric = () => {

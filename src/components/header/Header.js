@@ -21,11 +21,9 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Header = () => {
-    const selectedSheet = useSelector(state => state.sheets.selectedSheet)
-    // const projectUnit = useSelector(state => state.sheets.sheets[selectedSheet].details.projectUnit)
     const sheets = useSelector(state => state.sheets)
-    const theSheetSelected = useSelector(state => state.sheets.selectedSheet)
     const sheetTabs = useSelector(state => state.sheets.sheets)
+    const selectedSheet = useSelector(state => state.sheets.selectedSheet)
 
     /**
      * Details Tab
@@ -54,6 +52,11 @@ const Header = () => {
     const safetyFactorForFlexure = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForFlexure'])
     // const safetyFactorForShear = useSelector(state => state.sheets.sheets[selectedSheet].factors.safetyFactorForShear)
     const safetyFactorForShear = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForShear'])
+
+    /**
+     * Forces Tab
+     */
+    const Forces = objectChecker(sheets, ['sheets', selectedSheet, 'forces'])
 
 
 
@@ -85,9 +88,9 @@ const Header = () => {
             {/*<div>*/}
             {/*    <p>{JSON.stringify(provisionState)}</p>*/}
             {/*</div>*/}
-            {/*<div>*/}
-            {/*    <p style={{width: '50%', margin: '1em'}}>{JSON.stringify(sheetTabs)}</p>*/}
-            {/*</div>*/}
+            <div>
+                <p style={{width: '50%', margin: '1em'}}>{JSON.stringify(Forces)}</p>
+            </div>
             <div className={classes.root}>
                 <div className={classes.titleContainer}>
                     <p className={classes.title}>TITLE HERE</p>
