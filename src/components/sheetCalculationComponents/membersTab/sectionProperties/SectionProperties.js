@@ -53,11 +53,11 @@ const SectionProperties = () => {
 
     const hashMetric = useMemo(() => {
         let hash = {}
-        for(let i in steelTypesMetric) {
+        for(let i in insertedSectionPropertiesMetric) {
             let {
-                steel_type_metric_name,
-            } = steelTypesMetric[i]
-            hash[steel_type_metric_name] = steelTypesMetric[i]
+                section_properties_metric_name,
+            } = insertedSectionPropertiesMetric[i]
+            hash[section_properties_metric_name] = steelTypesMetric[i]
         }
         return hash
     }, [steelTypesMetric])
@@ -73,26 +73,7 @@ const SectionProperties = () => {
         return hash
     }, [steelTypesEnglish])
 
-    const insertSectionProperty = () => {
-        if (size(insertedSectionPropertiesMetric) === 0) {
-            let initialSection = {}
-            initialSection[0] = {
-                id: 2,
-                name: 'test',
-                shape: 'test2',
 
-            }
-            dispatch(addSectionProperty())
-        } else {
-            let currentSections = {...insertedSectionPropertiesMetric}
-            const newSectionSize = size(sectionPropertiesMetric)
-            currentSections[newSectionSize] = {
-                id: 3,
-                name: 'Hey',
-                shape: 'You'
-            }
-        }
-    }
 
     const displayApiData = () => {
         const newOptions = sectionPropertiesMetric.map((data) => ({value: `${data.section_properties_metric_name}`, label: `${data.section_properties_metric_name}`}))
@@ -129,6 +110,31 @@ const SectionProperties = () => {
 
         const [selectedSectionName, setSelectedSectionName] = useState('')
         const [selectedSectionShape, setSelectedSectionShape] = useState('')
+
+        const insertSectionProperty = () => {
+            if (size(insertedSectionPropertiesMetric) === 0) {
+                let initialSection = {}
+                initialSection[0] = {
+                    id: 0,
+                    sectionShape: 'test',
+                    sectionName: 'test2',
+
+                }
+                dispatch(addSectionProperty(initialSection, selectedSheet))
+                setOpenNestedModal(false)
+            } else {
+                let currentSections = {...insertedSectionPropertiesMetric}
+                const newSectionSize = size(insertedSectionPropertiesMetric)
+                currentSections[newSectionSize] = {
+                    id: newSectionSize,
+                    sectionShape: selectedSectionShape,
+                    sectionName: selectedSectionName
+                }
+                alert(JSON.stringify(selectedSectionName))
+                dispatch(addSectionProperty(currentSections, selectedSheet))
+                setOpenNestedModal(false)
+            }
+        }
 
         const setSectionName = (event) => {
             setSelectedSectionName(event.target.textContent)
@@ -243,7 +249,7 @@ const SectionProperties = () => {
                                     }}
                                     variant='contained'
                                     color='primary'
-
+                                    onClick={() => insertSectionProperty()}
                                 >
                                     ADD
                                 </Button>

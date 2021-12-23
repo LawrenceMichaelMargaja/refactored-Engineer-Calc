@@ -137,8 +137,8 @@ const initialState = {
             sectionProperties: {
                 0: {
                     sectionId: 1,
-                    sectionShape: '',
-                    sectionName: '',
+                    sectionShape: 2,
+                    sectionName: 3,
                     // sectionView: '',
                     // sectionA: '',
                     // sectionIW: '',
@@ -1339,6 +1339,7 @@ const clearMetricMaterialProperties = (state, payload) => {
  */
 
 const addSectionProperty = (state, payload) => {
+    alert("At the reducer == " + JSON.stringify(payload.data))
     return {
         ...state,
         sheets: {

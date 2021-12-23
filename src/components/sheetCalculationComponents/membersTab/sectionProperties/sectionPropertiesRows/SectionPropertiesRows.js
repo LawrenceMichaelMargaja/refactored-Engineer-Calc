@@ -1,17 +1,27 @@
-import React from "react";
+import React, {useMemo} from "react";
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import HelpIcon from '@material-ui/icons/Help';
 import CancelIcon from '@material-ui/icons/Cancel';
 import {useSelector} from "react-redux";
+import {objectChecker} from "../../../../../utilities/utilities";
 
 const SectionPropertiesRows = () => {
 
+    const sheets = useSelector(state => state.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
-    const insertedSectionPropertiesMetric = useSelector(state => state.sheets.sheets[selectedSheet].sectionProperties)
+    // const insertedSectionPropertiesMetric = useSelector(state => state.sheets.sheets[selectedSheet].sectionProperties)
+    const insertedSectionPropertiesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'sectionProperties'])
 
     const sectionRows = []
 
-    for(let i in insertedSectionPropertiesMetric) {
+    for(let sectionIndex in insertedSectionPropertiesMetric) {
+
+        // alert(JSON.stringify(insertedSectionPropertiesMetric))
+        const sectionNameValue = insertedSectionPropertiesMetric[sectionIndex].sectionName
+        const sectionShapeValue = insertedSectionPropertiesMetric[sectionIndex].sectionShape
+
+        // alert("The sectionNameValue == " + JSON.stringify(sectionNameValue))
+
         sectionRows.push(
             <div style={{
                 display: 'flex',
@@ -34,7 +44,7 @@ const SectionPropertiesRows = () => {
                         margin: '0%',
                         padding: '10%',
                     }}>
-                        100
+                        {parseFloat(sectionIndex) + parseFloat(1)}
                     </p>
                 </div>
                 <div style={{
@@ -49,7 +59,7 @@ const SectionPropertiesRows = () => {
                         margin: '0%',
                         padding: '10%',
                     }}>
-                        100
+                        {sectionNameValue}
                     </p>
                 </div>
                 <div style={{
@@ -64,7 +74,7 @@ const SectionPropertiesRows = () => {
                         margin: '0%',
                         padding: '10%',
                     }}>
-                        100
+                        {sectionShapeValue}
                     </p>
                 </div>
                 <div style={{
