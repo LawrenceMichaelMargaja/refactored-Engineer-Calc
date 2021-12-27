@@ -16,6 +16,7 @@ import Forces from "../components/sheetCalculationComponents/forcesTab/Forces";
 import Results from "../components/sheetCalculationComponents/resultsTab/Results";
 import {size} from "lodash/collection";
 import EmptySheet from "../components/sheetCalculationComponents/emptySheet/emptySheet";
+import Errors from "../components/sheetCalculationComponents/errors/Errors";
 
 const useStyles = makeStyles((theme) => ({
     mainTab: {
@@ -45,6 +46,7 @@ const Dashboard = () => {
                     <Routes>
                         <Route path='/no-sheet' element={<EmptySheet/>} />
                         <Route path='/' element={<Details/>} />
+                        <Route path='/errors' element={<Errors/>} />
                         <Route path='/details' element={<Details/>} />
                         <Route path='/factors' element={<Factors/>} />
                         <Route path='/members' element={<Members/>} />

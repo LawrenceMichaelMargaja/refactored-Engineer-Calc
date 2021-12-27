@@ -1,17 +1,30 @@
 import {
     CLEAR_METRIC_MATERIAL_PROPERTIES,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
-    REMOVE_METRIC_MATERIAL_PROPERTY_ROW, SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX,
+    REMOVE_METRIC_MATERIAL_PROPERTY_ROW,
+    RESET_METRIC_MATERIAL_PROPERTIES_INDEX,
+    SET_CURRENT_MATERIALS_ARRAY,
+    SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX,
     SET_ENGLISH_MATERIAL_STEEL_TYPES,
-    SET_MATERIAL_PROPERTIES_EMPA, SET_MATERIAL_PROPERTIES_FUMPA,
+    SET_MATERIAL_PROPERTIES_EMPA,
+    SET_MATERIAL_PROPERTIES_FUMPA,
     SET_MATERIAL_PROPERTIES_FYMPA,
-    SET_MATERIAL_PROPERTIES_ID, SET_MATERIAL_PROPERTIES_SELECTED_MATERIAL, SET_METRIC_MATERIAL_STEEL_TYPES
+    SET_MATERIAL_PROPERTIES_ID,
+    SET_MATERIAL_PROPERTIES_SELECTED_MATERIAL,
+    SET_METRIC_MATERIAL_STEEL_TYPES
 } from "../../../actionTypes";
 
 export const setMaterialPropertiesId = (data, sheetIndex, materialPropertyIndex) => {
     return {
         type: SET_MATERIAL_PROPERTIES_ID,
         payload: {data: data, sheetIndex: sheetIndex, materialPropertyIndex: materialPropertyIndex}
+    }
+}
+
+export const setCurrentMaterialsArray = (data, sheetIndex) => {
+    return {
+        type: SET_CURRENT_MATERIALS_ARRAY,
+        payload: {data: data, sheetIndex: sheetIndex}
     }
 }
 
@@ -83,5 +96,13 @@ export const clearMetricMaterialProperties = (sheetIndex) => {
     return {
         type: CLEAR_METRIC_MATERIAL_PROPERTIES,
         payload: sheetIndex
+    }
+}
+
+export const resetMetricMaterialIndex = (data, sheetIndex) => {
+    alert("at the action == " + JSON.stringify(data))
+    return {
+        type: RESET_METRIC_MATERIAL_PROPERTIES_INDEX,
+        payload: {data: data, sheetIndex: sheetIndex}
     }
 }

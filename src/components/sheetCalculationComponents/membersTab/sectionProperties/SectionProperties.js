@@ -42,7 +42,7 @@ const SectionProperties = () => {
         fetch("http://127.0.0.1:8080/sectionpropertiesmetric")
             .then((response) => response.json())
             .then((data) => dispatch(getSectionPropertiesMetric(data, selectedSheet)))
-            .then((data) => console.log(sectionPropertiesMetric))
+            // .then((data) => console.log(sectionPropertiesMetric))
             .catch((error) => {
                 console.log(error)
             });
@@ -117,14 +117,60 @@ const SectionProperties = () => {
         const [selectedSectionName, setSelectedSectionName] = useState('')
         const [selectedSectionShape, setSelectedSectionShape] = useState('')
 
+        const [selectListName, setSelectListName] = useState('')
+        const [selectListShape, setSelectListShape] = useState('')
+        const [requiredShape, setRequiredShape] = useState(false)
+        const [requiredName, setRequiredName] = useState(false)
+        // const [stop, setStop] = useState(false)
+        // const toggleStop = () => {
+        //     setStop(true);
+        // }
+
+
+        const handleRequiredShape = () => {
+            setRequiredShape(true)
+        }
+
+        const handleRequiredName = () => {
+            setRequiredName(true)
+        }
+
+        const requiredShapeMessage = () => {
+            if (requiredShape) {
+                return (
+                    <p style={{margin: '0', fontWeight: 'bold', color: 'red'}}>This field is required.</p>
+                )
+            } else if (!requiredShape) {
+                return
+            }
+        }
+
+        useEffect(() => {
+            if(selectedSectionShape !== '') {
+                setRequiredShape(false)
+            }
+            if(selectedSectionName !== '') {
+                setRequiredName(false)
+            }
+        }, [selectedSectionShape, selectedSectionName])
+
+        const requiredNameMessage = () => {
+            if (requiredName) {
+                return (
+                    <p style={{margin: '0', fontWeight: 'bold', color: 'red'}}>This field is required.</p>
+                )
+            } else if (!requiredName) {
+                return
+            }
+        }
+
         const insertSectionProperty = () => {
             if (size(insertedSectionPropertiesMetric) === 0) {
                 let initialSection = {}
                 initialSection[0] = {
                     id: 0,
-                    sectionShape: 'test',
-                    sectionName: 'test2',
-
+                    sectionShape: selectedSectionShape,
+                    sectionName: selectedSectionName,
                 }
                 dispatch(addSectionProperty(initialSection, selectedSheet))
                 setOpenNestedModal(false)
@@ -213,6 +259,7 @@ const SectionProperties = () => {
                                             value={selectedSectionName}
                                             renderInput={(params) => <TextField {...params} label="Preset Section Names"/>}
                                         />
+                                        {requiredNameMessage()}
                                     </FormControl>
                                 </div>
                             </div>
@@ -236,6 +283,7 @@ const SectionProperties = () => {
                                             value={selectedSectionShape}
                                             renderInput={(params) => <TextField {...params} label="Preset Section Shapes"/>}
                                         />
+                                        {requiredShapeMessage()}
                                     </FormControl>
                                 </div>
                             </div>
@@ -255,7 +303,20 @@ const SectionProperties = () => {
                                     }}
                                     variant='contained'
                                     color='primary'
-                                    onClick={() => insertSectionProperty()}
+                                    onClick={() => {
+                                        if (selectedSectionName === '' && selectedSectionShape === '') {
+                                            handleRequiredShape()
+                                            handleRequiredName()
+                                        } else if (selectedSectionShape === '') {
+                                            handleRequiredShape()
+                                        } else if (selectedSectionName === '') {
+                                            handleRequiredName()
+                                        } else {
+                                            // toggleStop()
+                                            insertSectionProperty(selectedSectionName, selectedSectionShape)
+                                        }
+                                    }}
+                                    // onClick={() => insertSectionProperty()}
                                 >
                                     ADD
                                 </Button>

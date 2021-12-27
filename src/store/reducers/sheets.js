@@ -1,19 +1,37 @@
 import {
     ADD_INITIAL_MEMBER,
-    ADD_NEW_SHEET, ADD_SECTION_PROPERTY, CLEAR_METRIC_MATERIAL_PROPERTIES,
-    CLEAR_REMOVED_MEMBERS_ARRAY, EDIT_SELECTED_METRIC_MATERIAL_PROPERTIES, EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
-    GET_MATERIAL_PROPERTIES_DATA, GET_SECTION_PROPERTIES_METRIC,
+    ADD_NEW_SHEET,
+    ADD_SECTION_PROPERTY,
+    CLEAR_METRIC_MATERIAL_PROPERTIES,
+    CLEAR_REMOVED_MEMBERS_ARRAY,
+    EDIT_SELECTED_METRIC_MATERIAL_PROPERTIES,
+    EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
+    EDIT_SELECTED_SECTION,
+    GET_MATERIAL_PROPERTIES_DATA,
+    GET_SECTION_PROPERTIES_METRIC,
     GET_STEEL_TYPES_ENGLISH_API,
     GET_STEEL_TYPES_METRIC_API,
     REMOVE_ALL_MEMBER_ROWS,
-    REMOVE_MEMBER_ROW, REMOVE_METRIC_MATERIAL_PROPERTY_ROW, REMOVE_SELECTED_SECTION_PROPERTY, REMOVE_SHEET,
+    REMOVE_MEMBER_ROW,
+    REMOVE_METRIC_MATERIAL_PROPERTY_ROW,
+    REMOVE_SELECTED_SECTION_PROPERTY,
+    REMOVE_SHEET,
+    RESET_METRIC_MATERIAL_PROPERTIES_INDEX,
+    RESET_SECTION_INDEX,
     SET_AXIAL,
     SET_BENDING_MOMENT_ALONG_X_AXIS,
-    SET_BENDING_MOMENT_ALONG_Y_AXIS, SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX, SET_DISABLE_MENU_BUTTONS,
+    SET_BENDING_MOMENT_ALONG_Y_AXIS,
+    SET_CURRENT_MATERIALS_ARRAY,
+    SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX,
+    SET_CURRENT_SECTION_PROPERTIES_ARRAY,
+    SET_CURRENT_SECTION_PROPERTY_INDEX,
+    SET_DISABLE_MENU_BUTTONS,
     SET_ENGLISH_EMPA,
     SET_ENGLISH_FUMPA,
     SET_ENGLISH_FYMPA,
     SET_ENGLISH_MATERIAL_STEEL_TYPES,
+    SET_ERROR_LOCATION,
+    SET_ERROR_MESSAGE,
     SET_LATERAL_TORSIONAL_MODIFICATION_FACTOR,
     SET_LLT,
     SET_LST,
@@ -71,7 +89,12 @@ const initialState = {
             provision: 'ASD',
             system: "Metric",
             method: "Investigation",
+            currentMaterialsArray: [1],
+            currentSectionsArray: [1],
+            currentSectionPropertyIndex: 0,
             removedMemberRowArray: [],
+            errorLocation: [],
+            errorMessage: [],
             route: '',
             apiData: {
                 steelTypesMetric: [],
@@ -79,7 +102,7 @@ const initialState = {
                 sectionPropertiesMetric: []
             },
             apiMap: {
-                selectedSteelType: '',
+                selectedSteelType: 'A36',
                 currentMetricMaterialPropertyIndex: 0,
                 currentMetricEnglishPropertyIndex: '',
                 steelTypeMetricProperties: {
@@ -292,12 +315,63 @@ const Reducer = (state = initialState, action) => {
             return clearMetricMaterialProperties(state, action.payload)
         case ADD_SECTION_PROPERTY:
             return addSectionProperty(state, action.payload)
+        case EDIT_SELECTED_SECTION:
+            return editSelectedSection(state, action.payload)
         case GET_SECTION_PROPERTIES_METRIC:
             return getSectionPropertiesMetric(state, action.payload)
         case REMOVE_SELECTED_SECTION_PROPERTY:
             return removeSelectedSectionProperty(state, action.payload)
+        case RESET_SECTION_INDEX:
+            return resetSectionIndex(state, action.payload)
+        case SET_CURRENT_MATERIALS_ARRAY:
+            return setCurrentMaterialsArray(state, action.payload)
+        case RESET_METRIC_MATERIAL_PROPERTIES_INDEX:
+            return resetMetricMaterialIndex(state, action.payload)
+        case SET_CURRENT_SECTION_PROPERTIES_ARRAY:
+            return setCurrentSectionPropertiesArray(state, action.payload)
+        case SET_ERROR_LOCATION:
+            return setErrorLocation(state, action.payload)
+        case SET_ERROR_MESSAGE:
+            return setErrorMessage(state, action.payload)
+        case SET_CURRENT_SECTION_PROPERTY_INDEX:
+            return setCurrentSectionPropertyIndex(state, action.payload)
         default:
             return state
+    }
+}
+
+/**
+ * Errors
+ */
+const setErrorLocation = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                errorLocation: [
+                    ...state.sheets[payload.sheetIndex].errorLocation,
+                    payload.data
+                ]
+            }
+        }
+    }
+}
+
+const setErrorMessage = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                errorMessage: [
+                    ...state.sheets[payload.sheetIndex].errorMessage,
+                    payload.data
+                ]
+            }
+        }
     }
 }
 
@@ -1257,6 +1331,7 @@ const setMetricMaterialSteelType = (state, payload) => {
 }
 
 const setEnglishMaterialSteelType = (state, payload) => {
+    alert("at the reducer == " + payload.data)
     return {
         ...state,
         sheets: {
@@ -1336,6 +1411,38 @@ const clearMetricMaterialProperties = (state, payload) => {
     }
 }
 
+const setCurrentMaterialsArray = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                currentMaterialsArray: [
+                    ...state.sheets[payload.sheetIndex].currentMaterialsArray,
+                    payload.data
+                ]
+            }
+        }
+    }
+}
+
+const resetMetricMaterialIndex = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    steelTypeMetricProperties: payload.data
+                }
+            }
+        }
+    }
+}
+
 /**
  * Sheet Section Properties
  */
@@ -1358,6 +1465,64 @@ const removeSelectedSectionProperty = (state, payload) => {
     let newState = {...state}
     delete newState.sheets[payload.sheetIndex].sectionProperties[payload.sectionIndex]
     return newState
+}
+
+const resetSectionIndex = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                sectionProperties: payload.data
+            }
+        }
+    }
+}
+
+const setCurrentSectionPropertiesArray = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                currentSectionsArray: payload.data
+            }
+        }
+    }
+}
+
+const editSelectedSection = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                sectionProperties: {
+                    ...state.sheets[payload.sheetIndex].sectionProperties,
+                    [payload.sectionIndex]: {
+                        sectionShape: payload.sectionShape,
+                        sectionName: payload.sectionName
+                    }
+                }
+            }
+        }
+    }
+}
+
+const setCurrentSectionPropertyIndex = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                currentSectionPropertyIndex: payload.data
+            }
+        }
+    }
 }
 
 export default Reducer

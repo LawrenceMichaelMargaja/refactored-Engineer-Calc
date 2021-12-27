@@ -104,20 +104,16 @@ const Forces = () => {
     }
 
     const blurValueChecker = (event) => {
-        if(event.target.value === '') {
-            if(bendingMomentAlongXAxis === null) {
-                dispatch(setBendingMomentAlongXAxis(0, selectedSheet))
-            } else if(bendingMomentAlongYAxis === null) {
-                dispatch(setBendingMomentAlongYAxis(0, selectedSheet))
-            } else if(shearAlongXAxis === null) {
-                dispatch(setShearAlongXAxis(0, selectedSheet))
-            } else if(shearAlongYAxis === null) {
-                dispatch(setShearAlongYAxis(0, selectedSheet))
-            } else if(axial === null) {
-                dispatch(setAxial(0, selectedSheet))
-            }
-        } else if(event.target.value !== '') {
-            return
+        if (bendingMomentAlongXAxis === null || bendingMomentAlongXAxis === '') {
+            dispatch(setBendingMomentAlongXAxis(0, selectedSheet))
+        } else if (bendingMomentAlongYAxis === null || bendingMomentAlongYAxis === '') {
+            dispatch(setBendingMomentAlongYAxis(0, selectedSheet))
+        } else if (shearAlongXAxis === null || shearAlongXAxis === '') {
+            dispatch(setShearAlongXAxis(0, selectedSheet))
+        } else if (shearAlongYAxis === null || shearAlongYAxis === '') {
+            dispatch(setShearAlongYAxis(0, selectedSheet))
+        } else if (axial === null || axial === '') {
+            dispatch(setAxial(0, selectedSheet))
         }
     }
 

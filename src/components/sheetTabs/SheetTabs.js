@@ -42,7 +42,12 @@ const SheetTabs = () => {
                 provision: 'ASD',
                 system: "Metric",
                 method: "Investigation",
+                currentMaterialsArray: [1],
+                currentSectionsArray: [1],
+                currentSectionPropertyIndex: 0,
                 removedMemberRowArray: [],
+                errorLocation: [],
+                errorMessage: [],
                 route: '',
                 apiData: {
                     steelTypesMetric: [],
@@ -147,7 +152,12 @@ const SheetTabs = () => {
                 provision: 'ASD',
                 system: "Metric",
                 method: "Investigation",
+                currentMaterialsArray: [1],
+                currentSectionsArray: [1],
+                currentSectionPropertyIndex: 0,
                 removedMemberRowArray: [],
+                errorLocation: [],
+                errorMessage: [],
                 route: '',
                 apiData: {
                     steelTypesMetric: [],
@@ -212,8 +222,8 @@ const SheetTabs = () => {
                 sectionProperties: {
                     0: {
                         sectionId: 1,
-                        sectionShape: '',
-                        sectionName: '',
+                        sectionShape: 2,
+                        sectionName: 3,
                         // sectionView: '',
                         // sectionA: '',
                         // sectionIW: '',

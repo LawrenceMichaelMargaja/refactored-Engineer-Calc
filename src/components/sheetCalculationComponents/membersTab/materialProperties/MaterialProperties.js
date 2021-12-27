@@ -25,7 +25,7 @@ import {
 } from "../../../../store/actions/sheets/sheets";
 import {Autocomplete} from "@mui/material";
 import {
-    clearMetricMaterialProperties,
+    clearMetricMaterialProperties, setCurrentMaterialsArray,
     setEnglishMaterialSteelType,
     setMetricMaterialSteelType
 } from "../../../../store/actions/sheets/sheetCalculationComponents/materialProperties/materialProperties";
@@ -150,16 +150,21 @@ const MaterialProperties = () => {
         return hash
     }, [steelTypesEnglish])
 
+
+
     const renderRows = () => {
-        if(system === 'Metric') {
-            return (
-                <MetricMaterialPropertiesRows/>
-            )
-        } else if(system === 'English') {
-            return (
-                <EnglishMaterialPropertiesRows/>
-            )
-        }
+        return (
+            <MetricMaterialPropertiesRows/>
+        )
+        // if(system === 'Metric') {
+        //     return (
+        //         <MetricMaterialPropertiesRows/>
+        //     )
+        // } else if(system === 'English') {
+        //     return (
+        //         <EnglishMaterialPropertiesRows/>
+        //     )
+        // }
     }
 
     const NestedModal = () => {
@@ -167,6 +172,7 @@ const MaterialProperties = () => {
         const [nestedModalDisabled, setNestedModalDisabled] = useState(true)
         const [customButtonColor, setCustomButtonColor] = useState('primary')
         const [customButtonText, setCustomButtonText] = useState('CUSTOM')
+        const [selectedSteelType, setSelectedSteelType] = useState('')
 
         const steelTypeHandler = () => {
             return (
@@ -190,7 +196,7 @@ const MaterialProperties = () => {
             }
         }, [nestedModalDisabled])
 
-        const [selectedSteelType, setSelectedSteelType] = useState('')
+
 
         const autoCompleteOnChangeHandler = (event) => {
             setSelectedSteelType(event.target.textContent)
@@ -265,6 +271,7 @@ const MaterialProperties = () => {
             } else {
                 if(system === 'Metric') {
                     if(size(insertedSteelTypesMetric) === 0) {
+                        const initialMaterialEnglish = {}
                         const initialMaterial = {}
                         initialMaterial[0] = {
                             name: selectedSteelType,
@@ -272,10 +279,20 @@ const MaterialProperties = () => {
                             FYMPA: hashMetric[selectedSteelType].steel_type_metric_fy,
                             FUMPA: hashMetric[selectedSteelType].steel_type_metric_fu
                         }
+                        initialMaterialEnglish[0] = {
+                            name: selectedSteelType,
+                            EMPA: hashEnglish[selectedSteelType].steel_type_english_e,
+                            FYMPA: hashEnglish[selectedSteelType].steel_type_english_fy,
+                            FUMPA: hashEnglish[selectedSteelType].steel_type_english_fu,
+                        }
+                        const id = 1
                         dispatch(setMetricMaterialSteelType(initialMaterial, selectedSheet))
+                        dispatch(setEnglishMaterialSteelType(initialMaterialEnglish, selectedSheet))
+                        dispatch(setCurrentMaterialsArray(id, selectedSheet))
                         setOpenNestedModal(false)
                     } else {
                         const newMaterialIndex = size(insertedSteelTypesMetric)
+                        const currentMaterialEnglish = {...insertedSteelTypesEnglish}
                         const currentMaterial = {...insertedSteelTypesMetric}
                         currentMaterial[newMaterialIndex] = {
                             name: selectedSteelType,
@@ -283,7 +300,14 @@ const MaterialProperties = () => {
                             FYMPA: hashMetric[selectedSteelType].steel_type_metric_fy,
                             FUMPA: hashMetric[selectedSteelType].steel_type_metric_fu
                         }
+                        currentMaterialEnglish[newMaterialIndex] = {
+                            name: selectedSteelType,
+                            EMPA: hashEnglish[selectedSteelType].steel_type_english_e,
+                            FYMPA: hashEnglish[selectedSteelType].steel_type_english_fy,
+                            FUMPA: hashEnglish[selectedSteelType].steel_type_english_fu
+                        }
                         dispatch(setMetricMaterialSteelType(currentMaterial, selectedSheet))
+                        dispatch(setEnglishMaterialSteelType(currentMaterialEnglish, selectedSheet))
                         setOpenNestedModal(false)
                     }
                 } else if(system === 'English') {
