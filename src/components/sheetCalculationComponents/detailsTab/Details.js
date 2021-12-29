@@ -107,7 +107,6 @@ const Details = () => {
     return (
         <Grid>
             <Grid style={{
-                width: '100%',
                 height: 'fit-content',
                 margin: '0 auto',
             }}>
@@ -115,7 +114,6 @@ const Details = () => {
                     height: '100%',
                     display: 'flex',
                     padding: '10px',
-                    width: '100%'
                 }}>
                     <div style={{
                         margin: '0 auto',

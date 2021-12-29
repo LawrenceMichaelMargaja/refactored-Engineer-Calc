@@ -49,20 +49,20 @@ const Members = () => {
             });
     }
 
-    const fetchSectionPropertiesMetric = () => {
-        fetch("http://127.0.0.1:8080/sectionpropertiesmetric")
-            .then((response) => response.json())
-            .then((data) => dispatch(getSectionPropertiesMetric(data, selectedSheet)))
-            .catch((error) => {
-                console.log(error)
-            })
-    }
+    // const fetchSectionPropertiesMetric = () => {
+    //     fetch("http://127.0.0.1:8080/sectionpropertiesmetric")
+    //         .then((response) => response.json())
+    //         .then((data) => dispatch(getSectionPropertiesMetric(data, selectedSheet)))
+    //         .catch((error) => {
+    //             console.log(error)
+    //         })
+    // }
 
 
     useEffect(() => {
         getSteelTypesMetric()
         getSteelTypesEnglish()
-        fetchSectionPropertiesMetric()
+        // fetchSectionPropertiesMetric()
     }, [])
 
     const insertNewMember = () => {

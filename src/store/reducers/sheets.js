@@ -1,17 +1,17 @@
 import {
     ADD_INITIAL_MEMBER,
     ADD_NEW_SHEET,
-    ADD_SECTION_PROPERTY,
+    ADD_SECTION_PROPERTY, ADD_SECTION_PROPERTY_ENGLISH, ADD_SECTION_PROPERTY_METRIC,
     CLEAR_METRIC_MATERIAL_PROPERTIES,
     CLEAR_REMOVED_MEMBERS_ARRAY,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTIES,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
     EDIT_SELECTED_SECTION,
-    GET_MATERIAL_PROPERTIES_DATA,
+    GET_MATERIAL_PROPERTIES_DATA, GET_SECTION_PROPERTIES_ENGLISH,
     GET_SECTION_PROPERTIES_METRIC,
     GET_STEEL_TYPES_ENGLISH_API,
     GET_STEEL_TYPES_METRIC_API,
-    REMOVE_ALL_MEMBER_ROWS,
+    REMOVE_ALL_MEMBER_ROWS, REMOVE_ALL_SECTION_PROPERTIES,
     REMOVE_MEMBER_ROW,
     REMOVE_METRIC_MATERIAL_PROPERTY_ROW,
     REMOVE_SELECTED_SECTION_PROPERTY,
@@ -91,7 +91,6 @@ const initialState = {
             method: "Investigation",
             currentMaterialsArray: [1],
             currentSectionsArray: [1],
-            currentSectionPropertyIndex: 0,
             removedMemberRowArray: [],
             errorLocation: [],
             errorMessage: [],
@@ -99,12 +98,14 @@ const initialState = {
             apiData: {
                 steelTypesMetric: [],
                 steelTypesEnglish: [],
-                sectionPropertiesMetric: []
+                sectionPropertiesMetric: [],
+                sectionPropertiesEnglish: []
             },
             apiMap: {
                 selectedSteelType: 'A36',
                 currentMetricMaterialPropertyIndex: 0,
                 currentMetricEnglishPropertyIndex: '',
+                currentSectionPropertyIndex: 0,
                 steelTypeMetricProperties: {
                     0: {
                         name: 'A36',
@@ -115,12 +116,26 @@ const initialState = {
                 },
                 steelTypeEnglishProperties: {
                     0: {
-                        name: 'testNameEnglish',
-                        EMPA: 'testEMPAEnglish',
-                        FYMPA: 'testFYMPAEnglish',
-                        FUMPA: 'tesstFUMPAEnglish'
+                        name: 'A36',
+                        EMPA: 200000,
+                        FYMPA: 248,
+                        FUMPA: 400
                     }
                 },
+                sectionPropertiesMetric: {
+                    0: {
+                        sectionId: 1,
+                        sectionShape: 'W1100X499',
+                        sectionName: 'W1100X499',
+                    }
+                },
+                sectionPropertiesEnglish: {
+                    0: {
+                        sectionId: 1,
+                        sectionShape: 'W44X335',
+                        sectionName: 'W44X335'
+                    }
+                }
             },
             details: {
                 projectUnit: '',
@@ -159,9 +174,9 @@ const initialState = {
             },
             sectionProperties: {
                 0: {
-                    sectionId: 1,
-                    sectionShape: 2,
-                    sectionName: 3,
+                    sectionId: 0,
+                    sectionShape: 'W1100X499',
+                    sectionName: 'W1100X499',
                     // sectionView: '',
                     // sectionA: '',
                     // sectionIW: '',
@@ -313,14 +328,20 @@ const Reducer = (state = initialState, action) => {
             return editSelectedMetricMaterialProperty(state, action.payload)
         case CLEAR_METRIC_MATERIAL_PROPERTIES:
             return clearMetricMaterialProperties(state, action.payload)
-        case ADD_SECTION_PROPERTY:
-            return addSectionProperty(state, action.payload)
+        case ADD_SECTION_PROPERTY_METRIC:
+            return addSectionPropertyMetric(state, action.payload)
+        case ADD_SECTION_PROPERTY_ENGLISH:
+            return addSectionPropertyEnglish(state, action.payload)
         case EDIT_SELECTED_SECTION:
             return editSelectedSection(state, action.payload)
         case GET_SECTION_PROPERTIES_METRIC:
             return getSectionPropertiesMetric(state, action.payload)
+        case GET_SECTION_PROPERTIES_ENGLISH:
+            return getSectionPropertiesEnglish(state, action.payload)
         case REMOVE_SELECTED_SECTION_PROPERTY:
             return removeSelectedSectionProperty(state, action.payload)
+        case REMOVE_ALL_SECTION_PROPERTIES:
+            return removeAllSectionProperties(state, action.payload)
         case RESET_SECTION_INDEX:
             return resetSectionIndex(state, action.payload)
         case SET_CURRENT_MATERIALS_ARRAY:
@@ -499,6 +520,22 @@ const getSectionPropertiesMetric = (state, payload) => {
                 apiData: {
                     ...state.sheets[payload.sheetIndex].apiData,
                     sectionPropertiesMetric: payload.data
+                }
+            }
+        }
+    }
+}
+
+const getSectionPropertiesEnglish = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    sectionPropertiesEnglish: payload.data
                 }
             }
         }
@@ -1033,7 +1070,7 @@ const clearRemovedMembersArray = (state, payload) => {
 }
 
 const setRemovedMemberRowArray = (state, payload) => {
-    alert("at the reducer == " + JSON.stringify(payload.data))
+    // alert("at the reducer == " + JSON.stringify(payload.data))
     return {
         ...state,
         sheets: {
@@ -1331,7 +1368,7 @@ const setMetricMaterialSteelType = (state, payload) => {
 }
 
 const setEnglishMaterialSteelType = (state, payload) => {
-    alert("at the reducer == " + payload.data)
+    // alert("at the reducer == " + payload.data)
     return {
         ...state,
         sheets: {
@@ -1447,15 +1484,35 @@ const resetMetricMaterialIndex = (state, payload) => {
  * Sheet Section Properties
  */
 
-const addSectionProperty = (state, payload) => {
-    alert("At the reducer == " + JSON.stringify(payload.data))
+const addSectionPropertyMetric = (state, payload) => {
+    // alert("At the reducer == " + JSON.stringify(payload.data))
     return {
         ...state,
         sheets: {
             ...state.sheets,
             [payload.sheetIndex]: {
                 ...state.sheets[payload.sheetIndex],
-                sectionProperties: payload.data
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    sectionPropertiesMetric: payload.data
+                }
+            }
+        }
+    }
+}
+
+const addSectionPropertyEnglish = (state, payload) => {
+    // alert("At the reducer == " + JSON.stringify(payload.data))
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    sectionPropertiesEnglish: payload.data
+                }
             }
         }
     }
@@ -1465,6 +1522,23 @@ const removeSelectedSectionProperty = (state, payload) => {
     let newState = {...state}
     delete newState.sheets[payload.sheetIndex].sectionProperties[payload.sectionIndex]
     return newState
+}
+
+const removeAllSectionProperties = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload]: {
+                ...state.sheets[payload],
+                apiMap: {
+                    ...state.sheets[payload].apiMap,
+                    sectionPropertiesMetric: {},
+                    sectionPropertiesEnglish: {},
+                }
+            }
+        }
+    }
 }
 
 const resetSectionIndex = (state, payload) => {
@@ -1500,11 +1574,14 @@ const editSelectedSection = (state, payload) => {
             ...state.sheets,
             [payload.sheetIndex]: {
                 ...state.sheets[payload.sheetIndex],
-                sectionProperties: {
-                    ...state.sheets[payload.sheetIndex].sectionProperties,
-                    [payload.sectionIndex]: {
-                        sectionShape: payload.sectionShape,
-                        sectionName: payload.sectionName
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    sectionPropertiesMetric: {
+                        ...state.sheets[payload.sheetIndex].apiMap.sectionPropertiesMetric,
+                        [payload.sectionIndex]: {
+                            sectionShape: payload.sectionShape,
+                            sectionName: payload.sectionName
+                        }
                     }
                 }
             }
@@ -1513,13 +1590,17 @@ const editSelectedSection = (state, payload) => {
 }
 
 const setCurrentSectionPropertyIndex = (state, payload) => {
+    // alert("the new index == " + payload.data)
     return {
         ...state,
         sheets: {
             ...state.sheets,
             [payload.sheetIndex]: {
                 ...state.sheets[payload.sheetIndex],
-                currentSectionPropertyIndex: payload.data
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    currentSectionPropertyIndex: payload.data
+                }
             }
         }
     }

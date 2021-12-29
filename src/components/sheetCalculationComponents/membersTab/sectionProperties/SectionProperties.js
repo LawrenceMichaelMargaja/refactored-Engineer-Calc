@@ -3,7 +3,10 @@ import React, {useEffect, useMemo, useState} from "react";
 import MaterialPropertiesRows from "../materialProperties/materialPropertiesRows/metricMaterialPropertiesRows";
 import SectionPropertiesRows from "./sectionPropertiesRows/SectionPropertiesRows";
 import {useDispatch, useSelector} from "react-redux";
-import {addSectionProperty} from "../../../../store/actions/sheets/sheetCalculationComponents/sectionProperties/sectionProperties";
+import {
+    addSectionPropertyEnglish,
+    addSectionPropertyMetric, removeAllSectionProperties, setCurrentSectionPropertyIndex
+} from "../../../../store/actions/sheets/sheetCalculationComponents/sectionProperties/sectionProperties";
 import {size} from "lodash";
 import {
     setEnglishMaterialSteelType,
@@ -13,6 +16,7 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import {Autocomplete} from "@mui/material";
 import {
+    getSectionPropertiesEnglish,
     getSectionPropertiesMetric,
     getSteelTypesEnglishAPI,
     getSteelTypesMetricAPI
@@ -31,14 +35,16 @@ const SectionProperties = () => {
     // const sectionPropertiesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiData.sectionPropertiesMetric)
     const sectionPropertiesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'sectionPropertiesMetric'])
     // const insertedSectionPropertiesMetric = useSelector(state => state.sheets.sheets[selectedSheet].sectionProperties)
-    const insertedSectionPropertiesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'sectionProperties'])
+    const sectionPropertiesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'sectionPropertiesEnglish'])
+    const insertedSectionPropertiesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric'])
+    const insertedSectionPropertiesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesEnglish'])
     // const steelTypesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesMetric)
     const steelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesMetric'])
     // const steelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesEnglish)
     const steelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesEnglish'])
     const [openNestedModal, setOpenNestedModal] = useState(false);
 
-    const getSteelTypesMetric = () => {
+    const getMetricSectionProperties = () => {
         fetch("http://127.0.0.1:8080/sectionpropertiesmetric")
             .then((response) => response.json())
             .then((data) => dispatch(getSectionPropertiesMetric(data, selectedSheet)))
@@ -48,10 +54,10 @@ const SectionProperties = () => {
             });
     }
 
-    const getSteelTypesEnglish = () => {
-        fetch("http://127.0.0.1:8080/steeltypesenglish")
+    const getEnglishSectionProperties = () => {
+        fetch("http://127.0.0.1:8080/sectionpropertiesenglish")
             .then((response) => response.json())
-            .then((data) => dispatch(getSteelTypesEnglishAPI(data, selectedSheet)))
+            .then((data) => dispatch(getSectionPropertiesEnglish(data, selectedSheet)))
             .catch((error) => {
                 console.log(error)
             });
@@ -66,20 +72,27 @@ const SectionProperties = () => {
             hash[section_properties_metric_name] = steelTypesMetric[i]
         }
         return hash
-    }, [steelTypesMetric])
+    }, [sectionPropertiesMetric])
 
     const hashEnglish = useMemo(() => {
         let hash = {}
-        for(let i in steelTypesEnglish) {
+        for(let i in insertedSectionPropertiesEnglish) {
             let {
-                steel_type_english_name,
-            } = steelTypesEnglish[i]
-            hash[steel_type_english_name] = steelTypesEnglish[i]
+                section_properties_english_name,
+            } = insertedSectionPropertiesEnglish[i]
+            hash[section_properties_english_name] = insertedSectionPropertiesEnglish[i]
         }
         return hash
-    }, [steelTypesEnglish])
+    }, [sectionPropertiesEnglish])
 
-
+    const deleteAllSectionProperties = () => {
+        const proceed = window.confirm("Are you sure you want to delete all section properties?")
+        if(proceed) {
+            dispatch(removeAllSectionProperties(selectedSheet))
+        } else {
+            return
+        }
+    }
 
     const displayApiData = () => {
         const newOptions = sectionPropertiesMetric.map((data) => ({value: `${data.section_properties_metric_name}`, label: `${data.section_properties_metric_name}`}))
@@ -89,7 +102,7 @@ const SectionProperties = () => {
     }
 
     const displayEnglishApi = () => {
-        const newEnglish = sectionPropertiesMetric.map((data) => ({value: `${data.section_properties_metric_name}`, label: `${data.section_properties_metric_name}`}))
+        const newEnglish = sectionPropertiesEnglish.map((data) => ({value: `${data.section_properties_english_name}`, label: `${data.section_properties_english_name}`}))
         return newEnglish
     }
 
@@ -102,8 +115,8 @@ const SectionProperties = () => {
     }
 
     useEffect(() => {
-        getSteelTypesMetric()
-        getSteelTypesEnglish()
+        getMetricSectionProperties()
+        getEnglishSectionProperties()
     }, [])
 
     const handleOpenNestedModal = () => {
@@ -121,11 +134,6 @@ const SectionProperties = () => {
         const [selectListShape, setSelectListShape] = useState('')
         const [requiredShape, setRequiredShape] = useState(false)
         const [requiredName, setRequiredName] = useState(false)
-        // const [stop, setStop] = useState(false)
-        // const toggleStop = () => {
-        //     setStop(true);
-        // }
-
 
         const handleRequiredShape = () => {
             setRequiredShape(true)
@@ -168,22 +176,27 @@ const SectionProperties = () => {
             if (size(insertedSectionPropertiesMetric) === 0) {
                 let initialSection = {}
                 initialSection[0] = {
-                    id: 0,
+                    sectionId: 0,
                     sectionShape: selectedSectionShape,
                     sectionName: selectedSectionName,
                 }
-                dispatch(addSectionProperty(initialSection, selectedSheet))
+                dispatch(addSectionPropertyMetric(initialSection, selectedSheet))
+                dispatch(setCurrentSectionPropertyIndex(0, selectedSheet))
+                // dispatch(addSectionPropertyEnglish(initialSection, selectedSheet))
                 setOpenNestedModal(false)
             } else {
                 let currentSections = {...insertedSectionPropertiesMetric}
                 const newSectionSize = size(insertedSectionPropertiesMetric)
                 currentSections[newSectionSize] = {
-                    id: newSectionSize,
+                    sectionId: newSectionSize,
                     sectionShape: selectedSectionShape,
                     sectionName: selectedSectionName
                 }
-                alert(JSON.stringify(selectedSectionName))
-                dispatch(addSectionProperty(currentSections, selectedSheet))
+                // alert(JSON.stringify(selectedSectionName))
+                // alert("new index === " + JSON.stringify(newSectionSize))
+                dispatch(addSectionPropertyMetric(currentSections, selectedSheet))
+                dispatch(setCurrentSectionPropertyIndex(newSectionSize, selectedSheet))
+                // dispatch(addSectionPropertyEnglish(currentSections, selectedSheet))
                 setOpenNestedModal(false)
             }
         }
@@ -356,8 +369,8 @@ const SectionProperties = () => {
             margin: '0 auto'
         }}>
             <div style={{
-                width: '94.5%',
-                padding: '15px',
+                // width: '94.5%',
+                padding: '1em',
             }}
             >
                 <div>
@@ -376,7 +389,10 @@ const SectionProperties = () => {
                             Add Section
                         </Button>
                         <Button
-                            variant='contained' color='secondary'>
+                            variant='contained'
+                            color='secondary'
+                            onClick={() => deleteAllSectionProperties()}
+                        >
                             Remove All
                         </Button>
                     </div>
@@ -407,7 +423,7 @@ const SectionProperties = () => {
                     </div>
                     <div style={{
                         paddingRight: '0px',
-                        width: '20%',
+                        width: '25%',
                         textAlign: 'center'
                     }}>
                         <p>
@@ -417,7 +433,7 @@ const SectionProperties = () => {
 
                     <div style={{
                         paddingRight: '0px',
-                        width: '20%',
+                        width: '25%',
                         textAlign: 'center'
                     }}>
                         <p>
@@ -426,7 +442,7 @@ const SectionProperties = () => {
                     </div>
                     <div style={{
                         paddingRight: '0px',
-                        width: '20%',
+                        width: '10%',
                         textAlign: 'center'
                     }}>
                         <p>
@@ -445,7 +461,7 @@ const SectionProperties = () => {
                     </div>
                 </div>
             </div>
-            <div style={{margin: '0 auto', width: '100%'}}>
+            <div style={{margin: '0 auto', width: '95%'}}>
                 <SectionPropertiesRows/>
             </div>
             {displayModal()}

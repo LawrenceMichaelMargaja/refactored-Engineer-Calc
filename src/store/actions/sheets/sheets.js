@@ -1,6 +1,6 @@
 import {
     ADD_NEW_SHEET, EDIT_SELECTED_METRIC_MATERIAL_PROPERTIES, EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
-    GET_MATERIAL_PROPERTIES_DATA, GET_SECTION_PROPERTIES_METRIC,
+    GET_MATERIAL_PROPERTIES_DATA, GET_SECTION_PROPERTIES_ENGLISH, GET_SECTION_PROPERTIES_METRIC,
     GET_STEEL_TYPES_ENGLISH_API,
     GET_STEEL_TYPES_METRIC_API, REMOVE_SHEET, SET_DISABLE_MENU_BUTTONS,
     SET_ENGLISH_EMPA,
@@ -92,6 +92,13 @@ export const setSelectedSteelType = (data, sheetIndex) => {
 export const getSectionPropertiesMetric = (data, sheetIndex) => {
     return {
         type: GET_SECTION_PROPERTIES_METRIC,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const getSectionPropertiesEnglish = (data, sheetIndex) => {
+    return {
+        type: GET_SECTION_PROPERTIES_ENGLISH,
         payload: {data: data, sheetIndex: sheetIndex}
     }
 }

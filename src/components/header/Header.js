@@ -24,10 +24,12 @@ const Header = () => {
     const sheets = useSelector(state => state.sheets)
     const sheetTabs = useSelector(state => state.sheets.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
-    const sections = objectChecker(sheets, ['sheets', selectedSheet, 'sectionProperties'])
+    const sections = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric'])
     const materials = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties'])
     const tabState = objectChecker(sheets, ['sheets', selectedSheet, 'tabState'])
     const errors = objectChecker(sheets, ['sheets', selectedSheet, 'errorMessage'])
+    const englishSections = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'sectionPropertiesEnglish'])
+    const currentSectionPropertyIndex = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'currentSectionPropertyIndex'])
 
     /**
      * Details Tab
@@ -93,7 +95,7 @@ const Header = () => {
             {/*    <p>{JSON.stringify(provisionState)}</p>*/}
             {/*</div>*/}
             <div>
-                <p style={{width: '50%', margin: '1em'}}>{JSON.stringify(errors)}</p>
+                    <p style={{width: '50%', margin: '1em'}}>{JSON.stringify(currentSectionPropertyIndex)}</p>
             </div>
             <div className={classes.root}>
                 <div className={classes.titleContainer}>

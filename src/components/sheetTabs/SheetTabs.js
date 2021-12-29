@@ -54,7 +54,7 @@ const SheetTabs = () => {
                     steelTypesEnglish: [],
                 },
                 apiMap: {
-                    selectedSteelType: '',
+                    selectedSteelType: 'A36',
                     currentMetricMaterialPropertyIndex: 0,
                     currentMetricEnglishPropertyIndex: '',
                     steelTypeMetricProperties: {
@@ -73,6 +73,20 @@ const SheetTabs = () => {
                             FUMPA: 'tesstFUMPAEnglish'
                         }
                     },
+                    sectionPropertiesMetric: {
+                        0: {
+                            sectionId: 1,
+                            sectionShape: 'W1100X499',
+                            sectionName: 'W1100X499',
+                        }
+                    },
+                    sectionPropertiesEnglish: {
+                        0: {
+                            sectionId: 1,
+                            sectionShape: 'W44X335',
+                            sectionName: 'W44X335'
+                        }
+                    }
                 },
                 details: {
                     projectUnit: '',
@@ -112,8 +126,8 @@ const SheetTabs = () => {
                 sectionProperties: {
                     0: {
                         sectionId: 1,
-                        sectionShape: '',
-                        sectionName: '',
+                        sectionShape: 'W1100X499',
+                        sectionName: 'W1100X499',
                         // sectionView: '',
                         // sectionA: '',
                         // sectionIW: '',
@@ -164,7 +178,7 @@ const SheetTabs = () => {
                     steelTypesEnglish: [],
                 },
                 apiMap: {
-                    selectedSteelType: '',
+                    selectedSteelType: 'A36',
                     currentMetricMaterialPropertyIndex: 0,
                     currentMetricEnglishPropertyIndex: '',
                     steelTypeMetricProperties: {
@@ -183,6 +197,20 @@ const SheetTabs = () => {
                             FUMPA: 'tesstFUMPAEnglish'
                         }
                     },
+                    sectionPropertiesMetric: {
+                        0: {
+                            sectionId: 1,
+                            sectionShape: 'W1100X499',
+                            sectionName: 'W1100X499',
+                        }
+                    },
+                    sectionPropertiesEnglish: {
+                        0: {
+                            sectionId: 1,
+                            sectionShape: 'W44X335',
+                            sectionName: 'W44X335'
+                        }
+                    }
                 },
                 details: {
                     projectUnit: '',
@@ -222,8 +250,8 @@ const SheetTabs = () => {
                 sectionProperties: {
                     0: {
                         sectionId: 1,
-                        sectionShape: 2,
-                        sectionName: 3,
+                        sectionShape: 'W1100X499',
+                        sectionName: 'W1100X499',
                         // sectionView: '',
                         // sectionA: '',
                         // sectionIW: '',

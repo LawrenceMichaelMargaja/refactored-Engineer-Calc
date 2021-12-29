@@ -26,12 +26,14 @@ const SectionPropertiesRows = () => {
     const system = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
     // const sectionPropertiesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiData.sectionPropertiesMetric)
     const sectionPropertiesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'sectionPropertiesMetric'])
+    const sectionPropertiesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'sectionPropertiesEnglish'])
     // const insertedSectionPropertiesMetric = useSelector(state => state.sheets.sheets[selectedSheet].sectionProperties)
-    const insertedSectionPropertiesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'sectionProperties'])
-    const currentSectionPropertyIndex = objectChecker(sheets, ['sheets', selectedSheet, 'currentSectionPropertyIndex'])
+    const insertedSectionPropertiesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric'])
+    const insertedSectionPropertiesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesEnglish'])
+    const currentSectionPropertyIndex = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'currentSectionPropertyIndex'])
 
     const [openNestedModal, setOpenNestedModal] = useState(false);
-
+    const [theCurrentSectionIndex, setTheCurrentSectionIndex] = useState('')
 
     const handleOpenNestedModal = () => {
         setOpenNestedModal(true);
@@ -54,14 +56,6 @@ const SectionPropertiesRows = () => {
             dispatch(removeSelectedSectionProperty(null, selectedSheet, sectionIndex))
             dispatch(resetSectionIndex(objectMapper(insertedSectionPropertiesMetric), selectedSheet))
 
-            // dispatch(setLatestRemovedSectionIndex(selectedSheet, sectionIndex))
-            // dispatch(clearRemovedSectionsArray(selectedSheet, null))
-            // dispatch(setRemovedSectionArray(selectedSheet, sectionIndex))
-            // let sortedSectionIndex = currentSections.sort(function (a, b) {
-            //     return a - b;
-            // })
-            // sortedSectionIndex.shift()
-            // dispatch(removeElementCurrentSectionsArray(selectedSheet, sortedSectionIndex))
         } else if (size(insertedSectionPropertiesMetric) !== 1 && proceed) {
             console.log("at remove section || else triggered");
 
@@ -74,23 +68,26 @@ const SectionPropertiesRows = () => {
 
             dispatch(removeSelectedSectionProperty(null, selectedSheet, sectionIndex))
             dispatch(resetSectionIndex(objectMapper(insertedSectionPropertiesMetric), selectedSheet))
-            // dispatch(setSelectedSheet(selectedSheet))
-            // dispatch(removeSelectedSection(selectedSheet, sectionIndex))
-            // dispatch(setRemovedSectionArray(selectedSheet, sectionIndex))
-            // let sortedSectionIndex = currentSections.sort()
-            // for (let theCurrentSectionIndex in currentSections) {
-            //     if (sectionId === currentSections[theCurrentSectionIndex]) {
-            //         sortedSectionIndex.splice(theCurrentSectionIndex, 1)
-            //         console.log("at the remove material = " + theCurrentSectionIndex)
-            //         dispatch(removeElementCurrentSectionsArray(selectedSheet, sortedSectionIndex))
-            //     }
-            // }
         } else {
             return
         }
     }
 
+    const NameValueHandler = (sectionIndex) => {
+        if(system === 'Metric') {
+            return insertedSectionPropertiesMetric[sectionIndex].sectionName
+        } else if(system === 'English') {
+            return insertedSectionPropertiesEnglish[sectionIndex].sectionName
+        }
+    }
 
+    const ShapeValueHandler = (sectionIndex) => {
+        if(system === 'Metric') {
+            return insertedSectionPropertiesMetric[sectionIndex].sectionShape
+        } else if(system === 'English') {
+            return insertedSectionPropertiesEnglish[sectionIndex].sectionShape
+        }
+    }
 
     const displayApiData = () => {
         const newOptions = sectionPropertiesMetric.map((data) => ({value: `${data.section_properties_metric_name}`, label: `${data.section_properties_metric_name}`}))
@@ -100,7 +97,7 @@ const SectionPropertiesRows = () => {
     }
 
     const displayEnglishApi = () => {
-        const newEnglish = sectionPropertiesMetric.map((data) => ({value: `${data.section_properties_metric_name}`, label: `${data.section_properties_metric_name}`}))
+        const newEnglish = sectionPropertiesEnglish.map((data) => ({value: `${data.section_properties_english_name}`, label: `${data.section_properties_english_name}`}))
         return newEnglish
     }
 
@@ -129,13 +126,14 @@ const SectionPropertiesRows = () => {
                         sectionShape: 'Test',
                         sectionName: 'Test'
                     }
-                    console.log("sheet index == " + selectedSheet)
-                    dispatch(editSelectedSection('test', 'apple', selectedSheet, currentSectionPropertyIndex))
+                    // console.log("sheet index == " + selectedSheet)
+                    dispatch(editSelectedSection('test', 'apple', selectedSheet, theCurrentSectionIndex))
                     setOpenNestedModal(false)
                 } else {
                     const proceed = window.confirm("Are you sure you want to keep these changes?")
                     if(proceed) {
-                        dispatch(editSelectedSection(selectedSectionShape, selectedSectionName, selectedSheet, currentSectionPropertyIndex))
+                        // alert("to be dispatched == " + selectedSectionName)
+                        dispatch(editSelectedSection(selectedSectionShape, selectedSectionName, selectedSheet, theCurrentSectionIndex))
                         setOpenNestedModal(false)
                     } else {
                         return;
@@ -149,13 +147,13 @@ const SectionPropertiesRows = () => {
                         sectionShape: 'Test',
                         sectionName: 'Test'
                     }
-                    console.log("sheet index == " + selectedSheet)
-                    dispatch(editSelectedSection('test', 'apple', selectedSheet, currentSectionPropertyIndex))
+                    // console.log("sheet index == " + selectedSheet)
+                    dispatch(editSelectedSection('test', 'apple', selectedSheet, theCurrentSectionIndex))
                     setOpenNestedModal(false)
                 } else {
                     const proceed = window.confirm("Are you sure you want to keep these changes?")
                     if(proceed) {
-                        dispatch(editSelectedSection(selectedSectionShape, selectedSectionName, selectedSheet, currentSectionPropertyIndex))
+                        dispatch(editSelectedSection(selectedSectionShape, selectedSectionName, selectedSheet, theCurrentSectionIndex))
                         setOpenNestedModal(false)
                     } else {
                         return;
@@ -163,11 +161,6 @@ const SectionPropertiesRows = () => {
                 }
             }
         }
-
-        useEffect(() => {
-            setSelectedSectionName(insertedSectionPropertiesMetric[currentSectionPropertyIndex].sectionName)
-            setSelectedSectionShape(insertedSectionPropertiesMetric[currentSectionPropertyIndex].sectionShape)
-        }, [insertedSectionPropertiesMetric])
 
         const handleRequiredShape = () => {
             setRequiredShape(true)
@@ -203,30 +196,6 @@ const SectionPropertiesRows = () => {
                 )
             } else if (!requiredName) {
                 return
-            }
-        }
-
-        const insertSectionProperty = () => {
-            if (size(insertedSectionPropertiesMetric) === 0) {
-                let initialSection = {}
-                initialSection[0] = {
-                    id: 0,
-                    sectionShape: selectedSectionShape,
-                    sectionName: selectedSectionName,
-                }
-                dispatch(addSectionProperty(initialSection, selectedSheet))
-                setOpenNestedModal(false)
-            } else {
-                let currentSections = {...insertedSectionPropertiesMetric}
-                const newSectionSize = size(insertedSectionPropertiesMetric)
-                currentSections[newSectionSize] = {
-                    id: newSectionSize,
-                    sectionShape: selectedSectionShape,
-                    sectionName: selectedSectionName
-                }
-                alert(JSON.stringify(selectedSectionName))
-                dispatch(addSectionProperty(currentSections, selectedSheet))
-                setOpenNestedModal(false)
             }
         }
 
@@ -409,16 +378,41 @@ const SectionPropertiesRows = () => {
 
     const sectionRows = []
 
-    for(let sectionIndex in insertedSectionPropertiesMetric) {
+    const [sectionNameMetric, setSectionNameMetric] = useState('W1100X499')
+    const [sectionShapeMetric, setSectionShapeMetric] = useState('W1100X499')
+    const [sectionNameEnglish, setSectionNameEnglish] = useState('')
+    const [sectionShapeEnglish, setSectionShapeEnglish] = useState('')
 
-        // alert(JSON.stringify(insertedSectionPropertiesMetric))
-        const sectionNameValue = insertedSectionPropertiesMetric[sectionIndex].sectionName
-        const sectionShapeValue = insertedSectionPropertiesMetric[sectionIndex].sectionShape
+    // useEffect(() => {
+    //     if(sectionPropertiesMetric.length > 0) {
+    //         // setSectionNameMetric("test")
+    //         // setSectionShapeMetric("Test Two")
+    //         // alert("at the useEffect == " + sectionNameMetric)
+    //         alert("at thee useEffect == " + currentSectionPropertyIndex)
+    //         setSectionNameMetric(insertedSectionPropertiesMetric[currentSectionPropertyIndex].sectionName)
+    //         setSectionShapeMetric(insertedSectionPropertiesMetric[currentSectionPropertyIndex].sectionShape)
+    //     } else {
+    //         return 'Hey'
+    //     }
+    // }, [insertedSectionPropertiesMetric])
+    //
+    // useEffect(() => {
+    //     if(sectionPropertiesEnglish.length > 0) {
+    //         // setSectionNameEnglish("New")
+    //         // setSectionShapeEnglish("New Two")
+    //         setSectionNameEnglish(insertedSectionPropertiesEnglish[currentSectionPropertyIndex].sectionName)
+    //         setSectionShapeEnglish(insertedSectionPropertiesEnglish[currentSectionPropertyIndex].sectionShape)
+    //     } else {
+    //         return
+    //     }
+    // }, [insertedSectionPropertiesEnglish])
+
+    for(let sectionIndex in insertedSectionPropertiesMetric) {
 
         sectionRows.push(
             <div style={{
                 display: 'flex',
-                width: '94.5%',
+                width: '100%',
                 margin: '0 auto',
                 // height: '100%'
             }}
@@ -435,7 +429,7 @@ const SectionPropertiesRows = () => {
                 }}>
                     <p style={{
                         margin: '0%',
-                        padding: '10%',
+                        padding: '5%',
                     }}>
                         {sectionIndex}
                         {/*{parseFloat(sectionIndex) + parseFloat(1)}*/}
@@ -444,36 +438,36 @@ const SectionPropertiesRows = () => {
                 <div style={{
                     border: '1px solid black',
                     margin: '0px',
-                    width: '20%',
+                    width: '25%',
                     // height: '100%',
                     backgroundColor: '#fff',
                     textAlign: 'center'
                 }}>
                     <p style={{
                         margin: '0%',
-                        padding: '10%',
+                        padding: '5%',
                     }}>
-                        {sectionNameValue}
+                        {NameValueHandler(sectionIndex)}
                     </p>
                 </div>
                 <div style={{
                     border: '1px solid black',
                     margin: '0px',
-                    width: '20%',
+                    width: '25%',
                     // height: '100%',
                     backgroundColor: '#fff',
                     textAlign: 'center'
                 }}>
                     <p style={{
                         margin: '0%',
-                        padding: '10%',
+                        padding: '5%',
                     }}>
-                        {sectionShapeValue}
+                        {ShapeValueHandler(sectionIndex)}
                     </p>
                 </div>
                 <div style={{
                     margin: '0px',
-                    width: '20%',
+                    width: '10%',
                     // height: '100%'
                 }}>
                     <div style={{
@@ -504,6 +498,7 @@ const SectionPropertiesRows = () => {
                                 onClick={() => {
                                     dispatch(setCurrentSectionPropertyIndex(sectionIndex, selectedSheet))
                                     handleOpenNestedModal()
+                                    setTheCurrentSectionIndex(sectionIndex)
                                 }}
                             />
                             <CancelIcon
