@@ -67,6 +67,7 @@ const MemberFieldRows = () => {
         }
 
         const materialIdHandler = (event) => {
+            // alert("at materialID handler -- " + event.target.value)
             dispatch(setMaterialId(event.target.value, selectedSheet, memberIndex))
         }
 

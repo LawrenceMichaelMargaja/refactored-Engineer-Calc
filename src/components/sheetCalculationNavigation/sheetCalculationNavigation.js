@@ -26,8 +26,10 @@ const SheetCalculationNavigation = () => {
 
     const sheets = useSelector(state => state.sheets)
     const sheetTabs = useSelector(state => state.sheets.sheets)
-    const members = useSelector(state => state.sheets.sheets.members)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
+    // const members = useSelector(state => state.sheets.sheets.members)
+    const members = objectChecker(sheets, ['sheets', selectedSheet, 'members'])
+
     const sectionProperties = useSelector(state => state.sheets.sheets.sectionProperties)
     const materialProperties = useSelector(state => state.sheets.sheets.materialProperties)
     const tabState = objectChecker(sheets, ['sheets', selectedSheet, 'tabState'])
@@ -68,6 +70,7 @@ const SheetCalculationNavigation = () => {
 
         for (let memberIndex in members) {
             const memberId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'memberId'])
+            // const materialId = sheetTabs.members[memberIndex].materialId
             const materialId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'materialId'])
             const sectionId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'sectionId'])
             const totalLengthOfMember = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'totalLengthOfMember'])
@@ -81,11 +84,6 @@ const SheetCalculationNavigation = () => {
             const slendernessRatioInTension = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'slendernessRatioInTension'])
             const currentMaterials = objectChecker(sheets, ['sheets', selectedSheet, 'currentMaterialsArray'])
             const currentSections = objectChecker(sheets, ['sheets', selectedSheet, 'currentSectionsArray'])
-
-            if ((memberId === '0' || memberId === 0) || (materialId === '0' || materialId === 0 || materialId === '' || materialId < 0 || materialId < '0') || (sectionId === '0' || sectionId === 0 || sectionId === '' || sectionId < 0 || sectionId < '0') || (totalLengthOfMember === '0' || totalLengthOfMember === 0 || totalLengthOfMember === '' || totalLengthOfMember < 0 || totalLengthOfMember < '0') || (yAxisUnbracedLength === '0' || yAxisUnbracedLength === 0 || yAxisUnbracedLength === '' || yAxisUnbracedLength < 0 || yAxisUnbracedLength < '0') || (yAxisEffectiveLengthFactor === '0' || yAxisEffectiveLengthFactor === 0 || yAxisEffectiveLengthFactor === '' || yAxisEffectiveLengthFactor < 0 || yAxisEffectiveLengthFactor < '0') || (zAxisUnbracedLength === '0' || zAxisUnbracedLength === 0 || zAxisUnbracedLength === '' || zAxisUnbracedLength < 0 || zAxisUnbracedLength < '0') || (zAxisEffectiveLengthFactor === '0' || zAxisEffectiveLengthFactor === 0 || zAxisEffectiveLengthFactor === '' || zAxisEffectiveLengthFactor < 0 || zAxisEffectiveLengthFactor < '0') || (unbracedLengthLateralTorsional === '0' || unbracedLengthLateralTorsional === 0 || unbracedLengthLateralTorsional === '' || unbracedLengthLateralTorsional < 0 || unbracedLengthLateralTorsional < '0') || (lateralTorsionalModificationFactor === '0' || lateralTorsionalModificationFactor === 0 || lateralTorsionalModificationFactor === '' || lateralTorsionalModificationFactor < 0 || lateralTorsionalModificationFactor < '0') || (slendernessRatioInCompression === '0' || slendernessRatioInCompression === 0 || slendernessRatioInCompression === '' || slendernessRatioInCompression < 0 || slendernessRatioInCompression < '0') || (slendernessRatioInTension === '0' || slendernessRatioInTension === 0 || slendernessRatioInTension === '' || slendernessRatioInTension < 0 || slendernessRatioInTension < '0')) {
-                arrayCheck.push('membersTab error : membersTab value is zero, null, or negative')
-            }
-
 
             if (materialProperties === null || sectionProperties === null) {
                 arrayCheck.push('material property or section property is null')
@@ -115,12 +113,8 @@ const SheetCalculationNavigation = () => {
                 }
             }
 
-            if (arrayCheck.length > 0) {
-                // alert(arrayCheck)
-            }
-
-            if (arrayCheck.length === 0 && size(members) - 1 === parseFloat(memberIndex)) {
-                // alert(arrayCheck);
+            if ((memberId === '0' || memberId === 0) || (materialId === '0' || materialId === 0 || materialId === '' || materialId < 0 || materialId < '0') || (sectionId === '0' || sectionId === 0 || sectionId === '' || sectionId < 0 || sectionId < '0') || (totalLengthOfMember === '0' || totalLengthOfMember === 0 || totalLengthOfMember === '' || totalLengthOfMember < 0 || totalLengthOfMember < '0') || (yAxisUnbracedLength === '0' || yAxisUnbracedLength === 0 || yAxisUnbracedLength === '' || yAxisUnbracedLength < 0 || yAxisUnbracedLength < '0') || (yAxisEffectiveLengthFactor === '0' || yAxisEffectiveLengthFactor === 0 || yAxisEffectiveLengthFactor === '' || yAxisEffectiveLengthFactor < 0 || yAxisEffectiveLengthFactor < '0') || (zAxisUnbracedLength === '0' || zAxisUnbracedLength === 0 || zAxisUnbracedLength === '' || zAxisUnbracedLength < 0 || zAxisUnbracedLength < '0') || (zAxisEffectiveLengthFactor === '0' || zAxisEffectiveLengthFactor === 0 || zAxisEffectiveLengthFactor === '' || zAxisEffectiveLengthFactor < 0 || zAxisEffectiveLengthFactor < '0') || (unbracedLengthLateralTorsional === '0' || unbracedLengthLateralTorsional === 0 || unbracedLengthLateralTorsional === '' || unbracedLengthLateralTorsional < 0 || unbracedLengthLateralTorsional < '0') || (lateralTorsionalModificationFactor === '0' || lateralTorsionalModificationFactor === 0 || lateralTorsionalModificationFactor === '' || lateralTorsionalModificationFactor < 0 || lateralTorsionalModificationFactor < '0') || (slendernessRatioInCompression === '0' || slendernessRatioInCompression === 0 || slendernessRatioInCompression === '' || slendernessRatioInCompression < 0 || slendernessRatioInCompression < '0') || (slendernessRatioInTension === '0' || slendernessRatioInTension === 0 || slendernessRatioInTension === '' || slendernessRatioInTension < 0 || slendernessRatioInTension < '0')) {
+                arrayCheck.push('membersTab error : membersTab value is zero, null, or negative')
             }
         }
 
@@ -703,7 +697,7 @@ const SheetCalculationNavigation = () => {
                     <p><strong>IMPORTANT!</strong> Values for Factors Tab must not be negative.</p>
                 </>
         } else if (arrayCheck.includes('forcesTab error : value is zero or null')) {
-            console.log("at the includes == ", arrayCheck)
+            // console.log("at the includes == ", arrayCheck)
             errorLocation =
                 <ul>
                     <li>Forces Tab</li>
