@@ -7,13 +7,29 @@ import {useSelector} from "react-redux";
 const Errors = ({errorLocation, important}) => {
 
     const sheets = useSelector(state => state.sheets)
-    const selectedSheet = useSelector(state => sheets.sheets.selectedSheet)
-    const errors = objectChecker(sheets, ['sheets', selectedSheet, 'tabState'])
+    const selectedSheet = useSelector(state => state.sheets.selectedSheet)
+    const tabState = objectChecker(sheets, ['sheets', selectedSheet, 'tabState'])
+    const arrayCheck = objectChecker(sheets, ['sheets', selectedSheet, 'arrayCheck'])
 
     let errorPlace = ''
     let errorMessage = ''
 
-    console.log(errors)
+    let errors = []
+
+    const renderErrors = () => {
+        for(let error in arrayCheck) {
+            errors.push(
+                <p style={{margin: '0', padding: '0 1em'}}
+                    key={error}
+                >
+                    <li>
+                        {arrayCheck[error]}
+                    </li>
+                </p>
+            )
+        }
+        return errors
+    }
 
     return (
         <Grid>
@@ -29,14 +45,11 @@ const Errors = ({errorLocation, important}) => {
                     width: '100%'
                 }}>
                     <div style={{
-                        width: '50%'
+                        width: '50%',
+                        paddingBottom: '1em'
                     }}>
-                        <p><strong>Project Notes</strong></p>
-                        <ul>
-                            <li>{errorPlace}</li>
-                            <li>{errorMessage}</li>
-
-                        </ul>
+                        <p style={{padding: '0 1em'}}><strong>Errors</strong></p>
+                        {renderErrors()}
                     </div>
                 </Card>
             </Grid>

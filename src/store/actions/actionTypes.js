@@ -23,6 +23,7 @@ export const SET_MAPPED_STEEL_TYPE_ENGLISH = '@@sheets/SET_MAPPED_STEEL_TYPE_ENG
  */
 export const SET_ERROR_LOCATION = '@@sheets/SET_ERROR_LOCATION'
 export const SET_ERROR_MESSAGE = '@@sheets/SET_ERROR_MESSAGE'
+export const SET_ARRAY_CHECK = '@@sheets/SET_ARRAY_CHECK'
 
 /**
  * Dashboard drop downs

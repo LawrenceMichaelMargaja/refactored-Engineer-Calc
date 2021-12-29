@@ -11,7 +11,7 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import {Autocomplete} from "@mui/material";
 import Errors from "../sheetCalculationComponents/errors/Errors";
-import {setErrorMessage} from "../../store/actions/sheets/sheetCalculationComponents/errors/errors";
+import {setArrayCheck, setErrorMessage} from "../../store/actions/sheets/sheetCalculationComponents/errors/errors";
 
 const useStyles = makeStyles((theme) => ({
     sheetNavigation: {
@@ -126,18 +126,15 @@ const SheetCalculationNavigation = () => {
 
         if ((bendingMomentAlongXAxis === '0' || bendingMomentAlongXAxis === '' || bendingMomentAlongXAxis === 0) && (bendingMomentAlongYAxis === '0' || bendingMomentAlongYAxis === '' || bendingMomentAlongYAxis === 0) && (shearAlongXAxis === '0' || shearAlongXAxis === '' || shearAlongXAxis === 0) && (shearAlongYAxis === '0' || shearAlongYAxis === '' || shearAlongYAxis === 0) && (axial === '0' || axial === '' || axial === 0)) {
             arrayCheck.push('forcesTab error : value is zero or null')
-            dispatch(setErrorMessage('forcesTab error : value is zero or null', selectedSheet))
         }
 
         if ((factorVMemberNameValue === '0' || factorVMemberNameValue === '' || factorVMemberNameValue === 0) || (factorVMemberSpeciesValue === '0' || factorVMemberSpeciesValue === '' || factorVMemberSpeciesValue === 0) || (factorMemberWeightValue === '0' || factorMemberWeightValue === '' || factorMemberWeightValue === 0) || (factorMemberLengthValue === '0' || factorMemberLengthValue === '' || factorMemberLengthValue === 0)) {
             // alert(factorVMemberNameValue)
             arrayCheck.push('factorsTab error : factorsTab value is zero or null')
-            dispatch(setErrorMessage('factorsTab error : factorsTab value is zero or null', selectedSheet))
         }
 
         if ((parseFloat(factorVMemberNameValue) < parseFloat(0) || factorVMemberNameValue < '0') || (parseFloat(factorVMemberSpeciesValue) < parseFloat(0) || factorVMemberSpeciesValue < '(0)') || (parseFloat(factorMemberWeightValue) < parseFloat(0) || factorMemberWeightValue < '0') || (parseFloat(factorMemberLengthValue) < parseFloat(0) || factorMemberLengthValue < '0')) {
             arrayCheck.push('factorsTab error : factorsTab value cannot be negative')
-            dispatch(setErrorMessage('factorsTab error : factorsTab value cannot be negative', selectedSheet))
         }
 
         if (arrayCheck.includes('forcesTab error : value is zero or null') && arrayCheck.includes('factorsTab error : factorsTab value is zero or null') && arrayCheck.includes('membersTab error : membersTab value is zero, null, or negative') && arrayCheck.includes('material property or section property is null')) {
@@ -736,6 +733,8 @@ const SheetCalculationNavigation = () => {
         if(tabState === 'results') {
             resultsNavigationHandler()
         } else if (tabState === 'errors') {
+            // alert("to be dispatched arrayCheck == " + arrayCheck)
+
             errorsNavigationHandler()
         }
     }
@@ -807,6 +806,7 @@ const SheetCalculationNavigation = () => {
                             <Tab
                                 onClick={() => {
                                     resultErrorHandler()
+                                    dispatch(setArrayCheck(arrayCheck, selectedSheet))
                                     // nestedModal()
                                     // displayModal()
                                     // setOpenNestedModal(true)

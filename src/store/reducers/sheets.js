@@ -17,7 +17,7 @@ import {
     REMOVE_SELECTED_SECTION_PROPERTY,
     REMOVE_SHEET,
     RESET_METRIC_MATERIAL_PROPERTIES_INDEX,
-    RESET_SECTION_INDEX,
+    RESET_SECTION_INDEX, SET_ARRAY_CHECK,
     SET_AXIAL,
     SET_BENDING_MOMENT_ALONG_X_AXIS,
     SET_BENDING_MOMENT_ALONG_Y_AXIS,
@@ -92,8 +92,7 @@ const initialState = {
             currentMaterialsArray: [1],
             currentSectionsArray: [1],
             removedMemberRowArray: [],
-            errorLocation: [],
-            errorMessage: [],
+            arrayCheck: [],
             route: '',
             apiData: {
                 steelTypesMetric: [],
@@ -350,12 +349,10 @@ const Reducer = (state = initialState, action) => {
             return resetMetricMaterialIndex(state, action.payload)
         case SET_CURRENT_SECTION_PROPERTIES_ARRAY:
             return setCurrentSectionPropertiesArray(state, action.payload)
-        case SET_ERROR_LOCATION:
-            return setErrorLocation(state, action.payload)
-        case SET_ERROR_MESSAGE:
-            return setErrorMessage(state, action.payload)
         case SET_CURRENT_SECTION_PROPERTY_INDEX:
             return setCurrentSectionPropertyIndex(state, action.payload)
+        case SET_ARRAY_CHECK:
+            return setArrayCheck(state, action.payload)
         default:
             return state
     }
@@ -364,37 +361,50 @@ const Reducer = (state = initialState, action) => {
 /**
  * Errors
  */
-const setErrorLocation = (state, payload) => {
+const setArrayCheck = (state, payload) => {
     return {
         ...state,
         sheets: {
             ...state.sheets,
             [payload.sheetIndex]: {
                 ...state.sheets[payload.sheetIndex],
-                errorLocation: [
-                    ...state.sheets[payload.sheetIndex].errorLocation,
-                    payload.data
-                ]
+                arrayCheck: payload.data
             }
         }
     }
 }
 
-const setErrorMessage = (state, payload) => {
-    return {
-        ...state,
-        sheets: {
-            ...state.sheets,
-            [payload.sheetIndex]: {
-                ...state.sheets[payload.sheetIndex],
-                errorMessage: [
-                    ...state.sheets[payload.sheetIndex].errorMessage,
-                    payload.data
-                ]
-            }
-        }
-    }
-}
+// const setErrorLocation = (state, payload) => {
+//     return {
+//         ...state,
+//         sheets: {
+//             ...state.sheets,
+//             [payload.sheetIndex]: {
+//                 ...state.sheets[payload.sheetIndex],
+//                 errorLocation: [
+//                     ...state.sheets[payload.sheetIndex].errorLocation,
+//                     payload.data
+//                 ]
+//             }
+//         }
+//     }
+// }
+//
+// const setErrorMessage = (state, payload) => {
+//     return {
+//         ...state,
+//         sheets: {
+//             ...state.sheets,
+//             [payload.sheetIndex]: {
+//                 ...state.sheets[payload.sheetIndex],
+//                 errorMessage: [
+//                     ...state.sheets[payload.sheetIndex].errorMessage,
+//                     payload.data
+//                 ]
+//             }
+//         }
+//     }
+// }
 
 /**
  * Sheets

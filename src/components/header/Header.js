@@ -30,6 +30,7 @@ const Header = () => {
     const errors = objectChecker(sheets, ['sheets', selectedSheet, 'errorMessage'])
     const englishSections = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'sectionPropertiesEnglish'])
     const currentSectionPropertyIndex = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'currentSectionPropertyIndex'])
+    const arrayCheck = objectChecker(sheets, ['sheets', selectedSheet, 'arrayCheck'])
 
     /**
      * Details Tab
@@ -71,6 +72,7 @@ const Header = () => {
     for(let sheetIndex in sheetTabs) {
         tabs = sheetTabs[sheetIndex]
     }
+    console.log(JSON.stringify(arrayCheck))
 
     const classes = useStyles()
 
@@ -95,7 +97,7 @@ const Header = () => {
             {/*    <p>{JSON.stringify(provisionState)}</p>*/}
             {/*</div>*/}
             <div>
-                    <p style={{width: '50%', margin: '1em'}}>{JSON.stringify(currentSectionPropertyIndex)}</p>
+                    <p style={{width: '50%', margin: '1em'}}>{JSON.stringify(arrayCheck[0])}</p>
             </div>
             <div className={classes.root}>
                 <div className={classes.titleContainer}>
