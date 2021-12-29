@@ -150,16 +150,19 @@ const MemberFieldRows = () => {
                         backgroundColor: '#fff',
                         textAlign: 'center'
                     }}>
-                        <TextField
-                            className={classes.textField}
-                            onChange={(event) => memberIdHandler(event)}
-                            value={memberId}
-                            disabled={true}
-                            type='number'
-                            inputProps={{style: {textAlign: 'center'}}}
-                            InputProps={{disableUnderline: true}}
+                        <p style={{margin: '0.97em', fontWeight: 'bold'}}>
+                            {memberId}
+                        </p>
+                        {/*<TextField*/}
+                        {/*    className={classes.textField}*/}
+                        {/*    onChange={(event) => memberIdHandler(event)}*/}
+                        {/*    value={memberId}*/}
+                        {/*    disabled={true}*/}
+                        {/*    type='number'*/}
+                        {/*    inputProps={{style: {textAlign: 'center'}}}*/}
+                        {/*    InputProps={{disableUnderline: true}}*/}
 
-                        />
+                        {/*/>*/}
                     </div>
                 </div>
                 <div style={{

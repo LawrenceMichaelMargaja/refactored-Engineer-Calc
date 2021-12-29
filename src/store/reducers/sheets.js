@@ -158,7 +158,7 @@ const initialState = {
             members: {
                 0: {
                     memberId: 1,
-                    materialId: 0,
+                    materialId: 1,
                     sectionId: 1,
                     totalLengthOfMember: 1,
                     yAxisUnbracedLength: 1,

@@ -533,8 +533,8 @@ const MetricMaterialPropertiesRows = () => {
                             padding: '7%',
                             textAlign: 'center'
                         }}>
-                            {materialPropertiesIndex}
-                            {/*{parseFloat(materialPropertiesIndex) + parseFloat(1)}*/}
+                            {/*{materialPropertiesIndex}*/}
+                            {parseFloat(materialPropertiesIndex) + parseFloat(1)}
                         </p>
                     </div>
                     <div style={{

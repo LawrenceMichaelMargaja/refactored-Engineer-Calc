@@ -431,8 +431,8 @@ const SectionPropertiesRows = () => {
                         margin: '0%',
                         padding: '5%',
                     }}>
-                        {sectionIndex}
-                        {/*{parseFloat(sectionIndex) + parseFloat(1)}*/}
+                        {/*{sectionIndex}*/}
+                        {parseFloat(sectionIndex) + parseFloat(1)}
                     </p>
                 </div>
                 <div style={{
