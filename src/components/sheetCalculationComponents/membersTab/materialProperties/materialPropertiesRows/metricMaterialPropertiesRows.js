@@ -234,8 +234,6 @@ const MetricMaterialPropertiesRows = () => {
             }
         }
 
-
-
         const editMaterialProperty = () => {
             if(selectedSteelType === '') {
                 setErrorDisplay(currVal => !currVal)
@@ -411,10 +409,6 @@ const MetricMaterialPropertiesRows = () => {
             </div>
         );
     }
-
-
-
-
 
     const displayModal = () => {
         if(edit === true) {

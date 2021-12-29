@@ -8,7 +8,7 @@ import {
     CLEAR_REMOVED_MEMBERS_ARRAY,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTIES,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
-    EDIT_SELECTED_SECTION,
+    EDIT_SELECTED_SECTION, EDIT_SELECTED_SECTION_ENGLISH, EDIT_SELECTED_SECTION_METRIC,
     GET_MATERIAL_PROPERTIES_DATA,
     GET_SECTION_PROPERTIES_ENGLISH,
     GET_SECTION_PROPERTIES_METRIC,
@@ -30,11 +30,10 @@ import {
     SET_ARRAY_CHECK,
     SET_AXIAL,
     SET_BENDING_MOMENT_ALONG_X_AXIS,
-    SET_BENDING_MOMENT_ALONG_Y_AXIS,
+    SET_BENDING_MOMENT_ALONG_Y_AXIS, SET_CURRENT_ENGLISH_SECTION_PROPERTY_INDEX,
     SET_CURRENT_MATERIALS_ARRAY,
-    SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX,
+    SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX, SET_CURRENT_METRIC_SECTION_PROPERTY_INDEX,
     SET_CURRENT_SECTION_PROPERTIES_ARRAY,
-    SET_CURRENT_SECTION_PROPERTY_INDEX,
     SET_DISABLE_MENU_BUTTONS,
     SET_ENGLISH_EMPA,
     SET_ENGLISH_FUMPA,
@@ -114,6 +113,8 @@ const initialState = {
                 selectedSteelType: 'A36',
                 currentMetricMaterialPropertyIndex: 0,
                 currentMetricEnglishPropertyIndex: '',
+                currentMetricSectionPropertyIndex: 0,
+                currentEnglishSectionPropertyIndex: 0,
                 currentSectionPropertyIndex: 0,
                 steelTypeMetricProperties: {
                     0: {
@@ -341,8 +342,10 @@ const Reducer = (state = initialState, action) => {
             return addSectionPropertyMetric(state, action.payload)
         case ADD_SECTION_PROPERTY_ENGLISH:
             return addSectionPropertyEnglish(state, action.payload)
-        case EDIT_SELECTED_SECTION:
-            return editSelectedSection(state, action.payload)
+        case EDIT_SELECTED_SECTION_METRIC:
+            return editSelectedSectionMetric(state, action.payload)
+        case EDIT_SELECTED_SECTION_ENGLISH:
+            return editSelectedSectionEnglish(state, action.payload)
         case GET_SECTION_PROPERTIES_METRIC:
             return getSectionPropertiesMetric(state, action.payload)
         case GET_SECTION_PROPERTIES_ENGLISH:
@@ -359,8 +362,6 @@ const Reducer = (state = initialState, action) => {
             return resetMetricMaterialIndex(state, action.payload)
         case SET_CURRENT_SECTION_PROPERTIES_ARRAY:
             return setCurrentSectionPropertiesArray(state, action.payload)
-        case SET_CURRENT_SECTION_PROPERTY_INDEX:
-            return setCurrentSectionPropertyIndex(state, action.payload)
         case SET_ARRAY_CHECK:
             return setArrayCheck(state, action.payload)
         case RESET_MEMBER_FIELDS:
@@ -373,6 +374,10 @@ const Reducer = (state = initialState, action) => {
             return resetMetricSectionProperties(state, action.payload)
         case RESET_ENGLISH_SECTION_PROPERTIES:
             return resetEnglishSectionProperties(state, action.payload)
+        case SET_CURRENT_METRIC_SECTION_PROPERTY_INDEX:
+            return setCurrentMetricSectionPropertyIndex(state, action.payload)
+        case SET_CURRENT_ENGLISH_SECTION_PROPERTY_INDEX:
+            return setCurrentEnglishSectionPropertyIndex(state, action.payload)
         default:
             return state
     }
@@ -1672,7 +1677,7 @@ const setCurrentSectionPropertiesArray = (state, payload) => {
     }
 }
 
-const editSelectedSection = (state, payload) => {
+const editSelectedSectionMetric = (state, payload) => {
     return {
         ...state,
         sheets: {
@@ -1683,6 +1688,28 @@ const editSelectedSection = (state, payload) => {
                     ...state.sheets[payload.sheetIndex].apiMap,
                     sectionPropertiesMetric: {
                         ...state.sheets[payload.sheetIndex].apiMap.sectionPropertiesMetric,
+                        [payload.sectionIndex]: {
+                            sectionShape: payload.sectionShape,
+                            sectionName: payload.sectionName
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+const editSelectedSectionEnglish = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    sectionPropertiesEnglish: {
+                        ...state.sheets[payload.sheetIndex].apiMap.sectionPropertiesEnglish,
                         [payload.sectionIndex]: {
                             sectionShape: payload.sectionShape,
                             sectionName: payload.sectionName
@@ -1749,6 +1776,38 @@ const resetEnglishSectionProperties = (state, payload) => {
                             sectionName: 'W1100X499',
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+const setCurrentMetricSectionPropertyIndex = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    currentMetricSectionPropertyIndex: payload.data
+                }
+            }
+        }
+    }
+}
+
+const setCurrentEnglishSectionPropertyIndex = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    currentEnglishSectionPropertyIndex: payload.data
                 }
             }
         }

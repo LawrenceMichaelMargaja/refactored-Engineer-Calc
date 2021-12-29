@@ -24,7 +24,8 @@ const Header = () => {
     const sheets = useSelector(state => state.sheets)
     const sheetTabs = useSelector(state => state.sheets.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
-    const sections = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric'])
+    const sectionsMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric'])
+    const sectionsEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesEnglish'])
     const materials = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties'])
     const tabState = objectChecker(sheets, ['sheets', selectedSheet, 'tabState'])
     const errors = objectChecker(sheets, ['sheets', selectedSheet, 'errorMessage'])
@@ -74,7 +75,7 @@ const Header = () => {
     for(let sheetIndex in sheetTabs) {
         tabs = sheetTabs[sheetIndex]
     }
-    console.log(JSON.stringify(arrayCheck))
+    // console.log(JSON.stringify(arrayCheck))
 
     const classes = useStyles()
 
@@ -99,7 +100,7 @@ const Header = () => {
             {/*    <p>{JSON.stringify(provisionState)}</p>*/}
             {/*</div>*/}
             <div>
-                    <p style={{width: '50%', margin: '1em'}}>{JSON.stringify(method)}</p>
+                    <p style={{width: '50%', margin: '1em'}}>{JSON.stringify(sectionsEnglish)}</p>
             </div>
             <div className={classes.root}>
                 <div className={classes.titleContainer}>

@@ -6,9 +6,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {objectChecker} from "../../../../../utilities/utilities";
 import size from "lodash/size";
 import {
-    addSectionProperty, editSelectedSection,
+    addSectionProperty,
+    editSelectedSection, editSelectedSectionEnglish, editSelectedSectionMetric,
     removeSelectedSectionProperty,
-    resetSectionIndex, setCurrentSectionPropertiesArray, setCurrentSectionPropertyIndex
+    resetSectionIndex, setCurrentEnglishSectionPropertyIndex,
+    setCurrentMetricSectionPropertyIndex,
+    setCurrentSectionPropertiesArray,
+    setCurrentSectionPropertyIndex
 } from "../../../../../store/actions/sheets/sheetCalculationComponents/sectionProperties/sectionProperties";
 import {mapKeys} from "lodash";
 import {setSelectedSheet} from "../../../../../store/actions/sheets/sheets";
@@ -33,11 +37,34 @@ const SectionPropertiesRows = () => {
     const currentSectionPropertyIndex = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'currentSectionPropertyIndex'])
 
     const [openNestedModal, setOpenNestedModal] = useState(false);
-    const [theCurrentSectionIndex, setTheCurrentSectionIndex] = useState('')
+    const [theCurrentSectionIndex, setTheCurrentSectionIndex] = useState(0)
 
     const handleOpenNestedModal = () => {
         setOpenNestedModal(true);
     };
+
+    const hashMetric = useMemo(() => {
+        let hash = {}
+        // alert(JSON.stringify(steelTypesMetric))
+        for (let i in sectionPropertiesMetric) {
+            let {
+                section_properties_metric_name,
+            } = sectionPropertiesMetric[i]
+            hash[section_properties_metric_name] = sectionPropertiesMetric[i]
+        }
+        return hash
+    }, [sectionPropertiesMetric])
+
+    const hashEnglish = useMemo(() => {
+        let hash = {}
+        for (let i in sectionPropertiesEnglish) {
+            let {
+                section_properties_english_name,
+            } = sectionPropertiesEnglish[i]
+            hash[section_properties_english_name] = sectionPropertiesEnglish[i]
+        }
+        return hash
+    }, [sectionPropertiesEnglish])
 
     const removeSection = (selectedSheet, sectionIndex) => {
 
@@ -45,7 +72,6 @@ const SectionPropertiesRows = () => {
 
         if (size(insertedSectionPropertiesMetric) === 1 && proceed) {
             console.log("at remove section || if triggered");
-
             let newNumber = 0
 
             const objectMapper = (object) => {
@@ -74,35 +100,45 @@ const SectionPropertiesRows = () => {
     }
 
     const NameValueHandler = (sectionIndex) => {
-        if(system === 'Metric') {
+        if (system === 'Metric') {
             return insertedSectionPropertiesMetric[sectionIndex].sectionName
-        } else if(system === 'English') {
+            // return hashMetric[insertedSectionPropertiesMetric[sectionIndex].sectionName].section_properties_metric_name
+        } else if (system === 'English') {
             return insertedSectionPropertiesEnglish[sectionIndex].sectionName
+            // return hashEnglish[insertedSectionPropertiesMetric[sectionIndex].sectionName].section_properties_english_name
         }
     }
 
     const ShapeValueHandler = (sectionIndex) => {
-        if(system === 'Metric') {
+        if (system === 'Metric') {
             return insertedSectionPropertiesMetric[sectionIndex].sectionShape
-        } else if(system === 'English') {
+            // return hashMetric[insertedSectionPropertiesMetric[sectionIndex].sectionShape].section_properties_metric_shape
+        } else if (system === 'English') {
             return insertedSectionPropertiesEnglish[sectionIndex].sectionShape
+            // return hashEnglish[insertedSectionPropertiesMetric[sectionIndex].sectionShape].section_properties_english_shape
         }
     }
 
     const displayApiData = () => {
-        const newOptions = sectionPropertiesMetric.map((data) => ({value: `${data.section_properties_metric_name}`, label: `${data.section_properties_metric_name}`}))
+        const newOptions = sectionPropertiesMetric.map((data) => ({
+            value: `${data.section_properties_metric_name}`,
+            label: `${data.section_properties_metric_name}`
+        }))
         return (
             newOptions
         )
     }
 
     const displayEnglishApi = () => {
-        const newEnglish = sectionPropertiesEnglish.map((data) => ({value: `${data.section_properties_english_name}`, label: `${data.section_properties_english_name}`}))
+        const newEnglish = sectionPropertiesEnglish.map((data) => ({
+            value: `${data.section_properties_english_name}`,
+            label: `${data.section_properties_english_name}`
+        }))
         return newEnglish
     }
 
     const systemCheck = () => {
-        if(system === 'Metric') {
+        if (system === 'Metric') {
             return displayApiData()
         } else if (system === 'English') {
             return displayEnglishApi()
@@ -117,9 +153,29 @@ const SectionPropertiesRows = () => {
         const [selectedSectionName, setSelectedSectionName] = useState('')
         const [selectedSectionShape, setSelectedSectionShape] = useState('')
 
+        useEffect(() => {
+            if (system === 'Metric') {
+                setSelectedSectionName(insertedSectionPropertiesMetric[theCurrentSectionIndex].sectionName)
+            } else if (system === 'English') {
+                setSelectedSectionName(insertedSectionPropertiesEnglish[theCurrentSectionIndex].sectionName)
+            }
+        }, [insertedSectionPropertiesMetric, insertedSectionPropertiesEnglish])
+
+        useEffect(() => {
+            if (system === 'Metric') {
+                setSelectedSectionShape(insertedSectionPropertiesMetric[theCurrentSectionIndex].sectionShape)
+            } else if (system === 'English') {
+                setSelectedSectionShape(insertedSectionPropertiesEnglish[theCurrentSectionIndex].sectionShape)
+            }
+        }, [insertedSectionPropertiesMetric, insertedSectionPropertiesEnglish])
+
+        const editDispatchHandler = () => {
+
+        }
+
         const editSectionProperty = () => {
-            if(system === 'Metric') {
-                if(size(insertedSectionPropertiesMetric) === 0) {
+            if (system === 'Metric') {
+                if (size(insertedSectionPropertiesMetric) === 0) {
                     const initialSection = {}
                     initialSection[0] = {
                         id: 0,
@@ -127,20 +183,22 @@ const SectionPropertiesRows = () => {
                         sectionName: 'Test'
                     }
                     // console.log("sheet index == " + selectedSheet)
-                    dispatch(editSelectedSection('test', 'apple', selectedSheet, theCurrentSectionIndex))
+                    dispatch(editSelectedSectionMetric('test', 'apple', selectedSheet, theCurrentSectionIndex))
+                    // dispatch(editSelectedSectionEnglish(selectedSectionShape, selectedSectionName, selectedSheet, theCurrentSectionIndex))
                     setOpenNestedModal(false)
                 } else {
                     const proceed = window.confirm("Are you sure you want to keep these changes?")
-                    if(proceed) {
+                    if (proceed) {
                         // alert("to be dispatched == " + selectedSectionName)
-                        dispatch(editSelectedSection(selectedSectionShape, selectedSectionName, selectedSheet, theCurrentSectionIndex))
+                        dispatch(editSelectedSectionMetric(selectedSectionShape, selectedSectionName, selectedSheet, theCurrentSectionIndex))
+                        // dispatch(editSelectedSectionEnglish(selectedSectionShape, selectedSectionName, selectedSheet, theCurrentSectionIndex))
                         setOpenNestedModal(false)
                     } else {
                         return;
                     }
                 }
-            } else if(system === 'English') {
-                if(size(insertedSectionPropertiesMetric) === 0) {
+            } else if (system === 'English') {
+                if (size(insertedSectionPropertiesMetric) === 0) {
                     const initialSection = {}
                     initialSection[0] = {
                         id: 0,
@@ -148,12 +206,12 @@ const SectionPropertiesRows = () => {
                         sectionName: 'Test'
                     }
                     // console.log("sheet index == " + selectedSheet)
-                    dispatch(editSelectedSection('test', 'apple', selectedSheet, theCurrentSectionIndex))
+                    dispatch(editSelectedSectionEnglish('test', 'apple', selectedSheet, theCurrentSectionIndex))
                     setOpenNestedModal(false)
                 } else {
                     const proceed = window.confirm("Are you sure you want to keep these changes?")
-                    if(proceed) {
-                        dispatch(editSelectedSection(selectedSectionShape, selectedSectionName, selectedSheet, theCurrentSectionIndex))
+                    if (proceed) {
+                        dispatch(editSelectedSectionEnglish(selectedSectionShape, selectedSectionName, selectedSheet, theCurrentSectionIndex))
                         setOpenNestedModal(false)
                     } else {
                         return;
@@ -181,10 +239,10 @@ const SectionPropertiesRows = () => {
         }
 
         useEffect(() => {
-            if(selectedSectionShape !== '') {
+            if (selectedSectionShape !== '') {
                 setRequiredShape(false)
             }
-            if(selectedSectionName !== '') {
+            if (selectedSectionName !== '') {
                 setRequiredName(false)
             }
         }, [selectedSectionShape, selectedSectionName])
@@ -259,7 +317,13 @@ const SectionPropertiesRows = () => {
                                 {displayError()}
                                 <div style={{width: '100%', padding: '1em'}}>
                                     <FormControl fullWidth>
-                                        <p style={{color: '#000', fontWeight: 'bold', width: 'fit-content', float: 'left', margin: '0'}}>Name</p>
+                                        <p style={{
+                                            color: '#000',
+                                            fontWeight: 'bold',
+                                            width: 'fit-content',
+                                            float: 'left',
+                                            margin: '0'
+                                        }}>Name</p>
                                         <Autocomplete
                                             // disablePortal
                                             id="combo-box-demo"
@@ -268,7 +332,8 @@ const SectionPropertiesRows = () => {
                                             options={systemCheck()}
                                             onChange={(event) => setSectionName(event)}
                                             value={selectedSectionName}
-                                            renderInput={(params) => <TextField {...params} label="Preset Section Names"/>}
+                                            renderInput={(params) => <TextField {...params}
+                                                                                label="Preset Section Names"/>}
                                         />
                                         {requiredNameMessage()}
                                     </FormControl>
@@ -284,7 +349,13 @@ const SectionPropertiesRows = () => {
                                 {displayError()}
                                 <div style={{width: '100%', padding: '1em'}}>
                                     <FormControl fullWidth>
-                                        <p style={{color: '#000', fontWeight: 'bold', width: 'fit-content', float: 'left', margin: '0'}}>Shape</p>
+                                        <p style={{
+                                            color: '#000',
+                                            fontWeight: 'bold',
+                                            width: 'fit-content',
+                                            float: 'left',
+                                            margin: '0'
+                                        }}>Shape</p>
                                         <Autocomplete
                                             // disablePortal
                                             id="combo-box-demo"
@@ -292,7 +363,8 @@ const SectionPropertiesRows = () => {
                                             options={systemCheck()}
                                             onChange={(event) => setSectionShape(event)}
                                             value={selectedSectionShape}
-                                            renderInput={(params) => <TextField {...params} label="Preset Section Shapes"/>}
+                                            renderInput={(params) => <TextField {...params}
+                                                                                label="Preset Section Shapes"/>}
                                         />
                                         {requiredShapeMessage()}
                                     </FormControl>
@@ -352,7 +424,7 @@ const SectionPropertiesRows = () => {
     }
 
     const displayModal = () => {
-        if(openNestedModal) {
+        if (openNestedModal) {
             return (
                 <NestedModal/>
             )
@@ -407,7 +479,7 @@ const SectionPropertiesRows = () => {
     //     }
     // }, [insertedSectionPropertiesEnglish])
 
-    for(let sectionIndex in insertedSectionPropertiesMetric) {
+    for (let sectionIndex in insertedSectionPropertiesMetric) {
 
         sectionRows.push(
             <div style={{
@@ -496,7 +568,8 @@ const SectionPropertiesRows = () => {
                                 style={{marginRight: '5px'}}
                                 color='primary'
                                 onClick={() => {
-                                    dispatch(setCurrentSectionPropertyIndex(sectionIndex, selectedSheet))
+                                    dispatch(setCurrentMetricSectionPropertyIndex(sectionIndex, selectedSheet))
+                                    dispatch(setCurrentEnglishSectionPropertyIndex(sectionIndex, selectedSheet))
                                     handleOpenNestedModal()
                                     setTheCurrentSectionIndex(sectionIndex)
                                 }}

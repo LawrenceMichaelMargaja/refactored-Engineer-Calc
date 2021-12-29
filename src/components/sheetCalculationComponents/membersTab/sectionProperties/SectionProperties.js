@@ -45,6 +45,7 @@ const SectionProperties = () => {
     const method = objectChecker(sheets, ['sheets', selectedSheet, 'method'])
 
     const [disableButton, setDisableButton] = useState(false)
+    const [theCurrentSectionIndex, setTheCurrentSectionIndex] = useState(0)
 
     useEffect(() => {
         if(method === 'Investigation') {
@@ -77,10 +78,10 @@ const SectionProperties = () => {
 
     const hashMetric = useMemo(() => {
         let hash = {}
-        for(let i in insertedSectionPropertiesMetric) {
+        for(let i in sectionPropertiesMetric) {
             let {
                 section_properties_metric_name,
-            } = insertedSectionPropertiesMetric[i]
+            } = sectionPropertiesMetric[i]
             hash[section_properties_metric_name] = steelTypesMetric[i]
         }
         return hash
@@ -88,11 +89,11 @@ const SectionProperties = () => {
 
     const hashEnglish = useMemo(() => {
         let hash = {}
-        for(let i in insertedSectionPropertiesEnglish) {
+        for(let i in sectionPropertiesEnglish) {
             let {
                 section_properties_english_name,
-            } = insertedSectionPropertiesEnglish[i]
-            hash[section_properties_english_name] = insertedSectionPropertiesEnglish[i]
+            } = sectionPropertiesEnglish[i]
+            hash[section_properties_english_name] = sectionPropertiesEnglish[i]
         }
         return hash
     }, [sectionPropertiesEnglish])
@@ -184,33 +185,127 @@ const SectionProperties = () => {
             }
         }
 
-        const insertSectionProperty = () => {
-            if (size(insertedSectionPropertiesMetric) === 0) {
-                let initialSection = {}
-                initialSection[0] = {
-                    sectionId: 0,
-                    sectionShape: selectedSectionShape,
-                    sectionName: selectedSectionName,
+        /**
+         * Used as English Indexes
+         */
+        const metricNameIndexChecker = () => {
+            let checkedIndexMetric = null
+            for(let index in sectionPropertiesMetric) {
+                if(selectedSectionName === sectionPropertiesMetric[index].section_properties_metric_name) {
+                    checkedIndexMetric = index
                 }
-                dispatch(addSectionPropertyMetric(initialSection, selectedSheet))
-                dispatch(setCurrentSectionPropertyIndex(0, selectedSheet))
-                // dispatch(addSectionPropertyEnglish(initialSection, selectedSheet))
-                setOpenNestedModal(false)
-            } else {
-                let currentSections = {...insertedSectionPropertiesMetric}
-                const newSectionSize = size(insertedSectionPropertiesMetric)
-                currentSections[newSectionSize] = {
-                    sectionId: newSectionSize,
-                    sectionShape: selectedSectionShape,
-                    sectionName: selectedSectionName
-                }
-                // alert(JSON.stringify(selectedSectionName))
-                // alert("new index === " + JSON.stringify(newSectionSize))
-                dispatch(addSectionPropertyMetric(currentSections, selectedSheet))
-                dispatch(setCurrentSectionPropertyIndex(newSectionSize, selectedSheet))
-                // dispatch(addSectionPropertyEnglish(currentSections, selectedSheet))
-                setOpenNestedModal(false)
             }
+            return checkedIndexMetric
+        }
+
+        const metricShapeIndexChecker = () => {
+            let checkedIndexMetric = null
+            for(let index in sectionPropertiesMetric) {
+                if(selectedSectionName === sectionPropertiesMetric[index].section_properties_metric_name) {
+                    checkedIndexMetric = index
+                }
+            }
+            return checkedIndexMetric
+        }
+
+        /**
+         * Used as Metric Indexes
+         */
+        const englishNameIndexChecker = () => {
+            let checkedIndexEnglish = null
+            for(let index in sectionPropertiesEnglish) {
+                if(selectedSectionName === sectionPropertiesEnglish[index].section_properties_english_name) {
+                    checkedIndexEnglish = index
+                }
+            }
+            return checkedIndexEnglish
+        }
+
+        const englishShapeIndexChecker = () => {
+            let checkedIndexEnglish = null
+            for(let index in sectionPropertiesEnglish) {
+                if(selectedSectionName === sectionPropertiesEnglish[index].section_properties_english_name) {
+                    checkedIndexEnglish = index
+                }
+            }
+            return checkedIndexEnglish
+        }
+
+        const insertSectionProperty = () => {
+            if(system === 'Metric') {
+                if (size(insertedSectionPropertiesMetric) === 0) {
+                    let initialSectionMetric = {}
+                    let initialSectionEnglish = {}
+                    initialSectionMetric[0] = {
+                        sectionId: 0,
+                        sectionShape: selectedSectionShape,
+                        sectionName: selectedSectionName,
+                    }
+                    initialSectionEnglish[0] = {
+                        sectionId: 0,
+                        sectionShape: sectionPropertiesEnglish[metricShapeIndexChecker()].section_properties_english_name,
+                        sectionName: sectionPropertiesEnglish[metricNameIndexChecker()].section_properties_english_name
+                    }
+                    dispatch(addSectionPropertyMetric(initialSectionMetric, selectedSheet))
+                    dispatch(addSectionPropertyEnglish(initialSectionEnglish, selectedSheet))
+                    setOpenNestedModal(false)
+                } else {
+                    let currentSectionEnglish = {...insertedSectionPropertiesEnglish}
+                    let currentSectionsMetric = {...insertedSectionPropertiesMetric}
+                    const newSectionSizeEnglish = size(insertedSectionPropertiesEnglish)
+                    const newSectionSizeMetric = size(insertedSectionPropertiesMetric)
+                    currentSectionsMetric[newSectionSizeMetric] = {
+                        sectionId: newSectionSizeMetric,
+                        sectionShape: selectedSectionShape,
+                        sectionName: selectedSectionName
+                    }
+                    currentSectionEnglish[newSectionSizeEnglish] = {
+                        sectionId: newSectionSizeEnglish,
+                        sectionShape: sectionPropertiesEnglish[metricShapeIndexChecker()].section_properties_english_name,
+                        sectionName: sectionPropertiesEnglish[metricNameIndexChecker()].section_properties_english_name
+                    }
+                    dispatch(addSectionPropertyMetric(currentSectionsMetric, selectedSheet))
+                    dispatch(addSectionPropertyEnglish(currentSectionEnglish, selectedSheet))
+                    setOpenNestedModal(false)
+                }
+            } else if(system === 'English') {
+                if (size(insertedSectionPropertiesEnglish) === 0) {
+                    let initialSectionEnglish = {}
+                    let initialSectionMetric = {}
+                    initialSectionEnglish[0] = {
+                        sectionId: 0,
+                        sectionShape: selectedSectionShape,
+                        sectionName: selectedSectionName,
+                    }
+                    initialSectionMetric[0] = {
+                        sectionId: 0,
+                        sectionShape: sectionPropertiesMetric[englishShapeIndexChecker()].section_properties_metric_name,
+                        sectionName: sectionPropertiesMetric[englishNameIndexChecker()].section_properties_metric_name
+                    }
+                    dispatch(addSectionPropertyMetric(initialSectionEnglish, selectedSheet))
+                    dispatch(addSectionPropertyEnglish(initialSectionMetric, selectedSheet))
+                    setOpenNestedModal(false)
+                } else {
+                    let currentSectionsEnglish = {...insertedSectionPropertiesEnglish}
+                    let currentSectionsMetric = {...insertedSectionPropertiesMetric}
+                    const newSectionSizeEnglish = size(insertedSectionPropertiesEnglish)
+                    const newSectionSizeMetric = size(insertedSectionPropertiesMetric)
+                    currentSectionsEnglish[newSectionSizeEnglish] = {
+                        sectionId: newSectionSizeEnglish,
+                        sectionShape: selectedSectionShape,
+                        sectionName: selectedSectionName
+                    }
+                    currentSectionsMetric[newSectionSizeMetric] = {
+                        sectionId: newSectionSizeMetric,
+                        sectionShape: sectionPropertiesMetric[englishShapeIndexChecker()].section_properties_metric_name,
+                        sectionName: sectionPropertiesMetric[englishNameIndexChecker()].section_properties_metric_name
+                    }
+                    dispatch(addSectionPropertyMetric(currentSectionsEnglish, selectedSheet))
+                    dispatch(addSectionPropertyEnglish(currentSectionsMetric, selectedSheet))
+                    setOpenNestedModal(false)
+                }
+            }
+
         }
 
         const setSectionName = (event) => {

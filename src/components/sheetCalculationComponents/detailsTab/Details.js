@@ -13,7 +13,7 @@ import {
     setProjectUnit
 } from "../../../store/actions/sheets/sheetCalculationComponents/details/details";
 import {
-    getMaterialPropertiesData,
+    getMaterialPropertiesData, getSectionPropertiesEnglish, getSectionPropertiesMetric,
     getSteelTypesEnglishAPI,
     getSteelTypesMetricAPI
 } from "../../../store/actions/sheets/sheets";
@@ -103,6 +103,30 @@ const Details = () => {
     //     getSteelTypesMetric()
     //     getSteelTypesEnglish()
     // }, [])
+
+    const getMetricSectionProperties = () => {
+        fetch("http://127.0.0.1:8080/sectionpropertiesmetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getSectionPropertiesMetric(data, selectedSheet)))
+            // .then((data) => console.log(sectionPropertiesMetric))
+            .catch((error) => {
+                console.log(error)
+            });
+    }
+
+    const getEnglishSectionProperties = () => {
+        fetch("http://127.0.0.1:8080/sectionpropertiesenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(getSectionPropertiesEnglish(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            });
+    }
+
+    useEffect(() => {
+        getMetricSectionProperties()
+        getEnglishSectionProperties()
+    }, [])
 
     return (
         <Grid>
