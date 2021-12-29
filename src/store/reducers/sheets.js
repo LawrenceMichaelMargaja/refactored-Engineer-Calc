@@ -1,23 +1,33 @@
 import {
     ADD_INITIAL_MEMBER,
     ADD_NEW_SHEET,
-    ADD_SECTION_PROPERTY, ADD_SECTION_PROPERTY_ENGLISH, ADD_SECTION_PROPERTY_METRIC,
+    ADD_SECTION_PROPERTY,
+    ADD_SECTION_PROPERTY_ENGLISH,
+    ADD_SECTION_PROPERTY_METRIC,
     CLEAR_METRIC_MATERIAL_PROPERTIES,
     CLEAR_REMOVED_MEMBERS_ARRAY,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTIES,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
     EDIT_SELECTED_SECTION,
-    GET_MATERIAL_PROPERTIES_DATA, GET_SECTION_PROPERTIES_ENGLISH,
+    GET_MATERIAL_PROPERTIES_DATA,
+    GET_SECTION_PROPERTIES_ENGLISH,
     GET_SECTION_PROPERTIES_METRIC,
     GET_STEEL_TYPES_ENGLISH_API,
     GET_STEEL_TYPES_METRIC_API,
-    REMOVE_ALL_MEMBER_ROWS, REMOVE_ALL_SECTION_PROPERTIES,
+    REMOVE_ALL_MEMBER_ROWS,
+    REMOVE_ALL_SECTION_PROPERTIES,
     REMOVE_MEMBER_ROW,
     REMOVE_METRIC_MATERIAL_PROPERTY_ROW,
     REMOVE_SELECTED_SECTION_PROPERTY,
     REMOVE_SHEET,
+    RESET_ENGLISH_MATERIAL_PROPERTIES,
+    RESET_ENGLISH_SECTION_PROPERTIES,
+    RESET_MEMBER_FIELDS,
+    RESET_METRIC_MATERIAL_PROPERTIES,
     RESET_METRIC_MATERIAL_PROPERTIES_INDEX,
-    RESET_SECTION_INDEX, SET_ARRAY_CHECK,
+    RESET_METRIC_SECTION_PROPERTIES,
+    RESET_SECTION_INDEX,
+    SET_ARRAY_CHECK,
     SET_AXIAL,
     SET_BENDING_MOMENT_ALONG_X_AXIS,
     SET_BENDING_MOMENT_ALONG_Y_AXIS,
@@ -353,6 +363,16 @@ const Reducer = (state = initialState, action) => {
             return setCurrentSectionPropertyIndex(state, action.payload)
         case SET_ARRAY_CHECK:
             return setArrayCheck(state, action.payload)
+        case RESET_MEMBER_FIELDS:
+            return resetMemberFields(state, action.payload)
+        case RESET_METRIC_MATERIAL_PROPERTIES:
+            return resetMetricMaterialProperties(state, action.payload)
+        case RESET_ENGLISH_MATERIAL_PROPERTIES:
+            return resetEnglishMaterialProperties(state, action.payload)
+        case RESET_METRIC_SECTION_PROPERTIES:
+            return resetMetricSectionProperties(state, action.payload)
+        case RESET_ENGLISH_SECTION_PROPERTIES:
+            return resetEnglishSectionProperties(state, action.payload)
         default:
             return state
     }
@@ -1052,6 +1072,35 @@ const removeMemberRow = (state, payload) => {
     return newState
 }
 
+const resetMemberFields = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload]: {
+                ...state.sheets[payload],
+                members: {
+                    0: {
+                        memberId: 1,
+                        materialId: 0,
+                        sectionId: 1,
+                        totalLengthOfMember: 1,
+                        yAxisUnbracedLength: 1,
+                        yAxisEffectiveLengthFactor: 1,
+                        zAxisUnbracedLength: 1,
+                        zAxisEffectiveLengthFactor: 1,
+                        LLT: '1.0',
+                        unbracedLengthLateralTorsional: 1.0,
+                        lateralTorsionalModificationFactor: 1.0,
+                        slendernessRatioInCompression: 200,
+                        LST: 300
+                    }
+                }
+            }
+        }
+    }
+}
+
 const removeAllMemberRows = (state, payload) => {
     // alert(payload)
     return {
@@ -1490,6 +1539,52 @@ const resetMetricMaterialIndex = (state, payload) => {
     }
 }
 
+const resetMetricMaterialProperties = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload]: {
+                ...state.sheets[payload],
+                apiMap: {
+                    ...state.sheets[payload].apiMap,
+                    steelTypeMetricProperties: {
+                        0: {
+                            name: 'A36',
+                            EMPA: 200000,
+                            FYMPA: 248,
+                            FUMPA: 400
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+const resetEnglishMaterialProperties = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload]: {
+                ...state.sheets[payload],
+                apiMap: {
+                    ...state.sheets[payload].apiMap,
+                    steelTypeEnglishProperties: {
+                        0: {
+                            name: 'A36',
+                            EMPA: 200000,
+                            FYMPA: 248,
+                            FUMPA: 400
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 /**
  * Sheet Section Properties
  */
@@ -1610,6 +1705,50 @@ const setCurrentSectionPropertyIndex = (state, payload) => {
                 apiMap: {
                     ...state.sheets[payload.sheetIndex].apiMap,
                     currentSectionPropertyIndex: payload.data
+                }
+            }
+        }
+    }
+}
+
+const resetMetricSectionProperties = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload]: {
+                ...state.sheets[payload],
+                apiMap: {
+                    ...state.sheets[payload].apiMap,
+                    sectionPropertiesMetric: {
+                        0: {
+                            sectionId: 1,
+                            sectionShape: 'W1100X499',
+                            sectionName: 'W1100X499',
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+const resetEnglishSectionProperties = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload]: {
+                ...state.sheets[payload],
+                apiMap: {
+                    ...state.sheets[payload].apiMap,
+                    sectionPropertiesEnglish: {
+                        0: {
+                            sectionId: 1,
+                            sectionShape: 'W1100X499',
+                            sectionName: 'W1100X499',
+                        }
+                    }
                 }
             }
         }

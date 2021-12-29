@@ -69,6 +69,17 @@ const MaterialProperties = () => {
     const insertedSteelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties'])
     // const insertedSteelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeEnglishProperties)
     const insertedSteelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeEnglishProperties'])
+    const method = objectChecker(sheets, ['sheets', selectedSheet, 'method'])
+
+    const [disableButton, setDisableButton] = useState(false)
+
+    useEffect(() => {
+        if(method === 'Investigation') {
+            setDisableButton(false)
+        } else if(method === 'Design') {
+            setDisableButton(true)
+        }
+    }, [method])
 
     const [openNestedModal, setOpenNestedModal] = React.useState(false);
 
@@ -488,6 +499,7 @@ const MaterialProperties = () => {
                             }}
                         >
                             <Button
+                                disabled={disableButton}
                                 style={{
                                     margin: '10px'
                                 }}
@@ -496,6 +508,7 @@ const MaterialProperties = () => {
                                 Add Material Property
                             </Button>
                             <Button
+                                disabled={disableButton}
                                 variant='contained'
                                 color='secondary'
                                 onClick={() => deleteAllMetricMaterialProperties()}

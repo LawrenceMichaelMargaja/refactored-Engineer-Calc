@@ -1,7 +1,7 @@
 import {
     CLEAR_METRIC_MATERIAL_PROPERTIES,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
-    REMOVE_METRIC_MATERIAL_PROPERTY_ROW,
+    REMOVE_METRIC_MATERIAL_PROPERTY_ROW, RESET_ENGLISH_MATERIAL_PROPERTIES, RESET_METRIC_MATERIAL_PROPERTIES,
     RESET_METRIC_MATERIAL_PROPERTIES_INDEX,
     SET_CURRENT_MATERIALS_ARRAY,
     SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX,
@@ -75,6 +75,20 @@ export const removeMetricMaterialPropertyRow = (data, sheetIndex) => {
     return {
         type: REMOVE_METRIC_MATERIAL_PROPERTY_ROW,
         payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const resetMetricMaterialProperties = (sheetIndex) => {
+    return {
+        type: RESET_METRIC_MATERIAL_PROPERTIES,
+        payload: sheetIndex
+    }
+}
+
+export const resetEnglishMaterialProperties = (sheetIndex) => {
+    return {
+        type: RESET_ENGLISH_MATERIAL_PROPERTIES,
+        payload: sheetIndex
     }
 }
 

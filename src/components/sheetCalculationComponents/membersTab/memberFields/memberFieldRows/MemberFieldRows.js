@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Button, TextField} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -15,6 +15,7 @@ import {
 } from "../../../../../store/actions/sheets/sheetCalculationComponents/memberFields/memberFields";
 import {makeStyles} from "@material-ui/core/styles";
 import {size} from "lodash";
+import {objectChecker} from "../../../../../utilities/utilities";
 
 const useStyles = makeStyles((theme) => ({
     textField: {
@@ -32,6 +33,17 @@ const MemberFieldRows = () => {
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     const members = useSelector(state => state.sheets.sheets[selectedSheet].members)
     const sheets = useSelector(state => state.sheets)
+    const method = objectChecker(sheets, ['sheets', selectedSheet, 'method'])
+
+    const [disableButton, setDisableButton] = useState(false)
+
+    useEffect(() => {
+        if(method === 'Investigation') {
+            setDisableButton(false)
+        } else if(method === 'Design') {
+            setDisableButton(true)
+        }
+    }, [method])
 
     const memberFieldRows = []
 
@@ -450,6 +462,7 @@ const MemberFieldRows = () => {
                     // justifyContent: 'center'
                 }}>
                     <Button
+                        disabled={disableButton}
                         style={{
                             marginTop: '0.5em'
                         }}

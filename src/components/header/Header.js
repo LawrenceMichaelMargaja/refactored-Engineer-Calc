@@ -32,6 +32,7 @@ const Header = () => {
     const currentSectionPropertyIndex = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'currentSectionPropertyIndex'])
     const arrayCheck = objectChecker(sheets, ['sheets', selectedSheet, 'arrayCheck'])
     const members = objectChecker(sheets, ['sheets', selectedSheet, 'members'])
+    const method = objectChecker(sheets, ['sheets', selectedSheet, 'method'])
 
     /**
      * Details Tab
@@ -98,7 +99,7 @@ const Header = () => {
             {/*    <p>{JSON.stringify(provisionState)}</p>*/}
             {/*</div>*/}
             <div>
-                    <p style={{width: '50%', margin: '1em'}}>{JSON.stringify(members)}</p>
+                    <p style={{width: '50%', margin: '1em'}}>{JSON.stringify(method)}</p>
             </div>
             <div className={classes.root}>
                 <div className={classes.titleContainer}>

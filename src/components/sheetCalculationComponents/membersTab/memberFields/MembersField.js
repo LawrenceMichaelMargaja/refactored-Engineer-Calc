@@ -1,6 +1,6 @@
 import Grid from "@material-ui/core/Grid";
 import {Button, Card} from "@material-ui/core";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import MaterialProperties from "../materialProperties/MaterialProperties";
 import SectionProperties from "../sectionProperties/SectionProperties";
 import MemberFieldRows from "./memberFieldRows/MemberFieldRows";
@@ -16,15 +16,28 @@ import {
     getSteelTypesEnglishAPI,
     getSteelTypesMetricAPI
 } from "../../../../store/actions/sheets/sheets";
+import {objectChecker} from "../../../../utilities/utilities";
 
 
 const Members = () => {
 
     const dispatch = useDispatch()
+    const sheets = useSelector(state => state.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     const system = useSelector(state => state.sheets.sheets[selectedSheet].system)
     const members = useSelector(state => state.sheets.sheets[selectedSheet].members)
     const removedMemberRowsArray = useSelector(state => state.sheets.sheets[selectedSheet].removedMemberRowArray)
+    const method = objectChecker(sheets, ['sheets', selectedSheet, 'method'])
+
+    const [disableButton, setDisableButton] = useState(false)
+
+    useEffect(() => {
+        if(method === 'Investigation') {
+            setDisableButton(false)
+        } else if(method === 'Design') {
+            setDisableButton(true)
+        }
+    }, [method])
 
     const unitHandler = () => {
         return system === 'Metric' ? METRIC : ENGLISH
@@ -155,6 +168,7 @@ const Members = () => {
                     textAlign: 'right',
                 }}>
                     <Button
+                        disabled={disableButton}
                         style={{margin: '5px'}}
                         variant='contained'
                         color='primary'
@@ -163,6 +177,7 @@ const Members = () => {
                         ADD MEMBER
                     </Button>
                     <Button
+                        disabled={disableButton}
                         style={{margin: '5px'}}
                         variant='contained'
                         color='secondary'

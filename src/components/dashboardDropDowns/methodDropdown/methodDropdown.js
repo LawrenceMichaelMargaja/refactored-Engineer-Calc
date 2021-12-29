@@ -5,6 +5,15 @@ import {useDispatch, useSelector} from "react-redux";
 import {setMethodDropdown} from "../../../store/actions/dashboardDropdowns/methodDropdown";
 import {objectChecker} from "../../../utilities/utilities";
 import {size} from "lodash";
+import {
+    removeAllSectionProperties, resetEnglishSectionProperties,
+    resetMetricSectionProperties
+} from "../../../store/actions/sheets/sheetCalculationComponents/sectionProperties/sectionProperties";
+import {resetMemberFields} from "../../../store/actions/sheets/sheetCalculationComponents/memberFields/memberFields";
+import {
+    resetEnglishMaterialProperties,
+    resetMetricMaterialProperties
+} from "../../../store/actions/sheets/sheetCalculationComponents/materialProperties/materialProperties";
 
 const useStyles = makeStyles((theme) => ({
     dropDown: {
@@ -36,7 +45,17 @@ const MethodDropdown = () => {
     }
 
     const handleChange = (event) => {
-        dispatch(setMethodDropdown(event.target.value, selectedSheet))
+        const proceed = window.confirm("This will remove all added member field rows, section property rows, and material property rows. Are you sure you want to proceed?")
+        if(proceed) {
+            dispatch(resetMemberFields(selectedSheet))
+            dispatch(resetMetricMaterialProperties(selectedSheet))
+            dispatch(resetEnglishMaterialProperties(selectedSheet))
+            dispatch(resetMetricSectionProperties(selectedSheet))
+            dispatch(resetEnglishSectionProperties(selectedSheet))
+            dispatch(setMethodDropdown(event.target.value, selectedSheet))
+        } else {
+            return
+        }
     };
 
     return (

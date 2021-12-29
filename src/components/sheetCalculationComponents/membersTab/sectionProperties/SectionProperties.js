@@ -42,6 +42,18 @@ const SectionProperties = () => {
     const steelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesMetric'])
     // const steelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesEnglish)
     const steelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesEnglish'])
+    const method = objectChecker(sheets, ['sheets', selectedSheet, 'method'])
+
+    const [disableButton, setDisableButton] = useState(false)
+
+    useEffect(() => {
+        if(method === 'Investigation') {
+            setDisableButton(false)
+        } else if(method === 'Design') {
+            setDisableButton(true)
+        }
+    }, [method])
+
     const [openNestedModal, setOpenNestedModal] = useState(false);
 
     const getMetricSectionProperties = () => {
@@ -379,6 +391,7 @@ const SectionProperties = () => {
                             textAlign: 'right'
                         }}>
                         <Button
+                            disabled={disableButton}
                             style={{
                                 margin: '10px'
                             }}
@@ -389,6 +402,7 @@ const SectionProperties = () => {
                             Add Section
                         </Button>
                         <Button
+                            disabled={disableButton}
                             variant='contained'
                             color='secondary'
                             onClick={() => deleteAllSectionProperties()}

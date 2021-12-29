@@ -1,6 +1,6 @@
 import {
     ADD_INITIAL_MEMBER, CLEAR_REMOVED_MEMBERS_ARRAY, REMOVE_ALL_MEMBER_ROWS,
-    REMOVE_MEMBER_ROW,
+    REMOVE_MEMBER_ROW, RESET_MEMBER_FIELDS,
     SET_LATERAL_TORSIONAL_MODIFICATION_FACTOR,
     SET_LLT,
     SET_LST,
@@ -157,5 +157,12 @@ export const setLST = (data, sheetIndex, memberIndex) => {
     return {
         type: SET_LST,
         payload: {data: data, sheetIndex: sheetIndex, memberIndex: memberIndex}
+    }
+}
+
+export const resetMemberFields = (sheetIndex) => {
+    return {
+        type: RESET_MEMBER_FIELDS,
+        payload: sheetIndex
     }
 }
