@@ -1,9 +1,10 @@
 import {
+    ADD_CUSTOM_STEEL_TYPE,
     ADD_INITIAL_MEMBER,
     ADD_NEW_SHEET,
     ADD_SECTION_PROPERTY,
     ADD_SECTION_PROPERTY_ENGLISH,
-    ADD_SECTION_PROPERTY_METRIC,
+    ADD_SECTION_PROPERTY_METRIC, CHANGE_MATERIAL_CUSTOM_STATUS,
     CLEAR_METRIC_MATERIAL_PROPERTIES,
     CLEAR_REMOVED_MEMBERS_ARRAY,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTIES,
@@ -34,6 +35,7 @@ import {
     SET_CURRENT_MATERIALS_ARRAY,
     SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX, SET_CURRENT_METRIC_SECTION_PROPERTY_INDEX,
     SET_CURRENT_SECTION_PROPERTIES_ARRAY,
+    SET_CUSTOM_SELECTED_STEEL_TYPE,
     SET_DISABLE_MENU_BUTTONS,
     SET_ENGLISH_EMPA,
     SET_ENGLISH_FUMPA,
@@ -110,33 +112,45 @@ const initialState = {
                 sectionPropertiesEnglish: []
             },
             apiMap: {
-                selectedSteelType: 'A36',
+                selectedSteelType: '',
+                customSteelType: '',
                 currentMetricMaterialPropertyIndex: 0,
                 currentMetricEnglishPropertyIndex: '',
                 currentMetricSectionPropertyIndex: 0,
                 currentEnglishSectionPropertyIndex: 0,
                 currentSectionPropertyIndex: 0,
+                customMaterialModal: false,
                 steelTypeMetricProperties: {
                     0: {
                         name: 'A36',
-                        EMPA: 200000,
-                        FYMPA: 248,
-                        FUMPA: 400
+                        EMPA: '200000',
+                        FYMPA: '248',
+                        FUMPA: '400',
+                        custom: false
                     }
                 },
                 steelTypeEnglishProperties: {
                     0: {
                         name: 'A36',
-                        EMPA: 200000,
-                        FYMPA: 248,
-                        FUMPA: 400
+                        EMPA: '200000',
+                        FYMPA: '248',
+                        FUMPA: '400',
+                        custom: false
+                    }
+                },
+                customSteelTypes: {
+                    0: {
+                        name: 'Custom Steel Type',
+                        EMPA: '',
+                        FYMPA: '',
+                        FUMPA: '',
                     }
                 },
                 sectionPropertiesMetric: {
                     0: {
                         sectionId: 1,
-                        sectionShape: 'W1100X499',
-                        sectionName: 'W1100X499',
+                        sectionShape: '',
+                        sectionName: '',
                     }
                 },
                 sectionPropertiesEnglish: {
@@ -145,7 +159,7 @@ const initialState = {
                         sectionShape: 'W44X335',
                         sectionName: 'W44X335'
                     }
-                }
+                },
             },
             details: {
                 projectUnit: '',
@@ -378,6 +392,12 @@ const Reducer = (state = initialState, action) => {
             return setCurrentMetricSectionPropertyIndex(state, action.payload)
         case SET_CURRENT_ENGLISH_SECTION_PROPERTY_INDEX:
             return setCurrentEnglishSectionPropertyIndex(state, action.payload)
+        case ADD_CUSTOM_STEEL_TYPE:
+            return addCustomSteelType(state, action.payload)
+        case SET_CUSTOM_SELECTED_STEEL_TYPE:
+            return setCustomSelectedSteelType(state, action.payload)
+        case CHANGE_MATERIAL_CUSTOM_STATUS:
+            return changeMaterialCustomStatus(state, action.payload)
         default:
             return state
     }
@@ -963,7 +983,7 @@ const setSafetyFactorForShear = (state, payload) => {
 }
 
 /**
- * End of Sheet Factors
+ * end of Sheet Factors
  */
 
 /**
@@ -1487,7 +1507,30 @@ const editSelectedMetricMaterialProperty = (state, payload) => {
                             name: payload.name,
                             EMPA: payload.EMPA,
                             FYMPA: payload.FYMPA,
-                            FUMPA: payload.FUMPA
+                            FUMPA: payload.FUMPA,
+                            custom: payload.custom
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+const changeMaterialCustomStatus = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    steelTypeMetricProperties: {
+                        ...state.sheets[payload.sheetIndex].apiMap.steelTypeMetricProperties,
+                        [payload.materialPropertyIndex]: {
+                            ...state.sheets[payload.sheetIndex].apiMap.steelTypeMetricProperties[payload.materialPropertyIndex],
+                            custom: payload.data
                         }
                     }
                 }
@@ -1584,6 +1627,54 @@ const resetEnglishMaterialProperties = (state, payload) => {
                             FUMPA: 400
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+const setMaterialModalCustom = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    customMaterialModal: payload.data
+                }
+            }
+        }
+    }
+}
+
+const addCustomSteelType = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    customSteelTypes: payload.data
+                }
+            }
+        }
+    }
+}
+
+const setCustomSelectedSteelType = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    customSteelType: payload.data
                 }
             }
         }

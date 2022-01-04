@@ -25,8 +25,11 @@ import {
 } from "../../../../store/actions/sheets/sheets";
 import {Autocomplete} from "@mui/material";
 import {
+    addCustomSteelType,
     clearMetricMaterialProperties, setCurrentMaterialsArray,
-    setEnglishMaterialSteelType,
+    setCurrentMetricMaterialPropertiesIndex,
+    setCustomSelectedSteelType,
+    setEnglishMaterialSteelType, setMaterialModalCustom,
     setMetricMaterialSteelType
 } from "../../../../store/actions/sheets/sheetCalculationComponents/materialProperties/materialProperties";
 import {size} from "lodash";
@@ -69,14 +72,15 @@ const MaterialProperties = () => {
     const insertedSteelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties'])
     // const insertedSteelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeEnglishProperties)
     const insertedSteelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeEnglishProperties'])
+    const insertedCustomSteelTypes = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'customSteelTypes'])
     const method = objectChecker(sheets, ['sheets', selectedSheet, 'method'])
 
     const [disableButton, setDisableButton] = useState(false)
 
     useEffect(() => {
-        if(method === 'Investigation') {
+        if (method === 'Investigation') {
             setDisableButton(false)
-        } else if(method === 'Design') {
+        } else if (method === 'Design') {
             setDisableButton(true)
         }
     }, [method])
@@ -172,34 +176,19 @@ const MaterialProperties = () => {
         return (
             <MetricMaterialPropertiesRows/>
         )
-        // if(system === 'Metric') {
-        //     return (
-        //         <MetricMaterialPropertiesRows/>
-        //     )
-        // } else if(system === 'English') {
-        //     return (
-        //         <EnglishMaterialPropertiesRows/>
-        //     )
-        // }
     }
 
     const NestedModal = () => {
 
         const [nestedModalDisabled, setNestedModalDisabled] = useState(true)
+        const [disabledPreselectButton, setDisabledPreselectButton] = useState(false)
         const [customButtonColor, setCustomButtonColor] = useState('primary')
         const [customButtonText, setCustomButtonText] = useState('CUSTOM')
         const [selectedSteelType, setSelectedSteelType] = useState('')
+        const [customSteelType, setCustomSteelType] = useState('')
 
-        const steelTypeHandler = () => {
-            return (
-                <div style={{width: '80%', margin: '0 auto'}}>
-                    <p style={{textAlign: 'initial'}}><strong>Steel Type</strong></p>
-                    <Input placeholder='Value will be displayed here...'
-                           disabled={nestedModalDisabled}
-                           style={{width: '100%', margin: '0 auto', color: 'black'}}
-                    />
-                </div>
-            )
+        const customSteelTypeValueSetter = (event) => {
+            setCustomSteelType(event.target.value)
         }
 
         useEffect(() => {
@@ -217,87 +206,311 @@ const MaterialProperties = () => {
             setSelectedSteelType(event.target.textContent)
         }
 
+        const [theEMPAValue, setTheEMPAValue] = useState('')
+        const [theFYMPAValue, setTheFYMPAValue] = useState('')
+        const [theFUMPAValue, setTheFUMPAValue] = useState('')
+
         const EMPAValueSetter = () => {
             if (system === 'Metric') {
-                if (selectedSteelType === '') {
-                    return
+                    if (selectedName === '') {
+                        return
+                    } else {
+                        setTheEMPAValue(hashMetric[selectedName].steel_type_metric_e)
+                    }
                 } else {
-                    return hashMetric[selectedSteelType].steel_type_metric_e
+                    if (selectedName === '') {
+                        return
+                    } else {
+                        setTheEMPAValue(hashEnglish[selectedName].steel_type_english_e)
+                    }
                 }
-            } else {
-                if (selectedSteelType === '') {
-                    return
-                } else {
-                    return hashEnglish[selectedSteelType].steel_type_english_e
-                }
-            }
         }
 
         const FYMPAValueSetter = () => {
             if (system === 'Metric') {
-                if (selectedSteelType === '') {
-                    return
+                    if (selectedName === '') {
+                        return
+                    } else {
+                        setTheFYMPAValue(hashMetric[selectedName].steel_type_metric_fy)
+                    }
                 } else {
-                    return hashMetric[selectedSteelType].steel_type_metric_fy
+                    if (selectedName === '') {
+                        return
+                    } else {
+                        setTheFYMPAValue(hashEnglish[selectedName].steel_type_english_fy)
+                    }
                 }
-            } else {
-                if (selectedSteelType === '') {
-                    return
-                } else {
-                    return hashEnglish[selectedSteelType].steel_type_english_fy
-                }
-            }
         }
 
         const FUMPAValueSetter = () => {
             if (system === 'Metric') {
-                if (selectedSteelType === '') {
-                    return
+                    if (selectedName === '') {
+                        return
+                    } else {
+                        setTheFUMPAValue(hashMetric[selectedName].steel_type_metric_fu)
+                    }
                 } else {
-                    return hashMetric[selectedSteelType].steel_type_metric_fu
+                    if (selectedName === '') {
+                        return
+                    } else {
+                        setTheFUMPAValue(hashEnglish[selectedName].steel_type_english_fu)
+                    }
                 }
-            } else {
-                if (selectedSteelType === '') {
-                    return
-                } else {
-                    return hashEnglish[selectedSteelType].steel_type_english_fu
-                }
-            }
         }
 
         const [errorDisplay, setErrorDisplay] = useState(false)
 
         const displayError = () => {
-            if (errorDisplay === false) {
+            if(nestedModalDisabled === false) {
                 return
-            } else if (errorDisplay === true) {
-                return (
-                    <p style={{margin: '0', padding: '0'}}>
-                        <strong style={{color: 'red'}}>SELECTED STEEL TYPE CANNOT BE EMPTY.</strong>
-                    </p>
+            } else {
+                if (errorDisplay === false) {
+                    return
+                } else if (errorDisplay === true) {
+                    return (
+                        <p style={{margin: '0', padding: '0'}}>
+                            <strong style={{color: 'red'}}>SELECTED STEEL TYPE CANNOT BE EMPTY.</strong>
+                        </p>
+                    )
+                }
+            }
+        }
+
+        const [selectedName, setSelectedName] = useState('')
+        const [EMPAValue, setEMPAValue] = useState('')
+        const [FYMPAValue, setFYMPAValue] = useState('')
+        const [FUMPAValue, setFUMPAValue] = useState('')
+
+        const [selectedNameNoError, setSelectedNameNoError] = useState(true)
+        const [empaNoError, setEmpaNoError] = useState(true)
+        const [fympaNoError, setFympaNoError] = useState(true)
+        const [fumpaNoError, setFumpaNoError] = useState(true)
+        const [selectedNameError, setSelectedNameError] = useState(<></>)
+        const [empaError, setEmpaError] = useState(<></>)
+        const [fympaError, setFympaError] = useState(<></>)
+        const [fumpaError, setFumpaError] = useState(<></>)
+
+        const errorCheckRender = () => {
+            selectedNameChecker()
+            empaValueChecker()
+            fympaValueChecker()
+            fumpaValueChecker()
+        }
+
+        useEffect(() => {
+            EMPAValueSetter()
+            FYMPAValueSetter()
+            FUMPAValueSetter()
+        }, [selectedName])
+
+        useEffect(() => {
+            if(selectedName !== '') {
+                setErrorDisplay(false)
+            }
+        }, [selectedName])
+
+        const steelTypeHandler = () => {
+            return (
+                <div style={{width: '80%', margin: '0 auto'}}>
+                    <p style={{textAlign: 'initial'}}><strong>Steel Type</strong></p>
+                    <Input placeholder='Value will be displayed here...'
+                           disabled={nestedModalDisabled}
+                           style={{width: '100%', margin: '0 auto', color: 'black'}}
+                           onChange={(event) => customSteelTypeValueSetter(event)}
+                    />
+                    {selectedNameError}
+                </div>
+            )
+        }
+
+        const selectedNameChecker = () => {
+            if(nestedModalDisabled === false) {
+                if(customSteelType === '') {
+                    // setSelectedNameNoError(false)
+                    setSelectedNameError(
+                        <p style={{margin: '0', padding: '0'}}>
+                            <strong style={{color: 'red'}}>This Field cannot be empty.</strong>
+                        </p>
+                    )
+                } else {
+                    setSelectedNameNoError(true)
+                    setSelectedNameError(
+                        <></>
+                    )
+                }
+            }
+        }
+
+
+        const empaValueChecker = () => {
+            if(nestedModalDisabled === false) {
+                if(EMPAValue === '') {
+                    // setEmpaNoError(false)
+                    setEmpaError(
+                        <p style={{margin: '0', padding: '0'}}>
+                            <strong style={{color: 'red'}}>This Field cannot be empty.</strong>
+                        </p>
+                    )
+                } else {
+                    setEmpaNoError(true)
+                    setEmpaError(
+                        <></>
+                    )
+                }
+            } else {
+                setEmpaNoError(true)
+                setEmpaError(
+                    <></>
                 )
             }
         }
 
-        const insertMaterialProperty = () => {
-            if (selectedSteelType === '') {
-                setErrorDisplay(true)
-                return
+        const fympaValueChecker = () => {
+            if(nestedModalDisabled === false) {
+                if (FYMPAValue === '') {
+                    // setFympaNoError(false)
+                    setFympaError(
+                        <p style={{margin: '0', padding: '0'}}>
+                            <strong style={{color: 'red'}}>This Field cannot be empty.</strong>
+                        </p>
+                    )
+                } else {
+                    setFympaNoError(true)
+                    setFympaError(
+                        <></>
+                    )
+                }
             } else {
+                setFympaNoError(true)
+                setFympaError(
+                    <></>
+                )
+            }
+        }
+
+        const fumpaValueChecker = () => {
+            if(nestedModalDisabled === false) {
+                if(FUMPAValue === '') {
+                    // setFumpaNoError(false)
+                    setFumpaError(
+                        <p style={{margin: '0', padding: '0'}}>
+                            <strong style={{color: 'red'}}>This Field cannot be empty.</strong>
+                        </p>
+                    )
+                } else {
+                    setFumpaNoError(true)
+                    setFumpaError(
+                        <></>
+                    )
+                }
+            } else {
+                setFumpaNoError(true)
+                setFumpaError(
+                    <></>
+                )
+            }
+        }
+
+        useEffect(() => {
+            if(customButtonText === 'DISCARD') {
+                setSelectedNameError(<></>)
+                setEmpaError(<></>)
+                setFympaError(<></>)
+                setFumpaError(<></>)
+            }
+        }, [nestedModalDisabled])
+
+        const selectedNameHandler = (event) => {
+            alert("at handler == " + event.target.textContent)
+            setSelectedName(event.target.textContent)
+        }
+
+        const empaValueHandler = (event) => {
+            setEMPAValue(event.target.value)
+        }
+
+        const fympaValueHandler = (event) => {
+            setFYMPAValue(event.target.value)
+        }
+
+        const fumpaValueHandler = (event) => {
+            setFUMPAValue(event.target.value)
+        }
+
+        const empaValuePlacer = () => {
+            if(disabledPreselectButton) {
+
+            }
+        }
+
+        const toggleDisable = () => {
+            if(nestedModalDisabled) {
+                setNestedModalDisabled(curVal => !curVal)
+            } else if(!nestedModalDisabled) {
+                const proceed = window.confirm("Are you sure you want to discard your changes?")
+                if(proceed) {
+                    setNestedModalDisabled(curVal => !curVal)
+                    setSelectedName('')
+                    // setSelectedCustomName('')
+                    setTheEMPAValue('')
+                    setTheFYMPAValue('')
+                    setTheFUMPAValue('')
+                } else {
+                    return
+                }
+            }
+        }
+
+        const insertMaterialProperty = () => {
+            if(nestedModalDisabled === false) {
+                if(size(insertedSteelTypesMetric) === 0) {
+                    const customSteelTypeInitial = {}
+                    customSteelTypeInitial[0] = {
+                        name: customSteelType,
+                        EMPA: EMPAValue,
+                        FYMPA: FYMPAValue,
+                        FUMPA: FUMPAValue,
+                        custom: true
+                    }
+                    dispatch(setMetricMaterialSteelType(customSteelTypeInitial, selectedSheet))
+                    dispatch(setEnglishMaterialSteelType(customSteelTypeInitial, selectedSheet))
+                    dispatch(setCustomSelectedSteelType(customSteelType, selectedSheet))
+                    dispatch(setCurrentMetricMaterialPropertiesIndex(0, selectedSheet))
+                    setOpenNestedModal(false)
+                } else if(size(insertedSteelTypesMetric) > 0) {
+                    const currentCustomSteelTypes = {...insertedSteelTypesMetric}
+                    const currentCustomSteelTypesSize = size(insertedSteelTypesMetric)
+                    currentCustomSteelTypes[currentCustomSteelTypesSize] = {
+                        name: customSteelType,
+                        EMPA: EMPAValue,
+                        FYMPA: FYMPAValue,
+                        FUMPA: FUMPAValue,
+                        custom: true
+                    }
+                    dispatch(setMetricMaterialSteelType(currentCustomSteelTypes, selectedSheet))
+                    dispatch(setEnglishMaterialSteelType(currentCustomSteelTypes, selectedSheet))
+                    dispatch(setCustomSelectedSteelType(customSteelType, selectedSheet))
+                    dispatch(setCurrentMetricMaterialPropertiesIndex(currentCustomSteelTypesSize, selectedSheet))
+                    setOpenNestedModal(false)
+                }
+            } else {
+                alert("over here")
                 if (size(insertedSteelTypesMetric) === 0) {
                     const initialMaterialEnglish = {}
                     const initialMaterial = {}
                     initialMaterial[0] = {
-                        name: selectedSteelType,
-                        EMPA: hashMetric[selectedSteelType].steel_type_metric_e,
-                        FYMPA: hashMetric[selectedSteelType].steel_type_metric_fy,
-                        FUMPA: hashMetric[selectedSteelType].steel_type_metric_fu
+                        name: selectedName,
+                        EMPA: hashMetric[selectedName].steel_type_metric_e,
+                        FYMPA: hashMetric[selectedName].steel_type_metric_fy,
+                        FUMPA: hashMetric[selectedName].steel_type_metric_fu,
+                        custom: false
                     }
                     initialMaterialEnglish[0] = {
-                        name: selectedSteelType,
-                        EMPA: hashEnglish[selectedSteelType].steel_type_english_e,
-                        FYMPA: hashEnglish[selectedSteelType].steel_type_english_fy,
-                        FUMPA: hashEnglish[selectedSteelType].steel_type_english_fu,
+                        name: selectedName,
+                        EMPA: hashEnglish[selectedName].steel_type_english_e,
+                        FYMPA: hashEnglish[selectedName].steel_type_english_fy,
+                        FUMPA: hashEnglish[selectedName].steel_type_english_fu,
+                        custom: false
                     }
                     const id = 1
                     dispatch(setMetricMaterialSteelType(initialMaterial, selectedSheet))
@@ -305,22 +518,25 @@ const MaterialProperties = () => {
                     dispatch(setCurrentMaterialsArray(id, selectedSheet))
                     setOpenNestedModal(false)
                 } else {
+                    alert("actually here")
                     const newMaterialIndex = size(insertedSteelTypesMetric)
                     const currentMaterialEnglish = {...insertedSteelTypesEnglish}
                     const currentMaterial = {...insertedSteelTypesMetric}
                     currentMaterial[newMaterialIndex] = {
-                        name: selectedSteelType,
-                        EMPA: hashMetric[selectedSteelType].steel_type_metric_e,
-                        FYMPA: hashMetric[selectedSteelType].steel_type_metric_fy,
-                        FUMPA: hashMetric[selectedSteelType].steel_type_metric_fu
+                        name: selectedName,
+                        EMPA: hashMetric[selectedName].steel_type_metric_e,
+                        FYMPA: hashMetric[selectedName].steel_type_metric_fy,
+                        FUMPA: hashMetric[selectedName].steel_type_metric_fu,
+                        custom: false
                     }
                     currentMaterialEnglish[newMaterialIndex] = {
-                        name: selectedSteelType,
-                        EMPA: hashEnglish[selectedSteelType].steel_type_english_e,
-                        FYMPA: hashEnglish[selectedSteelType].steel_type_english_fy,
-                        FUMPA: hashEnglish[selectedSteelType].steel_type_english_fu
+                        name: selectedName,
+                        EMPA: hashEnglish[selectedName].steel_type_english_e,
+                        FYMPA: hashEnglish[selectedName].steel_type_english_fy,
+                        FUMPA: hashEnglish[selectedName].steel_type_english_fu,
+                        custom: false
                     }
-                    alert("Here I am")
+                    // alert("Here I am === " + JSON.stringify(currentMaterial))
                     dispatch(setMetricMaterialSteelType(currentMaterial, selectedSheet))
                     dispatch(setEnglishMaterialSteelType(currentMaterialEnglish, selectedSheet))
                     setOpenNestedModal(false)
@@ -329,7 +545,7 @@ const MaterialProperties = () => {
         }
 
         return (
-            <div>
+            <div style={{flexGrow: 1}}>
                 <Modal
                     open={openNestedModal}
                     aria-labelledby="parent-modal-title"
@@ -341,14 +557,15 @@ const MaterialProperties = () => {
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
                         width: 1000,
-                        height: 600,
+                        height: nestedModalDisabled ? 600 : 700,
                         backgroundColor: '#fff',
                         border: '2px solid #000',
                         boxShadow: 24,
                         pt: 2,
                         px: 4,
                         pb: 3,
-                        textAlign: 'center'
+                        textAlign: 'center',
+                        flexGrow: 1
                     }}>
                         <h2 style={{padding: '1em 0'}} id="parent-modal-title">SELECT PROPERTIES FOR MATERIAL</h2>
 
@@ -365,10 +582,13 @@ const MaterialProperties = () => {
                                     <FormControl fullWidth>
                                         <Autocomplete
                                             // disablePortal
+                                            disabled={disabledPreselectButton}
                                             id="combo-box-demo"
                                             options={systemCheck()}
-                                            value={selectedSteelType}
-                                            onChange={(event) => autoCompleteOnChangeHandler(event)}
+                                            value={selectedName}
+                                            // value={selectedSteelType}
+                                            onChange={(event) => selectedNameHandler(event)}
+                                            // onChange={(event) => autoCompleteOnChangeHandler(event)}
                                             sx={{width: 300}}
                                             renderInput={(params) => <TextField {...params}
                                                                                 label="Preset Steel Types"/>}
@@ -382,7 +602,12 @@ const MaterialProperties = () => {
                                         width: '100%'
                                     }}
                                     variant='contained'
-                                    onClick={() => setNestedModalDisabled(currVal => !currVal)}
+                                    onClick={() => {
+                                        toggleDisable()
+                                        // setNestedModalDisabled(currVal => !currVal)
+                                        dispatch(setMaterialModalCustom(curVal => !curVal, selectedSheet))
+                                        setDisabledPreselectButton(currVal => !currVal)
+                                    }}
                                     color={customButtonColor}>
                                     {customButtonText}
                                 </Button>
@@ -395,26 +620,37 @@ const MaterialProperties = () => {
                             <div style={{width: '80%', margin: '0 auto'}}>
                                 <p style={{textAlign: 'initial'}}><strong>E(MPa)</strong></p>
                                 <Input placeholder='Value will be displayed here...'
-                                       disabled={nestedModalDisabled}
-                                       value={EMPAValueSetter()}
                                        style={{width: '100%', margin: '0 auto', color: 'black'}}
+                                       disabled={nestedModalDisabled}
+                                       value={theEMPAValue}
+                                       // value={EMPAValueSetter()}
+                                       onChange={(event) => empaValueHandler(event)}
                                 />
+                                {empaError}
                             </div>
                             <div style={{width: '80%', margin: '0 auto'}}>
+
                                 <p style={{textAlign: 'initial'}}><strong>FyMPa</strong></p>
                                 <Input placeholder='Value will be displayed here...'
-                                       disabled={nestedModalDisabled}
-                                       value={FYMPAValueSetter()}
                                        style={{width: '100%', margin: '0 auto', color: 'black'}}
+                                       disabled={nestedModalDisabled}
+                                       value={theFYMPAValue}
+                                       // value={FYMPAValueSetter()}
+                                       onChange={(event) => fympaValueHandler(event)}
                                 />
+                                {fympaError}
                             </div>
                             <div style={{width: '80%', margin: '0 auto'}}>
+
                                 <p style={{textAlign: 'initial'}}><strong>FuMPa</strong></p>
                                 <Input placeholder='Value will be displayed here...'
-                                       disabled={nestedModalDisabled}
-                                       value={FUMPAValueSetter()}
                                        style={{width: '100%', margin: '0 auto', color: 'black'}}
+                                       disabled={nestedModalDisabled}
+                                       value={theFUMPAValue}
+                                       // value={FUMPAValueSetter()}
+                                       onChange={(event) => fumpaValueHandler(event)}
                                 />
+                                {fumpaError}
                             </div>
                         </div>
                         <div style={{
@@ -433,12 +669,19 @@ const MaterialProperties = () => {
                                     variant='contained'
                                     color='primary'
                                     onClick={() => {
-                                        insertMaterialProperty()
-                                        // if(errorDisplay) {
-                                        //     return
-                                        // } else if(errorDisplay === false) {
-                                        //     setOpenNestedModal(false)
-                                        // }
+                                        errorCheckRender()
+                                        if(customSteelType === '' && nestedModalDisabled === false) {
+                                            alert("Hola")
+                                            setErrorDisplay(true)
+                                        } else {
+                                            if(selectedNameNoError === false && empaNoError === false && fympaNoError === false && fumpaNoError === false) {
+                                                alert("I made it here")
+                                            } else {
+                                                alert("hoo haa")
+                                                insertMaterialProperty()
+                                            }
+                                        }
+                                        // insertMaterialProperty()
                                     }}
                                 >
                                     ADD

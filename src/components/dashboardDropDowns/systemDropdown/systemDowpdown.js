@@ -26,6 +26,7 @@ const SystemDropdown = () => {
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     // const systemValue = useSelector(state => state.sheets.sheets[selectedSheet].system)
     const systemValue = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
+    const materialModalCustomState = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'customMaterialModal'])
     const classes = useStyles()
 
     const handleChange = (event) => {
@@ -39,7 +40,6 @@ const SystemDropdown = () => {
             return false
         }
     }
-
 
     const getMaterialProperties = () => {
         if(systemValue === 'Metric') {

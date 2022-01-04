@@ -201,7 +201,7 @@ const SectionProperties = () => {
         const metricShapeIndexChecker = () => {
             let checkedIndexMetric = null
             for(let index in sectionPropertiesMetric) {
-                if(selectedSectionName === sectionPropertiesMetric[index].section_properties_metric_name) {
+                if(selectedSectionShape === sectionPropertiesMetric[index].section_properties_metric_name) {
                     checkedIndexMetric = index
                 }
             }
@@ -282,8 +282,8 @@ const SectionProperties = () => {
                         sectionShape: sectionPropertiesMetric[englishShapeIndexChecker()].section_properties_metric_name,
                         sectionName: sectionPropertiesMetric[englishNameIndexChecker()].section_properties_metric_name
                     }
-                    dispatch(addSectionPropertyMetric(initialSectionEnglish, selectedSheet))
-                    dispatch(addSectionPropertyEnglish(initialSectionMetric, selectedSheet))
+                    dispatch(addSectionPropertyMetric(initialSectionMetric, selectedSheet))
+                    dispatch(addSectionPropertyEnglish(initialSectionEnglish, selectedSheet))
                     setOpenNestedModal(false)
                 } else {
                     let currentSectionsEnglish = {...insertedSectionPropertiesEnglish}
@@ -300,8 +300,8 @@ const SectionProperties = () => {
                         sectionShape: sectionPropertiesMetric[englishShapeIndexChecker()].section_properties_metric_name,
                         sectionName: sectionPropertiesMetric[englishNameIndexChecker()].section_properties_metric_name
                     }
-                    dispatch(addSectionPropertyMetric(currentSectionsEnglish, selectedSheet))
-                    dispatch(addSectionPropertyEnglish(currentSectionsMetric, selectedSheet))
+                    dispatch(addSectionPropertyMetric(currentSectionsMetric, selectedSheet))
+                    dispatch(addSectionPropertyEnglish(currentSectionsEnglish, selectedSheet))
                     setOpenNestedModal(false)
                 }
             }

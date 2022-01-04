@@ -24,6 +24,7 @@ const Header = () => {
     const sheets = useSelector(state => state.sheets)
     const sheetTabs = useSelector(state => state.sheets.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
+    const steelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesMetric'])
     const sectionsMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric'])
     const sectionsEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesEnglish'])
     const materials = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties'])
@@ -100,8 +101,13 @@ const Header = () => {
             {/*    <p>{JSON.stringify(provisionState)}</p>*/}
             {/*</div>*/}
             <div>
-                    <p style={{width: '50%', margin: '1em'}}>{JSON.stringify(sectionsEnglish)}</p>
+                    {/*<p>English</p>*/}
+                    <p style={{width: '50%', margin: '1em'}}>{JSON.stringify(materials)}</p>
             </div>
+            {/*<div>*/}
+            {/*    <p>Metric</p>*/}
+            {/*    <p style={{width: '50%', margin: '1em'}}>{JSON.stringify(sectionsMetric)}</p>*/}
+            {/*</div>*/}
             <div className={classes.root}>
                 <div className={classes.titleContainer}>
                     <p className={classes.title}>TITLE HERE</p>
