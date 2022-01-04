@@ -1,8 +1,18 @@
 import {
-    ADD_NEW_SHEET, EDIT_SELECTED_METRIC_MATERIAL_PROPERTIES, EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
-    GET_MATERIAL_PROPERTIES_DATA, GET_SECTION_PROPERTIES_ENGLISH, GET_SECTION_PROPERTIES_METRIC,
+    ADD_NEW_SHEET,
+    EDIT_SELECTED_METRIC_MATERIAL_PROPERTIES,
+    EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
+    GET_MATERIAL_PROPERTIES_DATA,
+    GET_ROUND_HS_SHAPES, GET_ROUND_HS_SHAPES_METRIC,
+    GET_SECTION_PROPERTIES_ENGLISH,
+    GET_SECTION_PROPERTIES_METRIC,
+    GET_SHAPES,
     GET_STEEL_TYPES_ENGLISH_API,
-    GET_STEEL_TYPES_METRIC_API, REMOVE_SHEET, SET_DISABLE_MENU_BUTTONS,
+    GET_STEEL_TYPES_METRIC_API,
+    GET_T_SHAPES_ENGLISH,
+    GET_T_SHAPES_METRIC,
+    REMOVE_SHEET,
+    SET_DISABLE_MENU_BUTTONS,
     SET_ENGLISH_EMPA,
     SET_ENGLISH_FUMPA,
     SET_ENGLISH_FYMPA,
@@ -67,6 +77,34 @@ export const setDisableMenuButtons = data => {
 /**
  * API
  */
+
+export const getShapes = (data, sheetIndex) => {
+    return {
+        type: GET_SHAPES,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const getTShapesMetric = (data, sheetIndex) => {
+    return {
+        type: GET_T_SHAPES_METRIC,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const getTShapesEnglish = (data, sheetIndex) => {
+    return {
+        type: GET_T_SHAPES_ENGLISH,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const getRoundHsShapesMetric = (data, sheetIndex) => {
+    return {
+        type: GET_ROUND_HS_SHAPES_METRIC,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
 
 export const getSteelTypesMetricAPI = (data, sheetIndex) => {
     return {

@@ -1,12 +1,17 @@
 /**
  * API
  */
+// =================== GET REQUESTS =====================
 export const GET_STEEL_TYPES_METRIC_API = '@@sheets/GET_STEEL_TYPES_METRIC_API'
 export const GET_STEEL_TYPES_ENGLISH_API = '@@sheets/GET_STEEL_TYPES_ENGLISH_API'
 export const GET_SECTION_PROPERTIES_METRIC = '@@sheets/GET_SECTION_PROPERTIES_METRIC'
 export const GET_SECTION_PROPERTIES_ENGLISH = '@@sheets/GET_SECTION_PROPERTIES_ENGLISH'
-export const SET_SELECTED_STEEL_TYPE = '@@sheets/SET_SELECTED_STEEL_TYPE'
+export const GET_SHAPES = '@@sheets/GET_SHAPES'
+export const GET_T_SHAPES_METRIC = '@@sheets/GET_T_SHAPES_METRIC'
+export const GET_T_SHAPES_ENGLISH = '@@sheets/GET_T_SHAPES_ENGLISH'
+export const GET_ROUND_HS_SHAPES_METRIC = '@@sheets/GET_ROUND_HS_SHAPES_METRIC'
 
+export const SET_SELECTED_STEEL_TYPE = '@@sheets/SET_SELECTED_STEEL_TYPE'
 export const SET_METRIC_EMPA = '@@sheets/SET_METRIC_EMPA'
 export const SET_METRIC_FYMPA = '@@sheets/SET_METRIC_FYMPA'
 export const SET_METRIC_FUMPA = '@@sheets/SET_METRIC_FUMPA'

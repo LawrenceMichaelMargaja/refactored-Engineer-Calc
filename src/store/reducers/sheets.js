@@ -10,11 +10,11 @@ import {
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTIES,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
     EDIT_SELECTED_SECTION, EDIT_SELECTED_SECTION_ENGLISH, EDIT_SELECTED_SECTION_METRIC,
-    GET_MATERIAL_PROPERTIES_DATA,
+    GET_MATERIAL_PROPERTIES_DATA, GET_ROUND_HS_SHAPES_METRIC,
     GET_SECTION_PROPERTIES_ENGLISH,
-    GET_SECTION_PROPERTIES_METRIC,
+    GET_SECTION_PROPERTIES_METRIC, GET_SHAPES,
     GET_STEEL_TYPES_ENGLISH_API,
-    GET_STEEL_TYPES_METRIC_API,
+    GET_STEEL_TYPES_METRIC_API, GET_T_SHAPES_ENGLISH, GET_T_SHAPES_METRIC,
     REMOVE_ALL_MEMBER_ROWS,
     REMOVE_ALL_SECTION_PROPERTIES,
     REMOVE_MEMBER_ROW,
@@ -106,6 +106,10 @@ const initialState = {
             arrayCheck: [],
             route: '',
             apiData: {
+                shapes: [],
+                tShapesMetric: [],
+                tShapesEnglish: [],
+                roundHSShapesMetric: [],
                 steelTypesMetric: [],
                 steelTypesEnglish: [],
                 sectionPropertiesMetric: [],
@@ -149,8 +153,8 @@ const initialState = {
                 sectionPropertiesMetric: {
                     0: {
                         sectionId: 1,
-                        sectionShape: '',
-                        sectionName: '',
+                        sectionShape: 'W44X335',
+                        sectionName: 'W44X335',
                     }
                 },
                 sectionPropertiesEnglish: {
@@ -398,6 +402,14 @@ const Reducer = (state = initialState, action) => {
             return setCustomSelectedSteelType(state, action.payload)
         case CHANGE_MATERIAL_CUSTOM_STATUS:
             return changeMaterialCustomStatus(state, action.payload)
+        case GET_SHAPES:
+            return getShapes(state, action.payload)
+        case GET_T_SHAPES_METRIC:
+            return getTShapesMetric(state, action.payload)
+        case GET_T_SHAPES_ENGLISH:
+            return getTShapesEnglish(state, action.payload)
+        case GET_ROUND_HS_SHAPES_METRIC:
+            return getRoundHSShapesMetric(state, action.payload)
         default:
             return state
     }
@@ -516,6 +528,70 @@ const setDisableMenuButtons = (state, payload) => {
 /**
  * API
  */
+
+const getShapes = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    shapes: payload.data
+                }
+            }
+        }
+    }
+}
+
+const getTShapesMetric = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    tShapesMetric: payload.data
+                }
+            }
+        }
+    }
+}
+
+const getTShapesEnglish = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    tShapesEnglish: payload.data
+                }
+            }
+        }
+    }
+}
+
+const getRoundHSShapesMetric = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    roundHSShapesMetric: payload.data
+                }
+            }
+        }
+    }
+}
 
 const getSteelTypesMetricAPI = (state, payload) => {
     return {

@@ -17,7 +17,7 @@ import Box from "@mui/material/Box";
 import {Autocomplete} from "@mui/material";
 import {
     getSectionPropertiesEnglish,
-    getSectionPropertiesMetric,
+    getSectionPropertiesMetric, getShapes,
     getSteelTypesEnglishAPI,
     getSteelTypesMetricAPI
 } from "../../../../store/actions/sheets/sheets";
@@ -29,12 +29,9 @@ const SectionProperties = () => {
     const dispatch = useDispatch()
     const sheets = useSelector(state => state.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
-    // const system = useSelector(state => state.sheets.sheets[selectedSheet].system)
     const system = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
-
-    // const sectionPropertiesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiData.sectionPropertiesMetric)
+    const shapes = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'shapes'])
     const sectionPropertiesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'sectionPropertiesMetric'])
-    // const insertedSectionPropertiesMetric = useSelector(state => state.sheets.sheets[selectedSheet].sectionProperties)
     const sectionPropertiesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'sectionPropertiesEnglish'])
     const insertedSectionPropertiesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric'])
     const insertedSectionPropertiesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesEnglish'])
@@ -56,6 +53,15 @@ const SectionProperties = () => {
     }, [method])
 
     const [openNestedModal, setOpenNestedModal] = useState(false);
+
+    const fetchShapes = () => {
+        fetch("http://127.0.0.1:8080/shape")
+            .then((response) => response.json())
+            .then((data) => dispatch(getShapes(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
 
     const getMetricSectionProperties = () => {
         fetch("http://127.0.0.1:8080/sectionpropertiesmetric")
@@ -107,8 +113,8 @@ const SectionProperties = () => {
         }
     }
 
-    const displayApiData = () => {
-        const newOptions = sectionPropertiesMetric.map((data) => ({value: `${data.section_properties_metric_name}`, label: `${data.section_properties_metric_name}`}))
+    const displayApiShapes = () => {
+        const newOptions = shapes.map((data) => ({value: `${data.shape_name}`, label: `${data.shape_name}`}))
         return (
             newOptions
         )
@@ -121,13 +127,14 @@ const SectionProperties = () => {
 
     const systemCheck = () => {
         if(system === 'Metric') {
-            return displayApiData()
+            return displayApiShapes()
         } else if (system === 'English') {
-            return displayEnglishApi()
+            return displayApiShapes()
         }
     }
 
     useEffect(() => {
+        fetchShapes()
         getMetricSectionProperties()
         getEnglishSectionProperties()
     }, [])

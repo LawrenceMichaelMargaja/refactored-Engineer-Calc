@@ -35,6 +35,10 @@ const Header = () => {
     const arrayCheck = objectChecker(sheets, ['sheets', selectedSheet, 'arrayCheck'])
     const members = objectChecker(sheets, ['sheets', selectedSheet, 'members'])
     const method = objectChecker(sheets, ['sheets', selectedSheet, 'method'])
+    const shapes = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'shapes'])
+    const tShapesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'tShapesMetric'])
+    const tShapesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'tShapesEnglish'])
+    const roundHSShapeMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'roundHSShapesMetric'])
 
     /**
      * Details Tab
@@ -102,7 +106,7 @@ const Header = () => {
             {/*</div>*/}
             <div>
                     {/*<p>English</p>*/}
-                    <p style={{width: '50%', margin: '1em'}}>{JSON.stringify(materials)}</p>
+                    <p style={{width: '50%', margin: '1em'}}>{JSON.stringify(roundHSShapeMetric)}</p>
             </div>
             {/*<div>*/}
             {/*    <p>Metric</p>*/}

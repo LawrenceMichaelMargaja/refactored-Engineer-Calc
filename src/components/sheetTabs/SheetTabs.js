@@ -50,34 +50,55 @@ const SheetTabs = () => {
                 errorMessage: [],
                 route: '',
                 apiData: {
+                    shapes: [],
+                    tShapesMetric: [],
+                    tShapesEnglish: [],
+                    roundHSShapesMetric: [],
                     steelTypesMetric: [],
                     steelTypesEnglish: [],
+                    sectionPropertiesMetric: [],
+                    sectionPropertiesEnglish: []
                 },
                 apiMap: {
-                    selectedSteelType: 'A36',
+                    selectedSteelType: '',
+                    customSteelType: '',
                     currentMetricMaterialPropertyIndex: 0,
                     currentMetricEnglishPropertyIndex: '',
+                    currentMetricSectionPropertyIndex: 0,
+                    currentEnglishSectionPropertyIndex: 0,
+                    currentSectionPropertyIndex: 0,
+                    customMaterialModal: false,
                     steelTypeMetricProperties: {
                         0: {
                             name: 'A36',
-                            EMPA: 'testEMPAMetric',
-                            FYMPA: 'testFYMPAMetric',
-                            FUMPA: 'tesstFUMPAMetric'
+                            EMPA: '200000',
+                            FYMPA: '248',
+                            FUMPA: '400',
+                            custom: false
                         }
                     },
                     steelTypeEnglishProperties: {
                         0: {
-                            name: 'testNameEnglish',
-                            EMPA: 'testEMPAEnglish',
-                            FYMPA: 'testFYMPAEnglish',
-                            FUMPA: 'tesstFUMPAEnglish'
+                            name: 'A36',
+                            EMPA: '200000',
+                            FYMPA: '248',
+                            FUMPA: '400',
+                            custom: false
+                        }
+                    },
+                    customSteelTypes: {
+                        0: {
+                            name: 'Custom Steel Type',
+                            EMPA: '',
+                            FYMPA: '',
+                            FUMPA: '',
                         }
                     },
                     sectionPropertiesMetric: {
                         0: {
                             sectionId: 1,
-                            sectionShape: 'W1100X499',
-                            sectionName: 'W1100X499',
+                            sectionShape: 'W44X335',
+                            sectionName: 'W44X335',
                         }
                     },
                     sectionPropertiesEnglish: {
@@ -86,7 +107,7 @@ const SheetTabs = () => {
                             sectionShape: 'W44X335',
                             sectionName: 'W44X335'
                         }
-                    }
+                    },
                 },
                 details: {
                     projectUnit: '',
@@ -174,34 +195,55 @@ const SheetTabs = () => {
                 errorMessage: [],
                 route: '',
                 apiData: {
+                    shapes: [],
+                    tShapesMetric: [],
+                    tShapesEnglish: [],
+                    roundHSShapesMetric: [],
                     steelTypesMetric: [],
                     steelTypesEnglish: [],
+                    sectionPropertiesMetric: [],
+                    sectionPropertiesEnglish: []
                 },
                 apiMap: {
-                    selectedSteelType: 'A36',
+                    selectedSteelType: '',
+                    customSteelType: '',
                     currentMetricMaterialPropertyIndex: 0,
                     currentMetricEnglishPropertyIndex: '',
+                    currentMetricSectionPropertyIndex: 0,
+                    currentEnglishSectionPropertyIndex: 0,
+                    currentSectionPropertyIndex: 0,
+                    customMaterialModal: false,
                     steelTypeMetricProperties: {
                         0: {
                             name: 'A36',
-                            EMPA: 'testEMPAMetric',
-                            FYMPA: 'testFYMPAMetric',
-                            FUMPA: 'tesstFUMPAMetric'
+                            EMPA: '200000',
+                            FYMPA: '248',
+                            FUMPA: '400',
+                            custom: false
                         }
                     },
                     steelTypeEnglishProperties: {
                         0: {
-                            name: 'testNameEnglish',
-                            EMPA: 'testEMPAEnglish',
-                            FYMPA: 'testFYMPAEnglish',
-                            FUMPA: 'tesstFUMPAEnglish'
+                            name: 'A36',
+                            EMPA: '200000',
+                            FYMPA: '248',
+                            FUMPA: '400',
+                            custom: false
+                        }
+                    },
+                    customSteelTypes: {
+                        0: {
+                            name: 'Custom Steel Type',
+                            EMPA: '',
+                            FYMPA: '',
+                            FUMPA: '',
                         }
                     },
                     sectionPropertiesMetric: {
                         0: {
                             sectionId: 1,
-                            sectionShape: 'W1100X499',
-                            sectionName: 'W1100X499',
+                            sectionShape: 'W44X335',
+                            sectionName: 'W44X335',
                         }
                     },
                     sectionPropertiesEnglish: {
@@ -210,7 +252,7 @@ const SheetTabs = () => {
                             sectionShape: 'W44X335',
                             sectionName: 'W44X335'
                         }
-                    }
+                    },
                 },
                 details: {
                     projectUnit: '',

@@ -13,9 +13,15 @@ import {
     setProjectUnit
 } from "../../../store/actions/sheets/sheetCalculationComponents/details/details";
 import {
-    getMaterialPropertiesData, getSectionPropertiesEnglish, getSectionPropertiesMetric,
+    getMaterialPropertiesData,
+    getRoundHsShapesMetric,
+    getSectionPropertiesEnglish,
+    getSectionPropertiesMetric,
+    getShapes,
     getSteelTypesEnglishAPI,
-    getSteelTypesMetricAPI
+    getSteelTypesMetricAPI,
+    getTShapesEnglish,
+    getTShapesMetric
 } from "../../../store/actions/sheets/sheets";
 import {objectChecker} from "../../../utilities/utilities";
 
@@ -80,6 +86,51 @@ const Details = () => {
         dispatch(setProjectNotes(event.target.value, selectedSheet))
     }
 
+    const fetchShapes = () => {
+        fetch("http://127.0.0.1:8080/shape")
+            .then((response) => response.json())
+            .then((data) => dispatch(getShapes(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    /**
+     * Start of T-Shape
+     */
+    const fetchTShapeMetric = () => {
+        fetch("http://127.0.0.1:8080/tshapemetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getTShapesMetric(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchTShapeEnglish = () => {
+        fetch("http://127.0.0.1:8080/tshapeenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(getTShapesEnglish(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+    /**
+     * End of T-Shape
+     */
+
+    /**
+     * Start of Round HS - Shape
+     */
+    const fetchRoundHSShapeMetric = () => {
+        fetch("http://127.0.0.1:8080/roundhsshapemetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getRoundHsShapesMetric(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
     const getSteelTypesMetric = () => {
         fetch("http://127.0.0.1:8080/steeltypesmetric")
             .then((response) => response.json())
@@ -100,6 +151,10 @@ const Details = () => {
     }
 
     useEffect(() => {
+        fetchRoundHSShapeMetric()
+        fetchTShapeEnglish()
+        fetchTShapeMetric()
+        fetchShapes()
         getSteelTypesMetric()
         getSteelTypesEnglish()
     }, [])
