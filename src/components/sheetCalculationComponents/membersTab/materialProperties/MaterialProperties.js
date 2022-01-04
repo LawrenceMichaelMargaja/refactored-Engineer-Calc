@@ -298,6 +298,18 @@ const MaterialProperties = () => {
         }
 
         useEffect(() => {
+            if(nestedModalDisabled === false) {
+                if(selectedName === '') {
+                    return
+                } else {
+                    setEMPAValue(hashMetric[selectedName].steel_type_metric_e)
+                    setFYMPAValue(hashMetric[selectedName].steel_type_metric_fy)
+                    setFUMPAValue(hashMetric[selectedName].steel_type_metric_fu)
+                }
+            }
+        }, [nestedModalDisabled])
+
+        useEffect(() => {
             EMPAValueSetter()
             FYMPAValueSetter()
             FUMPAValueSetter()
@@ -426,15 +438,15 @@ const MaterialProperties = () => {
         }
 
         const empaValueHandler = (event) => {
-            setEMPAValue(event.target.value)
+            setTheEMPAValue(event.target.value)
         }
 
         const fympaValueHandler = (event) => {
-            setFYMPAValue(event.target.value)
+            setTheFYMPAValue(event.target.value)
         }
 
         const fumpaValueHandler = (event) => {
-            setFUMPAValue(event.target.value)
+            setTheFUMPAValue(event.target.value)
         }
 
         const empaValuePlacer = () => {
@@ -467,9 +479,9 @@ const MaterialProperties = () => {
                     const customSteelTypeInitial = {}
                     customSteelTypeInitial[0] = {
                         name: customSteelType,
-                        EMPA: EMPAValue,
-                        FYMPA: FYMPAValue,
-                        FUMPA: FUMPAValue,
+                        EMPA: theEMPAValue,
+                        FYMPA: theFYMPAValue,
+                        FUMPA: theFUMPAValue,
                         custom: true
                     }
                     dispatch(setMetricMaterialSteelType(customSteelTypeInitial, selectedSheet))
@@ -482,9 +494,9 @@ const MaterialProperties = () => {
                     const currentCustomSteelTypesSize = size(insertedSteelTypesMetric)
                     currentCustomSteelTypes[currentCustomSteelTypesSize] = {
                         name: customSteelType,
-                        EMPA: EMPAValue,
-                        FYMPA: FYMPAValue,
-                        FUMPA: FUMPAValue,
+                        EMPA: theEMPAValue,
+                        FYMPA: theFYMPAValue,
+                        FUMPA: theFUMPAValue,
                         custom: true
                     }
                     dispatch(setMetricMaterialSteelType(currentCustomSteelTypes, selectedSheet))
