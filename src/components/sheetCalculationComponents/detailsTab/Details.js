@@ -16,10 +16,15 @@ import {
     get2LShapeEnglish,
     get2LShapeMetric,
     getCShapeEnglish,
-    getCShapeMetric,
+    getCShapeMetric, getIShapesEnglish, getIShapesMetric,
     getLShapesEnglish,
     getLShapesMetric,
-    getMaterialPropertiesData, getPipeShapesEnglish, getPipeShapesMetric, getRecHsShapesMetric, getRoundHsShapesEnglish,
+    getMaterialPropertiesData,
+    getPipeShapesEnglish,
+    getPipeShapesMetric,
+    getRecHsShapesEnglish,
+    getRecHsShapesMetric,
+    getRoundHsShapesEnglish,
     getRoundHsShapesMetric,
     getSectionPropertiesEnglish,
     getSectionPropertiesMetric,
@@ -156,7 +161,12 @@ const Details = () => {
     }
 
     const fetchRecHSShapeEnglish = () => {
-        fetch("http://127.0.0.1:8080/")
+        fetch("http://127.0.0.1:8080/rechsshapeenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(getRecHsShapesEnglish(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
     }
 
     const fetchPipeShapeMetric = () => {
@@ -190,6 +200,24 @@ const Details = () => {
         fetch("http://127.0.0.1:8080/lshapeenglish")
             .then((response) => response.json())
             .then((data) => dispatch(getLShapesEnglish(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchIShapeMetric = () => {
+        fetch("http://127.0.0.1:8080/ishapemetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getIShapesMetric(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchIShapeEnglish = () => {
+        fetch("http://127.0.0.1:8080/ishapeenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(getIShapesEnglish(data, selectedSheet)))
             .catch((error) => {
                 console.log(error)
             })
@@ -255,10 +283,13 @@ const Details = () => {
         fetch2LShapeMetric()
         fetchCShapeEnglish()
         fetchCShapeMetric()
+        fetchIShapeEnglish()
+        fetchIShapeMetric()
         fetchLShapeEnglish()
         fetchLShapeMetric()
         fetchPipeShapeEnglish()
         fetchPipeShapeMetric()
+        fetchRecHSShapeEnglish()
         fetchRecHSShapeMetric()
         fetchRoundHSShapeEnglish()
         fetchRoundHSShapeMetric()

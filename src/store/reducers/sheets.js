@@ -15,12 +15,12 @@ import {
     EDIT_SELECTED_SECTION_METRIC, GET_2_L_SHAPES_ENGLISH,
     GET_2_L_SHAPES_METRIC,
     GET_C_SHAPES_ENGLISH,
-    GET_C_SHAPES_METRIC,
+    GET_C_SHAPES_METRIC, GET_I_SHAPES_ENGLISH, GET_I_SHAPES_METRIC,
     GET_L_SHAPES_ENGLISH,
     GET_L_SHAPES_METRIC,
     GET_MATERIAL_PROPERTIES_DATA,
     GET_PIPE_SHAPES_ENGLISH,
-    GET_PIPE_SHAPES_METRIC,
+    GET_PIPE_SHAPES_METRIC, GET_REC_HS_SHAPES_ENGLISH,
     GET_REC_HS_SHAPES_METRIC,
     GET_ROUND_HS_SHAPES_ENGLISH,
     GET_ROUND_HS_SHAPES_METRIC,
@@ -130,10 +130,13 @@ const initialState = {
                 roundHSShapesMetric: [],
                 roundHSShapesEnglish: [],
                 recHSShapesMetric: [],
+                recHSShapesEnglish: [],
                 pipeShapesMetric: [],
                 pipeShapesEnglish: [],
                 lShapesMetric: [],
                 lShapesEnglish: [],
+                iShapesMetric: [],
+                iShapesEnglish: [],
                 cShapesMetric: [],
                 cShapesEnglish: [],
                 twoLShapesMetric: [],
@@ -442,6 +445,8 @@ const Reducer = (state = initialState, action) => {
             return getRoundHSShapesEnglish(state, action.payload)
         case GET_REC_HS_SHAPES_METRIC:
             return getRecHSShapesMetric(state, action.payload)
+        case GET_REC_HS_SHAPES_ENGLISH:
+            return getrecHSShapesEnglish(state, action.payload)
         case GET_PIPE_SHAPES_METRIC:
             return getPipeShapesMetric(state, action.payload)
         case GET_PIPE_SHAPES_ENGLISH:
@@ -450,6 +455,10 @@ const Reducer = (state = initialState, action) => {
             return getLShapesMetric(state, action.payload)
         case GET_L_SHAPES_ENGLISH:
             return getLShapesEnglish(state, action.payload)
+        case GET_I_SHAPES_METRIC:
+            return getIShapesMetric(state, action.payload)
+        case GET_I_SHAPES_ENGLISH:
+            return getIShapesEnglish(state, action.payload)
         case GET_C_SHAPES_METRIC:
             return getCShapesMetric(state, action.payload)
         case GET_C_SHAPES_ENGLISH:
@@ -641,6 +650,22 @@ const getRecHSShapesMetric = (state, payload) => {
     }
 }
 
+const getrecHSShapesEnglish = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    recHSShapesEnglish: payload.data
+                }
+            }
+        }
+    }
+}
+
 const getPipeShapesMetric = (state, payload) => {
     return {
         ...state,
@@ -699,6 +724,38 @@ const getLShapesEnglish = (state, payload) => {
                 apiData: {
                     ...state.sheets[payload.sheetIndex].apiData,
                     lShapesEnglish: payload.data
+                }
+            }
+        }
+    }
+}
+
+const getIShapesMetric = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    iShapesMetric: payload.data
+                }
+            }
+        }
+    }
+}
+
+const getIShapesEnglish = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    iShapesEnglish: payload.data
                 }
             }
         }
