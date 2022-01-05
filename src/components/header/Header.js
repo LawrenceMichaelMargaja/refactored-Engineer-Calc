@@ -35,10 +35,24 @@ const Header = () => {
     const arrayCheck = objectChecker(sheets, ['sheets', selectedSheet, 'arrayCheck'])
     const members = objectChecker(sheets, ['sheets', selectedSheet, 'members'])
     const method = objectChecker(sheets, ['sheets', selectedSheet, 'method'])
+
+    /**
+     * API Data
+     */
     const shapes = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'shapes'])
     const tShapesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'tShapesMetric'])
     const tShapesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'tShapesEnglish'])
     const roundHSShapeMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'roundHSShapesMetric'])
+    const roundHSShapeEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'roundHSShapesEnglish'])
+    const recHSShapeMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'recHSShapesMetric'])
+    const pipeShapeMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'pipeShapesMetric'])
+    const pipeShapeEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'pipeShapesEnglish'])
+    const lShapeMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'lShapesMetric'])
+    const lShapeEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'lShapesEnglish'])
+    const cShapeMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'cShapesMetric'])
+    const cShapeEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'cShapesEnglish'])
+    const twoLShapeMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'twoLShapesMetric'])
+    const twoLShapeEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'twoLShapesEnglish'])
 
     /**
      * Details Tab
@@ -106,7 +120,7 @@ const Header = () => {
             {/*</div>*/}
             <div>
                     {/*<p>English</p>*/}
-                    {/*<p style={{width: '50%', margin: '1em'}}>{JSON.stringify(roundHSShapeMetric)}</p>*/}
+                    <p style={{width: '50%', margin: '1em'}}>{JSON.stringify(twoLShapeEnglish)}</p>
             </div>
             {/*<div>*/}
             {/*    <p>Metric</p>*/}

@@ -13,7 +13,13 @@ import {
     setProjectUnit
 } from "../../../store/actions/sheets/sheetCalculationComponents/details/details";
 import {
-    getMaterialPropertiesData,
+    get2LShapeEnglish,
+    get2LShapeMetric,
+    getCShapeEnglish,
+    getCShapeMetric,
+    getLShapesEnglish,
+    getLShapesMetric,
+    getMaterialPropertiesData, getPipeShapesEnglish, getPipeShapesMetric, getRecHsShapesMetric, getRoundHsShapesEnglish,
     getRoundHsShapesMetric,
     getSectionPropertiesEnglish,
     getSectionPropertiesMetric,
@@ -131,6 +137,100 @@ const Details = () => {
             })
     }
 
+    const fetchRoundHSShapeEnglish = () => {
+        fetch("http://127.0.0.1:8080/roundhsshapeenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(getRoundHsShapesEnglish(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchRecHSShapeMetric = () => {
+        fetch("http://127.0.0.1:8080/rechsshapemetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getRecHsShapesMetric(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchRecHSShapeEnglish = () => {
+        fetch("http://127.0.0.1:8080/")
+    }
+
+    const fetchPipeShapeMetric = () => {
+        fetch("http://127.0.0.1:8080/pipeshapemetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getPipeShapesMetric(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchPipeShapeEnglish = () => {
+        fetch("http://127.0.0.1:8080/pipeshapeenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(getPipeShapesEnglish(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchLShapeMetric = () => {
+        fetch("http://127.0.0.1:8080/lshapemetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getLShapesMetric(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchLShapeEnglish = () => {
+        fetch("http://127.0.0.1:8080/lshapeenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(getLShapesEnglish(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchCShapeMetric = () => {
+        fetch("http://127.0.0.1:8080/cshapemetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getCShapeMetric(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchCShapeEnglish = () => {
+        fetch("http://127.0.0.1:8080/cshapeenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(getCShapeEnglish(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetch2LShapeMetric = () => {
+        fetch("http://127.0.0.1:8080/2lshapemetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(get2LShapeMetric(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetch2LShapeEnglish = () => {
+        fetch("http://127.0.0.1:8080/2lshapeenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(get2LShapeEnglish(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
     const getSteelTypesMetric = () => {
         fetch("http://127.0.0.1:8080/steeltypesmetric")
             .then((response) => response.json())
@@ -151,6 +251,16 @@ const Details = () => {
     }
 
     useEffect(() => {
+        fetch2LShapeEnglish()
+        fetch2LShapeMetric()
+        fetchCShapeEnglish()
+        fetchCShapeMetric()
+        fetchLShapeEnglish()
+        fetchLShapeMetric()
+        fetchPipeShapeEnglish()
+        fetchPipeShapeMetric()
+        fetchRecHSShapeMetric()
+        fetchRoundHSShapeEnglish()
         fetchRoundHSShapeMetric()
         fetchTShapeEnglish()
         fetchTShapeMetric()

@@ -4,17 +4,33 @@ import {
     ADD_NEW_SHEET,
     ADD_SECTION_PROPERTY,
     ADD_SECTION_PROPERTY_ENGLISH,
-    ADD_SECTION_PROPERTY_METRIC, CHANGE_MATERIAL_CUSTOM_STATUS,
+    ADD_SECTION_PROPERTY_METRIC,
+    CHANGE_MATERIAL_CUSTOM_STATUS,
     CLEAR_METRIC_MATERIAL_PROPERTIES,
     CLEAR_REMOVED_MEMBERS_ARRAY,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTIES,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
-    EDIT_SELECTED_SECTION, EDIT_SELECTED_SECTION_ENGLISH, EDIT_SELECTED_SECTION_METRIC,
-    GET_MATERIAL_PROPERTIES_DATA, GET_ROUND_HS_SHAPES_METRIC,
+    EDIT_SELECTED_SECTION,
+    EDIT_SELECTED_SECTION_ENGLISH,
+    EDIT_SELECTED_SECTION_METRIC, GET_2_L_SHAPES_ENGLISH,
+    GET_2_L_SHAPES_METRIC,
+    GET_C_SHAPES_ENGLISH,
+    GET_C_SHAPES_METRIC,
+    GET_L_SHAPES_ENGLISH,
+    GET_L_SHAPES_METRIC,
+    GET_MATERIAL_PROPERTIES_DATA,
+    GET_PIPE_SHAPES_ENGLISH,
+    GET_PIPE_SHAPES_METRIC,
+    GET_REC_HS_SHAPES_METRIC,
+    GET_ROUND_HS_SHAPES_ENGLISH,
+    GET_ROUND_HS_SHAPES_METRIC,
     GET_SECTION_PROPERTIES_ENGLISH,
-    GET_SECTION_PROPERTIES_METRIC, GET_SHAPES,
+    GET_SECTION_PROPERTIES_METRIC,
+    GET_SHAPES,
     GET_STEEL_TYPES_ENGLISH_API,
-    GET_STEEL_TYPES_METRIC_API, GET_T_SHAPES_ENGLISH, GET_T_SHAPES_METRIC,
+    GET_STEEL_TYPES_METRIC_API,
+    GET_T_SHAPES_ENGLISH,
+    GET_T_SHAPES_METRIC,
     REMOVE_ALL_MEMBER_ROWS,
     REMOVE_ALL_SECTION_PROPERTIES,
     REMOVE_MEMBER_ROW,
@@ -31,9 +47,11 @@ import {
     SET_ARRAY_CHECK,
     SET_AXIAL,
     SET_BENDING_MOMENT_ALONG_X_AXIS,
-    SET_BENDING_MOMENT_ALONG_Y_AXIS, SET_CURRENT_ENGLISH_SECTION_PROPERTY_INDEX,
+    SET_BENDING_MOMENT_ALONG_Y_AXIS,
+    SET_CURRENT_ENGLISH_SECTION_PROPERTY_INDEX,
     SET_CURRENT_MATERIALS_ARRAY,
-    SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX, SET_CURRENT_METRIC_SECTION_PROPERTY_INDEX,
+    SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX,
+    SET_CURRENT_METRIC_SECTION_PROPERTY_INDEX,
     SET_CURRENT_SECTION_PROPERTIES_ARRAY,
     SET_CUSTOM_SELECTED_STEEL_TYPE,
     SET_DISABLE_MENU_BUTTONS,
@@ -110,6 +128,16 @@ const initialState = {
                 tShapesMetric: [],
                 tShapesEnglish: [],
                 roundHSShapesMetric: [],
+                roundHSShapesEnglish: [],
+                recHSShapesMetric: [],
+                pipeShapesMetric: [],
+                pipeShapesEnglish: [],
+                lShapesMetric: [],
+                lShapesEnglish: [],
+                cShapesMetric: [],
+                cShapesEnglish: [],
+                twoLShapesMetric: [],
+                twoLShapesEnglish: [],
                 steelTypesMetric: [],
                 steelTypesEnglish: [],
                 sectionPropertiesMetric: [],
@@ -410,6 +438,26 @@ const Reducer = (state = initialState, action) => {
             return getTShapesEnglish(state, action.payload)
         case GET_ROUND_HS_SHAPES_METRIC:
             return getRoundHSShapesMetric(state, action.payload)
+        case GET_ROUND_HS_SHAPES_ENGLISH:
+            return getRoundHSShapesEnglish(state, action.payload)
+        case GET_REC_HS_SHAPES_METRIC:
+            return getRecHSShapesMetric(state, action.payload)
+        case GET_PIPE_SHAPES_METRIC:
+            return getPipeShapesMetric(state, action.payload)
+        case GET_PIPE_SHAPES_ENGLISH:
+            return getPipeShapesEnglish(state, action.payload)
+        case GET_L_SHAPES_METRIC:
+            return getLShapesMetric(state, action.payload)
+        case GET_L_SHAPES_ENGLISH:
+            return getLShapesEnglish(state, action.payload)
+        case GET_C_SHAPES_METRIC:
+            return getCShapesMetric(state, action.payload)
+        case GET_C_SHAPES_ENGLISH:
+            return getCShapesEnglish(state, action.payload)
+        case GET_2_L_SHAPES_METRIC:
+            return get2LShapesMetric(state, action.payload)
+        case GET_2_L_SHAPES_ENGLISH:
+            return get2LShapesEnglish(state, action.payload)
         default:
             return state
     }
@@ -430,38 +478,6 @@ const setArrayCheck = (state, payload) => {
         }
     }
 }
-
-// const setErrorLocation = (state, payload) => {
-//     return {
-//         ...state,
-//         sheets: {
-//             ...state.sheets,
-//             [payload.sheetIndex]: {
-//                 ...state.sheets[payload.sheetIndex],
-//                 errorLocation: [
-//                     ...state.sheets[payload.sheetIndex].errorLocation,
-//                     payload.data
-//                 ]
-//             }
-//         }
-//     }
-// }
-//
-// const setErrorMessage = (state, payload) => {
-//     return {
-//         ...state,
-//         sheets: {
-//             ...state.sheets,
-//             [payload.sheetIndex]: {
-//                 ...state.sheets[payload.sheetIndex],
-//                 errorMessage: [
-//                     ...state.sheets[payload.sheetIndex].errorMessage,
-//                     payload.data
-//                 ]
-//             }
-//         }
-//     }
-// }
 
 /**
  * Sheets
@@ -587,6 +603,166 @@ const getRoundHSShapesMetric = (state, payload) => {
                 apiData: {
                     ...state.sheets[payload.sheetIndex].apiData,
                     roundHSShapesMetric: payload.data
+                }
+            }
+        }
+    }
+}
+
+const getRoundHSShapesEnglish = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    roundHSShapesEnglish: payload.data
+                }
+            }
+        }
+    }
+}
+
+const getRecHSShapesMetric = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    recHSShapesMetric: payload.data
+                }
+            }
+        }
+    }
+}
+
+const getPipeShapesMetric = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    pipeShapesMetric: payload.data
+                }
+            }
+        }
+    }
+}
+
+const getPipeShapesEnglish = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    pipeShapesEnglish: payload.data
+                }
+            }
+        }
+    }
+}
+
+const getLShapesMetric = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    lShapesMetric: payload.data
+                }
+            }
+        }
+    }
+}
+
+const getLShapesEnglish = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    lShapesEnglish: payload.data
+                }
+            }
+        }
+    }
+}
+
+const getCShapesMetric = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    cShapesMetric: payload.data
+                }
+            }
+        }
+    }
+}
+
+const getCShapesEnglish = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    cShapesEnglish: payload.data
+                }
+            }
+        }
+    }
+}
+
+const get2LShapesMetric = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    twoLShapesMetric: payload.data
+                }
+            }
+        }
+    }
+}
+
+const get2LShapesEnglish = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    twoLShapesEnglish: payload.data
                 }
             }
         }

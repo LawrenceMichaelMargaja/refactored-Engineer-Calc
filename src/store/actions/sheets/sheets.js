@@ -1,9 +1,18 @@
 import {
     ADD_NEW_SHEET,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTIES,
-    EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
+    EDIT_SELECTED_METRIC_MATERIAL_PROPERTY, GET_2_L_SHAPES_ENGLISH,
+    GET_2_L_SHAPES_METRIC,
+    GET_C_SHAPES_METRIC,
+    GET_L_SHAPES_ENGLISH,
+    GET_L_SHAPES_METRIC,
     GET_MATERIAL_PROPERTIES_DATA,
-    GET_ROUND_HS_SHAPES, GET_ROUND_HS_SHAPES_METRIC,
+    GET_PIPE_SHAPES_ENGLISH,
+    GET_PIPE_SHAPES_METRIC,
+    GET_REC_HS_SHAPES_METRIC,
+    GET_ROUND_HS_SHAPES,
+    GET_ROUND_HS_SHAPES_ENGLISH,
+    GET_ROUND_HS_SHAPES_METRIC,
     GET_SECTION_PROPERTIES_ENGLISH,
     GET_SECTION_PROPERTIES_METRIC,
     GET_SHAPES,
@@ -102,6 +111,76 @@ export const getTShapesEnglish = (data, sheetIndex) => {
 export const getRoundHsShapesMetric = (data, sheetIndex) => {
     return {
         type: GET_ROUND_HS_SHAPES_METRIC,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const getRoundHsShapesEnglish = (data, sheetIndex) => {
+    return {
+        type: GET_ROUND_HS_SHAPES_ENGLISH,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const getRecHsShapesMetric = (data, sheetIndex) => {
+    return {
+        type: GET_REC_HS_SHAPES_METRIC,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const getPipeShapesMetric = (data, sheetIndex) => {
+    return {
+        type: GET_PIPE_SHAPES_METRIC,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const getPipeShapesEnglish = (data, sheetIndex) => {
+    return {
+        type: GET_PIPE_SHAPES_ENGLISH,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const getLShapesMetric = (data, sheetIndex) => {
+    return {
+        type: GET_L_SHAPES_METRIC,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const getLShapesEnglish = (data, sheetIndex) => {
+    return {
+        type: GET_L_SHAPES_ENGLISH,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const getCShapeMetric = (data, sheetIndex) => {
+    return {
+        type: GET_C_SHAPES_METRIC,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const getCShapeEnglish = (data, sheetIndex) => {
+    return {
+        type: GET_C_SHAPES_METRIC,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const get2LShapeMetric = (data, sheetIndex) => {
+    return {
+        type: GET_2_L_SHAPES_METRIC,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const get2LShapeEnglish = (data, sheetIndex) => {
+    return {
+        type: GET_2_L_SHAPES_ENGLISH,
         payload: {data: data, sheetIndex: sheetIndex}
     }
 }

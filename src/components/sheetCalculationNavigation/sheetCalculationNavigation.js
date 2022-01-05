@@ -27,11 +27,9 @@ const SheetCalculationNavigation = () => {
     const sheets = useSelector(state => state.sheets)
     const sheetTabs = useSelector(state => state.sheets.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
-    // const members = useSelector(state => state.sheets.sheets.members)
     const members = objectChecker(sheets, ['sheets', selectedSheet, 'members'])
-
-    const sectionProperties = useSelector(state => state.sheets.sheets.sectionProperties)
-    const materialProperties = useSelector(state => state.sheets.sheets.materialProperties)
+    const sectionProperties = objectChecker(sheets, ['sheets', selectedSheet, 'sectionProperties'])
+    const materialProperties = objectChecker(sheets, ['sheets', selectedSheet, 'materialProperties'])
     const tabState = objectChecker(sheets, ['sheets', selectedSheet, 'tabState'])
     const classes = useStyles()
     const dispatch = useDispatch()

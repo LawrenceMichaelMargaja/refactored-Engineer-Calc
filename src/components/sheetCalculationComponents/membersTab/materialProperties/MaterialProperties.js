@@ -368,8 +368,18 @@ const MaterialProperties = () => {
 
         useEffect(() => {
             for(let name in steelTypesMetric) {
+                if ((customSteelType).toUpperCase() !== (steelTypesMetric[name].steel_type_metric_name).toUpperCase()) {
+                    setSelectedNameError(<></>)
+                    setNameMatch(false)
+                    setErrorDisplay(false)
+                    break
+                }
+            }
+        }, [customSteelType])
+
+        useEffect(() => {
+            for(let name in steelTypesMetric) {
                 if ((customSteelType).toUpperCase() === (steelTypesMetric[name].steel_type_metric_name).toUpperCase()) {
-                    alert("what do i know")
                     setSelectedNameError(
                         <p style={{margin: '0', padding: '0'}}>
                             <strong style={{color: 'red'}}>Custom name cannot match preset values.</strong>
@@ -383,16 +393,16 @@ const MaterialProperties = () => {
         }, [customSteelType])
 
         useEffect(() => {
-            if(EMPAValue !== '') {
+            if(theEMPAValue !== '') {
                 setEmpaError(<></>)
             }
-            if(FYMPAValue !== '') {
+            if(theFYMPAValue !== '') {
                 setFympaError(<></>)
             }
-            if(FUMPAValue !== '') {
+            if(theFUMPAValue !== '') {
                 setFumpaError(<></>)
             }
-        }, [EMPAValue, FYMPAValue, FUMPAValue])
+        }, [theEMPAValue, theFYMPAValue, theFUMPAValue])
 
 
         const empaValueChecker = () => {
@@ -723,7 +733,7 @@ const MaterialProperties = () => {
                                     color='primary'
                                     onClick={() => {
                                         errorCheckRender()
-                                        if (customSteelType === '' || nameMatch === true && nestedModalDisabled === false) {
+                                        if ((customSteelType === '' || nameMatch === true) && nestedModalDisabled === false) {
                                             alert("Hola == " + selectedNameNoError)
                                             setErrorDisplay(true)
                                         } else {

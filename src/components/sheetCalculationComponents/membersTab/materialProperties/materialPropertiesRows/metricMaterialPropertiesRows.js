@@ -309,6 +309,18 @@ const MetricMaterialPropertiesRows = () => {
         const [FUMPAValue, setFUMPAValue] = useState('')
 
         useEffect(() => {
+            if(EMPAValue !== '') {
+                setEmpaError(<></>)
+            }
+            if(FYMPAValue !== '') {
+                setFympaError(<></>)
+            }
+            if(FUMPAValue !== '') {
+                setFumpaError(<></>)
+            }
+        }, [EMPAValue, FYMPAValue, FUMPAValue])
+
+        useEffect(() => {
             for(let name in steelTypesMetric) {
                 if ((selectedCustomName).toUpperCase() !== (steelTypesMetric[name].steel_type_metric_name).toUpperCase()) {
                     setSelectedNameError(<></>)

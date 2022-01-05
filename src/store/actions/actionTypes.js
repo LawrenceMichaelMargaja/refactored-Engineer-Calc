@@ -10,6 +10,18 @@ export const GET_SHAPES = '@@sheets/GET_SHAPES'
 export const GET_T_SHAPES_METRIC = '@@sheets/GET_T_SHAPES_METRIC'
 export const GET_T_SHAPES_ENGLISH = '@@sheets/GET_T_SHAPES_ENGLISH'
 export const GET_ROUND_HS_SHAPES_METRIC = '@@sheets/GET_ROUND_HS_SHAPES_METRIC'
+export const GET_ROUND_HS_SHAPES_ENGLISH = '@@sheets/GET_ROUND_HS_SHAPES_ENGLISH'
+export const GET_REC_HS_SHAPES_METRIC = '@@sheets/GET_REC_HS_SHAPES_METRIC'
+export const GET_PIPE_SHAPES_METRIC = '@@sheets/GET_PIPE_SHAPES_METRIC'
+export const GET_PIPE_SHAPES_ENGLISH = '@@sheets/GET_PIPE_SHAPES_ENGLISH'
+export const GET_L_SHAPES_METRIC = '@@sheets/GET_L_SHAPES_METRIC'
+export const GET_L_SHAPES_ENGLISH = '@@sheets/GET_L_SHAPES_ENGLISH'
+export const GET_C_SHAPES_METRIC = '@@sheets/GET_C_SHAPES_METRIC'
+export const GET_C_SHAPES_ENGLISH = '@@sheets/GET_C_SHAPES_ENGLISH'
+export const GET_2_L_SHAPES_METRIC = '@@sheets/GET_2_L_SHAPES_METRIC'
+export const GET_2_L_SHAPES_ENGLISH = '@@sheets/GET_2_L_SHAPES_ENGLISH'
+
+// ================ END OF GET REQUESTS ==================
 
 export const SET_SELECTED_STEEL_TYPE = '@@sheets/SET_SELECTED_STEEL_TYPE'
 export const SET_METRIC_EMPA = '@@sheets/SET_METRIC_EMPA'
