@@ -212,56 +212,56 @@ const MaterialProperties = () => {
 
         const EMPAValueSetter = () => {
             if (system === 'Metric') {
-                    if (selectedName === '') {
-                        return
-                    } else {
-                        setTheEMPAValue(hashMetric[selectedName].steel_type_metric_e)
-                    }
+                if (selectedName === '') {
+                    return
                 } else {
-                    if (selectedName === '') {
-                        return
-                    } else {
-                        setTheEMPAValue(hashEnglish[selectedName].steel_type_english_e)
-                    }
+                    setTheEMPAValue(hashMetric[selectedName].steel_type_metric_e)
                 }
+            } else {
+                if (selectedName === '') {
+                    return
+                } else {
+                    setTheEMPAValue(hashEnglish[selectedName].steel_type_english_e)
+                }
+            }
         }
 
         const FYMPAValueSetter = () => {
             if (system === 'Metric') {
-                    if (selectedName === '') {
-                        return
-                    } else {
-                        setTheFYMPAValue(hashMetric[selectedName].steel_type_metric_fy)
-                    }
+                if (selectedName === '') {
+                    return
                 } else {
-                    if (selectedName === '') {
-                        return
-                    } else {
-                        setTheFYMPAValue(hashEnglish[selectedName].steel_type_english_fy)
-                    }
+                    setTheFYMPAValue(hashMetric[selectedName].steel_type_metric_fy)
                 }
+            } else {
+                if (selectedName === '') {
+                    return
+                } else {
+                    setTheFYMPAValue(hashEnglish[selectedName].steel_type_english_fy)
+                }
+            }
         }
 
         const FUMPAValueSetter = () => {
             if (system === 'Metric') {
-                    if (selectedName === '') {
-                        return
-                    } else {
-                        setTheFUMPAValue(hashMetric[selectedName].steel_type_metric_fu)
-                    }
+                if (selectedName === '') {
+                    return
                 } else {
-                    if (selectedName === '') {
-                        return
-                    } else {
-                        setTheFUMPAValue(hashEnglish[selectedName].steel_type_english_fu)
-                    }
+                    setTheFUMPAValue(hashMetric[selectedName].steel_type_metric_fu)
                 }
+            } else {
+                if (selectedName === '') {
+                    return
+                } else {
+                    setTheFUMPAValue(hashEnglish[selectedName].steel_type_english_fu)
+                }
+            }
         }
 
         const [errorDisplay, setErrorDisplay] = useState(false)
 
         const displayError = () => {
-            if(nestedModalDisabled === false) {
+            if (nestedModalDisabled === false) {
                 return
             } else {
                 if (errorDisplay === false) {
@@ -291,15 +291,15 @@ const MaterialProperties = () => {
         const [fumpaError, setFumpaError] = useState(<></>)
 
         const errorCheckRender = () => {
-            selectedNameChecker()
+            selectedNameCheckerMetric()
             empaValueChecker()
             fympaValueChecker()
             fumpaValueChecker()
         }
 
         useEffect(() => {
-            if(nestedModalDisabled === false) {
-                if(selectedName === '') {
+            if (nestedModalDisabled === false) {
+                if (selectedName === '') {
                     return
                 } else {
                     setEMPAValue(hashMetric[selectedName].steel_type_metric_e)
@@ -316,7 +316,7 @@ const MaterialProperties = () => {
         }, [selectedName])
 
         useEffect(() => {
-            if(selectedName !== '') {
+            if (selectedName !== '') {
                 setErrorDisplay(false)
             }
         }, [selectedName])
@@ -335,28 +335,57 @@ const MaterialProperties = () => {
             )
         }
 
-        const selectedNameChecker = () => {
-            if(nestedModalDisabled === false) {
-                if(customSteelType === '') {
-                    // setSelectedNameNoError(false)
-                    setSelectedNameError(
-                        <p style={{margin: '0', padding: '0'}}>
-                            <strong style={{color: 'red'}}>This Field cannot be empty.</strong>
-                        </p>
-                    )
-                } else {
-                    setSelectedNameNoError(true)
-                    setSelectedNameError(
-                        <></>
-                    )
+        const [nameMatch, setNameMatch] = useState(false)
+
+        const selectedNameCheckerMetric = () => {
+            if (nestedModalDisabled === false) {
+                for(let name in steelTypesMetric) {
+                    if ((customSteelType).toUpperCase() === (steelTypesMetric[name].steel_type_metric_name).toUpperCase()) {
+                        alert("what do i know")
+                        setSelectedNameError(
+                            <p style={{margin: '0', padding: '0'}}>
+                                <strong style={{color: 'red'}}>Custom name cannot match preset values.</strong>
+                            </p>
+                        )
+                        // setErrorDisplay(true)
+                        break
+                    } else if (customSteelType === '') {
+                        // setSelectedNameNoError(false)
+                        setSelectedNameError(
+                            <p style={{margin: '0', padding: '0'}}>
+                                <strong style={{color: 'red'}}>This Field cannot be empty.</strong>
+                            </p>
+                        )
+                    } else {
+                        setSelectedNameNoError(true)
+                        setSelectedNameError(
+                            <></>
+                        )
+                    }
                 }
             }
         }
 
+        useEffect(() => {
+            for(let name in steelTypesMetric) {
+                if ((customSteelType).toUpperCase() === (steelTypesMetric[name].steel_type_metric_name).toUpperCase()) {
+                    alert("what do i know")
+                    setSelectedNameError(
+                        <p style={{margin: '0', padding: '0'}}>
+                            <strong style={{color: 'red'}}>Custom name cannot match preset values.</strong>
+                        </p>
+                    )
+                    setNameMatch(true)
+                    setErrorDisplay(true)
+                    break
+                }
+            }
+        }, [customSteelType])
+
 
         const empaValueChecker = () => {
-            if(nestedModalDisabled === false) {
-                if(EMPAValue === '') {
+            if (nestedModalDisabled === false) {
+                if (EMPAValue === '') {
                     // setEmpaNoError(false)
                     setEmpaError(
                         <p style={{margin: '0', padding: '0'}}>
@@ -378,7 +407,7 @@ const MaterialProperties = () => {
         }
 
         const fympaValueChecker = () => {
-            if(nestedModalDisabled === false) {
+            if (nestedModalDisabled === false) {
                 if (FYMPAValue === '') {
                     // setFympaNoError(false)
                     setFympaError(
@@ -401,8 +430,8 @@ const MaterialProperties = () => {
         }
 
         const fumpaValueChecker = () => {
-            if(nestedModalDisabled === false) {
-                if(FUMPAValue === '') {
+            if (nestedModalDisabled === false) {
+                if (FUMPAValue === '') {
                     // setFumpaNoError(false)
                     setFumpaError(
                         <p style={{margin: '0', padding: '0'}}>
@@ -424,7 +453,7 @@ const MaterialProperties = () => {
         }
 
         useEffect(() => {
-            if(customButtonText === 'DISCARD') {
+            if (customButtonText === 'DISCARD') {
                 setSelectedNameError(<></>)
                 setEmpaError(<></>)
                 setFympaError(<></>)
@@ -450,17 +479,17 @@ const MaterialProperties = () => {
         }
 
         const empaValuePlacer = () => {
-            if(disabledPreselectButton) {
+            if (disabledPreselectButton) {
 
             }
         }
 
         const toggleDisable = () => {
-            if(nestedModalDisabled) {
+            if (nestedModalDisabled) {
                 setNestedModalDisabled(curVal => !curVal)
-            } else if(!nestedModalDisabled) {
+            } else if (!nestedModalDisabled) {
                 const proceed = window.confirm("Are you sure you want to discard your changes?")
-                if(proceed) {
+                if (proceed) {
                     setNestedModalDisabled(curVal => !curVal)
                     setSelectedName('')
                     // setSelectedCustomName('')
@@ -474,8 +503,8 @@ const MaterialProperties = () => {
         }
 
         const insertMaterialProperty = () => {
-            if(nestedModalDisabled === false) {
-                if(size(insertedSteelTypesMetric) === 0) {
+            if (nestedModalDisabled === false) {
+                if (size(insertedSteelTypesMetric) === 0) {
                     const customSteelTypeInitial = {}
                     customSteelTypeInitial[0] = {
                         name: customSteelType,
@@ -489,7 +518,7 @@ const MaterialProperties = () => {
                     dispatch(setCustomSelectedSteelType(customSteelType, selectedSheet))
                     dispatch(setCurrentMetricMaterialPropertiesIndex(0, selectedSheet))
                     setOpenNestedModal(false)
-                } else if(size(insertedSteelTypesMetric) > 0) {
+                } else if (size(insertedSteelTypesMetric) > 0) {
                     const currentCustomSteelTypes = {...insertedSteelTypesMetric}
                     const currentCustomSteelTypesSize = size(insertedSteelTypesMetric)
                     currentCustomSteelTypes[currentCustomSteelTypesSize] = {
@@ -635,7 +664,7 @@ const MaterialProperties = () => {
                                        style={{width: '100%', margin: '0 auto', color: 'black'}}
                                        disabled={nestedModalDisabled}
                                        value={theEMPAValue}
-                                       // value={EMPAValueSetter()}
+                                    // value={EMPAValueSetter()}
                                        onChange={(event) => empaValueHandler(event)}
                                 />
                                 {empaError}
@@ -647,7 +676,7 @@ const MaterialProperties = () => {
                                        style={{width: '100%', margin: '0 auto', color: 'black'}}
                                        disabled={nestedModalDisabled}
                                        value={theFYMPAValue}
-                                       // value={FYMPAValueSetter()}
+                                    // value={FYMPAValueSetter()}
                                        onChange={(event) => fympaValueHandler(event)}
                                 />
                                 {fympaError}
@@ -659,7 +688,7 @@ const MaterialProperties = () => {
                                        style={{width: '100%', margin: '0 auto', color: 'black'}}
                                        disabled={nestedModalDisabled}
                                        value={theFUMPAValue}
-                                       // value={FUMPAValueSetter()}
+                                    // value={FUMPAValueSetter()}
                                        onChange={(event) => fumpaValueHandler(event)}
                                 />
                                 {fumpaError}
@@ -682,11 +711,11 @@ const MaterialProperties = () => {
                                     color='primary'
                                     onClick={() => {
                                         errorCheckRender()
-                                        if(customSteelType === '' && nestedModalDisabled === false) {
-                                            alert("Hola")
+                                        if (customSteelType === '' || nameMatch === true && nestedModalDisabled === false) {
+                                            alert("Hola == " + selectedNameNoError)
                                             setErrorDisplay(true)
                                         } else {
-                                            if(selectedNameNoError === false && empaNoError === false && fympaNoError === false && fumpaNoError === false) {
+                                            if (selectedNameNoError === false || empaNoError === false || fympaNoError === false || fumpaNoError === false) {
                                                 alert("I made it here")
                                             } else {
                                                 alert("hoo haa")

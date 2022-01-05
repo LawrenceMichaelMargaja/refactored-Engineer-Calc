@@ -106,7 +106,7 @@ const Header = () => {
             {/*</div>*/}
             <div>
                     {/*<p>English</p>*/}
-                    <p style={{width: '50%', margin: '1em'}}>{JSON.stringify(roundHSShapeMetric)}</p>
+                    {/*<p style={{width: '50%', margin: '1em'}}>{JSON.stringify(roundHSShapeMetric)}</p>*/}
             </div>
             {/*<div>*/}
             {/*    <p>Metric</p>*/}

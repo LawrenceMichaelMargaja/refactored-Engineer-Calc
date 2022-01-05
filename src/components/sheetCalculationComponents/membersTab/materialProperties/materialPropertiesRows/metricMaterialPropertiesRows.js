@@ -154,6 +154,7 @@ const MetricMaterialPropertiesRows = () => {
         const [empaError, setEmpaError] = useState(<></>)
         const [fympaError, setFympaError] = useState(<></>)
         const [fumpaError, setFumpaError] = useState(<></>)
+        const [nameMatch, setNameMatch] = useState(false)
 
         const steelTypeHandler = () => {
             return (
@@ -172,18 +173,29 @@ const MetricMaterialPropertiesRows = () => {
 
         const selectedNameChecker = () => {
             if (nestedModalDisabled === false) {
-                if (selectedCustomName === '') {
-                    // setSelectedNameNoError(false)
-                    setSelectedNameError(
-                        <p style={{margin: '0', padding: '0'}}>
-                            <strong style={{color: 'red'}}>This Field cannot be empty.</strong>
-                        </p>
-                    )
-                } else {
-                    setSelectedNameNoError(true)
-                    setSelectedNameError(
-                        <></>
-                    )
+                for(let name in steelTypesMetric) {
+                    if ((selectedCustomName).toUpperCase() === (steelTypesMetric[name].steel_type_metric_name).toUpperCase()) {
+                        alert("what do i know")
+                        setSelectedNameError(
+                            <p style={{margin: '0', padding: '0'}}>
+                                <strong style={{color: 'red'}}>Custom name cannot match preset values.</strong>
+                            </p>
+                        )
+                        // setErrorDisplay(true)
+                        break
+                    } else if (selectedCustomName === '') {
+                        // setSelectedNameNoError(false)
+                        setSelectedNameError(
+                            <p style={{margin: '0', padding: '0'}}>
+                                <strong style={{color: 'red'}}>This Field cannot be empty.</strong>
+                            </p>
+                        )
+                    } else {
+                        setSelectedNameNoError(true)
+                        setSelectedNameError(
+                            <></>
+                        )
+                    }
                 }
             }
         }
@@ -295,6 +307,33 @@ const MetricMaterialPropertiesRows = () => {
         const [EMPAValue, setEMPAValue] = useState('')
         const [FYMPAValue, setFYMPAValue] = useState('')
         const [FUMPAValue, setFUMPAValue] = useState('')
+
+        useEffect(() => {
+            for(let name in steelTypesMetric) {
+                if ((selectedCustomName).toUpperCase() !== (steelTypesMetric[name].steel_type_metric_name).toUpperCase()) {
+                    setSelectedNameError(<></>)
+                    setNameMatch(false)
+                    setErrorDisplay(false)
+                    break
+                }
+            }
+        }, [selectedCustomName])
+
+        useEffect(() => {
+            for(let name in steelTypesMetric) {
+                if ((selectedCustomName).toUpperCase() === (steelTypesMetric[name].steel_type_metric_name).toUpperCase()) {
+                    alert("You can do it lawrence!")
+                    setSelectedNameError(
+                        <p style={{margin: '0', padding: '0'}}>
+                            <strong style={{color: 'red'}}>Custom name cannot match preset values.</strong>
+                        </p>
+                    )
+                    setNameMatch(true)
+                    setErrorDisplay(true)
+                    break
+                }
+            }
+        }, [selectedCustomName])
 
         const selectedNameHandler = (event) => {
             setSelectedName(event.target.textContent)
@@ -590,7 +629,7 @@ const MetricMaterialPropertiesRows = () => {
              */
             if (hashCustom[insertedSteelTypesMetric[currentMaterialPropertyIndex].name].custom === false) {
                 if (selectedName === '') {
-                    setErrorDisplay(currVal => !currVal)
+                    // setErrorDisplay(currVal => !currVal)
                     return
                 } else {
                     if (system === 'Metric') {
@@ -657,7 +696,7 @@ const MetricMaterialPropertiesRows = () => {
                  * The properties edited here are customs
                  */
                 if (selectedName === '') {
-                    setErrorDisplay(currVal => !currVal)
+                    // setErrorDisplay(currVal => !currVal)
                     return;
                 } else {
                     if (nestedModalDisabled) {
@@ -929,7 +968,7 @@ const MetricMaterialPropertiesRows = () => {
                                     color='primary'
                                     onClick={() => {
                                         errorCheckRender()
-                                        if (selectedCustomName === '' && nestedModalDisabled === false) {
+                                        if (selectedCustomName === '' || nameMatch === true && nestedModalDisabled === false) {
                                             alert("Hola")
                                             setErrorDisplay(true)
                                         } else {
