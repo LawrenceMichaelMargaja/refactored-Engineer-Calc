@@ -623,6 +623,18 @@ const MetricMaterialPropertiesRows = () => {
             fumpaValueChecker()
         }
 
+        // useEffect(() => {
+        //     if(EMPAValue !== '') {
+        //         setEmpaError(<></>)
+        //     }
+        //     if(FYMPAValue !== '') {
+        //         setFympaError(<></>)
+        //     }
+        //     if(FUMPAValue !== '') {
+        //         setFumpaError(<></>)
+        //     }
+        // }, [EMPAValue, FYMPAValue, FUMPAValue])
+
         const editMaterialProperty = () => {
             /**
              * This means that the property to be edited is not a custom one
@@ -971,10 +983,13 @@ const MetricMaterialPropertiesRows = () => {
                                         if (selectedCustomName === '' || nameMatch === true && nestedModalDisabled === false) {
                                             alert("Hola")
                                             setErrorDisplay(true)
+                                            return
                                         } else {
-                                            if (selectedNameNoError === false && empaNoError === false && fympaNoError === false && fumpaNoError === false) {
+                                            if (selectedNameError !== null || empaError !== null || fympaError !== null || fumpaError !== null) {
                                                 alert("I made it here")
+                                                return
                                             } else {
+                                                alert("somebody like me")
                                                 editMaterialProperty()
                                             }
                                         }

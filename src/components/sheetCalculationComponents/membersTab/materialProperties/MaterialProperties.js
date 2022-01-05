@@ -382,6 +382,18 @@ const MaterialProperties = () => {
             }
         }, [customSteelType])
 
+        useEffect(() => {
+            if(EMPAValue !== '') {
+                setEmpaError(<></>)
+            }
+            if(FYMPAValue !== '') {
+                setFympaError(<></>)
+            }
+            if(FUMPAValue !== '') {
+                setFumpaError(<></>)
+            }
+        }, [EMPAValue, FYMPAValue, FUMPAValue])
+
 
         const empaValueChecker = () => {
             if (nestedModalDisabled === false) {
