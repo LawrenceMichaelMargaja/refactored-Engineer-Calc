@@ -184,14 +184,14 @@ const initialState = {
                 sectionPropertiesMetric: {
                     0: {
                         sectionId: 1,
-                        sectionShape: 'W44X335',
-                        sectionName: 'W44X335',
+                        sectionShape: 'I-shaped',
+                        sectionName: 'W1100X499',
                     }
                 },
                 sectionPropertiesEnglish: {
                     0: {
                         sectionId: 1,
-                        sectionShape: 'W44X335',
+                        sectionShape: 'I-shaped',
                         sectionName: 'W44X335'
                     }
                 },
@@ -2030,7 +2030,7 @@ const addSectionPropertyEnglish = (state, payload) => {
 
 const removeSelectedSectionProperty = (state, payload) => {
     let newState = {...state}
-    delete newState.sheets[payload.sheetIndex].sectionProperties[payload.sectionIndex]
+    delete newState.sheets[payload.sheetIndex].apiMap.sectionPropertiesMetric[payload.sectionIndex]
     return newState
 }
 

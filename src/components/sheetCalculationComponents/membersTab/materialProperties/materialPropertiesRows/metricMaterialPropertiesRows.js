@@ -666,7 +666,7 @@ const MetricMaterialPropertiesRows = () => {
                                 FUMPA: hashMetric[selectedName].steel_type_metric_fu,
                                 custom: false
                             }
-                            console.log("sheet index == " + selectedSheet)
+                            // console.log("sheet index == " + selectedSheet)
                             dispatch(editSelectedMetricMaterialProperty(initialMaterial, selectedSheet, currentMetricMaterialPropertyIndex))
                             setOpenNestedModal(false)
                         } else {
@@ -801,7 +801,7 @@ const MetricMaterialPropertiesRows = () => {
                                     FUMPA: FUMPAValue,
                                     custom: true
                                 }
-                                console.log("sheet index == " + selectedSheet)
+                                // console.log("sheet index == " + selectedSheet)
                                 dispatch(editSelectedMetricMaterialProperty(initialMaterial, selectedSheet, currentMetricMaterialPropertyIndex))
                                 setOpenNestedModal(false)
                             } else {
@@ -1215,7 +1215,7 @@ const MetricMaterialPropertiesRows = () => {
                         <p style={{
                             margin: '0%',
                             padding: '7%',
-                            textAlign: 'center'
+                            textAlign: 'center',
                         }}>
                             {/*{materialPropertiesIndex}*/}
                             {parseFloat(materialPropertiesIndex) + parseFloat(1)}
@@ -1338,7 +1338,7 @@ const MetricMaterialPropertiesRows = () => {
 
     const callRender = () => {
         // return null
-        console.log("steelTypesMetric == ", steelTypesMetric)
+        // console.log("steelTypesMetric == ", steelTypesMetric)
         if (typeof steelTypesMetric === "undefined") {
             console.log("heyhey")
             return null

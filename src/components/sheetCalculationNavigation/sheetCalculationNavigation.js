@@ -709,7 +709,7 @@ const SheetCalculationNavigation = () => {
         }
 
         if(arrayCheck.length === 0) {
-            console.log("arrayCheck == ", arrayCheck)
+            // console.log("arrayCheck == ", arrayCheck)
             dispatch(setTabState('results', selectedSheet))
         } else if(arrayCheck.length !== 0) {
             dispatch(setTabState('errors', selectedSheet))

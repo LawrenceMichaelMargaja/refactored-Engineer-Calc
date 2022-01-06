@@ -16,12 +16,14 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import {Autocomplete} from "@mui/material";
 import {
+    getCShapeEnglish,
     getSectionPropertiesEnglish,
     getSectionPropertiesMetric, getShapes,
     getSteelTypesEnglishAPI,
     getSteelTypesMetricAPI
 } from "../../../../store/actions/sheets/sheets";
 import {objectChecker} from "../../../../utilities/utilities";
+import {setSystemDropdown} from "../../../../store/actions/dashboardDropdowns/systemDropdown";
 
 
 const SectionProperties = () => {
@@ -262,6 +264,7 @@ const SectionProperties = () => {
     }
 
     const displayCShapesMetric = () => {
+        // alert("here tat === " + JSON.stringify(cShapesMetricData))
         const cMetricOptions = cShapesMetricData.map((data) => ({
             value: `${data.c_shape_metric_name}`,
             label: `${data.c_shape_metric_name}`
@@ -318,6 +321,20 @@ const SectionProperties = () => {
         setOpenNestedModal(true);
     };
 
+    const fetchCShapeEnglish = () => {
+        fetch("http://127.0.0.1:8080/cshapeenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(getCShapeEnglish(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    useEffect(() => {
+        fetchCShapeEnglish()
+    }, [])
+
+
     const NestedModal = () => {
 
         const [errorDisplay, setErrorDisplay] = useState(false)
@@ -332,41 +349,41 @@ const SectionProperties = () => {
 
         const systemCheck = () => {
             if (system === 'Metric') {
-                if(selectedSectionName === 'I-shaped') {
+                if(selectedSectionShape === 'I-shaped') {
                     return displayIShapesMetric()
-                } else if(selectedSectionName === 'C-shaped') {
+                } else if(selectedSectionShape === 'C-shaped') {
                     return displayCShapesMetric()
-                } else if(selectedSectionName === 'Angles') {
+                } else if(selectedSectionShape === 'Angles') {
                     return displayLShapesMetric()
-                } else if(selectedSectionName === 'T-shaped') {
+                } else if(selectedSectionShape === 'T-shaped') {
                     return displayTShapesMetric()
-                } else if(selectedSectionName === 'Double Angles') {
+                } else if(selectedSectionShape === 'Double Angles') {
                     return display2LShapesMetric()
-                } else if(selectedSectionName === 'Rectangular HSS') {
+                } else if(selectedSectionShape === 'Rectangular HSS') {
                     return displayRecHSShapesMetric()
-                } else if(selectedSectionName === 'Round HSS') {
+                } else if(selectedSectionShape === 'Round HSS') {
                     return displayRoundHSShapesMetric()
-                } else if(selectedSectionName === 'Pipe') {
+                } else if(selectedSectionShape === 'Pipe') {
                     return displayPipeShapesMetric()
                 } else {
                     return displaySectionPropertiesMetric()
                 }
             } else if (system === 'English') {
-                if(selectedSectionName === 'I-shaped') {
+                if(selectedSectionShape === 'I-shaped') {
                     return displayIShapesEnglish()
-                } else if(selectedSectionName === 'C-shaped') {
+                } else if(selectedSectionShape === 'C-shaped') {
                     return displayCShapesEnglish()
-                } else if(selectedSectionName === 'Angles') {
+                } else if(selectedSectionShape === 'Angles') {
                     return displayLShapesEnglish()
-                } else if(selectedSectionName === 'T-shaped') {
+                } else if(selectedSectionShape === 'T-shaped') {
                     return displayTShapesEnglish()
-                } else if(selectedSectionName === 'Double Angles') {
+                } else if(selectedSectionShape === 'Double Angles') {
                     return display2LShapesEnglish()
-                } else if(selectedSectionName === 'Rectangular HSS') {
+                } else if(selectedSectionShape === 'Rectangular HSS') {
                     return displayRecHSShapesEnglish()
-                } else if(selectedSectionName === 'Round HSS') {
+                } else if(selectedSectionShape === 'Round HSS') {
                     return displayRoundHSShapesEnglish()
-                } else if(selectedSectionName === 'Pipe') {
+                } else if(selectedSectionShape === 'Pipe') {
                     return displayPipeShapesEnglish()
                 } else {
                     return displaySectionPropertiesEnglish()
@@ -416,72 +433,116 @@ const SectionProperties = () => {
          */
         const metricNameIndexChecker = () => {
             let checkedIndexMetric = null
-            for(let index in shapes) {
-                if(selectedSectionName === shapes[index].shape_name) {
-                    checkedIndexMetric = index
-                }
-            }
-            // if(selectedSectionName === 'I-shaped') {
-            //     for (let index in iShapesMetricData) {
-            //         if (selectedSectionName === iShapesMetricData[index].i_shape_metric_name) {
-            //             checkedIndexMetric = index
-            //         }
-            //         break
-            //     }
-            // } else if(selectedSectionName === 'C-shaped') {
-            //     for (let index in cShapesMetricData) {
-            //         if (selectedSectionName === cShapesMetricData[index].c_shape_metric_name) {
-            //             checkedIndexMetric = index
-            //         }
-            //         break
-            //     }
-            // } else if(selectedSectionName === 'Angles') {
-            //     for (let index in lShapesMetricData) {
-            //         if (selectedSectionName === lShapesMetricData[index].l_shape_metric_name) {
-            //             checkedIndexMetric = index
-            //         }
-            //         break
-            //     }
-            // } else if(selectedSectionName === 'T-shaped') {
-            //     for (let index in tShapesMetricData) {
-            //         if (selectedSectionName === tShapesMetricData[index].t_shape_metric_name) {
-            //             checkedIndexMetric = index
-            //         }
-            //         break
-            //     }
-            // } else if(selectedSectionName === 'Double Angles') {
-            //     for (let index in twoLShapesMetricData) {
-            //         if (selectedSectionName === twoLShapesMetricData[index].two_l_shape_metric_name) {
-            //             checkedIndexMetric = index
-            //         }
-            //         break
-            //     }
-            // } else if(selectedSectionName === 'Rectangular HSS') {
-            //     for (let index in recHSShapesMetricData) {
-            //         if (selectedSectionName === recHSShapesMetricData[index].rec_hs_shape_metric_name) {
-            //             checkedIndexMetric = index
-            //         }
-            //         break
-            //     }
-            // } else if(selectedSectionName === 'Round HSS') {
-            //     for (let index in roundHSShapesMetricData) {
-            //         if (selectedSectionName === roundHSShapesMetricData[index].rec_hs_shape_name) {
-            //             checkedIndexMetric = index
-            //         }
-            //         break
-            //     }
-            // } else if(selectedSectionName === 'Pipe') {
-            //     for (let index in pipeShapesMetricData) {
-            //         if (selectedSectionName === pipeShapesMetricData[index].pipe_shape_metric_name) {
-            //             checkedIndexMetric = index
-            //         }
-            //         break
-            //     }
-            // } else {
-            //     return 0
-            // }
 
+            if(selectedSectionShape === 'I-shaped') {
+                iShapesMetricData.map((data) => {
+                    if(selectedSectionName === data.i_shape_metric_name) {
+                        checkedIndexMetric = parseFloat(data.id) - 1
+                    }
+                })
+            } else if(selectedSectionShape === 'C-shaped') {
+                cShapesMetricData.map((data) => {
+                    if(selectedSectionName === data.c_shape_metric_name) {
+                        checkedIndexMetric = parseFloat(data.id) - 1
+                    }
+                })
+            } else if(selectedSectionShape === 'Angles') {
+                lShapesMetricData.map((data) => {
+                    if(selectedSectionName === data.l_shape_metric_name) {
+                        checkedIndexMetric = parseFloat(data.id) - 1
+                    }
+                })
+            } else if(selectedSectionShape === 'T-shaped') {
+                tShapesMetricData.map((data) => {
+                    if(selectedSectionName === data.t_shape_metric_name) {
+                        checkedIndexMetric = parseFloat(data.id) - 1
+                    }
+                })
+            } else if(selectedSectionShape === 'Double Angles') {
+                twoLShapesMetricData.map((data) => {
+                    if(selectedSectionName === data.two_l_shape_metric_name) {
+                        checkedIndexMetric = parseFloat(data.id) - 1
+                    }
+                })
+            } else if(selectedSectionShape === 'Rectangular HSS') {
+                recHSShapesMetricData.map((data) => {
+                    if(selectedSectionName === data.rec_hs_shape_metric_name) {
+                        checkedIndexMetric = parseFloat(data.id) - 1
+                    }
+                })
+            } else if(selectedSectionShape === 'Round HSS') {
+                roundHSShapesMetricData.map((data) => {
+                    if(selectedSectionName === data.round_hs_shape_name) {
+                        checkedIndexMetric = parseFloat(data.id) - 1
+                    }
+                })
+            } else if(selectedSectionShape === 'Pipe') {
+                pipeShapesMetricData.map((data) => {
+                    if(selectedSectionName === data.pipe_shape_metric_name) {
+                        checkedIndexMetric = parseFloat(data.id) - 1
+                    }
+                })
+            } else {
+                return 0
+            }
             return checkedIndexMetric
+        }
+
+        const englishNameIndexChecker = () => {
+            let checkedIndexEnglish = null
+
+            if(selectedSectionShape === 'I-shaped') {
+                iShapesEnglishData.map((data) => {
+                    if(selectedSectionName === data.i_shape_english_name) {
+                        checkedIndexEnglish = parseFloat(data.id) - 1
+                    }
+                })
+            } else if(selectedSectionShape === 'C-shaped') {
+                cShapesEnglishData.map((data) => {
+                    if(selectedSectionName === data.c_shape_english_name) {
+                        checkedIndexEnglish = parseFloat(data.id) - 1
+                    }
+                })
+            } else if(selectedSectionShape === 'Angles') {
+                lShapesEnglishData.map((data) => {
+                    if(selectedSectionName === data.l_shape_english_name) {
+                        checkedIndexEnglish = parseFloat(data.id) - 1
+                    }
+                })
+            } else if(selectedSectionShape === 'T-shaped') {
+                tShapesEnglishData.map((data) => {
+                    if(selectedSectionName === data.t_shape_english_name) {
+                        checkedIndexEnglish = parseFloat(data.id) - 1
+                    }
+                })
+            } else if(selectedSectionShape === 'Double Angles') {
+                twoLShapesEnglishData.map((data) => {
+                    if(selectedSectionName === data.two_l_shape_english_name) {
+                        checkedIndexEnglish = parseFloat(data.id) - 1
+                    }
+                })
+            } else if(selectedSectionShape === 'Rectangular HSS') {
+                recHSShapesEnglishData.map((data) => {
+                    if(selectedSectionName === data.rec_hs_shape_english_name) {
+                        checkedIndexEnglish = parseFloat(data.id) - 1
+                    }
+                })
+            } else if(selectedSectionShape === 'Round HSS') {
+                roundHSShapesEnglishData.map((data) => {
+                    if(selectedSectionName === data.round_hs_shape_english_name) {
+                        checkedIndexEnglish = parseFloat(data.id) - 1
+                    }
+                })
+            } else if(selectedSectionShape === 'Pipe') {
+                pipeShapesEnglishData.map((data) => {
+                    if(selectedSectionName === data.pipe_shape_english_name) {
+                        checkedIndexEnglish = parseFloat(data.id) - 1
+                    }
+                })
+            } else {
+                return 0
+            }
+            return checkedIndexEnglish
         }
 
         const metricShapeIndexChecker = () => {
@@ -494,68 +555,46 @@ const SectionProperties = () => {
             return checkedIndexMetric
         }
 
-        /**
-         * Used as Metric Indexes
-         */
-        const englishNameIndexChecker = () => {
-            let checkedIndexEnglish = null
-            for (let index in sectionPropertiesEnglish) {
-                if (selectedSectionName === sectionPropertiesEnglish[index].section_properties_english_name) {
-                    checkedIndexEnglish = index
-                }
-            }
-            return checkedIndexEnglish
-        }
-
-        const englishShapeIndexChecker = () => {
-            let checkedIndexEnglish = null
-            for (let index in sectionPropertiesEnglish) {
-                if (selectedSectionName === sectionPropertiesEnglish[index].section_properties_english_name) {
-                    checkedIndexEnglish = index
-                }
-            }
-            return checkedIndexEnglish
-        }
 
         const insertSectionProperty = () => {
-            const counterShapeValue = () => {
+            const counterNameValue = () => {
                 if(system === 'Metric') {
-                    if(selectedSectionName === 'I-shaped') {
-                        return iShapesMetricData[metricNameIndexChecker()].i_shape_metric_name
-                    } else if(selectedSectionName === 'C-shaped') {
-                        return cShapesMetricData[metricNameIndexChecker()].c_shape_metric_name
-                    } else if(selectedSectionName === 'Angles') {
-                        return lShapesMetricData[metricNameIndexChecker()].l_shape_metric_name
-                    } else if(selectedSectionName === 'T-shaped') {
-                        return tShapesMetricData[metricNameIndexChecker()].t_shape_metric_name
-                    } else if(selectedSectionName === 'Double Angles') {
-                        return twoLShapesMetricData[metricNameIndexChecker()].two_l_shape_metric_name
-                    } else if(selectedSectionName === 'Rectangular HSS') {
-                        return recHSShapesMetricData[metricNameIndexChecker()].rec_hs_shape_metric_name
-                    } else if(selectedSectionName === 'Round HSS') {
-                        return roundHSShapesMetricData[metricNameIndexChecker()].round_hs_shape_name
-                    } else if(selectedSectionName === 'Pipe') {
-                        return pipeShapesMetricData[metricNameIndexChecker()].pipe_shape_metric_name
+                    if(selectedSectionShape === 'I-shaped') {
+                        return iShapesEnglishData[metricNameIndexChecker()].i_shape_english_name
+                    } else if(selectedSectionShape === 'C-shaped') {
+                        return cShapesEnglishData[metricNameIndexChecker()].c_shape_english_name
+                    } else if(selectedSectionShape === 'Angles') {
+                        return lShapesEnglishData[metricNameIndexChecker()].l_shape_english_name
+                    } else if(selectedSectionShape === 'T-shaped') {
+                        return tShapesEnglishData[metricNameIndexChecker()].t_shape_english_name
+                    } else if(selectedSectionShape === 'Double Angles') {
+                        return twoLShapesEnglishData[metricNameIndexChecker()].two_l_shape_english_name
+                    } else if(selectedSectionShape === 'Rectangular HSS') {
+                        return recHSShapesEnglishData[metricNameIndexChecker()].rec_hs_shape_english_name
+                    } else if(selectedSectionShape === 'Round HSS') {
+                        return roundHSShapesEnglishData[metricNameIndexChecker()].round_hs_shape_english_name
+                    } else if(selectedSectionShape === 'Pipe') {
+                        return pipeShapesEnglishData[metricNameIndexChecker()].pipe_shape_english_name
                     } else {
                         return null
                     }
                 } else if(system === 'English') {
-                    if(selectedSectionName === 'I-shaped') {
-                        return iShapesMetricData[metricNameIndexChecker()].i_shape_metric_name
-                    } else if(selectedSectionName === 'C-shaped') {
-                        return cShapesMetricData[metricNameIndexChecker()].c_shape_metric_name
-                    } else if(selectedSectionName === 'Angles') {
-                        return lShapesMetricData[metricNameIndexChecker()].l_shape_metric_name
-                    } else if(selectedSectionName === 'T-shaped') {
-                        return tShapesMetricData[metricNameIndexChecker()].t_shape_metric_name
-                    } else if(selectedSectionName === 'Double Angles') {
-                        return twoLShapesMetricData[metricNameIndexChecker()].two_l_shape_metric_name
-                    } else if(selectedSectionName === 'Rectangular HSS') {
-                        return recHSShapesMetricData[metricNameIndexChecker()].rec_hs_shape_metric_name
-                    } else if(selectedSectionName === 'Round HSS') {
-                        return roundHSShapesMetricData[metricNameIndexChecker()].round_hs_shape_name
-                    } else if(selectedSectionName === 'Pipe') {
-                        return pipeShapesMetricData[metricNameIndexChecker()].pipe_shape_metric_name
+                    if(selectedSectionShape === 'I-shaped') {
+                        return iShapesMetricData[englishNameIndexChecker()].i_shape_metric_name
+                    } else if(selectedSectionShape === 'C-shaped') {
+                        return cShapesMetricData[englishNameIndexChecker()].c_shape_metric_name
+                    } else if(selectedSectionShape === 'Angles') {
+                        return lShapesMetricData[englishNameIndexChecker()].l_shape_metric_name
+                    } else if(selectedSectionShape === 'T-shaped') {
+                        return tShapesMetricData[englishNameIndexChecker()].t_shape_metric_name
+                    } else if(selectedSectionShape === 'Double Angles') {
+                        return twoLShapesMetricData[englishNameIndexChecker()].two_l_shape_metric_name
+                    } else if(selectedSectionShape === 'Rectangular HSS') {
+                        return recHSShapesMetricData[englishNameIndexChecker()].rec_hs_shape_metric_name
+                    } else if(selectedSectionShape === 'Round HSS') {
+                        return roundHSShapesMetricData[englishNameIndexChecker()].round_hs_shape_name
+                    } else if(selectedSectionShape === 'Pipe') {
+                        return pipeShapesMetricData[englishNameIndexChecker()].pipe_shape_metric_name
                     } else {
                         return null
                     }
@@ -575,7 +614,7 @@ const SectionProperties = () => {
                     initialSectionEnglish[0] = {
                         sectionId: 0,
                         sectionShape: selectedSectionShape,
-                        sectionName: counterShapeValue()
+                        sectionName: counterNameValue()
                     }
                     dispatch(addSectionPropertyMetric(initialSectionMetric, selectedSheet))
                     dispatch(addSectionPropertyEnglish(initialSectionEnglish, selectedSheet))
@@ -593,7 +632,7 @@ const SectionProperties = () => {
                     currentSectionEnglish[newSectionSizeEnglish] = {
                         sectionId: newSectionSizeEnglish,
                         sectionShape: selectedSectionShape,
-                        sectionName: counterShapeValue()
+                        sectionName: counterNameValue()
                     }
                     dispatch(addSectionPropertyMetric(currentSectionsMetric, selectedSheet))
                     dispatch(addSectionPropertyEnglish(currentSectionEnglish, selectedSheet))
@@ -611,7 +650,7 @@ const SectionProperties = () => {
                     initialSectionMetric[0] = {
                         sectionId: 0,
                         sectionShape: selectedSectionShape,
-                        sectionName: counterShapeValue()
+                        sectionName: counterNameValue()
                     }
                     dispatch(addSectionPropertyMetric(initialSectionMetric, selectedSheet))
                     dispatch(addSectionPropertyEnglish(initialSectionEnglish, selectedSheet))
@@ -629,7 +668,7 @@ const SectionProperties = () => {
                     currentSectionsMetric[newSectionSizeMetric] = {
                         sectionId: newSectionSizeMetric,
                         sectionShape: selectedSectionShape,
-                        sectionName: counterShapeValue()
+                        sectionName: counterNameValue()
                     }
                     dispatch(addSectionPropertyMetric(currentSectionsMetric, selectedSheet))
                     dispatch(addSectionPropertyEnglish(currentSectionsEnglish, selectedSheet))
@@ -705,17 +744,16 @@ const SectionProperties = () => {
                                             width: 'fit-content',
                                             float: 'left',
                                             margin: '0'
-                                        }}>Name</p>
+                                        }}>Shape</p>
                                         <Autocomplete
                                             // disablePortal
                                             id="combo-box-demo"
                                             sx={{width: '100%', overflow: 'visible'}}
                                             // ListboxProps={{ style: { maxHeight: 200, overflow: 'visible', zIndex: 1} }}
                                             options={displayApiShapes()}
-                                            onChange={(event) => setSectionName(event)}
-                                            value={selectedSectionName}
-                                            renderInput={(params) => <TextField {...params}
-                                                                                label="Preset Section Names"/>}
+                                            onChange={(event) => setSectionShape(event)}
+                                            value={selectedSectionShape}
+                                            renderInput={(params) => <TextField {...params} label="Preset Section Shapes"/>}
                                         />
                                         {requiredNameMessage()}
                                     </FormControl>
@@ -737,16 +775,15 @@ const SectionProperties = () => {
                                             width: 'fit-content',
                                             float: 'left',
                                             margin: '0'
-                                        }}>Shape</p>
+                                        }}>Name</p>
                                         <Autocomplete
                                             // disablePortal
                                             id="combo-box-demo"
                                             sx={{width: '100%'}}
                                             options={systemCheck()}
-                                            onChange={(event) => setSectionShape(event)}
-                                            value={selectedSectionShape}
-                                            renderInput={(params) => <TextField {...params}
-                                                                                label="Preset Section Shapes"/>}
+                                            onChange={(event) => setSectionName(event)}
+                                            value={selectedSectionName}
+                                            renderInput={(params) => <TextField {...params} label="Preset Section Names"/>}
                                         />
                                         {requiredShapeMessage()}
                                     </FormControl>
@@ -837,7 +874,10 @@ const SectionProperties = () => {
                             }}
                             variant='contained'
                             color='primary'
-                            onClick={() => handleOpenNestedModal()}
+                            onClick={() => {
+                                // dispatch(setSystemDropdown('Metric', selectedSheet))
+                                handleOpenNestedModal()
+                            }}
                         >
                             Add Section
                         </Button>

@@ -2,7 +2,7 @@ import {
     ADD_NEW_SHEET,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTIES,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTY, GET_2_L_SHAPES_ENGLISH,
-    GET_2_L_SHAPES_METRIC,
+    GET_2_L_SHAPES_METRIC, GET_C_SHAPES_ENGLISH,
     GET_C_SHAPES_METRIC, GET_I_SHAPES_ENGLISH, GET_I_SHAPES_METRIC,
     GET_L_SHAPES_ENGLISH,
     GET_L_SHAPES_METRIC,
@@ -187,7 +187,7 @@ export const getCShapeMetric = (data, sheetIndex) => {
 
 export const getCShapeEnglish = (data, sheetIndex) => {
     return {
-        type: GET_C_SHAPES_METRIC,
+        type: GET_C_SHAPES_ENGLISH,
         payload: {data: data, sheetIndex: sheetIndex}
     }
 }

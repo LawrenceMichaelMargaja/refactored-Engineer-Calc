@@ -519,7 +519,7 @@ const SectionPropertiesRows = () => {
                         margin: '0%',
                         padding: '5%',
                     }}>
-                        {NameValueHandler(sectionIndex)}
+                        {ShapeValueHandler(sectionIndex)}
                     </p>
                 </div>
                 <div style={{
@@ -534,7 +534,7 @@ const SectionPropertiesRows = () => {
                         margin: '0%',
                         padding: '5%',
                     }}>
-                        {ShapeValueHandler(sectionIndex)}
+                        {NameValueHandler(sectionIndex)}
                     </p>
                 </div>
                 <div style={{
