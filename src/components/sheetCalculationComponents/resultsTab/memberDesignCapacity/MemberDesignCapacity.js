@@ -30,10 +30,9 @@ const MemberDesignCapacity = () => {
                             marginBottom: '0px',
                             border: '1px solid black',
                             padding: '5px',
-                            height: '100%',
                             backgroundColor: '#fff',
                         }}>
-                            <strong>Member ID</strong>
+                            <strong> <sub></sub> Member ID</strong>
                         </div>
                     </div>
                     <div style={{
@@ -46,7 +45,6 @@ const MemberDesignCapacity = () => {
                             marginBottom: '0px',
                             border: '1px solid black',
                             padding: '5px',
-                            height: '100%',
                             backgroundColor: '#fff'
                         }}>
                             <strong>P<sub>n</sub>/Ω<sub>t</sub>(kN)</strong>
@@ -62,7 +60,6 @@ const MemberDesignCapacity = () => {
                             marginBottom: '0px',
                             border: '1px solid black',
                             padding: '5px',
-                            height: '100%',
                             backgroundColor: '#fff'
                         }}>
                             <strong>P<sub>n</sub>/Ω<sub>c</sub>(kN)</strong>
@@ -78,7 +75,6 @@ const MemberDesignCapacity = () => {
                             marginBottom: '0px',
                             border: '1px solid black',
                             padding: '5px',
-                            height: '100%',
                             backgroundColor: '#fff'
                         }}>
                             <strong>M<sub>xn</sub>/Ω<sub>b</sub>(kN)</strong>
@@ -94,7 +90,6 @@ const MemberDesignCapacity = () => {
                             marginBottom: '0px',
                             border: '1px solid black',
                             padding: '5px',
-                            height: '100%',
                             backgroundColor: '#fff'
                         }}>
                             <strong>M<sub>yn</sub>/Ω<sub>b</sub>(kN)</strong>
@@ -111,7 +106,6 @@ const MemberDesignCapacity = () => {
                             marginBottom: '0px',
                             border: '1px solid black',
                             padding: '5px',
-                            height: '100%',
                             backgroundColor: '#fff'
                         }}>
                             <strong>V<sub>xn</sub>/Ω<sub>v</sub>(kN)</strong>
@@ -127,7 +121,6 @@ const MemberDesignCapacity = () => {
                             marginBottom: '0px',
                             border: '1px solid black',
                             padding: '5px',
-                            height: '100%',
                             backgroundColor: '#fff'
                         }}>
                             <strong>V<sub>yn</sub>/Ω<sub>v</sub>(kN)</strong>

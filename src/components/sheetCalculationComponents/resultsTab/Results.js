@@ -10,6 +10,9 @@ import MemberTabProperties from "./memberTabProperties/MemberTabProperties";
 import MemberDesignCapacity from "./memberDesignCapacity/MemberDesignCapacity";
 import MemberDesignRatio from "./memberDesignRatio/MemberDesignRatio";
 import Legend from "./legend/Legend";
+import SectionDimensions from "./sectionDimensions/SectionDimension";
+import {objectChecker} from "../../../utilities/utilities";
+import {useSelector} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     textField: {
@@ -25,12 +28,43 @@ const useStyles = makeStyles((theme) => ({
 
 
 const ResultsTab = () => {
+
     const classes = useStyles()
+    const sheets = useSelector(state => state.sheets)
+    const selectedSheet = useSelector(state => state.sheets.selectedSheet)
+    const method = objectChecker(sheets, ['sheets', selectedSheet, 'method'])
+
+    const renderResultDisplay = () => {
+        if(method === 'Investigation') {
+            return (
+                <>
+                    <DesignMaterials/>
+                    <SectionDimensions/>
+                    <SectionProperties/>
+                    <MemberTabProperties/>
+                    <MemberDesignCapacity/>
+                    <MemberDesignRatio/>
+                </>
+            )
+        } else if(method === 'Design') {
+            return (
+                <>
+                    <DesignMaterials/>
+                    <SectionDimensions/>
+                    {/*<SectionProperties/>*/}
+                    {/*<MemberTabProperties/>*/}
+                    {/*<MemberDesignCapacity/>*/}
+                    {/*<MemberDesignRatio/>*/}
+                </>
+            )
+        }
+    }
 
     return (
                 <Card style={{
                     height: '100%',
                     backgroundColor: '#e1e1e1',
+                    padding: '2em'
                 }}>
                     <DesignFactors/>
                     <div style={{
@@ -39,11 +73,7 @@ const ResultsTab = () => {
                         <div style={{
                             height: '100%'
                         }}>
-                            <DesignMaterials/>
-                            <SectionProperties/>
-                            <MemberTabProperties/>
-                            <MemberDesignCapacity/>
-                            <MemberDesignRatio/>
+                            {renderResultDisplay()}
                                 <div style={{
                                     height: '100%',
                                     backgroundColor: '#e2e2e2',

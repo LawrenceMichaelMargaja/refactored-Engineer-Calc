@@ -45,16 +45,22 @@ const MethodDropdown = () => {
     }
 
     const handleChange = (event) => {
-        const proceed = window.confirm("This will remove all added member field rows, section property rows, and material property rows. Are you sure you want to proceed?")
-        if(proceed) {
-            dispatch(resetMemberFields(selectedSheet))
-            dispatch(resetMetricMaterialProperties(selectedSheet))
-            dispatch(resetEnglishMaterialProperties(selectedSheet))
-            dispatch(resetMetricSectionProperties(selectedSheet))
-            dispatch(resetEnglishSectionProperties(selectedSheet))
+        if(event.target.value === 'Design') {
+            const proceed = window.confirm("This will remove all added member field rows, section property rows, and material property rows. Are you sure you want to proceed?")
+            // alert("hi")
+            if(proceed) {
+                dispatch(resetMemberFields(selectedSheet))
+                dispatch(resetMetricMaterialProperties(selectedSheet))
+                dispatch(resetEnglishMaterialProperties(selectedSheet))
+                dispatch(resetMetricSectionProperties(selectedSheet))
+                dispatch(resetEnglishSectionProperties(selectedSheet))
+                dispatch(setMethodDropdown(event.target.value, selectedSheet))
+            } else {
+                return
+            }
+        } else if(event.target.value === 'Investigation') {
+            // alert("nono")
             dispatch(setMethodDropdown(event.target.value, selectedSheet))
-        } else {
-            return
         }
     };
 
@@ -69,7 +75,7 @@ const MethodDropdown = () => {
                     value={methodValue}
                     label="Age"
                     defaultValue={methodValue}
-                    onChange={handleChange}
+                    onChange={(event) => handleChange(event)}
                 >
                     <MenuItem value={'Investigation'}>Investigation</MenuItem>
                     <MenuItem value={'Design'}>Design</MenuItem>

@@ -1416,7 +1416,7 @@ const resetMemberFields = (state, payload) => {
                 members: {
                     0: {
                         memberId: 1,
-                        materialId: 0,
+                        materialId: 1,
                         sectionId: 1,
                         totalLengthOfMember: 1,
                         yAxisUnbracedLength: 1,
@@ -2150,7 +2150,7 @@ const resetMetricSectionProperties = (state, payload) => {
                     sectionPropertiesMetric: {
                         0: {
                             sectionId: 1,
-                            sectionShape: 'W1100X499',
+                            sectionShape: 'I-shaped',
                             sectionName: 'W1100X499',
                         }
                     }

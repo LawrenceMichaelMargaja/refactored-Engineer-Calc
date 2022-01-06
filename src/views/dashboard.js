@@ -20,11 +20,11 @@ import Errors from "../components/sheetCalculationComponents/errors/Errors";
 
 const useStyles = makeStyles((theme) => ({
     mainTab: {
-        backgroundColor: '#e3e3e3',
+        backgroundColor: '#e1e1e1',
         margin: '0',
         boxSizing: 'border-box',
         padding: '1em',
-        height: '100%'
+        // height: '100vh'
     },
 }))
 
@@ -34,7 +34,7 @@ const Dashboard = () => {
     const sheets = useSelector(state => state.sheets.sheets)
 
     return (
-        <div style={{margin: '0', padding: '0', width:'100vw'}}>
+        <div style={{margin: '0', padding: '0', backgroundColor: '#e1e1e1', height: '100vh'}}>
             <BrowserRouter>
                 <Header/>
                 <MenuButtons/>

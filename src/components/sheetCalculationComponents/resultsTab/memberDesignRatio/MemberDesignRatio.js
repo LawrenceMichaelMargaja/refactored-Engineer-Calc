@@ -32,10 +32,10 @@ const MemberDesignRatio = () => {
                             marginBottom: '0px',
                             border: '1px solid black',
                             padding: '5px',
-                            height: '100%',
+                            // height: '100%',
                             backgroundColor: '#fff',
                         }}>
-                            <strong>Member ID</strong>
+                            <strong> <sub></sub> Member ID</strong>
                         </div>
                     </div>
                     <div style={{
@@ -48,10 +48,10 @@ const MemberDesignRatio = () => {
                             marginBottom: '0px',
                             border: '1px solid black',
                             padding: '5px',
-                            height: '100%',
+                            // height: '100%',
                             backgroundColor: '#fff'
                         }}>
-                            <strong>P</strong>
+                            <strong> <sub></sub> P</strong>
                         </div>
                     </div>
                     <div style={{
@@ -64,7 +64,7 @@ const MemberDesignRatio = () => {
                             marginBottom: '0px',
                             border: '1px solid black',
                             padding: '5px',
-                            height: '100%',
+                            // height: '100%',
                             backgroundColor: '#fff'
                         }}>
                             <strong>M<sub>x</sub></strong>
@@ -80,7 +80,7 @@ const MemberDesignRatio = () => {
                             marginBottom: '0px',
                             border: '1px solid black',
                             padding: '5px',
-                            height: '100%',
+                            // height: '100%',
                             backgroundColor: '#fff'
                         }}>
                             <strong>M<sub>y</sub></strong>
@@ -96,7 +96,7 @@ const MemberDesignRatio = () => {
                             marginBottom: '0px',
                             border: '1px solid black',
                             padding: '5px',
-                            height: '100%',
+                            // height: '100%',
                             backgroundColor: '#fff'
                         }}>
                             <strong>V<sub>x</sub></strong>
@@ -112,7 +112,7 @@ const MemberDesignRatio = () => {
                             marginBottom: '0px',
                             border: '1px solid black',
                             padding: '5px',
-                            height: '100%',
+                            // height: '100%',
                             backgroundColor: '#fff'
                         }}>
                             <strong>V<sub>y</sub></strong>
@@ -128,10 +128,10 @@ const MemberDesignRatio = () => {
                             marginBottom: '0px',
                             border: '1px solid black',
                             padding: '5px',
-                            height: '100%',
+                            // height: '100%',
                             backgroundColor: '#fff'
                         }}>
-                            <strong>Combined</strong>
+                            <strong> <sub></sub> Combined</strong>
                         </div>
                     </div>
                     <div style={{
@@ -144,10 +144,10 @@ const MemberDesignRatio = () => {
                             marginBottom: '0px',
                             border: '1px solid black',
                             padding: '5px',
-                            height: '100%',
+                            // height: '100%',
                             backgroundColor: '#fff'
                         }}>
-                            <strong>KL/r</strong>
+                            <strong> <sub></sub> KL/r</strong>
                         </div>
                     </div>
                     <div style={{
@@ -160,10 +160,10 @@ const MemberDesignRatio = () => {
                             marginBottom: '0px',
                             border: '1px solid black',
                             padding: '5px',
-                            height: '100%',
+                            // height: '100%',
                             backgroundColor: '#fff'
                         }}>
-                            <strong>Status</strong>
+                            <strong> <sub></sub> Status</strong>
                         </div>
                     </div>
                 </div>

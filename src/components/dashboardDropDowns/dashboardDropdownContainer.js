@@ -7,7 +7,7 @@ import SystemDropdown from "./systemDropdown/systemDowpdown";
 const useStyles = makeStyles((theme) => ({
     dashboardDropdownContainer: {
         display: 'flex',
-        padding: '1em',
+        padding: '0 1em',
         backgroundColor: '#e3e3e3'
     }
 }))
