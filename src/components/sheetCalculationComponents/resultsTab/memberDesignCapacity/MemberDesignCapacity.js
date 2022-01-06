@@ -1,9 +1,11 @@
 import React from "react";
 import {Card} from "@material-ui/core";
+import MemberDesignCapacityRows from "./memberDesignCapacityRows/MemberDesignCapacityRows";
 
 const MemberDesignCapacity = () => {
 
     return (
+        <>
             <div style={{
                 height: '100%',
                 margin: '5% auto 0%',
@@ -128,6 +130,8 @@ const MemberDesignCapacity = () => {
                     </div>
                 </div>
             </div>
+            <MemberDesignCapacityRows/>
+        </>
     )
 }
 

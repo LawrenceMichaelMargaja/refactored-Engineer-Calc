@@ -1,9 +1,11 @@
 import React from "react";
 import {Card} from "@material-ui/core";
+import MemberDesignRatioRows from "./memberDesignRatioRows/MemberDesignRatioRows";
 
 const MemberDesignRatio = () => {
 
     return (
+        <>
             <div style={{
                 height: '100%',
                 margin: '5% auto 0',
@@ -168,6 +170,8 @@ const MemberDesignRatio = () => {
                     </div>
                 </div>
             </div>
+            <MemberDesignRatioRows/>
+        </>
     )
 }
 
