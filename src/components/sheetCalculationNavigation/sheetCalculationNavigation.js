@@ -28,8 +28,8 @@ const SheetCalculationNavigation = () => {
     const sheetTabs = useSelector(state => state.sheets.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     const members = objectChecker(sheets, ['sheets', selectedSheet, 'members'])
-    const sectionProperties = objectChecker(sheets, ['sheets', selectedSheet, 'sectionProperties'])
-    const materialProperties = objectChecker(sheets, ['sheets', selectedSheet, 'materialProperties'])
+    const sectionProperties = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric'])
+    const materialProperties = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties'])
     const tabState = objectChecker(sheets, ['sheets', selectedSheet, 'tabState'])
     const classes = useStyles()
     const dispatch = useDispatch()
@@ -83,7 +83,8 @@ const SheetCalculationNavigation = () => {
             const currentMaterials = objectChecker(sheets, ['sheets', selectedSheet, 'currentMaterialsArray'])
             const currentSections = objectChecker(sheets, ['sheets', selectedSheet, 'currentSectionsArray'])
 
-            if (materialProperties === null || sectionProperties === null) {
+            if (size(materialProperties) === 0 || size(sectionProperties) === 0) {
+                alert("at the result === " + JSON.stringify(sectionProperties))
                 arrayCheck.push('material property or section property is null')
             }
 
