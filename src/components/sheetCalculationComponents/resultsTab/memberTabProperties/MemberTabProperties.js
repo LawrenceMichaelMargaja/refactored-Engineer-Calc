@@ -101,7 +101,7 @@ const MemberTabProperties = () => {
                             border: '1px solid black',
                             backgroundColor: '#fff'
                         }}>
-                            <p><strong>L<sub>b</sub>({unit}</strong></p>
+                            <p><strong>L<sub>b</sub>({unit})</strong></p>
                         </div>
                     </div>
                     <div style={{

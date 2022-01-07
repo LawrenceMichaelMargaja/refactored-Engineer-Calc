@@ -399,7 +399,7 @@ const Members = () => {
                                         textAlign: 'center'
                                     }}>
                                         <p>
-                                            <strong>C<sub>by></sub></strong>
+                                            <strong>C<sub>by</sub></strong>
                                         </p>
                                     </div>
                                 </div>

@@ -42,7 +42,6 @@ const Errors = ({errorLocation, important}) => {
                     height: '100%',
                     display: 'flex',
                     padding: '10px',
-                    width: '100%'
                 }}>
                     <div style={{
                         width: '50%',

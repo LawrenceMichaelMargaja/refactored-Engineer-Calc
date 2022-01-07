@@ -48,7 +48,7 @@ const SectionDimensions = () => {
             <div style={{
                 display: 'flex',
                 padding: '1em',
-                width: '90%',
+                width: '95%',
                 margin: '0 auto'
             }}>
                 <div style={{
@@ -100,6 +100,19 @@ const SectionDimensions = () => {
                     <p style={{
                         margin: '0px'
                     }}>
+                        <strong>b({unit})</strong>
+                    </p>
+                </div>
+                <div style={{
+                    margin: '0px',
+                    border: '1px solid black',
+                    padding: '5px 0px 2px 0',
+                    backgroundColor: '#fff',
+                    width: '14.28%'
+                }}>
+                    <p style={{
+                        margin: '0px'
+                    }}>
                         <strong>t<sub>w</sub>({unit})</strong>
                     </p>
                 </div>
@@ -113,7 +126,7 @@ const SectionDimensions = () => {
                     <p style={{
                         margin: '0px'
                     }}>
-                        <strong><sub></sub>additional</strong>
+                        <strong>b<sub>f</sub>({unit})</strong>
                     </p>
                 </div>
                 <div style={{
@@ -126,7 +139,7 @@ const SectionDimensions = () => {
                     <p style={{
                         margin: '0px'
                     }}>
-                        <strong><sub></sub>additional</strong>
+                        <strong>t<sub>f</sub>({unit})</strong>
                     </p>
                 </div>
                 <div style={{
@@ -139,7 +152,33 @@ const SectionDimensions = () => {
                     <p style={{
                         margin: '0px'
                     }}>
-                        <strong><sub></sub>additional</strong>
+                        <strong>t<sub>b</sub>({unit})</strong>
+                    </p>
+                </div>
+                <div style={{
+                    margin: '0px',
+                    border: '1px solid black',
+                    padding: '5px 0px 2px 0',
+                    backgroundColor: '#fff',
+                    width: '14.28%'
+                }}>
+                    <p style={{
+                        margin: '0px'
+                    }}>
+                        <strong>t<sub></sub>({unit})</strong>
+                    </p>
+                </div>
+                <div style={{
+                    margin: '0px',
+                    border: '1px solid black',
+                    padding: '5px 0px 2px 0',
+                    backgroundColor: '#fff',
+                    width: '14.28%'
+                }}>
+                    <p style={{
+                        margin: '0px'
+                    }}>
+                        <strong>r<sub></sub>({unit})</strong>
                     </p>
                 </div>
             </div>

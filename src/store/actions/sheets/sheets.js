@@ -12,7 +12,7 @@ import {
     GET_REC_HS_SHAPES_METRIC,
     GET_ROUND_HS_SHAPES,
     GET_ROUND_HS_SHAPES_ENGLISH,
-    GET_ROUND_HS_SHAPES_METRIC,
+    GET_ROUND_HS_SHAPES_METRIC, GET_SECTION_DIMENSIONS_ENGLISH, GET_SECTION_DIMENSIONS_METRIC,
     GET_SECTION_PROPERTIES_ENGLISH,
     GET_SECTION_PROPERTIES_METRIC,
     GET_SHAPES,
@@ -90,6 +90,20 @@ export const setDisableMenuButtons = data => {
 export const getShapes = (data, sheetIndex) => {
     return {
         type: GET_SHAPES,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const getSectionDimensionsMetric = (data, sheetIndex) => {
+    return {
+        type: GET_SECTION_DIMENSIONS_METRIC,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const getSectionDimensionsEnglish = (data, sheetIndex) => {
+    return {
+        type: GET_SECTION_DIMENSIONS_ENGLISH,
         payload: {data: data, sheetIndex: sheetIndex}
     }
 }

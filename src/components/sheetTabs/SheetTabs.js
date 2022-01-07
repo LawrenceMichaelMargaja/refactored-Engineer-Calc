@@ -51,6 +51,8 @@ const SheetTabs = () => {
                 route: '',
                 apiData: {
                     shapes: [],
+                    sectionDimensionsMetric: [],
+                    sectionDimensionsEnglish: [],
                     tShapesMetric: [],
                     tShapesEnglish: [],
                     roundHSShapesMetric: [],
@@ -209,6 +211,8 @@ const SheetTabs = () => {
                 route: '',
                 apiData: {
                     shapes: [],
+                    sectionDimensionsMetric: [],
+                    sectionDimensionsEnglish: [],
                     tShapesMetric: [],
                     tShapesEnglish: [],
                     roundHSShapesMetric: [],

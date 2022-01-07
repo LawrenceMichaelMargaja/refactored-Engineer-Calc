@@ -23,6 +23,8 @@ export const GET_C_SHAPES_METRIC = '@@sheets/GET_C_SHAPES_METRIC'
 export const GET_C_SHAPES_ENGLISH = '@@sheets/GET_C_SHAPES_ENGLISH'
 export const GET_2_L_SHAPES_METRIC = '@@sheets/GET_2_L_SHAPES_METRIC'
 export const GET_2_L_SHAPES_ENGLISH = '@@sheets/GET_2_L_SHAPES_ENGLISH'
+export const GET_SECTION_DIMENSIONS_METRIC = '@@sheets/GET_SECTION_DIMENSIONS_METRIC'
+export const GET_SECTION_DIMENSIONS_ENGLISH = '@@sheets/GET_SECTION_DIMENSIONS_ENGLISH'
 
 // ================ END OF GET REQUESTS ==================
 

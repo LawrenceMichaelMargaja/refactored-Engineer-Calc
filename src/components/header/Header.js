@@ -5,7 +5,6 @@ import {objectChecker} from "../../utilities/utilities";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: '100vw',
         display: 'flex',
         backgroundColor: "#003980",
     },
@@ -103,32 +102,6 @@ const Header = () => {
 
     return (
         <div>
-            {/*<div style={{width: '50vw', margin: '1em'}}>*/}
-            {/*    <p style={{width: '50%'}}>Project Unit = {JSON.stringify(projectUnit)}</p>*/}
-            {/*    <p style={{width: '50%'}}>Project Name = {JSON.stringify(projectName)}</p>*/}
-            {/*    <p style={{width: '50%'}}>Project Id = {JSON.stringify(projectId)}</p>*/}
-            {/*    <p style={{width: '50%'}}>Project Company = {JSON.stringify(projectCompany)}</p>*/}
-            {/*    <p style={{width: '50%'}}>Project Designer = {JSON.stringify(projectDesigner)}</p>*/}
-            {/*    <p style={{width: '50%'}}>Project Client = {JSON.stringify(projectClient)}</p>*/}
-            {/*    <p style={{width: '50%'}}>Project Notes = {JSON.stringify(projectNotes)}</p>*/}
-            {/*</div>*/}
-            {/*<div style={{width: '50vw', margin: '1em'}}>*/}
-            {/*    <p style={{width: '50%'}}>safetyFactorForTensile = {JSON.stringify(safetyFactorForTensile)}</p>*/}
-            {/*    <p style={{width: '50%'}}>safetyFactorForCompression = {JSON.stringify(safetyFactorForCompression)}</p>*/}
-            {/*    <p style={{width: '50%'}}>safetyFactorForFlexure = {JSON.stringify(safetyFactorForFlexure)}</p>*/}
-            {/*    <p style={{width: '50%'}}>safetyFactorForShear = {JSON.stringify(safetyFactorForShear)}</p>*/}
-            {/*</div>*/}
-            {/*<div>*/}
-            {/*    <p>{JSON.stringify(provisionState)}</p>*/}
-            {/*</div>*/}
-            <div>
-                    {/*<p>English</p>*/}
-                    {/*<p style={{width: '50%', margin: '1em'}}>{JSON.stringify(iShapeEnglish)}</p>*/}
-            </div>
-            {/*<div>*/}
-            {/*    <p>Metric</p>*/}
-            {/*    <p style={{width: '50%', margin: '1em'}}>{JSON.stringify(sectionsMetric)}</p>*/}
-            {/*</div>*/}
             <div className={classes.root}>
                 <div className={classes.titleContainer}>
                     <p className={classes.title}>TITLE HERE</p>

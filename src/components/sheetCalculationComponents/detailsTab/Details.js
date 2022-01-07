@@ -25,7 +25,7 @@ import {
     getRecHsShapesEnglish,
     getRecHsShapesMetric,
     getRoundHsShapesEnglish,
-    getRoundHsShapesMetric,
+    getRoundHsShapesMetric, getSectionDimensionsEnglish, getSectionDimensionsMetric,
     getSectionPropertiesEnglish,
     getSectionPropertiesMetric,
     getShapes,
@@ -101,6 +101,24 @@ const Details = () => {
         fetch("http://127.0.0.1:8080/shape")
             .then((response) => response.json())
             .then((data) => dispatch(getShapes(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchSectionDimensionsMetric = () => {
+        fetch("http://127.0.0.1:8080/sectiondimensionmetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getSectionDimensionsMetric(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchSectionDimensionsEnglish = () => {
+        fetch("http://127.0.0.1:8080/sectiondimensionenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(getSectionDimensionsEnglish(data, selectedSheet)))
             .catch((error) => {
                 console.log(error)
             })
@@ -279,6 +297,8 @@ const Details = () => {
     }
 
     useEffect(() => {
+        fetchSectionDimensionsMetric()
+        fetchSectionDimensionsEnglish()
         fetch2LShapeEnglish()
         fetch2LShapeMetric()
         fetchCShapeEnglish()

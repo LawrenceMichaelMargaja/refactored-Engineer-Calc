@@ -23,7 +23,7 @@ import {
     GET_PIPE_SHAPES_METRIC, GET_REC_HS_SHAPES_ENGLISH,
     GET_REC_HS_SHAPES_METRIC,
     GET_ROUND_HS_SHAPES_ENGLISH,
-    GET_ROUND_HS_SHAPES_METRIC,
+    GET_ROUND_HS_SHAPES_METRIC, GET_SECTION_DIMENSIONS_ENGLISH, GET_SECTION_DIMENSIONS_METRIC,
     GET_SECTION_PROPERTIES_ENGLISH,
     GET_SECTION_PROPERTIES_METRIC,
     GET_SHAPES,
@@ -125,6 +125,8 @@ const initialState = {
             route: '',
             apiData: {
                 shapes: [],
+                sectionDimensionsMetric: [],
+                sectionDimensionsEnglish: [],
                 tShapesMetric: [],
                 tShapesEnglish: [],
                 roundHSShapesMetric: [],
@@ -467,6 +469,10 @@ const Reducer = (state = initialState, action) => {
             return get2LShapesMetric(state, action.payload)
         case GET_2_L_SHAPES_ENGLISH:
             return get2LShapesEnglish(state, action.payload)
+        case GET_SECTION_DIMENSIONS_METRIC:
+            return getSectionDimensionsMetric(state, action.payload)
+        case GET_SECTION_DIMENSIONS_ENGLISH:
+            return getSectionDimensionsEnglish(state, action.payload)
         default:
             return state
     }
@@ -564,6 +570,38 @@ const getShapes = (state, payload) => {
                 apiData: {
                     ...state.sheets[payload.sheetIndex].apiData,
                     shapes: payload.data
+                }
+            }
+        }
+    }
+}
+
+const getSectionDimensionsMetric = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    sectionDimensionsMetric: payload.data
+                }
+            }
+        }
+    }
+}
+
+const getSectionDimensionsEnglish = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    sectionDimensionsEnglish: payload.data
                 }
             }
         }
