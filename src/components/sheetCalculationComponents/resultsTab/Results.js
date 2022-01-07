@@ -77,14 +77,15 @@ const ResultsTab = () => {
                                 <div style={{
                                     height: '100%',
                                     backgroundColor: '#e2e2e2',
-                                    margin: '2em auto'
+                                    margin: '2em auto',
+                                    textAlign: 'center'
                                 }}>
                                         <Card style={{
                                             border: '1px solid black',
-                                            // padding: '5px 0',
+                                            padding: '5px 0',
                                             height: '50%',
-                                            backgroundColor: '#fff',
-                                            textAlign: 'center'
+                                            backgroundColor: '#f2f2f2',
+                                            width: '100%',
                                         }}>
                                             <strong>Legend</strong>
                                         </Card>

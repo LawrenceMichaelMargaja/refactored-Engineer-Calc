@@ -1,7 +1,23 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import DesignMaterialsRows from "./designMaterialsRows/DesignMaterialsRows";
+import {useSelector} from "react-redux";
+import {objectChecker} from "../../../../utilities/utilities";
 
 const DesignMaterials = () => {
+
+    const sheets = useSelector(state => state.sheets)
+    const selectedSheet = useSelector(state => state.sheets.selectedSheet)
+    const system = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
+
+    const [unit, setUnit] = useState('')
+
+    useEffect(() => {
+        if(system === 'Metric') {
+            setUnit('(MPa)')
+        } else if(system === 'English') {
+            setUnit('(ksi)')
+        }
+    }, [system])
 
     return (
         <>
@@ -55,7 +71,7 @@ const DesignMaterials = () => {
                             height: '50%',
                             backgroundColor: '#fff',
                         }}>
-                            <strong>E(MPa) <sub> </sub> </strong>
+                            <strong>E{unit} <sub> </sub> </strong>
                         </div>
                     </div>
                     <div style={{
@@ -74,7 +90,7 @@ const DesignMaterials = () => {
                             height: '50%',
                             backgroundColor: '#fff',
                         }}>
-                            <strong>F<sub>y</sub>(MPa)</strong>
+                            <strong>F<sub>y</sub>{unit}</strong>
                         </div>
                     </div>
                     <div style={{
@@ -93,7 +109,7 @@ const DesignMaterials = () => {
                             height: '50%',
                             backgroundColor: '#fff',
                         }}>
-                            <strong>F<sub>u</sub>(MPa)</strong>
+                            <strong>F<sub>u</sub>{unit}</strong>
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,44 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Card} from "@material-ui/core";
+import {useSelector} from "react-redux";
+import {objectChecker} from "../../../../utilities/utilities";
 
 const DesignFactors = () => {
+
+    const sheets = useSelector(state => state.sheets)
+    const selectedSheet = useSelector(state => state.sheets.selectedSheet)
+    const provision = objectChecker(sheets, ['sheets', selectedSheet, 'provision'])
+
+
+    const [unit, setUnit] = useState('')
+
+    useEffect(() => {
+        if(provision === 'ASD') {
+            setUnit('Ω')
+        } else if(provision === 'LRFD') {
+            setUnit('Φ')
+        }
+    }, [provision])
+
+    /**
+     * Values from Factors Tab
+     */
+    const safetyFactorForTensile = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForTensile'])
+    const safetyFactorForCompression = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForCompression'])
+    const safetyFactorForFlexure = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForFlexure'])
+    const safetyFactorForShear = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForShear'])
+
+    /**
+     * Values from Details Tab
+     */
+    const projectUnit = objectChecker(sheets, ['sheets', selectedSheet, 'details', 'projectUnit'])
+    const projectName = objectChecker(sheets, ['sheets', selectedSheet, 'details', 'projectName'])
+    const projectId = objectChecker(sheets, ['sheets', selectedSheet, 'details', 'projectId'])
+    const projectCompany = objectChecker(sheets, ['sheets', selectedSheet, 'details', 'projectCompany'])
+    const projectDesigner = objectChecker(sheets, ['sheets', selectedSheet, 'details', 'projectDesigner'])
+    const projectClient = objectChecker(sheets, ['sheets', selectedSheet, 'details', 'projectClient'])
+    const projectNotes = objectChecker(sheets, ['sheets', selectedSheet, 'details', 'projectNotes'])
+
 
     return (
         <Card style={{
@@ -16,7 +53,7 @@ const DesignFactors = () => {
                 paddingTop: '10px',
                 margin: '0px'
             }}>
-                <strong>Project Unit:</strong>
+                <strong>Project Unit: </strong> {projectUnit}
             </p>
             <p style={{
                 textAlign: 'initial',
@@ -24,7 +61,7 @@ const DesignFactors = () => {
                 paddingRight: '15px',
                 margin: '0px'
             }}>
-                <strong>Project Name:</strong>
+                <strong>Project Name: </strong> {projectName}
 
             </p>
             <p style={{
@@ -33,7 +70,7 @@ const DesignFactors = () => {
                 paddingRight: '15px',
                 margin: '0px'
             }}>
-                <strong>Project ID:</strong>
+                <strong>Project ID: </strong> {projectId}
             </p>
             <p style={{
                 textAlign: 'initial',
@@ -41,16 +78,7 @@ const DesignFactors = () => {
                 paddingRight: '15px',
                 margin: '0px'
             }}>
-                <strong>Company:</strong>
-            </p>
-            <p style={{
-                textAlign: 'initial',
-                paddingLeft: '15px',
-                paddingRight: '15px',
-                paddingBottom: '5px',
-                margin: '0px'
-            }}>
-                <strong>Project Designer:</strong>
+                <strong>Company: </strong> {projectCompany}
             </p>
             <p style={{
                 textAlign: 'initial',
@@ -59,7 +87,16 @@ const DesignFactors = () => {
                 paddingBottom: '5px',
                 margin: '0px'
             }}>
-                <strong>Project Client:</strong>
+                <strong>Project Designer: </strong> {projectDesigner}
+            </p>
+            <p style={{
+                textAlign: 'initial',
+                paddingLeft: '15px',
+                paddingRight: '15px',
+                paddingBottom: '5px',
+                margin: '0px'
+            }}>
+                <strong>Project Client: </strong> {projectClient}
             </p>
             <div style={{
                 margin: '0px',
@@ -111,14 +148,14 @@ const DesignFactors = () => {
                         height: '50%',
                         backgroundColor: '#fff',
                     }}>
-                        <strong>Ωt</strong>
+                        <strong>{unit}t</strong>
                     </div>
                     <div style={{
                         width: '80%',
                         margin: '0 auto',
                         borderBottom: '1px solid black'
                     }}>
-                        <p style={{marginBottom: '0px'}}>1.67</p>
+                        <p style={{marginBottom: '0px'}}>{safetyFactorForTensile}</p>
                     </div>
                 </div>
                 <div style={{
@@ -136,14 +173,14 @@ const DesignFactors = () => {
                         height: '50%',
                         backgroundColor: '#fff',
                     }}>
-                        <strong>Ωc</strong>
+                        <strong>{unit}c</strong>
                     </div>
                     <div style={{
                         width: '80%',
                         margin: '0 auto',
                         borderBottom: '1px solid black'
                     }}>
-                        <p style={{marginBottom: '0px'}}>1.67</p>
+                        <p style={{marginBottom: '0px'}}>{safetyFactorForCompression}</p>
                     </div>
                 </div>
                 <div style={{
@@ -162,14 +199,14 @@ const DesignFactors = () => {
                         height: '50%',
                         backgroundColor: '#fff',
                     }}>
-                        <strong>Ωb</strong>
+                        <strong>{unit}b</strong>
                     </div>
                     <div style={{
                         width: '80%',
                         margin: '0 auto',
                         borderBottom: '1px solid black'
                     }}>
-                        <p style={{marginBottom: '0px'}}>1.67</p>
+                        <p style={{marginBottom: '0px'}}>{safetyFactorForFlexure}</p>
                     </div>
                 </div>
                 <div style={{
@@ -188,14 +225,14 @@ const DesignFactors = () => {
                         height: '50%',
                         backgroundColor: '#fff',
                     }}>
-                        <strong>Ωv</strong>
+                        <strong>{unit}v</strong>
                     </div>
                     <div style={{
                         width: '80%',
                         margin: '0 auto',
                         borderBottom: '1px solid black'
                     }}>
-                        <p style={{marginBottom: '0px'}}>1.67</p>
+                        <p style={{marginBottom: '0px'}}>{safetyFactorForShear}</p>
                     </div>
                 </div>
             </div>

@@ -1,8 +1,24 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Card} from "@material-ui/core";
 import MemberDesignCapacityRows from "./memberDesignCapacityRows/MemberDesignCapacityRows";
+import {useSelector} from "react-redux";
+import {objectChecker} from "../../../../utilities/utilities";
 
 const MemberDesignCapacity = () => {
+
+    const sheets = useSelector(state => state.sheets)
+    const selectedSheet = useSelector(state => state.sheets.selectedSheet)
+    const system = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
+
+    const [unit, setUnit] = useState('')
+
+    useEffect(() => {
+        if(system === 'Metric') {
+            setUnit('kN')
+        } else if(system === 'English') {
+            setUnit('ft')
+        }
+    }, [system])
 
     return (
         <>

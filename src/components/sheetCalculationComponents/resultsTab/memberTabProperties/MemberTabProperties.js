@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {objectChecker} from "../../../../utilities/utilities";
 import MemberRows from "./memberRows/MemberRows";
@@ -7,7 +7,17 @@ const MemberTabProperties = () => {
 
     const sheets = useSelector(state => state.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
-    const members = objectChecker(sheets, ['sheets', selectedSheet, 'members'])
+    const system = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
+
+    const [unit, setUnit] = useState('')
+
+    useEffect(() => {
+        if(system === 'Metric') {
+            setUnit('m')
+        } else if(system === 'English') {
+            setUnit('ft')
+        }
+    }, [system])
 
     return (
         <>
@@ -65,7 +75,7 @@ const MemberTabProperties = () => {
                             border: '1px solid black',
                             backgroundColor: '#fff'
                         }}>
-                            <p><strong>K<sub>x</sub>L(m)</strong></p>
+                            <p><strong>K<sub>x</sub>L({unit})</strong></p>
                         </div>
                     </div>
                     <div style={{
@@ -78,7 +88,7 @@ const MemberTabProperties = () => {
                             border: '1px solid black',
                             backgroundColor: '#fff'
                         }}>
-                            <p><strong>K<sub>y</sub>L(m)</strong></p>
+                            <p><strong>K<sub>y</sub>L({unit})</strong></p>
                         </div>
                     </div>
                     <div style={{
@@ -91,7 +101,7 @@ const MemberTabProperties = () => {
                             border: '1px solid black',
                             backgroundColor: '#fff'
                         }}>
-                            <p><strong>L<sub>b</sub>(m)</strong></p>
+                            <p><strong>L<sub>b</sub>({unit}</strong></p>
                         </div>
                     </div>
                     <div style={{

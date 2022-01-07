@@ -1,9 +1,25 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Card} from "@material-ui/core";
 import SectionPropertiesRows from "../../membersTab/sectionProperties/sectionPropertiesRows/SectionPropertiesRows";
 import SectionPropertiesResultsRows from "./sectionPropertiesRows/SectionPropertiesRows";
+import {useSelector} from "react-redux";
+import {objectChecker} from "../../../../utilities/utilities";
 
 const SectionProperties = () => {
+
+    const sheets = useSelector(state => state.sheets)
+    const selectedSheet = useSelector(state => state.sheets.selectedSheet)
+    const system = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
+
+    const [unit, setUnit] = useState('')
+
+    useEffect(() => {
+        if(system === 'Metric') {
+            setUnit('mm')
+        } else if(system === 'English') {
+            setUnit('inch')
+        }
+    }, [system])
 
     return (
         <>
@@ -48,7 +64,7 @@ const SectionProperties = () => {
                         width: '20%',
                     }}>
                         <p>
-                            <strong>A(mm<sup>4</sup>)</strong>
+                            <strong>A({unit}<sup>4</sup>)</strong>
                         </p>
                     </div>
                     <div style={{
@@ -56,7 +72,7 @@ const SectionProperties = () => {
                         width: '20%',
                     }}>
                         <p>
-                            <strong>J(mm<sup>4</sup>)</strong>
+                            <strong>J({unit}<sup>4</sup>)</strong>
                         </p>
                     </div>
                     <div style={{
@@ -64,7 +80,7 @@ const SectionProperties = () => {
                         width: '20%',
                     }}>
                         <p>
-                            <strong>I<sub>xp</sub>(mm<sup>4</sup>)</strong>
+                            <strong>I<sub>xp</sub>({unit}<sup>4</sup>)</strong>
                         </p>
                     </div>
                     <div style={{
@@ -72,7 +88,7 @@ const SectionProperties = () => {
                         width: '20%',
                     }}>
                         <p>
-                            <strong>I<sub>yp</sub>(mm<sup>4</sup>)</strong>
+                            <strong>I<sub>yp</sub>({unit}<sup>4</sup>)</strong>
                         </p>
                     </div>
                     <div style={{
@@ -80,7 +96,7 @@ const SectionProperties = () => {
                         width: '20%',
                     }}>
                         <p>
-                            <strong>I<sub>w</sub>(mm<sup>6</sup>)</strong>
+                            <strong>I<sub>w</sub>({unit}<sup>6</sup>)</strong>
                         </p>
                     </div>
                     <div style={{
@@ -88,7 +104,7 @@ const SectionProperties = () => {
                         width: '20%',
                     }}>
                         <p>
-                            <strong>S<sub>xp</sub>(mm<sup>3</sup>)</strong>
+                            <strong>S<sub>xp</sub>({unit}<sup>3</sup>)</strong>
                         </p>
                     </div>
                     <div style={{
@@ -96,7 +112,7 @@ const SectionProperties = () => {
                         width: '20%',
                     }}>
                         <p>
-                            <strong>S<sub>yp</sub>(mm<sup>4</sup>)</strong>
+                            <strong>S<sub>yp</sub>({unit}<sup>4</sup>)</strong>
                         </p>
                     </div>
                 </div>

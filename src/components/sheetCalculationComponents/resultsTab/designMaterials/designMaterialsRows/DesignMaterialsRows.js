@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useMemo} from "react";
 import {useSelector} from "react-redux";
 import {objectChecker} from "../../../../../utilities/utilities";
 
@@ -6,12 +6,40 @@ const DesignMaterialsRows = () => {
 
     const sheets = useSelector(state => state.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
-    const sectionsMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric'])
+    const system = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
+    const steelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesMetric'])
+    const steelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesEnglish'])
+    const sectionsMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties'])
     const sectionsEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesEnglish'])
+    const insertedSteelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties'])
+    const insertedSteelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeEnglishProperties'])
+
+    const hashMetric = useMemo(() => {
+        let hash = {}
+        for (let i in steelTypesMetric) {
+            let {
+                steel_type_metric_name,
+            } = steelTypesMetric[i]
+            hash[steel_type_metric_name] = steelTypesMetric[i]
+        }
+        return hash
+    }, [insertedSteelTypesMetric])
+
+    const hashEnglish = useMemo(() => {
+        let hash = {}
+        for (let i in steelTypesEnglish) {
+            let {
+                steel_type_english_name,
+            } = steelTypesEnglish[i]
+            hash[steel_type_english_name] = steelTypesEnglish[i]
+        }
+        return hash
+    }, [insertedSteelTypesEnglish])
 
     let memberRows = []
 
     const renderMemberRowsMetric = () => {
+
         for (let index in sectionsMetric) {
 
             const materialId = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'materialId'])
@@ -26,6 +54,30 @@ const DesignMaterialsRows = () => {
             const lateralTorsionalModificationFactor = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'lateralTorsionalModificationFactor'])
             const slendernessRatioInCompression = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'slendernessRatioInCompression'])
             const LST = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'LST'])
+
+            const empaValueHandler = () => {
+                if(system === 'Metric') {
+                    return insertedSteelTypesMetric[index].EMPA
+                } else if(system === 'English') {
+                    return hashEnglish[insertedSteelTypesEnglish[index].name].steel_type_english_e
+                }
+            }
+
+            const fympaValueHandler = () => {
+                if(system === 'Metric') {
+                    return insertedSteelTypesMetric[index].FYMPA
+                } else if(system === 'English') {
+                    return hashEnglish[insertedSteelTypesEnglish[index].name].steel_type_english_fy
+                }
+            }
+
+            const fumpaValueHandler = () => {
+                if(system === 'Metric') {
+                    return insertedSteelTypesMetric[index].FUMPA
+                } else if(system === 'English') {
+                    return hashEnglish[insertedSteelTypesEnglish[index].name].steel_type_english_fu
+                }
+            }
 
             memberRows.push(
                 <div style={{
@@ -51,7 +103,7 @@ const DesignMaterialsRows = () => {
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>{materialId} <sub> </sub></strong>
+                            {empaValueHandler()}
                         </p>
                         <p style={{
                             width: '25%',
@@ -60,7 +112,7 @@ const DesignMaterialsRows = () => {
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>{materialId} <sub> </sub></strong>
+                            {fympaValueHandler()}
                         </p>
                         <p style={{
                             width: '25%',
@@ -69,7 +121,7 @@ const DesignMaterialsRows = () => {
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>{materialId} <sub> </sub></strong>
+                            {fumpaValueHandler()}
                         </p>
                     </div>
                 </div>

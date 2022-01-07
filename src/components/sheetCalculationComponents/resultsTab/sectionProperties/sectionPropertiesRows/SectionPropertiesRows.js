@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useMemo} from "react";
 import {useSelector} from "react-redux";
 import {objectChecker} from "../../../../../utilities/utilities";
 
@@ -6,26 +6,96 @@ const SectionPropertiesResultsRows = () => {
 
     const sheets = useSelector(state => state.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
-    const sectionsMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric'])
-    const sectionsEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesEnglish'])
+    const system = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
+    const sectionPropertiesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'sectionPropertiesMetric'])
+    const sectionPropertiesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'sectionPropertiesEnglish'])
+    const insertedSectionsMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric'])
+    const insertedSectionsEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesEnglish'])
+
+    const hashMetric = useMemo(() => {
+        let hash = {}
+        for (let i in sectionPropertiesMetric) {
+            let {
+                section_properties_metric_name,
+            } = sectionPropertiesMetric[i]
+            hash[section_properties_metric_name] = sectionPropertiesMetric[i]
+        }
+        return hash
+    }, [sectionPropertiesMetric])
+
+    const hashEnglish = useMemo(() => {
+        let hash = {}
+        for (let i in sectionPropertiesEnglish) {
+            let {
+                section_properties_english_name,
+            } = sectionPropertiesEnglish[i]
+            hash[section_properties_english_name] = sectionPropertiesEnglish[i]
+        }
+        return hash
+    }, [sectionPropertiesMetric])
 
     let memberRows = []
 
-    const renderMemberRowsMetric = () => {
-        for (let index in sectionsMetric) {
 
-            const materialId = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'materialId'])
-            const sectionId = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'sectionId'])
-            const totalLengthOfMember = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'totalLengthOfMember'])
-            const yAxisUnbracedLength = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'yAxisUnbracedLength'])
-            const yAxisEffectiveLengthFactor = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'yAxisEffectiveLengthFactor'])
-            const zAxisUnbracedLength = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'yAxisEffectiveLengthFactor'])
-            const zAxisEffectiveLengthFactor = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'zAxisEffectiveLengthFactor'])
-            const LLT = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'LLT'])
-            const unbracedLengthLateralTorsional = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'unbracedLengthLateralTorsional'])
-            const lateralTorsionalModificationFactor = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'lateralTorsionalModificationFactor'])
-            const slendernessRatioInCompression = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'slendernessRatioInCompression'])
-            const LST = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'LST'])
+
+    const renderMemberRowsMetric = () => {
+        for (let index in insertedSectionsMetric) {
+
+            const sectionProperties_a_value = () => {
+                if(system === 'Metric') {
+                    return hashMetric[insertedSectionsMetric[index].sectionName].section_properties_metric_a
+                } else if(system === 'English') {
+                    return hashEnglish[insertedSectionsEnglish[index].sectionName].section_properties_english_a
+                }
+            }
+
+            const sectionProperties_j_value = () => {
+                if(system === 'Metric') {
+                    return hashMetric[insertedSectionsMetric[index].sectionName].section_properties_metric_j
+                } else if(system === 'English') {
+                    return hashEnglish[insertedSectionsEnglish[index].sectionName].section_properties_english_j
+                }
+            }
+
+            const sectionProperties_ixp_value = () => {
+                if(system === 'Metric') {
+                    return hashMetric[insertedSectionsMetric[index].sectionName].section_properties_metric_ixp
+                } else if(system === 'English') {
+                    return hashEnglish[insertedSectionsEnglish[index].sectionName].section_properties_english_ixp
+                }
+            }
+
+            const sectionProperties_iyp_value = () => {
+                if(system === 'Metric') {
+                    return hashMetric[insertedSectionsMetric[index].sectionName].section_properties_metric_iyp
+                } else if(system === 'English') {
+                    return hashEnglish[insertedSectionsEnglish[index].sectionName].section_properties_english_iyp
+                }
+            }
+
+            const sectionProperties_iw_value = () => {
+                if(system === 'Metric') {
+                    return hashMetric[insertedSectionsMetric[index].sectionName].section_properties_metric_iw
+                } else if(system === 'English') {
+                    return hashEnglish[insertedSectionsEnglish[index].sectionName].section_properties_english_iw
+                }
+            }
+
+            const sectionProperties_sxp_value = () => {
+                if(system === 'Metric') {
+                    return hashMetric[insertedSectionsMetric[index].sectionName].section_properties_metric_sxp
+                } else if(system === 'English') {
+                    return hashEnglish[insertedSectionsEnglish[index].sectionName].section_properties_english_sxp
+                }
+            }
+
+            const sectionProperties_syp_value = () => {
+                if(system === 'Metric') {
+                    return hashMetric[insertedSectionsMetric[index].sectionName].section_properties_metric_syp
+                } else if(system === 'English') {
+                    return hashEnglish[insertedSectionsEnglish[index].sectionName].section_properties_english_syp
+                }
+            }
 
             memberRows.push(
                 <div style={{
@@ -43,7 +113,7 @@ const SectionPropertiesResultsRows = () => {
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>{parseFloat(index) + 1} <sub> </sub></strong>
+                            <strong>{parseFloat(index) + 1}</strong>
                         </p>
                         <p style={{
                             width: '14.28%',
@@ -52,7 +122,7 @@ const SectionPropertiesResultsRows = () => {
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>{materialId} <sub> </sub></strong>
+                            <strong>{insertedSectionsMetric[index].sectionName}</strong>
                         </p>
                         <p style={{
                             width: '14.28%',
@@ -61,7 +131,7 @@ const SectionPropertiesResultsRows = () => {
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>{sectionId} <sub> </sub></strong>
+                            {sectionProperties_a_value()}
                         </p>
                         <p style={{
                             width: '14.28%',
@@ -70,7 +140,7 @@ const SectionPropertiesResultsRows = () => {
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>{totalLengthOfMember} <sub> </sub></strong>
+                            {sectionProperties_j_value()}
                         </p>
                         <p style={{
                             width: '14.28%',
@@ -79,7 +149,7 @@ const SectionPropertiesResultsRows = () => {
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>{yAxisUnbracedLength} <sub> </sub></strong>
+                            {sectionProperties_ixp_value()}
                         </p>
                         <p style={{
                             width: '14.28%',
@@ -88,7 +158,7 @@ const SectionPropertiesResultsRows = () => {
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>{yAxisEffectiveLengthFactor} <sub> </sub></strong>
+                            {sectionProperties_iyp_value()}
                         </p>
                         <p style={{
                             width: '14.28%',
@@ -97,7 +167,7 @@ const SectionPropertiesResultsRows = () => {
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>{zAxisUnbracedLength} <sub> </sub></strong>
+                            {sectionProperties_iw_value()}
                         </p>
                         <p style={{
                             width: '14.28%',
@@ -106,7 +176,7 @@ const SectionPropertiesResultsRows = () => {
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>{yAxisEffectiveLengthFactor} <sub> </sub></strong>
+                            {sectionProperties_sxp_value()}
                         </p>
                         <p style={{
                             width: '14.28%',
@@ -115,7 +185,7 @@ const SectionPropertiesResultsRows = () => {
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>{zAxisUnbracedLength} <sub> </sub></strong>
+                            {sectionProperties_syp_value()}
                         </p>
                     </div>
                 </div>
