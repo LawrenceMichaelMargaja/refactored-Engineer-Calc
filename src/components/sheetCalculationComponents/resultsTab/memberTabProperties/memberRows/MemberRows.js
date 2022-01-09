@@ -18,7 +18,7 @@ const MemberRows = () => {
             const totalLengthOfMember = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'totalLengthOfMember'])
             const yAxisUnbracedLength = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'yAxisUnbracedLength'])
             const yAxisEffectiveLengthFactor = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'yAxisEffectiveLengthFactor'])
-            const zAxisUnbracedLength = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'yAxisEffectiveLengthFactor'])
+            const zAxisUnbracedLength = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'zAxisUnbracedLength'])
             const zAxisEffectiveLengthFactor = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'zAxisEffectiveLengthFactor'])
             const LLT = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'LLT'])
             const unbracedLengthLateralTorsional = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'unbracedLengthLateralTorsional'])
@@ -29,7 +29,9 @@ const MemberRows = () => {
             memberRows.push(
                 <div style={{
                     textAlign: 'center'
-                }}>
+                }}
+                key={index}
+                >
                     <div style={{
                         display: 'flex',
                         padding: '0 15px 0 15px',
@@ -69,6 +71,24 @@ const MemberRows = () => {
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
+                            <strong>{parseFloat(yAxisUnbracedLength) * parseFloat(yAxisEffectiveLengthFactor)} <sub> </sub></strong>
+                        </p>
+                        <p style={{
+                            width: '14.28%',
+                            backgroundColor: '#fff',
+                            margin: '0',
+                            border: '1px solid black',
+                            padding: '0.5em'
+                        }}>
+                            <strong>{parseFloat(zAxisUnbracedLength) * parseFloat(zAxisEffectiveLengthFactor)} <sub> </sub></strong>
+                        </p>
+                        <p style={{
+                            width: '14.28%',
+                            backgroundColor: '#fff',
+                            margin: '0',
+                            border: '1px solid black',
+                            padding: '0.5em'
+                        }}>
                             <strong>{totalLengthOfMember} <sub> </sub></strong>
                         </p>
                         <p style={{
@@ -78,7 +98,7 @@ const MemberRows = () => {
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>{yAxisUnbracedLength} <sub> </sub></strong>
+                            <strong>{unbracedLengthLateralTorsional} <sub> </sub></strong>
                         </p>
                         <p style={{
                             width: '14.28%',
@@ -87,25 +107,7 @@ const MemberRows = () => {
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>{yAxisEffectiveLengthFactor} <sub> </sub></strong>
-                        </p>
-                        <p style={{
-                            width: '14.28%',
-                            backgroundColor: '#fff',
-                            margin: '0',
-                            border: '1px solid black',
-                            padding: '0.5em'
-                        }}>
-                            <strong>{zAxisUnbracedLength} <sub> </sub></strong>
-                        </p>
-                        <p style={{
-                            width: '14.28%',
-                            backgroundColor: '#fff',
-                            margin: '0',
-                            border: '1px solid black',
-                            padding: '0.5em'
-                        }}>
-                            <strong>{zAxisEffectiveLengthFactor} <sub> </sub></strong>
+                            <strong>{lateralTorsionalModificationFactor} <sub> </sub></strong>
                         </p>
                     </div>
                 </div>

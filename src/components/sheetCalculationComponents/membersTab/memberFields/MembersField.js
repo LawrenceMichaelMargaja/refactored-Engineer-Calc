@@ -298,14 +298,14 @@ const Members = () => {
                                                 width: '50%',
                                             }}>
                                                 <p style={{margin: 0, padding: '0px', borderRight: '1px solid black'}}>
-                                                    <strong>L<sub>X</sub>({unitHandler()}) <sub></sub></strong>
+                                                    <strong>L<sub>x</sub>({unitHandler()}) <sub></sub></strong>
                                                 </p>
                                             </div>
                                             <div style={{
                                                 width: '50%'
                                             }}>
                                                 <p style={{margin: 0, padding: '0px'}}>
-                                                    <strong>K<sub>X</sub> <sub></sub></strong>
+                                                    <strong>K<sub>x</sub> <sub></sub></strong>
                                                 </p>
                                             </div>
                                         </div>

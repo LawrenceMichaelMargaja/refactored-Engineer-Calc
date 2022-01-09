@@ -96,10 +96,12 @@ const MemberFieldRows = () => {
         }
 
         const yAxisEffectiveLengthFactorHandler = (event) => {
+            alert("yAxis === " + event.target.value)
             dispatch(setYAxisEffectiveLengthFactor(event.target.value, selectedSheet, memberIndex))
         }
 
         const zAxisUnbracedLengthHandler = (event) => {
+            alert("zAxis === " + event.target.value)
             dispatch(setZAxisUnbracedLength(event.target.value, selectedSheet, memberIndex))
         }
 
@@ -153,16 +155,6 @@ const MemberFieldRows = () => {
                         <p style={{margin: '0.97em', fontWeight: 'bold'}}>
                             {memberId}
                         </p>
-                        {/*<TextField*/}
-                        {/*    className={classes.textField}*/}
-                        {/*    onChange={(event) => memberIdHandler(event)}*/}
-                        {/*    value={memberId}*/}
-                        {/*    disabled={true}*/}
-                        {/*    type='number'*/}
-                        {/*    inputProps={{style: {textAlign: 'center'}}}*/}
-                        {/*    InputProps={{disableUnderline: true}}*/}
-
-                        {/*/>*/}
                     </div>
                 </div>
                 <div style={{
@@ -231,7 +223,6 @@ const MemberFieldRows = () => {
                                     textAlign: 'center',
                                 }
                             }}
-                            // InputProps={{disableUnderline: 'true'}}
                             inputProps={{style: {textAlign: 'center'}}}
                             InputProps={{disableUnderline: true}}
                         />

@@ -34,6 +34,7 @@ const Header = () => {
     const arrayCheck = objectChecker(sheets, ['sheets', selectedSheet, 'arrayCheck'])
     const members = objectChecker(sheets, ['sheets', selectedSheet, 'members'])
     const method = objectChecker(sheets, ['sheets', selectedSheet, 'method'])
+    const sectionDimensionsArray = objectChecker(sheets, ['sheets', selectedSheet, 'sectionDimensionsArrayMetric'])
 
     /**
      * API Data
@@ -89,7 +90,8 @@ const Header = () => {
      */
     const Forces = objectChecker(sheets, ['sheets', selectedSheet, 'forces'])
 
-
+    const sectionPropertiesArray = objectChecker(sheets, ['sheets', selectedSheet, 'currentSectionsArray'])
+    const currentMaterials = objectChecker(sheets, ['sheets', selectedSheet, 'currentMaterialsArray'])
 
     let tabs = null
 
@@ -102,6 +104,14 @@ const Header = () => {
 
     return (
         <div>
+            <div>
+                <p style={{
+                    padding: '3em',
+                    width: '50%'
+                }}>
+                    {sectionDimensionsArray}
+                </p>
+            </div>
             <div className={classes.root}>
                 <div className={classes.titleContainer}>
                     <p className={classes.title}>TITLE HERE</p>

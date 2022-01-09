@@ -200,7 +200,6 @@ const MetricMaterialPropertiesRows = () => {
             }
         }
 
-
         const empaValueChecker = () => {
             if (nestedModalDisabled === false) {
                 if (EMPAValue === '') {

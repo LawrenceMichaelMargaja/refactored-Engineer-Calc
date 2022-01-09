@@ -341,7 +341,6 @@ const MaterialProperties = () => {
             if (nestedModalDisabled === false) {
                 for(let name in steelTypesMetric) {
                     if ((customSteelType).toUpperCase() === (steelTypesMetric[name].steel_type_metric_name).toUpperCase()) {
-                        alert("what do i know")
                         setSelectedNameError(
                             <p style={{margin: '0', padding: '0'}}>
                                 <strong style={{color: 'red'}}>Custom name cannot match preset values.</strong>
@@ -539,6 +538,7 @@ const MaterialProperties = () => {
                     dispatch(setEnglishMaterialSteelType(customSteelTypeInitial, selectedSheet))
                     dispatch(setCustomSelectedSteelType(customSteelType, selectedSheet))
                     dispatch(setCurrentMetricMaterialPropertiesIndex(0, selectedSheet))
+                    dispatch(setCurrentMaterialsArray(1, selectedSheet))
                     setOpenNestedModal(false)
                 } else if (size(insertedSteelTypesMetric) > 0) {
                     const currentCustomSteelTypes = {...insertedSteelTypesMetric}
@@ -553,7 +553,8 @@ const MaterialProperties = () => {
                     dispatch(setMetricMaterialSteelType(currentCustomSteelTypes, selectedSheet))
                     dispatch(setEnglishMaterialSteelType(currentCustomSteelTypes, selectedSheet))
                     dispatch(setCustomSelectedSteelType(customSteelType, selectedSheet))
-                    dispatch(setCurrentMetricMaterialPropertiesIndex(currentCustomSteelTypesSize, selectedSheet))
+                    dispatch(setCurrentMaterialsArray(currentCustomSteelTypesSize, selectedSheet))
+                    dispatch(setCurrentMetricMaterialPropertiesIndex(parseFloat(currentCustomSteelTypesSize) + 1, selectedSheet))
                     setOpenNestedModal(false)
                 }
             } else {
@@ -577,6 +578,7 @@ const MaterialProperties = () => {
                     }
                     const id = 1
                     dispatch(setMetricMaterialSteelType(initialMaterial, selectedSheet))
+                    dispatch(setCurrentMaterialsArray(1, selectedSheet))
                     dispatch(setEnglishMaterialSteelType(initialMaterialEnglish, selectedSheet))
                     dispatch(setCurrentMaterialsArray(id, selectedSheet))
                     setOpenNestedModal(false)
@@ -601,6 +603,7 @@ const MaterialProperties = () => {
                     }
                     // alert("Here I am === " + JSON.stringify(currentMaterial))
                     dispatch(setMetricMaterialSteelType(currentMaterial, selectedSheet))
+                    dispatch(setCurrentMaterialsArray(parseFloat(newMaterialIndex) + 1, selectedSheet))
                     dispatch(setEnglishMaterialSteelType(currentMaterialEnglish, selectedSheet))
                     setOpenNestedModal(false)
                 }

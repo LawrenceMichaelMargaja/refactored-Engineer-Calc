@@ -8,8 +8,8 @@ import size from "lodash/size";
 import {
     addSectionProperty,
     editSelectedSection, editSelectedSectionEnglish, editSelectedSectionMetric,
-    removeSelectedSectionProperty,
-    resetSectionIndex, setCurrentEnglishSectionPropertyIndex,
+    removeSelectedSectionProperty, removeSelectedSectionPropertyEnglish, removeSelectedSectionPropertyMetric,
+    resetSectionIndex, resetSectionIndexEnglish, resetSectionIndexMetric, setCurrentEnglishSectionPropertyIndex,
     setCurrentMetricSectionPropertyIndex,
     setCurrentSectionPropertiesArray,
     setCurrentSectionPropertyIndex
@@ -79,9 +79,10 @@ const SectionPropertiesRows = () => {
                 return newObj
             }
 
-            dispatch(removeSelectedSectionProperty(null, selectedSheet, sectionIndex))
-            dispatch(resetSectionIndex(objectMapper(insertedSectionPropertiesMetric), selectedSheet))
-
+            dispatch(removeSelectedSectionPropertyMetric(null, selectedSheet, sectionIndex))
+            dispatch(removeSelectedSectionPropertyEnglish(null, selectedSheet, sectionIndex))
+            dispatch(resetSectionIndexMetric(objectMapper(insertedSectionPropertiesMetric), selectedSheet))
+            dispatch(resetSectionIndexEnglish(objectMapper(insertedSectionPropertiesMetric), selectedSheet))
         } else if (size(insertedSectionPropertiesMetric) !== 1 && proceed) {
             console.log("at remove section || else triggered");
 
@@ -92,8 +93,10 @@ const SectionPropertiesRows = () => {
                 return newObj
             }
 
-            dispatch(removeSelectedSectionProperty(null, selectedSheet, sectionIndex))
-            dispatch(resetSectionIndex(objectMapper(insertedSectionPropertiesMetric), selectedSheet))
+            dispatch(removeSelectedSectionPropertyMetric(null, selectedSheet, sectionIndex))
+            dispatch(removeSelectedSectionPropertyEnglish(null, selectedSheet, sectionIndex))
+            dispatch(resetSectionIndexMetric(objectMapper(insertedSectionPropertiesMetric), selectedSheet))
+            dispatch(resetSectionIndexEnglish(objectMapper(insertedSectionPropertiesMetric), selectedSheet))
         } else {
             return
         }

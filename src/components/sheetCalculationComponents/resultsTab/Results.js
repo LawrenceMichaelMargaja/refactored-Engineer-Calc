@@ -13,6 +13,7 @@ import Legend from "./legend/Legend";
 import SectionDimensions from "./sectionDimensions/SectionDimension";
 import {objectChecker} from "../../../utilities/utilities";
 import {useSelector} from "react-redux";
+import size from 'lodash/size'
 
 const useStyles = makeStyles((theme) => ({
     textField: {
@@ -33,8 +34,13 @@ const ResultsTab = () => {
     const sheets = useSelector(state => state.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     const method = objectChecker(sheets, ['sheets', selectedSheet, 'method'])
+    const steelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesMetric'])
 
     const renderResultDisplay = () => {
+        if (size(steelTypesMetric) === 0) {
+            return null
+        }
+
         if(method === 'Investigation') {
             return (
                 <>

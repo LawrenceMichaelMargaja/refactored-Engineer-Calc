@@ -29,7 +29,9 @@ const MemberDesignCapacityRows = () => {
             memberRows.push(
                 <div style={{
                     textAlign: 'center'
-                }}>
+                }}
+                key={index}
+                >
                     <div style={{
                         display: 'flex',
                         padding: '0 15px 0 15px',

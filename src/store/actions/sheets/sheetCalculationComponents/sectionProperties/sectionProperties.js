@@ -5,10 +5,10 @@ import {
     EDIT_SELECTED_SECTION, EDIT_SELECTED_SECTION_ENGLISH, EDIT_SELECTED_SECTION_METRIC,
     GET_SECTION_PROPERTIES_METRIC,
     REMOVE_ALL_SECTION_PROPERTIES,
-    REMOVE_SELECTED_SECTION_PROPERTY,
+    REMOVE_SELECTED_SECTION_PROPERTY, REMOVE_SELECTED_SECTION_PROPERTY_ENGLISH, REMOVE_SELECTED_SECTION_PROPERTY_METRIC,
     RESET_ENGLISH_MATERIAL_PROPERTIES,
     RESET_METRIC_SECTION_PROPERTIES,
-    RESET_SECTION_INDEX,
+    RESET_SECTION_INDEX, RESET_SECTION_INDEX_ENGLISH, RESET_SECTION_INDEX_METRIC,
     SET_CURRENT_ENGLISH_SECTION_PROPERTY_INDEX,
     SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX,
     SET_CURRENT_METRIC_SECTION_PROPERTY_INDEX,
@@ -37,9 +37,16 @@ export const getSectionPropertiesMetric = (data, sheetIndex) => {
     }
 }
 
-export const removeSelectedSectionProperty = (data, sheetIndex, sectionIndex) => {
+export const removeSelectedSectionPropertyMetric = (data, sheetIndex, sectionIndex) => {
     return {
-        type: REMOVE_SELECTED_SECTION_PROPERTY,
+        type: REMOVE_SELECTED_SECTION_PROPERTY_METRIC,
+        payload: {data: data, sheetIndex: sheetIndex, sectionIndex: sectionIndex}
+    }
+}
+
+export const removeSelectedSectionPropertyEnglish = (data, sheetIndex, sectionIndex) => {
+    return {
+        type: REMOVE_SELECTED_SECTION_PROPERTY_ENGLISH,
         payload: {data: data, sheetIndex: sheetIndex, sectionIndex: sectionIndex}
     }
 }
@@ -81,9 +88,16 @@ export const setCurrentEnglishSectionPropertyIndex = (data, sheetIndex) => {
     }
 }
 
-export const resetSectionIndex = (data, sheetIndex) => {
+export const resetSectionIndexMetric = (data, sheetIndex) => {
     return {
-        type: RESET_SECTION_INDEX,
+        type: RESET_SECTION_INDEX_METRIC,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const resetSectionIndexEnglish = (data, sheetIndex) => {
+    return {
+        type: RESET_SECTION_INDEX_ENGLISH,
         payload: {data: data, sheetIndex: sheetIndex}
     }
 }

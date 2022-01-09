@@ -3,6 +3,7 @@ import {Card} from "@material-ui/core";
 import SectionDimensionResultsRows from "./sectionDimensionRows/SectionDimensionRows";
 import {useSelector} from "react-redux";
 import {objectChecker} from "../../../../utilities/utilities";
+import SectionDimensionGraphs from "./sectionDimensionGraphs/SectionDimensionGraphs";
 
 const SectionDimensions = () => {
 
@@ -40,11 +41,7 @@ const SectionDimensions = () => {
             }}>
                 <strong>Section Dimension</strong>
             </Card>
-            <div style={{
-                height: '40vh'
-            }}>
-                <p>Add Graph Here</p>
-            </div>
+            <SectionDimensionGraphs/>
             <div style={{
                 display: 'flex',
                 padding: '1em',

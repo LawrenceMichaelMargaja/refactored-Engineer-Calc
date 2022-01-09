@@ -82,7 +82,9 @@ const DesignMaterialsRows = () => {
             memberRows.push(
                 <div style={{
                     textAlign: 'center'
-                }}>
+                }}
+                key={index}
+                >
                     <div style={{
                         display: 'flex',
                     }}

@@ -1,6 +1,7 @@
 import React, {useMemo} from "react";
 import {useSelector} from "react-redux";
 import {objectChecker} from "../../../../../utilities/utilities";
+import size from 'lodash/size'
 
 const SectionPropertiesResultsRows = () => {
 
@@ -14,6 +15,9 @@ const SectionPropertiesResultsRows = () => {
 
     const hashMetric = useMemo(() => {
         let hash = {}
+        if (size(sectionPropertiesMetric) === 0) {
+            return hash
+        }
         for (let i in sectionPropertiesMetric) {
             let {
                 section_properties_metric_name,
@@ -25,6 +29,10 @@ const SectionPropertiesResultsRows = () => {
 
     const hashEnglish = useMemo(() => {
         let hash = {}
+        if (size(sectionPropertiesEnglish) === 0) {
+            return hash
+        }
+
         for (let i in sectionPropertiesEnglish) {
             let {
                 section_properties_english_name,
@@ -39,6 +47,10 @@ const SectionPropertiesResultsRows = () => {
 
 
     const renderMemberRowsMetric = () => {
+        if (size(hashMetric) === 0) {
+            return null
+        }
+
         for (let index in insertedSectionsMetric) {
 
             const sectionProperties_a_value = () => {
@@ -100,7 +112,9 @@ const SectionPropertiesResultsRows = () => {
             memberRows.push(
                 <div style={{
                     textAlign: 'center',
-                }}>
+                }}
+                     key={index}
+                >
                     <div style={{
                         display: 'flex',
                         padding: '0 15px 0 15px',

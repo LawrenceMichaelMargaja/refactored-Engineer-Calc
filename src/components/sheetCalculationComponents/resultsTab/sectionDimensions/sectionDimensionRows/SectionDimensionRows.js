@@ -38,16 +38,27 @@ const SectionDimensionResultsRows = () => {
 
     let memberRows = []
 
+
+
     const renderMemberRowsMetric = () => {
         for (let index in insertedSectionsMetric) {
 
             const sectionNameMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric', index, 'sectionName'])
+
+            const sectionDimensions_name_value = () => {
+                if(system === 'Metric') {
+                    return insertedSectionsMetric[index].sectionName
+                } else if(system === 'English') {
+                    return insertedSectionsEnglish[index].sectionName
+                }
+            }
 
             const sectionDimensions_d_value = () => {
                 if(system === 'Metric') {
                     // alert("here man === " + JSON.stringify(insertedSectionsMetric[index].sectionName))
                     return hashMetric[insertedSectionsMetric[index].sectionName].section_dimension_metric_d
                 } else if(system === 'English') {
+                    // alert(JSON.stringify(sectionDimensionsEnglish))
                     return hashEnglish[insertedSectionsEnglish[index].sectionName].section_dimension_english_d
                 }
             }
@@ -114,7 +125,9 @@ const SectionDimensionResultsRows = () => {
                     display: 'flex',
                     width: '95%',
                     margin: '0 auto'
-                }}>
+                }}
+                key={index}
+                >
                     <div style={{
                         margin: '0px',
                         border: '1px solid black',
@@ -138,7 +151,7 @@ const SectionDimensionResultsRows = () => {
                         <p style={{
                             margin: '0px'
                         }}>
-                            <strong>{sectionNameMetric}</strong>
+                            <strong>{sectionDimensions_name_value()}</strong>
                         </p>
                     </div>
                     <div style={{
@@ -254,6 +267,7 @@ const SectionDimensionResultsRows = () => {
             </div>
         )
     }
+
     return renderMemberRowsMetric()
 }
 export default SectionDimensionResultsRows

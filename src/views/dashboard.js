@@ -8,7 +8,7 @@ import SheetComponentsHandler from "../components/sheetComponentHandler/sheetCom
 import {makeStyles} from "@material-ui/core/styles";
 import {useSelector} from "react-redux";
 import SheetTabs from "../components/sheetTabs/SheetTabs";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Navigate, Redirect, Route, Routes} from "react-router-dom";
 import Details from "../components/sheetCalculationComponents/detailsTab/Details";
 import Factors from "../components/sheetCalculationComponents/factorsTab/Factors";
 import Members from "../components/sheetCalculationComponents/membersTab/memberFields/MembersField";
@@ -17,6 +17,7 @@ import Results from "../components/sheetCalculationComponents/resultsTab/Results
 import {size} from "lodash/collection";
 import EmptySheet from "../components/sheetCalculationComponents/emptySheet/emptySheet";
 import Errors from "../components/sheetCalculationComponents/errors/Errors";
+import {objectChecker} from "../utilities/utilities";
 
 const useStyles = makeStyles((theme) => ({
     mainTab: {
@@ -31,7 +32,9 @@ const useStyles = makeStyles((theme) => ({
 const Dashboard = () => {
 
     const classes = useStyles()
-    const sheets = useSelector(state => state.sheets.sheets)
+    const sheets = useSelector(state => state.sheets)
+    const selectedSheet = useSelector(state => state.sheets.selectedSheet)
+    const steelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesMetric'])
 
     return (
         <div style={{margin: '0', padding: '0', backgroundColor: '#e1e1e1', height: '100vh'}}>
@@ -51,7 +54,7 @@ const Dashboard = () => {
                         <Route path='/factors' element={<Factors/>} />
                         <Route path='/members' element={<Members/>} />
                         <Route path='/forces' element={<Forces/>} />
-                        <Route path='/results' element={<Results/>} />
+                        <Route path='/results' element={<Results/>}/>
                     </Routes>
                     {/*<SheetComponentsHandler/>*/}
                 </div>
