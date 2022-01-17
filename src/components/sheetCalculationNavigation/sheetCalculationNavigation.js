@@ -45,6 +45,36 @@ const SheetCalculationNavigation = () => {
     /**
      * Sheet Forces Values
      */
+    // const bendingMomentAlongXAxis = objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'bendingMomentAlongXAxis'])
+    // const bendingMomentAlongYAxis = objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'bendingMomentAlongYAxis'])
+    // const shearAlongXAxis = objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'shearAlongXAxis'])
+    // const shearAlongYAxis = objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'shearAlongYAxis'])
+    // const axial = objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'axial'])
+
+    /**
+     * Sheet Factors Values
+     */
+    // const safetyFactorForTensile = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForTensile'])
+    // const safetyFactorForCompression = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForCompression'])
+    // const safetyFactorForFlexure = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForFlexure'])
+    // const safetyFactorForShear = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForShear'])
+
+    /**
+     * Sheet Member Field Values
+     */
+
+
+    /**
+     * Data from Factors
+     */
+    const safetyFactorForTensile = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForTensile'])
+    const safetyFactorForCompression = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForCompression'])
+    const safetyFactorForFlexure = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForFlexure'])
+    const safetyFactorForShear = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForShear'])
+
+    /**
+     * Data from Forces
+     */
     const bendingMomentAlongXAxis = objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'bendingMomentAlongXAxis'])
     const bendingMomentAlongYAxis = objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'bendingMomentAlongYAxis'])
     const shearAlongXAxis = objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'shearAlongXAxis'])
@@ -52,15 +82,12 @@ const SheetCalculationNavigation = () => {
     const axial = objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'axial'])
 
     /**
-     * Sheet Factors Values
+     * Data from Material Properties
      */
-    const factorVMemberNameValue = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForTensile'])
-    const factorVMemberSpeciesValue = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForCompression'])
-    const factorMemberWeightValue = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForFlexure'])
-    const factorMemberLengthValue = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForShear'])
+    const ModE = objectChecker(sheets, ['sheets', selectedSheet, ''])
 
     /**
-     * Sheet Member Field Values
+     * Data from Section Shape
      */
 
     const resultErrorHandler = () => {
@@ -122,12 +149,12 @@ const SheetCalculationNavigation = () => {
             arrayCheck.push('forcesTab error : value is zero or null')
         }
 
-        if ((factorVMemberNameValue === '0' || factorVMemberNameValue === '' || factorVMemberNameValue === 0) || (factorVMemberSpeciesValue === '0' || factorVMemberSpeciesValue === '' || factorVMemberSpeciesValue === 0) || (factorMemberWeightValue === '0' || factorMemberWeightValue === '' || factorMemberWeightValue === 0) || (factorMemberLengthValue === '0' || factorMemberLengthValue === '' || factorMemberLengthValue === 0)) {
-            // alert(factorVMemberNameValue)
+        if ((safetyFactorForTensile === '0' || safetyFactorForTensile === '' || safetyFactorForTensile === 0) || (safetyFactorForCompression === '0' || safetyFactorForCompression === '' || safetyFactorForCompression === 0) || (safetyFactorForFlexure === '0' || safetyFactorForFlexure === '' || safetyFactorForFlexure === 0) || (safetyFactorForShear === '0' || safetyFactorForShear === '' || safetyFactorForShear === 0)) {
+            // alert(safetyFactorForTensile)
             arrayCheck.push('factorsTab error : factorsTab value is zero or null')
         }
 
-        if ((parseFloat(factorVMemberNameValue) < parseFloat(0) || factorVMemberNameValue < '0') || (parseFloat(factorVMemberSpeciesValue) < parseFloat(0) || factorVMemberSpeciesValue < '(0)') || (parseFloat(factorMemberWeightValue) < parseFloat(0) || factorMemberWeightValue < '0') || (parseFloat(factorMemberLengthValue) < parseFloat(0) || factorMemberLengthValue < '0')) {
+        if ((parseFloat(safetyFactorForTensile) < parseFloat(0) || safetyFactorForTensile < '0') || (parseFloat(safetyFactorForCompression) < parseFloat(0) || safetyFactorForCompression < '(0)') || (parseFloat(safetyFactorForFlexure) < parseFloat(0) || safetyFactorForFlexure < '0') || (parseFloat(safetyFactorForShear) < parseFloat(0) || safetyFactorForShear < '0')) {
             arrayCheck.push('factorsTab error : factorsTab value cannot be negative')
         }
 
@@ -724,7 +751,10 @@ const SheetCalculationNavigation = () => {
     }
 
     const postData = () => {
-        axios.post('/shape', )
+        axios.post('https://jsonplaceholder.typicode.com/todos',
+            {title: 'New Todo1', completed: true})
+            .then(res => showOutput(res))
+            .catch(err => console.log(err))
     }
 
     const resultCheckerHandler = () => {
