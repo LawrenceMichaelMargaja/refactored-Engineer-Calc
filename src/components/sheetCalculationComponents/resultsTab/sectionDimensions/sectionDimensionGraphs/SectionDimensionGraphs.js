@@ -38,26 +38,26 @@ const SectionDimensionGraphs = () => {
     const [roundHSAndPipeDisplay, setRoundHSAndPipeDisplay] = useState('none')
 
     useEffect(() => {
-        if(iShapePresent) {
+        if (iShapePresent) {
             setIShapeDisplay('fit-content')
         }
-        if(cShapePresent) {
+        if (cShapePresent) {
             setCShapeDisplay('fit-content')
         }
-        if(anglesPresent) {
+        if (anglesPresent) {
             setAnglesDisplay('fit-content')
         }
-        if(tShapePresent) {
+        if (tShapePresent) {
             // alert("yes yes");
             setTShapeDisplay('fit-content')
         }
-        if(doubleAnglePresent) {
+        if (doubleAnglePresent) {
             setDoubleAnglesDisplay('fit-content')
         }
-        if(rectangularHSShapePresent) {
+        if (rectangularHSShapePresent) {
             setRectangularDisplay('fit-content')
         }
-        if(roundHSAndPipeShapePresent) {
+        if (roundHSAndPipeShapePresent) {
             setRoundHSAndPipeDisplay('fit-content')
         }
     }, [])
@@ -114,7 +114,7 @@ const SectionDimensionGraphs = () => {
 
     const renderIShape = () => {
         for (let i in insertedSectionPropertiesMetric) {
-            if(insertedSectionPropertiesMetric[i].sectionShape === 'I-shaped') {
+            if (insertedSectionPropertiesMetric[i].sectionShape === 'I-shaped') {
                 // alert("i shape");
                 setIShapeDisplay('initial')
                 setIShapePresent(true)
@@ -124,8 +124,8 @@ const SectionDimensionGraphs = () => {
     }
 
     const renderCShape = () => {
-        for(let i in insertedSectionPropertiesMetric) {
-            if(insertedSectionPropertiesMetric[i].sectionShape === 'C-shaped') {
+        for (let i in insertedSectionPropertiesMetric) {
+            if (insertedSectionPropertiesMetric[i].sectionShape === 'C-shaped') {
                 // alert("c shape");
                 setCShapeDisplay('initial')
                 setCShapePresent(true)
@@ -135,8 +135,8 @@ const SectionDimensionGraphs = () => {
     }
 
     const renderAngles = () => {
-        for(let i in insertedSectionPropertiesMetric) {
-            if(insertedSectionPropertiesMetric[i].sectionShape === 'Angles') {
+        for (let i in insertedSectionPropertiesMetric) {
+            if (insertedSectionPropertiesMetric[i].sectionShape === 'Angles') {
                 // alert("angles");
                 setAnglesDisplay('initial')
                 setAnglesPresent(true)
@@ -146,8 +146,8 @@ const SectionDimensionGraphs = () => {
     }
 
     const renderTShape = () => {
-        for(let i in insertedSectionPropertiesMetric) {
-            if(insertedSectionPropertiesMetric[i].sectionShape === 'T-shaped') {
+        for (let i in insertedSectionPropertiesMetric) {
+            if (insertedSectionPropertiesMetric[i].sectionShape === 'T-shaped') {
                 // alert("t shape");
                 setTShapeDisplay('initial')
                 setTShapePresent(true)
@@ -157,8 +157,8 @@ const SectionDimensionGraphs = () => {
     }
 
     const renderDoubleAngles = () => {
-        for(let i in insertedSectionPropertiesMetric) {
-            if(insertedSectionPropertiesMetric[i].sectionShape === 'Double Angles') {
+        for (let i in insertedSectionPropertiesMetric) {
+            if (insertedSectionPropertiesMetric[i].sectionShape === 'Double Angles') {
                 // alert("double angles");
                 setDoubleAnglesDisplay('initial')
                 setDoubleAnglePresent(true)
@@ -168,8 +168,8 @@ const SectionDimensionGraphs = () => {
     }
 
     const renderRectangularHS = () => {
-        for(let i in insertedSectionPropertiesMetric) {
-            if(insertedSectionPropertiesMetric[i].sectionShape === 'Rectangular HSS') {
+        for (let i in insertedSectionPropertiesMetric) {
+            if (insertedSectionPropertiesMetric[i].sectionShape === 'Rectangular HSS') {
                 // alert("rec shape");
                 setRectangularDisplay('initial')
                 setDoubleAnglePresent(true)
@@ -179,8 +179,8 @@ const SectionDimensionGraphs = () => {
     }
 
     const renderRoundAndPipeShape = () => {
-        for(let i in insertedSectionPropertiesMetric) {
-            if(insertedSectionPropertiesMetric[i].sectionShape === 'Round HSS' || shape === 'Pipe') {
+        for (let i in insertedSectionPropertiesMetric) {
+            if (insertedSectionPropertiesMetric[i].sectionShape === 'Round HSS' || insertedSectionPropertiesMetric[i].sectionShape === 'Pipe') {
                 // alert("round and pipe shape");
                 setRoundHSAndPipeDisplay('initial')
                 setRoundHSAndPipeShapePresent(true)
@@ -200,26 +200,26 @@ const SectionDimensionGraphs = () => {
     }, [insertedSectionPropertiesMetric])
 
     useEffect(() => {
-        if(iShapePresent) {
+        if (iShapePresent) {
             setIShapeDisplay('fit-content')
         }
-        if(cShapePresent) {
+        if (cShapePresent) {
             setCShapeDisplay('fit-content')
         }
-        if(anglesPresent) {
+        if (anglesPresent) {
             setAnglesDisplay('fit-content')
         }
-        if(tShapePresent) {
+        if (tShapePresent) {
             // alert("yes yes");
             setTShapeDisplay('fit-content')
         }
-        if(doubleAnglePresent) {
+        if (doubleAnglePresent) {
             setDoubleAnglesDisplay('fit-content')
         }
-        if(rectangularHSShapePresent) {
+        if (rectangularHSShapePresent) {
             setRectangularDisplay('fit-content')
         }
-        if(roundHSAndPipeShapePresent) {
+        if (roundHSAndPipeShapePresent) {
             setRoundHSAndPipeDisplay('fit-content')
         }
     }, [insertedSectionPropertiesMetric])
@@ -227,28 +227,28 @@ const SectionDimensionGraphs = () => {
 
     const renderGraphs = () => {
         return (
-            <div style={{width: '90%', margin: '1em auto', display: 'flex'}}>
-                    <div style={{width: 'fit-content', display: `${iShapeDisplay}` }}>
-                        <img style={{width: '220px', height: '200px'}} src={iShape} alt="angle shape"/>
-                    </div>
-                    <div style={{width: 'fit-content', display: `${cShapeDisplay}`}}>
-                        <img style={{width: '220px', height: '200px'}} src={cShape} alt="angle shape"/>
-                    </div>
-                    <div style={{width: 'fit-content', display: `${anglesDisplay}`}}>
-                        <img style={{width: '220px', height: '200px'}} src={anglesShape} alt="angle shape"/>
-                    </div>
-                    <div style={{width: 'fit-content', display: `${tShapeDisplay}`}}>
-                        <img style={{width: '220px', height: '200px'}} src={tShape} alt="angle shape"/>
-                    </div>
-                    <div style={{width: 'fit-content', display: `${doubleAnglesDisplay}`}}>
-                        <img style={{width: '220px', height: '200px'}} src={doubleAngles} alt="angle shape"/>
-                    </div>
-                    <div style={{width: 'fit-content', display: `${rectangularHSDisplay}`}}>
-                        <img style={{width: '220px', height: '200px'}} src={recShape} alt="angle shape"/>
-                    </div>
-                    <div style={{width: 'fit-content', display: `${roundHSAndPipeDisplay}`}}>
-                        <img style={{width: '220px', height: '200px'}} src={pipeAndRoundShape} alt="angle shape"/>
-                    </div>
+            <div style={{width: 'fit-content', margin: '1em auto', display: 'flex'}}>
+                <div style={{width: 'fit-content', display: `${iShapeDisplay}`, padding: '0 0.5em'}}>
+                    <img style={{width: '235px', height: '215px'}} src={iShape} alt="angle shape"/>
+                </div>
+                <div style={{width: 'fit-content', display: `${cShapeDisplay}`, padding: '0 0.5em'}}>
+                    <img style={{width: '235px', height: '215px'}} src={cShape} alt="angle shape"/>
+                </div>
+                <div style={{width: 'fit-content', display: `${anglesDisplay}`, padding: '0 0.5em'}}>
+                    <img style={{width: '235px', height: '215px'}} src={anglesShape} alt="angle shape"/>
+                </div>
+                <div style={{width: 'fit-content', display: `${tShapeDisplay}`, padding: '0 0.5em'}}>
+                    <img style={{width: '235px', height: '215px'}} src={tShape} alt="angle shape"/>
+                </div>
+                <div style={{width: 'fit-content', display: `${doubleAnglesDisplay}`, padding: '0 0.5em'}}>
+                    <img style={{width: '235px', height: '215px'}} src={doubleAngles} alt="angle shape"/>
+                </div>
+                <div style={{width: 'fit-content', display: `${rectangularHSDisplay}`, padding: '0 0.5em'}}>
+                    <img style={{width: '235px', height: '215px'}} src={recShape} alt="angle shape"/>
+                </div>
+                <div style={{width: 'fit-content', display: `${roundHSAndPipeDisplay}`, padding: '0 0.5em'}}>
+                    <img style={{width: '235px', height: '215px'}} src={pipeAndRoundShape} alt="angle shape"/>
+                </div>
             </div>
         )
     }

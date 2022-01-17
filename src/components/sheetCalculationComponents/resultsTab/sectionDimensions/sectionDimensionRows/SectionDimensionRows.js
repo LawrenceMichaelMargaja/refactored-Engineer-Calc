@@ -55,49 +55,87 @@ const SectionDimensionResultsRows = () => {
 
             const sectionDimensions_d_value = () => {
                 if(system === 'Metric') {
-                    // alert("here man === " + JSON.stringify(insertedSectionsMetric[index].sectionName))
-                    return hashMetric[insertedSectionsMetric[index].sectionName].section_dimension_metric_d
+                    if(hashMetric[insertedSectionsMetric[index].sectionName].section_dimension_metric_d === 'null') {
+                        return '-'
+                    } else {
+                        return hashMetric[insertedSectionsMetric[index].sectionName].section_dimension_metric_d
+                    }
                 } else if(system === 'English') {
-                    // alert(JSON.stringify(sectionDimensionsEnglish))
-                    return hashEnglish[insertedSectionsEnglish[index].sectionName].section_dimension_english_d
+                    if(hashEnglish[insertedSectionsEnglish[index].sectionName].section_dimension_english_d === 'null') {
+                        return '-'
+                    } else {
+                        return hashEnglish[insertedSectionsEnglish[index].sectionName].section_dimension_english_d
+                    }
                 }
             }
 
             const sectionDimensions_b_value = () => {
                 if(system === 'Metric') {
-                    return hashMetric[insertedSectionsMetric[index].sectionName].section_dimension_metric_b
+                    if(hashMetric[insertedSectionsMetric[index].sectionName].section_dimension_metric_b === 'null') {
+                        return '-'
+                    } else {
+                        return hashMetric[insertedSectionsMetric[index].sectionName].section_dimension_metric_b
+                    }
                 } else if(system === 'English') {
-                    return hashEnglish[insertedSectionsEnglish[index].sectionName].section_dimension_english_b
+                    if(hashEnglish[insertedSectionsEnglish[index].sectionName].section_dimension_english_b === 'null') {
+                        return '-'
+                    } else {
+                        return hashEnglish[insertedSectionsEnglish[index].sectionName].section_dimension_english_b
+                    }
                 }
             }
 
             const sectionDimensions_tw_value = () => {
                 if(system === 'Metric') {
-                    return hashMetric[insertedSectionsMetric[index].sectionName].section_dimension_metric_tw
+                    if(hashMetric[insertedSectionsMetric[index].sectionName].section_dimension_metric_tw === 'null') {
+                        return '-'
+                    } else {
+                        return hashMetric[insertedSectionsMetric[index].sectionName].section_dimension_metric_tw
+                    }
                 } else if(system === 'English') {
-                    return hashEnglish[insertedSectionsEnglish[index].sectionName].section_dimension_english_tw
+                    if(hashEnglish[insertedSectionsEnglish[index].sectionName].section_dimension_english_tw === 'null') {
+                        return '-'
+                    } else {
+                        return hashEnglish[insertedSectionsEnglish[index].sectionName].section_dimension_english_tw
+                    }
                 }
             }
 
             const sectionDimensions_bf_value = () => {
                 if(system === 'Metric') {
-                    return hashMetric[insertedSectionsMetric[index].sectionName].section_dimension_metric_bf
+                    if(hashMetric[insertedSectionsMetric[index].sectionName].section_dimension_metric_bf === 'null') {
+                        return '-'
+                    } else {
+                        return hashMetric[insertedSectionsMetric[index].sectionName].section_dimension_metric_bf
+                    }
                 } else if(system === 'English') {
-                    return hashEnglish[insertedSectionsEnglish[index].sectionName].section_dimension_english_bf
+                    if(hashEnglish[insertedSectionsEnglish[index].sectionName].section_dimension_english_bf === 'null') {
+                        return '-'
+                    } else {
+                        return hashEnglish[insertedSectionsEnglish[index].sectionName].section_dimension_english_bf
+                    }
                 }
             }
 
             const sectionDimensions_tf_value = () => {
                 if(system === 'Metric') {
-                    return hashMetric[insertedSectionsMetric[index].sectionName].section_dimension_metric_tf
+                    if(hashMetric[insertedSectionsMetric[index].sectionName].section_dimension_metric_tf === 'null') {
+                        return '-'
+                    } else {
+                        return hashMetric[insertedSectionsMetric[index].sectionName].section_dimension_metric_tf
+                    }
                 } else if(system === 'English') {
-                    return hashEnglish[insertedSectionsEnglish[index].sectionName].section_dimension_english_tf
+                    if(hashEnglish[insertedSectionsEnglish[index].sectionName].section_dimension_english_tf === 'null') {
+                        return '-'
+                    } else {
+                        return hashEnglish[insertedSectionsEnglish[index].sectionName].section_dimension_english_tf
+                    }
                 }
             }
 
             const sectionDimensions_tb_value = () => {
                 if(system === 'Metric') {
-                    return hashMetric[insertedSectionsMetric[index].sectionName].section_dimension_metric_tb
+                    return '-'
                 } else if(system === 'English') {
                     return hashEnglish[insertedSectionsEnglish[index].sectionName].section_dimension_english_tb
                 }
@@ -105,17 +143,33 @@ const SectionDimensionResultsRows = () => {
 
             const sectionDimensions_t_value = () => {
                 if(system === 'Metric') {
-                    return hashMetric[insertedSectionsMetric[index].sectionName].section_dimension_metric_t
+                    if(hashMetric[insertedSectionsMetric[index].sectionName].section_dimension_metric_t === 'null') {
+                        return '-'
+                    } else {
+                        return hashMetric[insertedSectionsMetric[index].sectionName].section_dimension_metric_t
+                    }
                 } else if(system === 'English') {
-                    return hashEnglish[insertedSectionsEnglish[index].sectionName].section_dimension_english_t
+                    if(hashEnglish[insertedSectionsEnglish[index].sectionName].section_dimension_english_t === 'null') {
+                        return '-'
+                    } else {
+                        return hashEnglish[insertedSectionsEnglish[index].sectionName].section_dimension_english_t
+                    }
                 }
             }
 
             const sectionDimensions_r_value = () => {
                 if(system === 'Metric') {
-                    return hashMetric[insertedSectionsMetric[index].sectionName].section_dimension_metric_r
+                    if(hashMetric[insertedSectionsMetric[index].sectionName].section_dimension_metric_r === 'null') {
+                        return '-'
+                    } else {
+                        return hashMetric[insertedSectionsMetric[index].sectionName].section_dimension_metric_r
+                    }
                 } else if(system === 'English') {
-                    return hashEnglish[insertedSectionsEnglish[index].sectionName].section_dimension_english_r
+                    if(hashEnglish[insertedSectionsEnglish[index].sectionName].section_dimension_english_r === 'null') {
+                        return '-'
+                    } else  {
+                        return hashEnglish[insertedSectionsEnglish[index].sectionName].section_dimension_english_r
+                    }
                 }
             }
 
@@ -123,7 +177,7 @@ const SectionDimensionResultsRows = () => {
 
                 <div style={{
                     display: 'flex',
-                    width: '95%',
+                    width: '96%',
                     margin: '0 auto'
                 }}
                 key={index}

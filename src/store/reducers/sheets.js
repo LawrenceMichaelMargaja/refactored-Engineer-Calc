@@ -32,7 +32,7 @@ import {
     GET_SECTION_DIMENSIONS_METRIC,
     GET_SECTION_PROPERTIES_ENGLISH,
     GET_SECTION_PROPERTIES_METRIC,
-    GET_SHAPES,
+    GET_SHAPES, GET_STEEL_SECTIONS,
     GET_STEEL_TYPES_ENGLISH_API,
     GET_STEEL_TYPES_METRIC_API,
     GET_T_SHAPES_ENGLISH,
@@ -135,6 +135,7 @@ const initialState = {
             arrayCheck: [],
             route: '',
             apiData: {
+                steelSections: [],
                 shapes: [],
                 sectionDimensionsMetric: [],
                 sectionDimensionsEnglish: [],
@@ -492,6 +493,8 @@ const Reducer = (state = initialState, action) => {
             return setSectionDimensionsArrayMetric(state, action.payload)
         case SET_SECTION_DIMENSIONS_ARRAY_ENGLISH:
             return setSectionDimensionsArrayEnglish(state, action.payload)
+        case GET_STEEL_SECTIONS:
+            return getSteelSections(state, action.payload)
         default:
             return state
     }
@@ -578,6 +581,22 @@ const setDisableMenuButtons = (state, payload) => {
 /**
  * API
  */
+
+const getSteelSections = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    steelSections: payload.data
+                }
+            }
+        }
+    }
+}
 
 const getShapes = (state, payload) => {
     return {

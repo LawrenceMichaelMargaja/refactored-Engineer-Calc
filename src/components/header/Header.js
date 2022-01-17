@@ -56,6 +56,7 @@ const Header = () => {
     const cShapeEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'cShapesEnglish'])
     const twoLShapeMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'twoLShapesMetric'])
     const twoLShapeEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'twoLShapesEnglish'])
+    const steelSections = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelSections'])
 
     /**
      * Details Tab
@@ -109,7 +110,7 @@ const Header = () => {
                     padding: '3em',
                     width: '50%'
                 }}>
-                    {sectionDimensionsArray}
+                    {JSON.stringify(steelSections.length)}
                 </p>
             </div>
             <div className={classes.root}>

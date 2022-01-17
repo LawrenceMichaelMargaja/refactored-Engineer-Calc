@@ -12,6 +12,7 @@ import Box from "@mui/material/Box";
 import {Autocomplete} from "@mui/material";
 import Errors from "../sheetCalculationComponents/errors/Errors";
 import {setArrayCheck, setErrorMessage} from "../../store/actions/sheets/sheetCalculationComponents/errors/errors";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
     sheetNavigation: {
@@ -722,32 +723,20 @@ const SheetCalculationNavigation = () => {
         )
     }
 
+    const postData = () => {
+        axios.post('/shape', )
+    }
+
     const resultCheckerHandler = () => {
         if(tabState === 'results') {
             resultsNavigationHandler()
+
         } else if (tabState === 'errors') {
             // alert("to be dispatched arrayCheck == " + arrayCheck)
 
             errorsNavigationHandler()
         }
     }
-
-    const [stop, setStop] = useState(false)
-
-    // const displayModal = () => {
-    //     if(tabState === 'results') {
-    //         if(arrayCheck.length === 0 && stop === false) {
-    //             // nestedModal()
-    //             setStop(true)
-    //             setOpenNestedModal(false)
-    //             resultsNavigationHandler()
-    //         } else if(arrayCheck.length !== 0) {
-    //             // setStop(true)
-    //             // nestedModal()
-    //             setOpenNestedModal(true)
-    //         }
-    //     }
-    // }
 
     const renderSheetCalculationNavigation = () => {
         if (size(sheetTabs) < 1) {

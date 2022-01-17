@@ -70,7 +70,7 @@ const MemberTabProperties = () => {
                         margin: '0px'
                     }}>
                         <div style={{
-                            width: '100%',
+                            // width: '100%',
                             margin: '0 auto',
                             border: '1px solid black',
                             backgroundColor: '#fff'
@@ -83,7 +83,7 @@ const MemberTabProperties = () => {
                         margin: '0px'
                     }}>
                         <div style={{
-                            width: '100%',
+                            // width: '100%',
                             margin: '0 auto',
                             border: '1px solid black',
                             backgroundColor: '#fff'
@@ -96,7 +96,7 @@ const MemberTabProperties = () => {
                         margin: '0px'
                     }}>
                         <div style={{
-                            width: '100%',
+                            // width: '100%',
                             margin: '0 auto',
                             border: '1px solid black',
                             backgroundColor: '#fff'
@@ -109,7 +109,7 @@ const MemberTabProperties = () => {
                         margin: '0px'
                     }}>
                         <div style={{
-                            width: '100%',
+                            // width: '100%',
                             margin: '0 auto',
                             border: '1px solid black',
                             backgroundColor: '#fff'
@@ -122,7 +122,7 @@ const MemberTabProperties = () => {
                         margin: '0px'
                     }}>
                         <div style={{
-                            width: '100%',
+                            // width: '100%',
                             margin: '0 auto',
                             border: '1px solid black',
                             backgroundColor: '#fff'

@@ -30,7 +30,8 @@ const SectionDimensions = () => {
             border: '1px solid black',
             backgroundColor: '#efefef',
             paddingTop: '1%',
-            textAlign: 'center'
+            textAlign: 'center',
+            overflow: 'scroll'
         }}
         >
             <Card style={{
@@ -45,7 +46,7 @@ const SectionDimensions = () => {
             <div style={{
                 display: 'flex',
                 padding: '1em',
-                width: '95%',
+                width: '96%',
                 margin: '0 auto'
             }}>
                 <div style={{

@@ -22,7 +22,7 @@ import {
     GET_SECTION_DIMENSIONS_METRIC,
     GET_SECTION_PROPERTIES_ENGLISH,
     GET_SECTION_PROPERTIES_METRIC,
-    GET_SHAPES,
+    GET_SHAPES, GET_STEEL_SECTIONS,
     GET_STEEL_TYPES_ENGLISH_API,
     GET_STEEL_TYPES_METRIC_API,
     GET_T_SHAPES_ENGLISH,
@@ -96,6 +96,13 @@ export const setDisableMenuButtons = data => {
 /**
  * API
  */
+
+export const getSteelSections = (data, sheetIndex) => {
+    return {
+        type: GET_STEEL_SECTIONS,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
 
 export const getShapes = (data, sheetIndex) => {
     return {

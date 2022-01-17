@@ -28,7 +28,7 @@ import {
     getRoundHsShapesMetric, getSectionDimensionsEnglish, getSectionDimensionsMetric,
     getSectionPropertiesEnglish,
     getSectionPropertiesMetric,
-    getShapes,
+    getShapes, getSteelSections,
     getSteelTypesEnglishAPI,
     getSteelTypesMetricAPI,
     getTShapesEnglish,
@@ -95,6 +95,15 @@ const Details = () => {
 
     const projectNotesHandler = (event) => {
         dispatch(setProjectNotes(event.target.value, selectedSheet))
+    }
+
+    const fetchSteelSections = () => {
+        fetch("http://127.0.0.1:8080/steelSections")
+            .then((response) => response.json())
+            .then((data) => dispatch(getSteelSections(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
     }
 
     const fetchShapes = () => {
@@ -297,6 +306,7 @@ const Details = () => {
     }
 
     useEffect(() => {
+        fetchSteelSections()
         fetchSectionDimensionsMetric()
         fetchSectionDimensionsEnglish()
         fetch2LShapeEnglish()

@@ -14,6 +14,8 @@ import {
     resetEnglishMaterialProperties,
     resetMetricMaterialProperties
 } from "../../../store/actions/sheets/sheetCalculationComponents/materialProperties/materialProperties";
+import {useNavigate} from "react-router";
+import {setTabState} from "../../../store/actions/sheets/sheets";
 
 const useStyles = makeStyles((theme) => ({
     dropDown: {
@@ -34,7 +36,9 @@ const MethodDropdown = () => {
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     // const methodValue = useSelector(state => state.sheets.sheets[selectedSheet].method)
     const methodValue = objectChecker(sheets, ['sheets', selectedSheet, 'method'])
+
     const classes = useStyles()
+    const navigate = useNavigate()
 
     const disable = () => {
         if(size(sheetTabs) === 0) {
@@ -55,6 +59,8 @@ const MethodDropdown = () => {
                 dispatch(resetMetricSectionProperties(selectedSheet))
                 dispatch(resetEnglishSectionProperties(selectedSheet))
                 dispatch(setMethodDropdown(event.target.value, selectedSheet))
+                dispatch(setTabState('members', selectedSheet))
+                navigate('/members')
             } else {
                 return
             }

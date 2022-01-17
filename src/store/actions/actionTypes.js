@@ -2,6 +2,7 @@
  * API
  */
 // =================== GET REQUESTS =====================
+export const GET_STEEL_SECTIONS = '@@sheets/GET_STEEL_SECTIONS'
 export const GET_STEEL_TYPES_METRIC_API = '@@sheets/GET_STEEL_TYPES_METRIC_API'
 export const GET_STEEL_TYPES_ENGLISH_API = '@@sheets/GET_STEEL_TYPES_ENGLISH_API'
 export const GET_SECTION_PROPERTIES_METRIC = '@@sheets/GET_SECTION_PROPERTIES_METRIC'
