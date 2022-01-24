@@ -35,6 +35,7 @@ const Header = () => {
     const members = objectChecker(sheets, ['sheets', selectedSheet, 'members'])
     const method = objectChecker(sheets, ['sheets', selectedSheet, 'method'])
     const sectionDimensionsArray = objectChecker(sheets, ['sheets', selectedSheet, 'sectionDimensionsArrayMetric'])
+    const calculatedData = objectChecker(sheets, ['sheets', selectedSheet, 'calculatedData'])
 
     /**
      * API Data
@@ -57,6 +58,7 @@ const Header = () => {
     const twoLShapeMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'twoLShapesMetric'])
     const twoLShapeEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'twoLShapesEnglish'])
     const steelSections = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelSections'])
+
 
     /**
      * Details Tab
@@ -107,10 +109,11 @@ const Header = () => {
         <div>
             <div>
                 <p style={{
-                    padding: '3em',
-                    width: '50%'
+                    padding: '2em',
+                    wordWrap: 'break-word'
+                    // width: '50vw'
                 }}>
-                    {JSON.stringify(steelSections.length)}
+                    {JSON.stringify(calculatedData)}
                 </p>
             </div>
             <div className={classes.root}>

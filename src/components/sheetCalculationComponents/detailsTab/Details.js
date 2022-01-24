@@ -97,15 +97,6 @@ const Details = () => {
         dispatch(setProjectNotes(event.target.value, selectedSheet))
     }
 
-    const fetchSteelSections = () => {
-        fetch("http://127.0.0.1:8080/steelSections")
-            .then((response) => response.json())
-            .then((data) => dispatch(getSteelSections(data, selectedSheet)))
-            .catch((error) => {
-                console.log(error)
-            })
-    }
-
     const fetchShapes = () => {
         fetch("http://127.0.0.1:8080/shape")
             .then((response) => response.json())
@@ -306,7 +297,6 @@ const Details = () => {
     }
 
     useEffect(() => {
-        fetchSteelSections()
         fetchSectionDimensionsMetric()
         fetchSectionDimensionsEnglish()
         fetch2LShapeEnglish()

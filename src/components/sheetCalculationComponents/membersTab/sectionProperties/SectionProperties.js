@@ -777,6 +777,7 @@ const SectionProperties = () => {
 
         const setSectionShape = (event) => {
             setSelectedSectionShape(event.target.textContent)
+            setSelectedSectionName("")
         }
 
         const displayError = () => {
@@ -848,7 +849,7 @@ const SectionProperties = () => {
                                             value={selectedSectionShape}
                                             renderInput={(params) => <TextField {...params} label="Preset Section Shapes"/>}
                                         />
-                                        {requiredNameMessage()}
+                                        {requiredShapeMessage()}
                                     </FormControl>
                                 </div>
                             </div>
@@ -878,7 +879,7 @@ const SectionProperties = () => {
                                             value={selectedSectionName}
                                             renderInput={(params) => <TextField {...params} label="Preset Section Names"/>}
                                         />
-                                        {requiredShapeMessage()}
+                                        {requiredNameMessage()}
                                     </FormControl>
                                 </div>
                             </div>

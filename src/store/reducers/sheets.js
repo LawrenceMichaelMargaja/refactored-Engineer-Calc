@@ -53,7 +53,7 @@ import {
     SET_ARRAY_CHECK,
     SET_AXIAL,
     SET_BENDING_MOMENT_ALONG_X_AXIS,
-    SET_BENDING_MOMENT_ALONG_Y_AXIS,
+    SET_BENDING_MOMENT_ALONG_Y_AXIS, SET_CALCULATED_DATA,
     SET_CURRENT_ENGLISH_SECTION_PROPERTY_INDEX,
     SET_CURRENT_MATERIALS_ARRAY,
     SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX,
@@ -134,6 +134,7 @@ const initialState = {
             removedMemberRowArray: [],
             arrayCheck: [],
             route: '',
+            calculatedData: {},
             apiData: {
                 steelSections: [],
                 shapes: [],
@@ -171,6 +172,7 @@ const initialState = {
                 customMaterialModal: false,
                 steelTypeMetricProperties: {
                     0: {
+                        id: 1,
                         name: 'A36',
                         EMPA: '200000',
                         FYMPA: '248',
@@ -180,6 +182,7 @@ const initialState = {
                 },
                 steelTypeEnglishProperties: {
                     0: {
+                        id: 1,
                         name: 'A36',
                         EMPA: '200000',
                         FYMPA: '248',
@@ -189,6 +192,7 @@ const initialState = {
                 },
                 customSteelTypes: {
                     0: {
+                        id: 1,
                         name: 'Custom Steel Type',
                         EMPA: '',
                         FYMPA: '',
@@ -247,7 +251,7 @@ const initialState = {
             },
             sectionProperties: {
                 0: {
-                    sectionId: 0,
+                    sectionId: 1,
                     sectionShape: 'W1100X499',
                     sectionName: 'W1100X499',
                     // sectionView: '',
@@ -495,8 +499,26 @@ const Reducer = (state = initialState, action) => {
             return setSectionDimensionsArrayEnglish(state, action.payload)
         case GET_STEEL_SECTIONS:
             return getSteelSections(state, action.payload)
+        case SET_CALCULATED_DATA:
+            return setCalculatedData(state, action.payload)
         default:
             return state
+    }
+}
+
+/**
+ * Calculated Data
+ */
+const setCalculatedData = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                calculatedData: payload
+            }
+        }
     }
 }
 
@@ -1737,6 +1759,7 @@ const setLLT = (state, payload) => {
 }
 
 const setUnbracedLengthLateralTorsional = (state, payload) => {
+    // alert("at the reducer == " + payload.data )
     return {
         ...state,
         sheets: {

@@ -563,6 +563,7 @@ const MaterialProperties = () => {
                     const initialMaterialEnglish = {}
                     const initialMaterial = {}
                     initialMaterial[0] = {
+                        id: 1,
                         name: selectedName,
                         EMPA: hashMetric[selectedName].steel_type_metric_e,
                         FYMPA: hashMetric[selectedName].steel_type_metric_fy,
@@ -570,6 +571,7 @@ const MaterialProperties = () => {
                         custom: false
                     }
                     initialMaterialEnglish[0] = {
+                        id: 1,
                         name: selectedName,
                         EMPA: hashEnglish[selectedName].steel_type_english_e,
                         FYMPA: hashEnglish[selectedName].steel_type_english_fy,
@@ -588,6 +590,7 @@ const MaterialProperties = () => {
                     const currentMaterialEnglish = {...insertedSteelTypesEnglish}
                     const currentMaterial = {...insertedSteelTypesMetric}
                     currentMaterial[newMaterialIndex] = {
+                        id: parseFloat(newMaterialIndex + 1),
                         name: selectedName,
                         EMPA: hashMetric[selectedName].steel_type_metric_e,
                         FYMPA: hashMetric[selectedName].steel_type_metric_fy,
@@ -595,12 +598,14 @@ const MaterialProperties = () => {
                         custom: false
                     }
                     currentMaterialEnglish[newMaterialIndex] = {
+                        id: parseFloat(newMaterialIndex + 1),
                         name: selectedName,
                         EMPA: hashEnglish[selectedName].steel_type_english_e,
                         FYMPA: hashEnglish[selectedName].steel_type_english_fy,
                         FUMPA: hashEnglish[selectedName].steel_type_english_fu,
                         custom: false
                     }
+                    // alert("newMaterialIndex == " + parseFloat(newMaterialIndex + 1))
                     // alert("Here I am === " + JSON.stringify(currentMaterial))
                     dispatch(setMetricMaterialSteelType(currentMaterial, selectedSheet))
                     dispatch(setCurrentMaterialsArray(parseFloat(newMaterialIndex) + 1, selectedSheet))

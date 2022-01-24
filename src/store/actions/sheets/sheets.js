@@ -27,7 +27,7 @@ import {
     GET_STEEL_TYPES_METRIC_API,
     GET_T_SHAPES_ENGLISH,
     GET_T_SHAPES_METRIC,
-    REMOVE_SHEET,
+    REMOVE_SHEET, SET_CALCULATED_DATA,
     SET_DISABLE_MENU_BUTTONS,
     SET_ENGLISH_EMPA,
     SET_ENGLISH_FUMPA,
@@ -90,6 +90,16 @@ export const setDisableMenuButtons = data => {
     return {
         type: SET_DISABLE_MENU_BUTTONS,
         payload: data
+    }
+}
+
+/**
+ * Calculated Data
+ */
+export const setCalculatedData = (data, sheetIndex) => {
+    return {
+        type: SET_CALCULATED_DATA,
+        payload: {data: data, sheetIndex: sheetIndex}
     }
 }
 

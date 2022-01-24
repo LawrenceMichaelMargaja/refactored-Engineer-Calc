@@ -28,6 +28,7 @@ const SectionPropertiesRows = () => {
     const sheets = useSelector(state => state.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     const system = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
+    const shapes = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'shapes'])
     // const sectionPropertiesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiData.sectionPropertiesMetric)
     const sectionPropertiesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'sectionPropertiesMetric'])
     const sectionPropertiesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'sectionPropertiesEnglish'])
@@ -35,6 +36,28 @@ const SectionPropertiesRows = () => {
     const insertedSectionPropertiesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric'])
     const insertedSectionPropertiesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesEnglish'])
     const currentSectionPropertyIndex = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'currentSectionPropertyIndex'])
+
+    /**
+     * API Data per shape
+     */
+    const tShapesMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'tShapesMetric'])
+    const tShapesEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'tShapesEnglish'])
+    const roundHSShapesMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'roundHSShapesMetric'])
+    const roundHSShapesEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'roundHSShapesEnglish'])
+    const recHSShapesMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'recHSShapesMetric'])
+    const recHSShapesEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'recHSShapesEnglish'])
+    const pipeShapesMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'pipeShapesMetric'])
+    const pipeShapesEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'pipeShapesEnglish'])
+    const lShapesMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'lShapesMetric'])
+    const lShapesEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'lShapesEnglish'])
+    const iShapesMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'iShapesMetric'])
+    const iShapesEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'iShapesEnglish'])
+    const cShapesMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'cShapesMetric'])
+    const cShapesEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'cShapesEnglish'])
+    const twoLShapesMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'twoLShapesMetric'])
+    const twoLShapesEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'twoLShapesEnglish'])
+
+    const sectionDimensionsArray = objectChecker(sheets, ['sheets', selectedSheet, 'sectionDimensionsArrayMetric'])
 
     const [openNestedModal, setOpenNestedModal] = useState(false);
     const [theCurrentSectionIndex, setTheCurrentSectionIndex] = useState(0)
@@ -122,6 +145,172 @@ const SectionPropertiesRows = () => {
         }
     }
 
+    /**
+     * API DATA BULK MAPPING
+     */
+    const displaySectionPropertiesMetric = () => {
+        const sectionPropertiesMetricOptions = sectionPropertiesMetric.map((data) => ({
+            value: `${data.section_properties_metric_name}`, label: `${data.section_properties_metric_name}`
+        }))
+        return sectionPropertiesMetricOptions
+    }
+
+    const displaySectionPropertiesEnglish = () => {
+        const sectionPropertiesEnglishOptions = sectionPropertiesEnglish.map((data) => ({
+            value: `${data.section_properties_english_name}`, label: `${data.section_properties_english_name}`
+        }))
+        return sectionPropertiesEnglishOptions
+    }
+
+    /**
+     * API Data Mapping
+     */
+    const displayTShapesMetric = () => {
+        const tShapesMetricOptions = tShapesMetricData.map((data) => ({
+            value: `${data.t_shape_metric_name}`,
+            label: `${data.t_shape_metric_name}`
+        }))
+        return tShapesMetricOptions
+    }
+
+    const displayTShapesEnglish = () => {
+        const tShapesEnglishOptions = tShapesEnglishData.map((data) => ({
+            value: `${data.t_shape_english_name}`,
+            label: `${data.t_shape_english_name}`
+        }))
+        return tShapesEnglishOptions
+    }
+
+    const displayRoundHSShapesMetric = () => {
+        // alert(JSON.stringify(roundHSShapesMetricData))
+        const roundHSSMetricOptions = roundHSShapesMetricData.map((data) => {
+            let layout = {
+                value: `${data.round_hs_shape_name}`,
+                label: `${data.round_hs_shape_name}`
+            }
+            return layout
+        })
+
+        return roundHSSMetricOptions
+    }
+
+    const displayRoundHSShapesEnglish = () => {
+        const roundHSSEnglishOptions = roundHSShapesEnglishData.map((data) => ({
+            value: `${data.round_hs_shape_english_name}`,
+            label: `${data.round_hs_shape_english_name}`
+        }))
+        return roundHSSEnglishOptions
+    }
+
+    const displayRecHSShapesMetric = () => {
+        const recHSMetricOptions = recHSShapesMetricData.map((data) => ({
+            value: `${data.rec_hs_shape_metric_name}`,
+            label: `${data.rec_hs_shape_metric_name}`
+        }))
+        return recHSMetricOptions
+    }
+
+    const displayRecHSShapesEnglish = () => {
+        const recHSEnglishOptions = recHSShapesEnglishData.map((data) => ({
+            value: `${data.rec_hs_shape_english_name}`,
+            label: `${data.rec_hs_shape_english_name}`
+        }))
+        return recHSEnglishOptions
+    }
+
+    const displayPipeShapesMetric = () => {
+        const pipeMetricOptions = pipeShapesMetricData.map((data) => ({
+            value: `${data.pipe_shape_metric_name}`,
+            label: `${data.pipe_shape_metric_name}`
+        }))
+        return pipeMetricOptions
+    }
+
+    const displayPipeShapesEnglish = () => {
+        const pipeEnglishOptions = pipeShapesEnglishData.map((data) => ({
+            value: `${data.pipe_shape_english_name}`,
+            label: `${data.pipe_shape_english_name}`
+        }))
+        return pipeEnglishOptions
+    }
+
+    const displayLShapesMetric = () => {
+        const lMetricOptions = lShapesMetricData.map((data) => ({
+            value: `${data.l_shape_metric_name}`,
+            label: `${data.l_shape_metric_name}`
+        }))
+        return lMetricOptions
+    }
+
+    const displayLShapesEnglish = () => {
+        const lEnglishOptions = lShapesEnglishData.map((data) => ({
+            value: `${data.l_shape_english_name}`,
+            label: `${data.l_shape_english_name}`
+        }))
+        return lEnglishOptions
+    }
+
+    const displayIShapesMetric = () => {
+        const iMetricOptions = iShapesMetricData.map((data) => ({
+            value: `${data.i_shape_metric_name}`,
+            label: `${data.i_shape_metric_name}`
+        }))
+        return iMetricOptions
+    }
+
+    const displayIShapesEnglish = () => {
+        const iEnglishOptions = iShapesEnglishData.map((data) => ({
+            value: `${data.i_shape_english_name}`,
+            label: `${data.i_shape_english_name}`
+        }))
+        return iEnglishOptions
+    }
+
+    const displayCShapesMetric = () => {
+        // alert("here tat === " + JSON.stringify(cShapesMetricData))
+        const cMetricOptions = cShapesMetricData.map((data) => ({
+            value: `${data.c_shape_metric_name}`,
+            label: `${data.c_shape_metric_name}`
+        }))
+        return cMetricOptions
+    }
+
+    const displayCShapesEnglish = () => {
+        const cEnglishOptions = cShapesEnglishData.map((data) => ({
+            value: `${data.c_shape_english_name}`,
+            label: `${data.c_shape_english_name}`
+        }))
+        return cEnglishOptions
+    }
+
+    const display2LShapesMetric = () => {
+        const twoLMetricOptions = twoLShapesMetricData.map((data) => {
+            let layout = { value: `${data['two_l_shape_metric_name']}`, label: `${data['two_l_shape_metric_name']}` }
+            return layout
+        })
+        return twoLMetricOptions
+    }
+
+    // function insertDataFromAPI(item) {
+    //     return {
+    //         value: `${item[`two_l_shape_metric_name`]}`,
+    //         label: `${item[`two_l_shape_metric_name`]}`
+    //     }
+    // }
+    //
+    // const display2LShapesMetric = () => {
+    //     // alert(JSON.stringify(twoLShapesMetricData))
+    //     return twoLShapesMetricData.map(insertDataFromAPI)
+    // }
+
+    const display2LShapesEnglish = () => {
+        const twoLEnglishOptions = twoLShapesEnglishData.map((data) => ({
+            value: `${data[`two_l_shape_english_name`]}`,
+            label: `${data[`two_l_shape_english_name`]}`
+        }))
+        return twoLEnglishOptions
+    }
+
     const displayApiData = () => {
         const newOptions = sectionPropertiesMetric.map((data) => ({
             value: `${data.section_properties_metric_name}`,
@@ -140,12 +329,11 @@ const SectionPropertiesRows = () => {
         return newEnglish
     }
 
-    const systemCheck = () => {
-        if (system === 'Metric') {
-            return displayApiData()
-        } else if (system === 'English') {
-            return displayEnglishApi()
-        }
+
+
+    const displayApiShapes = () => {
+        const newOptions = shapes.map((data) => ({value: `${data.shape_name}`, label: `${data.shape_name}`}))
+        return newOptions
     }
 
     const NestedModal = () => {
@@ -155,6 +343,50 @@ const SectionPropertiesRows = () => {
         const [requiredName, setRequiredName] = useState(false)
         const [selectedSectionName, setSelectedSectionName] = useState('')
         const [selectedSectionShape, setSelectedSectionShape] = useState('')
+
+        const systemCheck = () => {
+            if (system === 'Metric') {
+                if(selectedSectionShape === 'I-shaped') {
+                    return displayIShapesMetric()
+                } else if(selectedSectionShape === 'C-shaped') {
+                    return displayCShapesMetric()
+                } else if(selectedSectionShape === 'Angles') {
+                    return displayLShapesMetric()
+                } else if(selectedSectionShape === 'T-shaped') {
+                    return displayTShapesMetric()
+                } else if(selectedSectionShape === 'Double Angles') {
+                    return display2LShapesMetric()
+                } else if(selectedSectionShape === 'Rectangular HSS') {
+                    return displayRecHSShapesMetric()
+                } else if(selectedSectionShape === 'Round HSS') {
+                    return displayRoundHSShapesMetric()
+                } else if(selectedSectionShape === 'Pipe') {
+                    return displayPipeShapesMetric()
+                } else {
+                    return displaySectionPropertiesMetric()
+                }
+            } else if (system === 'English') {
+                if(selectedSectionShape === 'I-shaped') {
+                    return displayIShapesEnglish()
+                } else if(selectedSectionShape === 'C-shaped') {
+                    return displayCShapesEnglish()
+                } else if(selectedSectionShape === 'Angles') {
+                    return displayLShapesEnglish()
+                } else if(selectedSectionShape === 'T-shaped') {
+                    return displayTShapesEnglish()
+                } else if(selectedSectionShape === 'Double Angles') {
+                    return display2LShapesEnglish()
+                } else if(selectedSectionShape === 'Rectangular HSS') {
+                    return displayRecHSShapesEnglish()
+                } else if(selectedSectionShape === 'Round HSS') {
+                    return displayRoundHSShapesEnglish()
+                } else if(selectedSectionShape === 'Pipe') {
+                    return displayPipeShapesEnglish()
+                } else {
+                    return displaySectionPropertiesEnglish()
+                }
+            }
+        }
 
         useEffect(() => {
             if (system === 'Metric') {
@@ -266,6 +498,7 @@ const SectionPropertiesRows = () => {
 
         const setSectionShape = (event) => {
             setSelectedSectionShape(event.target.textContent)
+            setSelectedSectionName("")
         }
 
         const displayError = () => {
@@ -326,19 +559,19 @@ const SectionPropertiesRows = () => {
                                             width: 'fit-content',
                                             float: 'left',
                                             margin: '0'
-                                        }}>Name</p>
+                                        }}>Shape</p>
                                         <Autocomplete
                                             // disablePortal
                                             id="combo-box-demo"
                                             sx={{width: '100%', overflow: 'visible'}}
                                             // ListboxProps={{ style: { maxHeight: 200, overflow: 'visible', zIndex: 1} }}
-                                            options={systemCheck()}
-                                            onChange={(event) => setSectionName(event)}
-                                            value={selectedSectionName}
+                                            options={displayApiShapes()}
+                                            onChange={(event) => setSectionShape(event)}
+                                            value={selectedSectionShape}
                                             renderInput={(params) => <TextField {...params}
-                                                                                label="Preset Section Names"/>}
+                                                                                label="Preset Section Shapes"/>}
                                         />
-                                        {requiredNameMessage()}
+                                        {requiredShapeMessage()}
                                     </FormControl>
                                 </div>
                             </div>
@@ -358,18 +591,18 @@ const SectionPropertiesRows = () => {
                                             width: 'fit-content',
                                             float: 'left',
                                             margin: '0'
-                                        }}>Shape</p>
+                                        }}>Name</p>
                                         <Autocomplete
                                             // disablePortal
                                             id="combo-box-demo"
                                             sx={{width: '100%'}}
                                             options={systemCheck()}
-                                            onChange={(event) => setSectionShape(event)}
-                                            value={selectedSectionShape}
+                                            onChange={(event) => setSectionName(event)}
+                                            value={selectedSectionName}
                                             renderInput={(params) => <TextField {...params}
-                                                                                label="Preset Section Shapes"/>}
+                                                                                label="Preset Section Namess"/>}
                                         />
-                                        {requiredShapeMessage()}
+                                        {requiredNameMessage()}
                                     </FormControl>
                                 </div>
                             </div>

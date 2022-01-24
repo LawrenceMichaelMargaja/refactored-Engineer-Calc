@@ -1,4 +1,10 @@
 /**
+ * Calculated Data
+ */
+export const SET_CALCULATED_DATA = '@@sheets/SET_CALCULATED_DATA'
+
+
+/**
  * API
  */
 // =================== GET REQUESTS =====================

@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import {AppBar, Button, Card, FormControl, Tab, Tabs, TextField} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
-import {setTabState} from "../../store/actions/sheets/sheets";
+import {setCalculatedData, setTabState} from "../../store/actions/sheets/sheets";
 import {makeStyles} from "@material-ui/core/styles";
 import {useNavigate} from "react-router";
 import {objectChecker} from "../../utilities/utilities";
@@ -29,8 +29,17 @@ const SheetCalculationNavigation = () => {
     const sheetTabs = useSelector(state => state.sheets.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     const members = objectChecker(sheets, ['sheets', selectedSheet, 'members'])
-    const sectionProperties = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric'])
-    const materialProperties = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties'])
+    const factors = objectChecker(sheets, ['sheets', selectedSheet, 'factors'])
+    const forces = objectChecker(sheets, ['sheets', selectedSheet, 'forces'])
+    const analysis = objectChecker(sheets, ['sheets', selectedSheet, 'provision'])
+    const method = objectChecker(sheets, ['sheets', selectedSheet, 'method'])
+    const units = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
+    // const materials = objectChecker(sheets, ['sheets', selectedSheet, 'materialProperties'])
+    // const sections = objectChecker(sheets, ['sheets', selectedSheet, 'sectionProperties'])
+    const sectionPropertiesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric'])
+    const sectionPropertiesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesEnglish'])
+    const materialPropertiesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties'])
+    const materialPropertiesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeEnglishProperties'])
     const tabState = objectChecker(sheets, ['sheets', selectedSheet, 'tabState'])
     const classes = useStyles()
     const dispatch = useDispatch()
@@ -89,6 +98,122 @@ const SheetCalculationNavigation = () => {
     /**
      * Data from Section Shape
      */
+    const sectionHashMetric = useMemo(() => {
+        let hash = {}
+        for(let i in sectionPropertiesMetric) {
+            let {
+                sectionId
+            } = sectionPropertiesMetric[i]
+            hash[sectionId] = sectionPropertiesMetric[i]
+        }
+        return hash
+    }, [sectionPropertiesMetric])
+
+    const sectionHashEnglish = useMemo(() => {
+        let hash = {}
+        for(let i in sectionPropertiesEnglish) {
+            let {
+                sectionId
+            } = sectionPropertiesEnglish[i]
+            hash[sectionId] = sectionPropertiesEnglish[i]
+        }
+        return hash
+    }, [])
+
+    const materialHashMetric = useMemo(() => {
+        let hash = {}
+        for(let i in materialPropertiesMetric) {
+            let {
+                id
+            } = materialPropertiesMetric[i]
+            hash[id] = materialPropertiesMetric[i]
+        }
+        return hash
+    }, [materialPropertiesMetric])
+
+    const materialHashEnglish = useMemo(() => {
+        let hash = {}
+        for(let i in materialPropertiesEnglish) {
+            let {
+                id
+            } = materialPropertiesEnglish[i]
+            hash[id] = materialPropertiesEnglish[i]
+        }
+        return hash
+    }, [])
+
+    const beamCalcDataSender = () => {
+        let body = []
+        let objectToBeSent = {}
+
+
+
+        for(let memberIndex in members) {
+            const memberId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'memberId'])
+            const sectionId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'sectionId'])
+            const materialId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'materialId'])
+
+            // const src = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'slendernessRatioInCompression'])
+            // alert("src" + src)
+            // console.log(sectionId);
+
+            // alert("unbracedLengthLateralTorsional" + JSON.stringify(unbracedLengthLateralTorsional))
+
+            let idObject = {
+                analysis: analysis,
+                method: method,
+                units: units,
+            }
+
+            for(let factorsIndex in factors) {
+                idObject['tensile_factor'] = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForTensile'])
+                idObject['compress_factor'] = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForCompression'])
+                idObject['bending_factor'] = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForFlexure'])
+                idObject['shear_factor'] = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForShear'])
+            }
+            for(let forcesIndex in forces) {
+                idObject['vx'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'bendingMomentAlongXAxis']))
+                idObject['vy'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'bendingMomentAlongYAxis']))
+                idObject['mx'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'shearAlongXAxis']))
+                idObject['my'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'shearAlongYAxis']))
+                idObject['p'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'axial']))
+            }
+                idObject['id'] = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'memberId'])
+                idObject['lb'] = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'totalLengthOfMember'])
+                idObject['lx'] = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'yAxisUnbracedLength'])
+                idObject['Kx'] = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'yAxisEffectiveLengthFactor'])
+                idObject['Ly'] = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'zAxisUnbracedLength'])
+                idObject['ky'] = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'zAxisEffectiveLengthFactor'])
+                idObject['llt'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'LLT']))
+                idObject['cbx'] = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'unbracedLengthLateralTorsional'])
+                idObject['cby'] = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'lateralTorsionalModificationFactor'])
+                idObject['s_rc'] = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'slendernessRatioInCompression'])
+                idObject['s_rt'] = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'LST'])
+                idObject['mod_e'] = parseFloat(materialHashMetric[materialId].EMPA)
+                idObject['yield_str'] = parseFloat(materialHashMetric[materialId].FYMPA)
+                idObject['ult_str'] = parseFloat(materialHashMetric[materialId].FUMPA)
+                idObject['shape'] = sectionHashMetric[sectionId].sectionShape
+            // console.log('materialId', materialId);
+            body.push(idObject)
+        }
+
+
+
+        console.log(JSON.stringify(body));
+
+        axios.defaults.baseURL = 'http://localhost:8080'
+        //
+        // const baseURL = ""
+
+        axios.post('/steelArguments', body)
+            .then(res => dispatch(setCalculatedData(res.data, selectedSheet)))
+            .catch(err => console.log(err))
+
+        // axios.post('/steelArguments', body)
+        //     .then(res => console.log(res.data))
+        //     .then(res => dispatch(setCalculatedData(res.data, selectedSheet)))
+        //     .catch(err => console.log(err))
+    }
 
     const resultErrorHandler = () => {
         let errorLocation = null
@@ -104,6 +229,7 @@ const SheetCalculationNavigation = () => {
             const yAxisEffectiveLengthFactor = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'yAxisEffectiveLengthFactor'])
             const zAxisUnbracedLength = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'zAxisUnbracedLength'])
             const zAxisEffectiveLengthFactor = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'zAxisEffectiveLengthFactor'])
+            const llt = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'LLT'])
             const unbracedLengthLateralTorsional = objectChecker(sheets, 'sheets', selectedSheet, 'members', memberIndex, 'unbracedLengthLateralTorsional')
             const lateralTorsionalModificationFactor = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'lateralTorsionalModificationFactor'])
             const slendernessRatioInCompression = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'slendernessRatioInCompression'])
@@ -111,12 +237,13 @@ const SheetCalculationNavigation = () => {
             const currentMaterials = objectChecker(sheets, ['sheets', selectedSheet, 'currentMaterialsArray'])
             const currentSections = objectChecker(sheets, ['sheets', selectedSheet, 'currentSectionsArray'])
 
-            if (size(materialProperties) === 0 || size(sectionProperties) === 0) {
-                alert("at the result === " + JSON.stringify(sectionProperties))
+            if (size(materialPropertiesMetric) === 0 || size(sectionPropertiesMetric) === 0) {
                 arrayCheck.push('material property or section property is null')
             }
 
-            if (materialProperties !== null) {
+
+
+            if (materialPropertiesMetric !== null) {
                 let found = false
                 for (let theMaterial in currentMaterials) {
                     if (parseFloat(materialId) === parseFloat(currentMaterials[theMaterial])) {
@@ -128,7 +255,7 @@ const SheetCalculationNavigation = () => {
                 }
             }
 
-            if (sectionProperties !== null) {
+            if (sectionPropertiesMetric !== null) {
                 let found = false
                 for (let theSection in currentSections) {
                     if (parseFloat(sectionId) === parseFloat(currentSections[theSection])) {
@@ -750,23 +877,24 @@ const SheetCalculationNavigation = () => {
         )
     }
 
-    const postData = () => {
-        axios.post('https://jsonplaceholder.typicode.com/todos',
-            {title: 'New Todo1', completed: true})
-            .then(res => showOutput(res))
-            .catch(err => console.log(err))
-    }
 
     const resultCheckerHandler = () => {
         if(tabState === 'results') {
+            // beamCalcDataSender()
             resultsNavigationHandler()
 
         } else if (tabState === 'errors') {
             // alert("to be dispatched arrayCheck == " + arrayCheck)
-
+            // beamCalcDataSender()
             errorsNavigationHandler()
         }
     }
+
+    useEffect(() => {
+        if(tabState === 'results') {
+            beamCalcDataSender()
+        }
+    }, [tabState])
 
     const renderSheetCalculationNavigation = () => {
         if (size(sheetTabs) < 1) {
@@ -818,6 +946,7 @@ const SheetCalculationNavigation = () => {
                             <Tab
                                 onClick={() => {
                                     resultErrorHandler()
+                                    // beamCalcDataSender()
                                     dispatch(setArrayCheck(arrayCheck, selectedSheet))
                                     // nestedModal()
                                     // displayModal()

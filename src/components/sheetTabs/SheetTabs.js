@@ -50,7 +50,9 @@ const SheetTabs = () => {
                 errorLocation: [],
                 errorMessage: [],
                 route: '',
+                calculatedData: {},
                 apiData: {
+                    steelSections: [],
                     shapes: [],
                     sectionDimensionsMetric: [],
                     sectionDimensionsEnglish: [],
@@ -211,7 +213,9 @@ const SheetTabs = () => {
                 errorLocation: [],
                 errorMessage: [],
                 route: '',
+                calculatedData: {},
                 apiData: {
+                    steelSections: [],
                     shapes: [],
                     sectionDimensionsMetric: [],
                     sectionDimensionsEnglish: [],
