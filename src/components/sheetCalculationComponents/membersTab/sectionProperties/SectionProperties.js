@@ -649,12 +649,12 @@ const SectionProperties = () => {
                     const newSectionSizeEnglish = size(insertedSectionPropertiesEnglish)
                     const newSectionSizeMetric = size(insertedSectionPropertiesMetric)
                     currentSectionsMetric[newSectionSizeMetric] = {
-                        sectionId: newSectionSizeMetric,
+                        sectionId: parseFloat(newSectionSizeMetric + 1),
                         sectionShape: selectedSectionShape,
                         sectionName: selectedSectionName
                     }
                     currentSectionEnglish[newSectionSizeEnglish] = {
-                        sectionId: newSectionSizeEnglish,
+                        sectionId: parseFloat(newSectionSizeEnglish + 1),
                         sectionShape: selectedSectionShape,
                         sectionName: counterNameValue()
                     }
@@ -749,12 +749,12 @@ const SectionProperties = () => {
                     const newSectionSizeEnglish = size(insertedSectionPropertiesEnglish)
                     const newSectionSizeMetric = size(insertedSectionPropertiesMetric)
                     currentSectionsEnglish[newSectionSizeEnglish] = {
-                        sectionId: newSectionSizeEnglish,
+                        sectionId: parseFloat(newSectionSizeEnglish + 1),
                         sectionShape: selectedSectionShape,
                         sectionName: selectedSectionName
                     }
                     currentSectionsMetric[newSectionSizeMetric] = {
-                        sectionId: newSectionSizeMetric,
+                        sectionId: parseFloat(newSectionSizeMetric + 1),
                         sectionShape: selectedSectionShape,
                         sectionName: counterNameValue()
                     }
