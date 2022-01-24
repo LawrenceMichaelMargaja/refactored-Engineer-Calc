@@ -93,6 +93,7 @@ const Header = () => {
      */
     const Forces = objectChecker(sheets, ['sheets', selectedSheet, 'forces'])
 
+    const materialPropertiesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeEnglishProperties'])
     const sectionPropertiesArray = objectChecker(sheets, ['sheets', selectedSheet, 'currentSectionsArray'])
     const currentMaterials = objectChecker(sheets, ['sheets', selectedSheet, 'currentMaterialsArray'])
 
@@ -117,13 +118,13 @@ const Header = () => {
         <div>
             <div>
                 {/*{listSectionIds()}*/}
-                {/*<p style={{*/}
-                {/*    padding: '2em',*/}
-                {/*    wordWrap: 'break-word'*/}
-                {/*    // width: '50vw'*/}
-                {/*}}>*/}
-                {/*    {JSON.stringify(sectionsMetric)}*/}
-                {/*</p>*/}
+                <p style={{
+                    padding: '2em',
+                    wordWrap: 'break-word'
+                    // width: '50vw'
+                }}>
+                    {JSON.stringify(materialPropertiesEnglish)}
+                </p>
             </div>
             <div className={classes.root}>
                 <div className={classes.titleContainer}>

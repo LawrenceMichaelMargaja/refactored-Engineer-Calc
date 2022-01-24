@@ -28,6 +28,8 @@ const SheetCalculationNavigation = () => {
     const sheets = useSelector(state => state.sheets)
     const sheetTabs = useSelector(state => state.sheets.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
+    const system = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
+    // const system = sheets[selectedSheet].system
     const members = objectChecker(sheets, ['sheets', selectedSheet, 'members'])
     const factors = objectChecker(sheets, ['sheets', selectedSheet, 'factors'])
     const forces = objectChecker(sheets, ['sheets', selectedSheet, 'forces'])
@@ -118,7 +120,7 @@ const SheetCalculationNavigation = () => {
             hash[sectionId] = sectionPropertiesEnglish[i]
         }
         return hash
-    }, [])
+    }, [sectionPropertiesEnglish])
 
     const materialHashMetric = useMemo(() => {
         let hash = {}
@@ -140,11 +142,12 @@ const SheetCalculationNavigation = () => {
             hash[id] = materialPropertiesEnglish[i]
         }
         return hash
-    }, [])
+    }, [materialPropertiesEnglish])
 
     const beamCalcDataSender = () => {
         let body = []
         let objectToBeSent = {}
+
 
 
 
@@ -158,6 +161,30 @@ const SheetCalculationNavigation = () => {
             // console.log(sectionId);
 
             // alert("unbracedLengthLateralTorsional" + JSON.stringify(unbracedLengthLateralTorsional))
+
+            const mod_e_value = () => {
+                if(system === 'metric') {
+                    parseFloat(materialHashMetric[materialId].EMPA)
+                } else if(system === 'english') {
+                    parseFloat(materialHashEnglish[materialId].EMPA)
+                }
+            }
+
+            const yield_str_value = () => {
+                if(system === 'metric') {
+                    parseFloat(materialHashMetric[materialId].FYMPA)
+                } else if(system === 'english') {
+                    parseFloat(materialHashEnglish[materialId].FYMPA)
+                }
+            }
+
+            const ult_str_value = () => {
+                if(system === 'metric') {
+                    parseFloat(materialHashMetric[materialId].FUMPA)
+                } else if(system === 'english') {
+                    parseFloat(materialHashEnglish[materialId].FUMPA)
+                }
+            }
 
             let idObject = {
                 analysis: analysis,
@@ -189,11 +216,16 @@ const SheetCalculationNavigation = () => {
                 idObject['cby'] = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'lateralTorsionalModificationFactor'])
                 idObject['s_rc'] = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'slendernessRatioInCompression'])
                 idObject['s_rt'] = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'LST'])
-                idObject['mod_e'] = parseFloat(materialHashMetric[materialId].EMPA)
-                idObject['yield_str'] = parseFloat(materialHashMetric[materialId].FYMPA)
-                idObject['ult_str'] = parseFloat(materialHashMetric[materialId].FUMPA)
+                idObject['mod_e'] = system === 'Metric' ? parseFloat(materialHashMetric[materialId].EMPA) : parseFloat(materialHashEnglish[materialId].EMPA)
+                idObject['yield_str'] = system === 'Metric' ? parseFloat(materialHashMetric[materialId].FYMPA) : parseFloat(materialHashEnglish[materialId].FYMPA)
+                idObject['ult_str'] = system === 'Metric' ? parseFloat(materialHashMetric[materialId].FUMPA) : parseFloat(materialHashEnglish[materialId].FYMPA)
                 idObject['shape'] = sectionHashMetric[sectionId].sectionShape
             // console.log('materialId', materialId);
+            console.log('system == ', system);
+            console.log('materialPropertiesEnglish == ', materialPropertiesEnglish);
+            console.log('materialHashEnglish == ', materialHashEnglish);
+            console.log('materialId == ', materialId);
+            console.log('selectedSheet == ', selectedSheet);
             body.push(idObject)
         }
 

@@ -184,9 +184,9 @@ const initialState = {
                     0: {
                         id: 1,
                         name: 'A36',
-                        EMPA: '200000',
-                        FYMPA: '248',
-                        FUMPA: '400',
+                        EMPA: '29000',
+                        FYMPA: '36',
+                        FUMPA: '58',
                         custom: false
                     }
                 },

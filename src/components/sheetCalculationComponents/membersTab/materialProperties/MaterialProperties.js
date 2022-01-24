@@ -541,7 +541,7 @@ const MaterialProperties = () => {
                     dispatch(setCurrentMaterialsArray(1, selectedSheet))
                     setOpenNestedModal(false)
                 } else if (size(insertedSteelTypesMetric) > 0) {
-                    const currentCustomSteelTypes = {...insertedSteelTypesMetric}
+                    const currentCustomSteelTypes = {...insertedSteelTypesEnglish}
                     const currentCustomSteelTypesSize = size(insertedSteelTypesMetric)
                     currentCustomSteelTypes[currentCustomSteelTypesSize] = {
                         name: customSteelType,

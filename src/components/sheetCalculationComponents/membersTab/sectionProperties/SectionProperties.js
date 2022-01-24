@@ -760,7 +760,8 @@ const SectionProperties = () => {
                     }
                     for(let index in sectionDimensionsArray) {
                         if(selectedSectionShape === sectionDimensionsArray[index]) {
-                            return
+                            // alert("bullshit")
+                            // return
                             break
                         } else {
                             dispatch(setSectionDimensionsArrayMetric(selectedSectionShape, selectedSheet))
