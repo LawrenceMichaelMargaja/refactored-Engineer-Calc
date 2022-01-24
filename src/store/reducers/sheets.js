@@ -134,7 +134,7 @@ const initialState = {
             removedMemberRowArray: [],
             arrayCheck: [],
             route: '',
-            calculatedData: {},
+            calculatedData: null,
             apiData: {
                 steelSections: [],
                 shapes: [],
@@ -516,7 +516,7 @@ const setCalculatedData = (state, payload) => {
             ...state.sheets,
             [payload.sheetIndex]: {
                 ...state.sheets[payload.sheetIndex],
-                calculatedData: payload
+                calculatedData: payload.data
             }
         }
     }

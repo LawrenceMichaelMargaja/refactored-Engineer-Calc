@@ -9,6 +9,7 @@ const MemberDesignCapacity = () => {
     const sheets = useSelector(state => state.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     const system = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
+    const calculatedData = objectChecker(sheets, ['sheets', selectedSheet, 'calculatedData'])
 
     const [unit, setUnit] = useState('')
 

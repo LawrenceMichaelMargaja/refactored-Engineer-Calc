@@ -96,6 +96,7 @@ const Header = () => {
     const materialPropertiesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeEnglishProperties'])
     const sectionPropertiesArray = objectChecker(sheets, ['sheets', selectedSheet, 'currentSectionsArray'])
     const currentMaterials = objectChecker(sheets, ['sheets', selectedSheet, 'currentMaterialsArray'])
+    // const pt = objectChecker(sheets, ['sheets', selectedSheet, 'calculatedData', 'pt'])
 
     const listSectionIds = () => {
         let sectionIdMap = null
@@ -123,7 +124,7 @@ const Header = () => {
                     wordWrap: 'break-word'
                     // width: '50vw'
                 }}>
-                    {JSON.stringify(materialPropertiesEnglish)}
+                    {JSON.stringify(calculatedData)}
                 </p>
             </div>
             <div className={classes.root}>

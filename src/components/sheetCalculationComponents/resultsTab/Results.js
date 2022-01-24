@@ -35,6 +35,27 @@ const ResultsTab = () => {
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     const method = objectChecker(sheets, ['sheets', selectedSheet, 'method'])
     const steelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesMetric'])
+    const calculatedData = objectChecker(sheets, ['sheets', selectedSheet, 'calculatedData'])
+
+    let Pt = null
+    let Pc = null
+    let Mcx = null
+    let Mcy = null
+    let Vcx = null
+    let Vcy = null
+    let Pratio = null
+    let MxRatio = null
+    let MyRatio = null
+    let VxRatio = null
+    let VyRatio = null
+    let Combined = null
+    let KLr = null
+
+    const mapCalculatedData = () => {
+        calculatedData.map((data) => {
+
+        })
+    }
 
     const renderResultDisplay = () => {
         if (size(steelTypesMetric) === 0) {

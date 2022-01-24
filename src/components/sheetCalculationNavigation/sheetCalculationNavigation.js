@@ -47,6 +47,8 @@ const SheetCalculationNavigation = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
+    const calculatedData = objectChecker(sheets, ['sheets', selectedSheet, 'calculatedData'])
+
     const [highlighted, setHighlighted] = useState(0)
 
     const [showModal, setShowModal] = useState(false)
@@ -221,17 +223,17 @@ const SheetCalculationNavigation = () => {
                 idObject['ult_str'] = system === 'Metric' ? parseFloat(materialHashMetric[materialId].FUMPA) : parseFloat(materialHashEnglish[materialId].FYMPA)
                 idObject['shape'] = sectionHashMetric[sectionId].sectionShape
             // console.log('materialId', materialId);
-            console.log('system == ', system);
-            console.log('materialPropertiesEnglish == ', materialPropertiesEnglish);
-            console.log('materialHashEnglish == ', materialHashEnglish);
-            console.log('materialId == ', materialId);
-            console.log('selectedSheet == ', selectedSheet);
+            // console.log('system == ', system);
+            // console.log('materialPropertiesEnglish == ', materialPropertiesEnglish);
+            // console.log('materialHashEnglish == ', materialHashEnglish);
+            // console.log('materialId == ', materialId);
+            // console.log('selectedSheet == ', selectedSheet);
             body.push(idObject)
         }
 
 
 
-        console.log(JSON.stringify(body));
+        // console.log(JSON.stringify(body));
 
         axios.defaults.baseURL = 'http://localhost:8080'
         //
@@ -239,13 +241,18 @@ const SheetCalculationNavigation = () => {
 
         axios.post('/steelArguments', body)
             .then(res => dispatch(setCalculatedData(res.data, selectedSheet)))
+            // .then(response => console.log("res.data", response.payload.data))
             .catch(err => console.log(err))
 
+        // const result = calculatedData.map(data => ({ pt: data.pt, pc: data.pc, mcx: data.mcx, mcy: data.mcy, vcx: data.vcx, vcy: data.vcy }));
+        // console.log("the calculated result == ", result);
         // axios.post('/steelArguments', body)
         //     .then(res => console.log(res.data))
         //     .then(res => dispatch(setCalculatedData(res.data, selectedSheet)))
         //     .catch(err => console.log(err))
     }
+
+
 
     const resultErrorHandler = () => {
         let errorLocation = null

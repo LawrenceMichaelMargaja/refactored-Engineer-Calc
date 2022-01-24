@@ -366,6 +366,7 @@ const Details = () => {
                                 variant="outlined"
                                 value={projectUnit}
                                 onChange={(event) => projectUnitHandler(event)}
+                                // onKeyPress={(event) => keyCodeHandler()}
                             />
                         </form>
                         <form key='projectNameForm' className={classes.textField} noValidate autoComplete="off">
