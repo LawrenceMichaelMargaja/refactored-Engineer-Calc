@@ -2178,6 +2178,8 @@ const removeAllSectionProperties = (state, payload) => {
             ...state.sheets,
             [payload]: {
                 ...state.sheets[payload],
+                sectionDimensionsArrayMetric: [],
+                sectionDimensionsArrayEnglish: [],
                 apiMap: {
                     ...state.sheets[payload].apiMap,
                     sectionPropertiesMetric: {},
