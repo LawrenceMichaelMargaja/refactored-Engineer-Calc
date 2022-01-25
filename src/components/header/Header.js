@@ -119,13 +119,13 @@ const Header = () => {
         <div>
             <div>
                 {/*{listSectionIds()}*/}
-                <p style={{
-                    padding: '2em',
-                    wordWrap: 'break-word'
-                    // width: '50vw'
-                }}>
-                    {JSON.stringify(calculatedData)}
-                </p>
+                {/*<p style={{*/}
+                {/*    padding: '2em',*/}
+                {/*    wordWrap: 'break-word'*/}
+                {/*    // width: '50vw'*/}
+                {/*}}>*/}
+                {/*    {JSON.stringify(calculatedData)}*/}
+                {/*</p>*/}
             </div>
             <div className={classes.root}>
                 <div className={classes.titleContainer}>

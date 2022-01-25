@@ -1912,6 +1912,7 @@ const editSelectedMetricMaterialProperty = (state, payload) => {
                     steelTypeMetricProperties: {
                         ...state.sheets[payload.sheetIndex].apiMap.steelTypeMetricProperties,
                         [payload.materialIndex]: {
+                            ...state.sheets[payload.sheetIndex].apiMap.steelTypeMetricProperties[payload.materialIndex],
                             name: payload.name,
                             EMPA: payload.EMPA,
                             FYMPA: payload.FYMPA,
@@ -2250,6 +2251,7 @@ const editSelectedSectionMetric = (state, payload) => {
                     sectionPropertiesMetric: {
                         ...state.sheets[payload.sheetIndex].apiMap.sectionPropertiesMetric,
                         [payload.sectionIndex]: {
+                            ...state.sheets[payload.sheetIndex].apiMap.sectionPropertiesMetric[payload.sectionIndex],
                             sectionShape: payload.sectionShape,
                             sectionName: payload.sectionName
                         }
@@ -2272,6 +2274,7 @@ const editSelectedSectionEnglish = (state, payload) => {
                     sectionPropertiesEnglish: {
                         ...state.sheets[payload.sheetIndex].apiMap.sectionPropertiesEnglish,
                         [payload.sectionIndex]: {
+                            ...state.sheets[payload.sheetIndex].apiMap.sectionPropertiesEnglish[payload.sectionIndex],
                             sectionShape: payload.sectionShape,
                             sectionName: payload.sectionName
                         }

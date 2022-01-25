@@ -585,7 +585,7 @@ const SectionProperties = () => {
                     } else if(selectedSectionShape === 'Pipe') {
                         return pipeShapesEnglishData[metricNameIndexChecker()].pipe_shape_english_name
                     } else {
-                        alert("here boi")
+                        // alert("here boi")
                         return null
                     }
                 } else if(system === 'English') {
@@ -606,7 +606,7 @@ const SectionProperties = () => {
                     } else if(selectedSectionShape === 'Pipe') {
                         return pipeShapesMetricData[englishNameIndexChecker()].pipe_shape_metric_name
                     } else {
-                        alert("cheers")
+                        // alert("cheers")
                         return null
                     }
                 }
@@ -630,7 +630,7 @@ const SectionProperties = () => {
                     }
                     for(let index in sectionDimensionsArray) {
                         if(selectedSectionShape === sectionDimensionsArray[index]) {
-                            alert("oh no")
+                            // alert("oh no")
                             return
                             break
                         } else {
@@ -907,15 +907,15 @@ const SectionProperties = () => {
                                     color='primary'
                                     onClick={() => {
                                         if (selectedSectionName === '' && selectedSectionShape === '') {
-                                            alert("I am here")
+                                            // alert("I am here")
                                             handleRequiredShape()
                                             handleRequiredName()
                                         } else if (selectedSectionShape === '') {
                                             handleRequiredShape()
-                                            alert("actually here")
+                                            // alert("actually here")
                                         } else if (selectedSectionName === '') {
                                             handleRequiredName()
-                                            alert("really here")
+                                            // alert("really here")
                                         } else {
                                             // toggleStop()
                                             // alert("selected section name -- " + selectedSectionShape)

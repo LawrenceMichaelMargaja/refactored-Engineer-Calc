@@ -483,7 +483,7 @@ const MaterialProperties = () => {
         }, [nestedModalDisabled])
 
         const selectedNameHandler = (event) => {
-            alert("at handler == " + event.target.textContent)
+            // alert("at handler == " + event.target.textContent)
             setSelectedName(event.target.textContent)
         }
 
@@ -558,7 +558,7 @@ const MaterialProperties = () => {
                     setOpenNestedModal(false)
                 }
             } else {
-                alert("over here")
+                // alert("over here")
                 if (size(insertedSteelTypesMetric) === 0) {
                     const initialMaterialEnglish = {}
                     const initialMaterial = {}
@@ -585,7 +585,7 @@ const MaterialProperties = () => {
                     dispatch(setCurrentMaterialsArray(id, selectedSheet))
                     setOpenNestedModal(false)
                 } else {
-                    alert("actually here")
+                    // alert("actually here")
                     const newMaterialIndex = size(insertedSteelTypesMetric)
                     const currentMaterialEnglish = {...insertedSteelTypesEnglish}
                     const currentMaterial = {...insertedSteelTypesMetric}
@@ -742,13 +742,13 @@ const MaterialProperties = () => {
                                     onClick={() => {
                                         errorCheckRender()
                                         if ((customSteelType === '' || nameMatch === true) && nestedModalDisabled === false) {
-                                            alert("Hola == " + selectedNameNoError)
+                                            // alert("Hola == " + selectedNameNoError)
                                             setErrorDisplay(true)
                                         } else {
                                             if (selectedNameNoError === false || empaNoError === false || fympaNoError === false || fumpaNoError === false) {
-                                                alert("I made it here")
+                                                // alert("I made it here")
                                             } else {
-                                                alert("hoo haa")
+                                                // alert("hoo haa")
                                                 insertMaterialProperty()
                                             }
                                         }

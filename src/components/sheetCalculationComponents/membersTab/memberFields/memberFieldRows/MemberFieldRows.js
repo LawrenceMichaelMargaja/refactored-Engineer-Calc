@@ -96,12 +96,12 @@ const MemberFieldRows = () => {
         }
 
         const yAxisEffectiveLengthFactorHandler = (event) => {
-            alert("yAxis === " + event.target.value)
+            // alert("yAxis === " + event.target.value)
             dispatch(setYAxisEffectiveLengthFactor(event.target.value, selectedSheet, memberIndex))
         }
 
         const zAxisUnbracedLengthHandler = (event) => {
-            alert("zAxis === " + event.target.value)
+            // alert("zAxis === " + event.target.value)
             dispatch(setZAxisUnbracedLength(event.target.value, selectedSheet, memberIndex))
         }
 
