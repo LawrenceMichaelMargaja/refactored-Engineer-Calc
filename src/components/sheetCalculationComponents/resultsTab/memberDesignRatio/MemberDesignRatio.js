@@ -28,7 +28,7 @@ const MemberDesignRatio = () => {
                 }}>
                     <div style={{
                         padding: '15px 0',
-                        width: '7%',
+                        width: '11.11%',
                     }}>
                         <div style={{
                             marginBottom: '0px',
@@ -44,7 +44,7 @@ const MemberDesignRatio = () => {
                         padding: '15px',
                         paddingRight: '0px',
                         paddingLeft: '0px',
-                        width: '11.62%',
+                        width: '11.11%',
                     }}>
                         <div style={{
                             marginBottom: '0px',
@@ -60,7 +60,7 @@ const MemberDesignRatio = () => {
                         padding: '15px',
                         paddingRight: '0px',
                         paddingLeft: '0px',
-                        width: '11.62%',
+                        width: '11.11%',
                     }}>
                         <div style={{
                             marginBottom: '0px',
@@ -76,7 +76,7 @@ const MemberDesignRatio = () => {
                         padding: '15px',
                         paddingRight: '0px',
                         paddingLeft: '0px',
-                        width: '11.62%',
+                        width: '11.11%',
                     }}>
                         <div style={{
                             marginBottom: '0px',
@@ -92,7 +92,7 @@ const MemberDesignRatio = () => {
                         padding: '15px',
                         paddingRight: '0px',
                         paddingLeft: '0px',
-                        width: '11.62%',
+                        width: '11.11%',
                     }}>
                         <div style={{
                             marginBottom: '0px',
@@ -108,7 +108,7 @@ const MemberDesignRatio = () => {
                         padding: '15px',
                         paddingRight: '0px',
                         paddingLeft: '0px',
-                        width: '11.62%',
+                        width: '11.11%',
                     }}>
                         <div style={{
                             marginBottom: '0px',
@@ -124,7 +124,7 @@ const MemberDesignRatio = () => {
                         padding: '15px',
                         paddingRight: '0px',
                         paddingLeft: '0px',
-                        width: '11.62%',
+                        width: '11.11%',
                     }}>
                         <div style={{
                             marginBottom: '0px',
@@ -140,7 +140,7 @@ const MemberDesignRatio = () => {
                         padding: '15px',
                         paddingRight: '0px',
                         paddingLeft: '0px',
-                        width: '11.62%',
+                        width: '11.11%',
                     }}>
                         <div style={{
                             marginBottom: '0px',
@@ -156,7 +156,7 @@ const MemberDesignRatio = () => {
                         padding: '15px',
                         paddingRight: '0px',
                         paddingLeft: '0px',
-                        width: '11.62%',
+                        width: '11.11%',
                     }}>
                         <div style={{
                             marginBottom: '0px',

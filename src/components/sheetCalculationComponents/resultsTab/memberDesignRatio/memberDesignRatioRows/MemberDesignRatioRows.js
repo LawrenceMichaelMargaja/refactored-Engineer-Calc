@@ -68,6 +68,10 @@ const MemberDesignRatioRows = () => {
             let myRatioBG = '#fff'
             let vxRatioBG = '#fff'
             let vyRatioBG = '#fff'
+            let combinedBG = '#fff'
+            let klrBG = '#fff'
+            let statusBG = '#fff'
+            let statusText = ''
 
             if (calculatedData[calculatedIndex].pratio > 1.0) {
                 // setPratioColor('light-red')
@@ -89,6 +93,17 @@ const MemberDesignRatioRows = () => {
                 // setVyRatioColor('light-pink')
                 vyRatioBG = 'pink'
             }
+            if (calculatedData[calculatedIndex].combined > 1.0) {
+                combinedBG = 'pink'
+            }
+            if (calculatedData[calculatedIndex].k_lr > 1.0) {
+                klrBG = 'pink'
+            }
+            if (calculatedData[calculatedIndex].pratio > 1.0 || calculatedData[calculatedIndex].mx_ratio > 1.0 || calculatedData[calculatedIndex].my_ratio > 1.0 || calculatedData[calculatedIndex].vx_ratio > 1.0 || calculatedData[calculatedIndex].vy_ratio > 1.0 || calculatedData[calculatedIndex].combined > 1.0 || calculatedData[calculatedIndex].k_lr > 1.0) {
+                statusBG = 'pink'
+                statusText = 'FAIL'
+            }
+
 
             if(calculatedData[calculatedIndex].pratio < 1.0) {
                 pratioBG = 'lightGreen'
@@ -111,6 +126,16 @@ const MemberDesignRatioRows = () => {
                 // setVyRatioColor('red')
                 vyRatioBG = 'lightGreen'
             }
+            if (calculatedData[calculatedIndex].combined < 1.0) {
+                combinedBG = 'lightGreen'
+            }
+            if (calculatedData[calculatedIndex].k_lr < 1.0) {
+                klrBG = 'lightGreen'
+            }
+            if (calculatedData[calculatedIndex].pratio > 0.95 || calculatedData[calculatedIndex].mx_ratio > 0.95 || calculatedData[calculatedIndex].my_ratio > 0.95 || calculatedData[calculatedIndex].vx_ratio > 0.95 || calculatedData[calculatedIndex].vy_ratio > 0.95 || calculatedData[calculatedIndex].combined > 0.95 || calculatedData[calculatedIndex].k_lr > 0.95) {
+                statusBG = 'yellow'
+                statusText = 'WARNING'
+            }
 
             if(calculatedData[calculatedIndex].pratio == 1.0) {
                 pratioBG = '#fff'
@@ -132,6 +157,16 @@ const MemberDesignRatioRows = () => {
                 // setVyRatioColor('red')
                 vyRatioBG = '#fff'
             }
+            if (calculatedData[calculatedIndex].combined == 1.0) {
+                combinedBG = '#fff'
+            }
+            if (calculatedData[calculatedIndex].k_lr == 1.0) {
+                klrBG = '#fff'
+            }
+            if (calculatedData[calculatedIndex].pratio < 0.95 || calculatedData[calculatedIndex].mx_ratio < 0.95 || calculatedData[calculatedIndex].my_ratio < 0.95 || calculatedData[calculatedIndex].vx_ratio < 0.95 || calculatedData[calculatedIndex].vy_ratio < 0.95 || calculatedData[calculatedIndex].combined < 0.95 || calculatedData[calculatedIndex].k_lr < 0.95) {
+                statusBG = 'lightGreen'
+                statusText = 'PASS'
+            }
 
             memberRows.push(
                 <div style={{
@@ -145,7 +180,7 @@ const MemberDesignRatioRows = () => {
                     }}
                     >
                         <p style={{
-                            width: '8.28%',
+                            width: '11.11%',
                             backgroundColor: '#fff',
                             margin: '0',
                             border: '1px solid black',
@@ -154,76 +189,76 @@ const MemberDesignRatioRows = () => {
                             <strong>{parseFloat(calculatedIndex) + 1} <sub> </sub></strong>
                         </p>
                         <p style={{
-                            width: '14.28%',
+                            width: '11.11%',
                             backgroundColor: `${pratioBG}`,
                             margin: '0',
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>{calculatedData[calculatedIndex].pratio} <sub> </sub></strong>
+                            <strong>{Math.abs(calculatedData[calculatedIndex].pratio).toFixed(2)} <sub> </sub></strong>
                         </p>
                         <p style={{
-                            width: '14.28%',
+                            width: '11.11%',
                             backgroundColor: `${mxRatioBG}`,
                             margin: '0',
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>{calculatedData[calculatedIndex].mx_ratio} <sub> </sub></strong>
+                            <strong>{Math.abs(calculatedData[calculatedIndex].mx_ratio).toFixed(2)} <sub> </sub></strong>
                         </p>
                         <p style={{
-                            width: '14.28%',
+                            width: '11.11%',
                             backgroundColor: `${myRatioBG}`,
                             margin: '0',
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>{calculatedData[calculatedIndex].my_ratio} <sub> </sub></strong>
+                            <strong>{Math.abs(calculatedData[calculatedIndex].my_ratio).toFixed(2)} <sub> </sub></strong>
                         </p>
                         <p style={{
-                            width: '14.28%',
+                            width: '11.11%',
                             backgroundColor: `${vxRatioBG}`,
                             margin: '0',
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>{calculatedData[calculatedIndex].vx_ratio} <sub> </sub></strong>
+                            <strong>{Math.abs(calculatedData[calculatedIndex].vx_ratio).toFixed(2)} <sub> </sub></strong>
                         </p>
                         <p style={{
-                            width: '14.28%',
+                            width: '11.11%',
                             backgroundColor: `${vyRatioBG}`,
                             margin: '0',
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>{calculatedData[calculatedIndex].vy_ratio} <sub> </sub></strong>
+                            <strong>{Math.abs(calculatedData[calculatedIndex].vy_ratio).toFixed(2)} <sub> </sub></strong>
                         </p>
                         <p style={{
-                            width: '14.28%',
-                            backgroundColor: '#fff',
+                            width: '11.11%',
+                            backgroundColor: `${combinedBG}`,
                             margin: '0',
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>{calculatedData[calculatedIndex].combined} <sub> </sub></strong>
+                            <strong>{Math.abs(calculatedData[calculatedIndex].combined).toFixed(2)} <sub> </sub></strong>
                         </p>
                         <p style={{
-                            width: '14.28%',
-                            backgroundColor: '#fff',
+                            width: '11.11%',
+                            backgroundColor: `${klrBG}`,
                             margin: '0',
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>{calculatedData[calculatedIndex].k_lr} <sub> </sub></strong>
+                            <strong>{Math.abs(calculatedData[calculatedIndex].k_lr).toFixed(2)} <sub> </sub></strong>
                         </p>
                         <p style={{
-                            width: '14.28%',
-                            backgroundColor: '#fff',
+                            width: '11.11%',
+                            backgroundColor: `${statusBG}`,
                             margin: '0',
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>PASS<sub> </sub></strong>
+                            <strong>{statusText}<sub> </sub></strong>
                         </p>
                     </div>
                 </div>

@@ -57,7 +57,7 @@ const MemberDesignCapacityRows = () => {
                                 border: '1px solid black',
                                 padding: '0.5em'
                             }}>
-                                <strong>{calculatedData[calculatedIndex].pt} <sub> </sub></strong>
+                                <strong>{(calculatedData[calculatedIndex].pt).toFixed(3)} <sub> </sub></strong>
                             </p>
                             <p style={{
                                 width: '14.28%',
@@ -66,7 +66,7 @@ const MemberDesignCapacityRows = () => {
                                 border: '1px solid black',
                                 padding: '0.5em'
                             }}>
-                                <strong>{calculatedData[calculatedIndex].pc} <sub> </sub></strong>
+                                <strong>{(calculatedData[calculatedIndex].pc).toFixed(3)} <sub> </sub></strong>
                             </p>
                             <p style={{
                                 width: '14.28%',
@@ -75,7 +75,7 @@ const MemberDesignCapacityRows = () => {
                                 border: '1px solid black',
                                 padding: '0.5em'
                             }}>
-                                <strong>{calculatedData[calculatedIndex].mcx} <sub> </sub></strong>
+                                <strong>{(calculatedData[calculatedIndex].mcx).toFixed(3)} <sub> </sub></strong>
                             </p>
                             <p style={{
                                 width: '14.28%',
@@ -84,7 +84,7 @@ const MemberDesignCapacityRows = () => {
                                 border: '1px solid black',
                                 padding: '0.5em'
                             }}>
-                                <strong>{calculatedData[calculatedIndex].mcy} <sub> </sub></strong>
+                                <strong>{(calculatedData[calculatedIndex].mcy).toFixed(3)} <sub> </sub></strong>
                             </p>
                             <p style={{
                                 width: '14.28%',
@@ -93,7 +93,7 @@ const MemberDesignCapacityRows = () => {
                                 border: '1px solid black',
                                 padding: '0.5em'
                             }}>
-                                <strong>{calculatedData[calculatedIndex].vcx} <sub> </sub></strong>
+                                <strong>{(calculatedData[calculatedIndex].vcx).toFixed(3)} <sub> </sub></strong>
                             </p>
                             <p style={{
                                 width: '14.28%',
@@ -102,7 +102,7 @@ const MemberDesignCapacityRows = () => {
                                 border: '1px solid black',
                                 padding: '0.5em'
                             }}>
-                                <strong>{calculatedData[calculatedIndex].vcy} <sub> </sub></strong>
+                                <strong>{(calculatedData[calculatedIndex].vcy).toFixed(3)} <sub> </sub></strong>
                             </p>
                         </div>
                     </div>

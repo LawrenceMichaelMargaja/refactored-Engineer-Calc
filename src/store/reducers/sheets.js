@@ -2007,6 +2007,7 @@ const resetMetricMaterialProperties = (state, payload) => {
                     ...state.sheets[payload].apiMap,
                     steelTypeMetricProperties: {
                         0: {
+                            id: 1,
                             name: 'A36',
                             EMPA: 200000,
                             FYMPA: 248,
@@ -2030,6 +2031,7 @@ const resetEnglishMaterialProperties = (state, payload) => {
                     ...state.sheets[payload].apiMap,
                     steelTypeEnglishProperties: {
                         0: {
+                            id: 1,
                             name: 'A36',
                             EMPA: 200000,
                             FYMPA: 248,
