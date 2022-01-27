@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
         width: '10%',
         border: '1px solid black',
         backgroundColor: '#e2e2e2',
-        display: 'none'
     }
 }))
 

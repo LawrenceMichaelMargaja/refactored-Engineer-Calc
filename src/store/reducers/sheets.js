@@ -1645,6 +1645,7 @@ const setSectionId = (state, payload) => {
 }
 
 const setTotalLengthOfMember = (state, payload) => {
+    // alert("totalLengthOfMember == " + JSON.stringify(payload.data));
     return {
         ...state,
         sheets: {

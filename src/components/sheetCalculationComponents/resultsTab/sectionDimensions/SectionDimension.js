@@ -10,8 +10,18 @@ const SectionDimensions = () => {
     const sheets = useSelector(state => state.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     const system = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
+    const method = objectChecker(sheets, ['sheets', selectedSheet, 'method'])
 
     const [unit, setUnit] = useState('')
+    const [cardTitle, setCardTitle] = useState('')
+
+    useEffect(() => {
+        if(method === 'Investigation') {
+            setCardTitle('Section Dimension')
+        } else if(method === 'Design') {
+            setCardTitle('Section Graphs')
+        }
+    }, [method])
 
     useEffect(() => {
         if(system === 'Metric') {
@@ -20,6 +30,157 @@ const SectionDimensions = () => {
             setUnit('inch')
         }
     }, [system])
+
+    const displayRowHeaders = () => {
+        if(method === 'Investigation') {
+            return (
+                <>
+                    <div style={{
+                        display: 'flex',
+                        padding: '1em',
+                        width: '96%',
+                        margin: '0 auto'
+                    }}>
+                        <div style={{
+                            margin: '0px',
+                            border: '1px solid black',
+                            padding: '5px',
+                            backgroundColor: '#fff',
+                            width: '14.28%'
+                        }}>
+                            <p style={{
+                                margin: '0px'
+                            }}>
+                                <strong>ID</strong>
+                            </p>
+                        </div>
+                        <div style={{
+                            margin: '0px',
+                            border: '1px solid black',
+                            padding: '5px',
+                            backgroundColor: '#fff',
+                            width: '14.28%'
+                        }}>
+                            <p style={{
+                                margin: '0px'
+                            }}>
+                                <strong>Names</strong>
+                            </p>
+                        </div>
+                        <div style={{
+                            margin: '0px',
+                            border: '1px solid black',
+                            padding: '5px',
+                            backgroundColor: '#fff',
+                            width: '14.28%'
+                        }}>
+                            <p style={{
+                                margin: '0px'
+                            }}>
+                                <strong>d({unit})</strong>
+                            </p>
+                        </div>
+                        <div style={{
+                            margin: '0px',
+                            border: '1px solid black',
+                            padding: '5px 0px 2px 0',
+                            backgroundColor: '#fff',
+                            width: '14.28%'
+                        }}>
+                            <p style={{
+                                margin: '0px'
+                            }}>
+                                <strong>b({unit})</strong>
+                            </p>
+                        </div>
+                        <div style={{
+                            margin: '0px',
+                            border: '1px solid black',
+                            padding: '5px 0px 2px 0',
+                            backgroundColor: '#fff',
+                            width: '14.28%'
+                        }}>
+                            <p style={{
+                                margin: '0px'
+                            }}>
+                                <strong>t<sub>w</sub>({unit})</strong>
+                            </p>
+                        </div>
+                        <div style={{
+                            margin: '0px',
+                            border: '1px solid black',
+                            padding: '5px 0px 2px 0',
+                            backgroundColor: '#fff',
+                            width: '14.28%'
+                        }}>
+                            <p style={{
+                                margin: '0px'
+                            }}>
+                                <strong>b<sub>f</sub>({unit})</strong>
+                            </p>
+                        </div>
+                        <div style={{
+                            margin: '0px',
+                            border: '1px solid black',
+                            padding: '5px 0px 2px 0',
+                            backgroundColor: '#fff',
+                            width: '14.28%'
+                        }}>
+                            <p style={{
+                                margin: '0px'
+                            }}>
+                                <strong>t<sub>f</sub>({unit})</strong>
+                            </p>
+                        </div>
+                        <div style={{
+                            margin: '0px',
+                            border: '1px solid black',
+                            padding: '5px 0px 2px 0',
+                            backgroundColor: '#fff',
+                            width: '14.28%'
+                        }}>
+                            <p style={{
+                                margin: '0px'
+                            }}>
+                                <strong>t<sub>b</sub>({unit})</strong>
+                            </p>
+                        </div>
+                        <div style={{
+                            margin: '0px',
+                            border: '1px solid black',
+                            padding: '5px 0px 2px 0',
+                            backgroundColor: '#fff',
+                            width: '14.28%'
+                        }}>
+                            <p style={{
+                                margin: '0px'
+                            }}>
+                                <strong>t<sub></sub>({unit})</strong>
+                            </p>
+                        </div>
+                        <div style={{
+                            margin: '0px',
+                            border: '1px solid black',
+                            padding: '5px 0px 2px 0',
+                            backgroundColor: '#fff',
+                            width: '14.28%'
+                        }}>
+                            <p style={{
+                                margin: '0px'
+                            }}>
+                                <strong>r<sub></sub>({unit})</strong>
+                            </p>
+                        </div>
+                    </div>
+                    <SectionDimensionResultsRows/>
+                </>
+            )
+        } else if(method === 'Design') {
+            return (
+                <></>
+            )
+        }
+    }
 
     return (
         <Card style={{
@@ -40,147 +201,10 @@ const SectionDimensions = () => {
                 border: '1px solid black',
                 backgroundColor: '#e2e2e2',
             }}>
-                <strong>Section Dimension</strong>
+                <strong>{cardTitle}</strong>
             </Card>
             <SectionDimensionGraphs/>
-            <div style={{
-                display: 'flex',
-                padding: '1em',
-                width: '96%',
-                margin: '0 auto'
-            }}>
-                <div style={{
-                    margin: '0px',
-                    border: '1px solid black',
-                    padding: '5px',
-                    backgroundColor: '#fff',
-                    width: '14.28%'
-                }}>
-                    <p style={{
-                        margin: '0px'
-                    }}>
-                        <strong>ID</strong>
-                    </p>
-                </div>
-                <div style={{
-                    margin: '0px',
-                    border: '1px solid black',
-                    padding: '5px',
-                    backgroundColor: '#fff',
-                    width: '14.28%'
-                }}>
-                    <p style={{
-                        margin: '0px'
-                    }}>
-                        <strong>Names</strong>
-                    </p>
-                </div>
-                <div style={{
-                    margin: '0px',
-                    border: '1px solid black',
-                    padding: '5px',
-                    backgroundColor: '#fff',
-                    width: '14.28%'
-                }}>
-                    <p style={{
-                        margin: '0px'
-                    }}>
-                        <strong>d({unit})</strong>
-                    </p>
-                </div>
-                <div style={{
-                    margin: '0px',
-                    border: '1px solid black',
-                    padding: '5px 0px 2px 0',
-                    backgroundColor: '#fff',
-                    width: '14.28%'
-                }}>
-                    <p style={{
-                        margin: '0px'
-                    }}>
-                        <strong>b({unit})</strong>
-                    </p>
-                </div>
-                <div style={{
-                    margin: '0px',
-                    border: '1px solid black',
-                    padding: '5px 0px 2px 0',
-                    backgroundColor: '#fff',
-                    width: '14.28%'
-                }}>
-                    <p style={{
-                        margin: '0px'
-                    }}>
-                        <strong>t<sub>w</sub>({unit})</strong>
-                    </p>
-                </div>
-                <div style={{
-                    margin: '0px',
-                    border: '1px solid black',
-                    padding: '5px 0px 2px 0',
-                    backgroundColor: '#fff',
-                    width: '14.28%'
-                }}>
-                    <p style={{
-                        margin: '0px'
-                    }}>
-                        <strong>b<sub>f</sub>({unit})</strong>
-                    </p>
-                </div>
-                <div style={{
-                    margin: '0px',
-                    border: '1px solid black',
-                    padding: '5px 0px 2px 0',
-                    backgroundColor: '#fff',
-                    width: '14.28%'
-                }}>
-                    <p style={{
-                        margin: '0px'
-                    }}>
-                        <strong>t<sub>f</sub>({unit})</strong>
-                    </p>
-                </div>
-                <div style={{
-                    margin: '0px',
-                    border: '1px solid black',
-                    padding: '5px 0px 2px 0',
-                    backgroundColor: '#fff',
-                    width: '14.28%'
-                }}>
-                    <p style={{
-                        margin: '0px'
-                    }}>
-                        <strong>t<sub>b</sub>({unit})</strong>
-                    </p>
-                </div>
-                <div style={{
-                    margin: '0px',
-                    border: '1px solid black',
-                    padding: '5px 0px 2px 0',
-                    backgroundColor: '#fff',
-                    width: '14.28%'
-                }}>
-                    <p style={{
-                        margin: '0px'
-                    }}>
-                        <strong>t<sub></sub>({unit})</strong>
-                    </p>
-                </div>
-                <div style={{
-                    margin: '0px',
-                    border: '1px solid black',
-                    padding: '5px 0px 2px 0',
-                    backgroundColor: '#fff',
-                    width: '14.28%'
-                }}>
-                    <p style={{
-                        margin: '0px'
-                    }}>
-                        <strong>r<sub></sub>({unit})</strong>
-                    </p>
-                </div>
-            </div>
-            <SectionDimensionResultsRows/>
+            {displayRowHeaders()}
         </Card>
     )
 }

@@ -1,6 +1,7 @@
-import React, {useMemo} from "react";
-import {useSelector} from "react-redux";
+import React, {useEffect, useMemo} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {objectChecker} from "../../../../../utilities/utilities";
+import {getSectionDimensionsEnglish, getSectionDimensionsMetric} from "../../../../../store/actions/sheets/sheets";
 
 const SectionDimensionResultsRows = () => {
 
@@ -23,7 +24,7 @@ const SectionDimensionResultsRows = () => {
             hash[section_dimension_metric_name] = sectionDimensionsMetric[i]
         }
         return hash
-    }, [sectionPropertiesMetric])
+    }, [sectionPropertiesMetric, selectedSheet])
 
     const hashEnglish = useMemo(() => {
         let hash = {}
@@ -34,11 +35,9 @@ const SectionDimensionResultsRows = () => {
             hash[section_dimension_english_name] = sectionDimensionsEnglish[i]
         }
         return hash
-    }, [sectionDimensionsEnglish])
+    }, [sectionDimensionsEnglish, selectedSheet])
 
     let memberRows = []
-
-
 
     const renderMemberRowsMetric = () => {
         for (let index in insertedSectionsMetric) {
@@ -55,6 +54,7 @@ const SectionDimensionResultsRows = () => {
 
             const sectionDimensions_d_value = () => {
                 if(system === 'Metric') {
+                    // console.log("here == ", hashMetric)
                     if(hashMetric[insertedSectionsMetric[index].sectionName].section_dimension_metric_d === 'null') {
                         return '-'
                     } else {

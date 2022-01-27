@@ -513,6 +513,8 @@ const SectionPropertiesRows = () => {
             }
         }
 
+
+
         return (
             <div>
                 <Modal

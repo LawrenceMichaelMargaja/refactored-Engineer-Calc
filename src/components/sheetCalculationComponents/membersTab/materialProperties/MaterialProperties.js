@@ -95,6 +95,11 @@ const MaterialProperties = () => {
         }
     }
 
+    useEffect(() => {
+        getSteelTypesMetric()
+        getSteelTypesEnglish()
+    }, [])
+
     const getSteelTypesMetric = () => {
         fetch("http://127.0.0.1:8080/steeltypesmetric")
             .then((response) => response.json())
@@ -528,6 +533,7 @@ const MaterialProperties = () => {
                 if (size(insertedSteelTypesMetric) === 0) {
                     const customSteelTypeInitial = {}
                     customSteelTypeInitial[0] = {
+                        id: 1,
                         name: customSteelType,
                         EMPA: theEMPAValue,
                         FYMPA: theFYMPAValue,
@@ -541,20 +547,22 @@ const MaterialProperties = () => {
                     dispatch(setCurrentMaterialsArray(1, selectedSheet))
                     setOpenNestedModal(false)
                 } else if (size(insertedSteelTypesMetric) > 0) {
-                    const currentCustomSteelTypes = {...insertedSteelTypesEnglish}
+                    const currentCustomSteelTypes = {...insertedSteelTypesMetric}
                     const currentCustomSteelTypesSize = size(insertedSteelTypesMetric)
                     currentCustomSteelTypes[currentCustomSteelTypesSize] = {
+                        id: parseFloat(currentCustomSteelTypesSize + 1),
                         name: customSteelType,
                         EMPA: theEMPAValue,
                         FYMPA: theFYMPAValue,
                         FUMPA: theFUMPAValue,
                         custom: true
                     }
+                    console.log("Herer == ", currentCustomSteelTypes)
                     dispatch(setMetricMaterialSteelType(currentCustomSteelTypes, selectedSheet))
                     dispatch(setEnglishMaterialSteelType(currentCustomSteelTypes, selectedSheet))
                     dispatch(setCustomSelectedSteelType(customSteelType, selectedSheet))
-                    dispatch(setCurrentMaterialsArray(currentCustomSteelTypesSize, selectedSheet))
-                    dispatch(setCurrentMetricMaterialPropertiesIndex(parseFloat(currentCustomSteelTypesSize) + 1, selectedSheet))
+                    dispatch(setCurrentMaterialsArray(parseFloat(currentCustomSteelTypesSize + 1), selectedSheet))
+                    // dispatch(setCurrentMetricMaterialPropertiesIndex(parseFloat(currentCustomSteelTypesSize) + 1, selectedSheet))
                     setOpenNestedModal(false)
                 }
             } else {

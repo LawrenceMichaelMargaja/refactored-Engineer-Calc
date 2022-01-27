@@ -9,55 +9,6 @@ const MemberDesignRatioRows = () => {
     const members = objectChecker(sheets, ['sheets', selectedSheet, 'members'])
     const calculatedData = objectChecker(sheets, ['sheets', selectedSheet, 'calculatedData'])
 
-    const [ptColor, setPtColor] = useState('#fff')
-    const [pcColor, setPcColor] = useState('#fff')
-    const [mcxColor, setMcxColor] = useState('#fff')
-    const [mcyColor, setMcyColor] = useState('#fff')
-    const [vcxColor, setVcxColor] = useState('#fff')
-
-    const [pratioColor, setPratioColor] = useState('#fff')
-    const [mxRatioColor, setMxRatioColor] = useState('#fff')
-    const [myRatioColor, setMyRatioColor] = useState('#fff')
-    const [vxRatioColor, setVxRatioColor] = useState('#fff')
-    const [vyRatioColor, setVyRatioColor] = useState('#fff')
-
-    // useEffect(() => {
-    //     if(calculatedData.pratio > 1.0) {
-    //         setPratioColor('light-red')
-    //     }
-    //     if(calculatedData.mx_ratio > 1.0) {
-    //         setMxRatioColor('light-red')
-    //     }
-    //     if(calculatedData.my_ratio > 1.0) {
-    //         setMyRatioColor('light-red')
-    //     }
-    //     if(calculatedData.vx_ratio > 1.0) {
-    //         setVxRatioColor('light-red')
-    //     }
-    //     if(calculatedData.vy_ratio > 1.0) {
-    //         setVyRatioColor('light-red')
-    //     }
-    // }, [calculatedData])
-    //
-    // useEffect(() => {
-    //     if(calculatedData.pratio < 1.0) {
-    //         setPratioColor('yellow')
-    //     }
-    //     if(calculatedData.mx_ratio < 1.0) {
-    //         setMxRatioColor('red')
-    //     }
-    //     if(calculatedData.my_ratio < 1.0) {
-    //         setMyRatioColor('red')
-    //     }
-    //     if(calculatedData.vx_ratio < 1.0) {
-    //         setVxRatioColor('red')
-    //     }
-    //     if(calculatedData.vy_ratio < 1.0) {
-    //         setVyRatioColor('red')
-    //     }
-    // }, [calculatedData])
-
-
     let memberRows = []
 
     const renderMemberRows = () => {
@@ -98,11 +49,10 @@ const MemberDesignRatioRows = () => {
             }
             if (calculatedData[calculatedIndex].k_lr > 1.0) {
                 klrBG = 'pink'
-            }
-            if (calculatedData[calculatedIndex].pratio > 1.0 || calculatedData[calculatedIndex].mx_ratio > 1.0 || calculatedData[calculatedIndex].my_ratio > 1.0 || calculatedData[calculatedIndex].vx_ratio > 1.0 || calculatedData[calculatedIndex].vy_ratio > 1.0 || calculatedData[calculatedIndex].combined > 1.0 || calculatedData[calculatedIndex].k_lr > 1.0) {
                 statusBG = 'pink'
                 statusText = 'FAIL'
             }
+
 
 
             if(calculatedData[calculatedIndex].pratio < 1.0) {
@@ -132,10 +82,7 @@ const MemberDesignRatioRows = () => {
             if (calculatedData[calculatedIndex].k_lr < 1.0) {
                 klrBG = 'lightGreen'
             }
-            if (calculatedData[calculatedIndex].pratio > 0.95 || calculatedData[calculatedIndex].mx_ratio > 0.95 || calculatedData[calculatedIndex].my_ratio > 0.95 || calculatedData[calculatedIndex].vx_ratio > 0.95 || calculatedData[calculatedIndex].vy_ratio > 0.95 || calculatedData[calculatedIndex].combined > 0.95 || calculatedData[calculatedIndex].k_lr > 0.95) {
-                statusBG = 'yellow'
-                statusText = 'WARNING'
-            }
+
 
             if(calculatedData[calculatedIndex].pratio == 1.0) {
                 pratioBG = '#fff'
@@ -163,7 +110,15 @@ const MemberDesignRatioRows = () => {
             if (calculatedData[calculatedIndex].k_lr == 1.0) {
                 klrBG = '#fff'
             }
-            if (calculatedData[calculatedIndex].pratio < 0.95 || calculatedData[calculatedIndex].mx_ratio < 0.95 || calculatedData[calculatedIndex].my_ratio < 0.95 || calculatedData[calculatedIndex].vx_ratio < 0.95 || calculatedData[calculatedIndex].vy_ratio < 0.95 || calculatedData[calculatedIndex].combined < 0.95 || calculatedData[calculatedIndex].k_lr < 0.95) {
+
+
+            if (calculatedData[calculatedIndex].pratio > 1.0 || calculatedData[calculatedIndex].mx_ratio > 1.0 || calculatedData[calculatedIndex].my_ratio > 1.0 || calculatedData[calculatedIndex].vx_ratio > 1.0 || calculatedData[calculatedIndex].vy_ratio > 1.0 || calculatedData[calculatedIndex].combined > 1.0 || calculatedData[calculatedIndex].k_lr > 1.0) {
+                statusBG = 'pink'
+                statusText = 'FAIL'
+            } else if (calculatedData[calculatedIndex].pratio > 0.95 || calculatedData[calculatedIndex].mx_ratio > 0.95 || calculatedData[calculatedIndex].my_ratio > 0.95 || calculatedData[calculatedIndex].vx_ratio > 0.95 || calculatedData[calculatedIndex].vy_ratio > 0.95 || calculatedData[calculatedIndex].combined > 0.95 || calculatedData[calculatedIndex].k_lr > 0.95) {
+                statusBG = 'yellow'
+                statusText = 'WARNING'
+            } else if (calculatedData[calculatedIndex].pratio < 0.95 || calculatedData[calculatedIndex].mx_ratio < 0.95 || calculatedData[calculatedIndex].my_ratio < 0.95 || calculatedData[calculatedIndex].vx_ratio < 0.95 || calculatedData[calculatedIndex].vy_ratio < 0.95 || calculatedData[calculatedIndex].combined < 0.95 || calculatedData[calculatedIndex].k_lr < 0.95) {
                 statusBG = 'lightGreen'
                 statusText = 'PASS'
             }

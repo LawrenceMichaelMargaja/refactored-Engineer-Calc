@@ -97,6 +97,7 @@ const Header = () => {
     const sectionPropertiesArray = objectChecker(sheets, ['sheets', selectedSheet, 'currentSectionsArray'])
     const currentMaterials = objectChecker(sheets, ['sheets', selectedSheet, 'currentMaterialsArray'])
     // const pt = objectChecker(sheets, ['sheets', selectedSheet, 'calculatedData', 'pt'])
+    const sectionDimensionsMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'sectionDimensionsMetric'])
 
     const listSectionIds = () => {
         let sectionIdMap = null
@@ -119,13 +120,13 @@ const Header = () => {
         <div>
             <div>
                 {/*{listSectionIds()}*/}
-                {/*<p style={{*/}
-                {/*    padding: '2em',*/}
-                {/*    wordWrap: 'break-word'*/}
-                {/*    // width: '50vw'*/}
-                {/*}}>*/}
-                {/*    {JSON.stringify(calculatedData)}*/}
-                {/*</p>*/}
+                <p style={{
+                    padding: '2em',
+                    wordWrap: 'break-word'
+                    // width: '50vw'
+                }}>
+                    {JSON.stringify(sectionDimensionsMetric.length)}
+                </p>
             </div>
             <div className={classes.root}>
                 <div className={classes.titleContainer}>

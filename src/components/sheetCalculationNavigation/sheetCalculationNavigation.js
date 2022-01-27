@@ -148,57 +148,24 @@ const SheetCalculationNavigation = () => {
 
     const beamCalcDataSender = () => {
         let body = []
-        let objectToBeSent = {}
-
-
-
 
         for(let memberIndex in members) {
             const memberId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'memberId'])
             const sectionId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'sectionId'])
             const materialId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'materialId'])
 
-            // const src = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'slendernessRatioInCompression'])
-            // alert("src" + src)
-            // console.log(sectionId);
-
-            // alert("unbracedLengthLateralTorsional" + JSON.stringify(unbracedLengthLateralTorsional))
-
-            const mod_e_value = () => {
-                if(system === 'metric') {
-                    parseFloat(materialHashMetric[materialId].EMPA)
-                } else if(system === 'english') {
-                    parseFloat(materialHashEnglish[materialId].EMPA)
-                }
-            }
-
-            const yield_str_value = () => {
-                if(system === 'metric') {
-                    parseFloat(materialHashMetric[materialId].FYMPA)
-                } else if(system === 'english') {
-                    parseFloat(materialHashEnglish[materialId].FYMPA)
-                }
-            }
-
-            const ult_str_value = () => {
-                if(system === 'metric') {
-                    parseFloat(materialHashMetric[materialId].FUMPA)
-                } else if(system === 'english') {
-                    parseFloat(materialHashEnglish[materialId].FUMPA)
-                }
-            }
-
             let idObject = {
                 analysis: analysis,
                 method: method,
                 units: units,
             }
+            console.log('materialId', materialHashMetric);
 
             for(let factorsIndex in factors) {
-                idObject['tensile_factor'] = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForTensile'])
-                idObject['compress_factor'] = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForCompression'])
-                idObject['bending_factor'] = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForFlexure'])
-                idObject['shear_factor'] = objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForShear'])
+                idObject['tensile_factor'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForTensile']))
+                idObject['compress_factor'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForCompression']))
+                idObject['bending_factor'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForFlexure']))
+                idObject['shear_factor'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForShear']))
             }
             for(let forcesIndex in forces) {
                 idObject['vx'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'bendingMomentAlongXAxis']))
@@ -207,17 +174,17 @@ const SheetCalculationNavigation = () => {
                 idObject['my'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'shearAlongYAxis']))
                 idObject['p'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'axial']))
             }
-                idObject['id'] = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'memberId'])
-                idObject['lb'] = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'totalLengthOfMember'])
-                idObject['lx'] = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'yAxisUnbracedLength'])
-                idObject['Kx'] = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'yAxisEffectiveLengthFactor'])
-                idObject['Ly'] = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'zAxisUnbracedLength'])
-                idObject['ky'] = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'zAxisEffectiveLengthFactor'])
+                idObject['id'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'memberId']))
+                idObject['lb'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'totalLengthOfMember']))
+                idObject['lx'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'yAxisUnbracedLength']))
+                idObject['Kx'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'yAxisEffectiveLengthFactor']))
+                idObject['Ly'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'zAxisUnbracedLength']))
+                idObject['ky'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'zAxisEffectiveLengthFactor']))
                 idObject['llt'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'LLT']))
-                idObject['cbx'] = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'unbracedLengthLateralTorsional'])
-                idObject['cby'] = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'lateralTorsionalModificationFactor'])
-                idObject['s_rc'] = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'slendernessRatioInCompression'])
-                idObject['s_rt'] = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'LST'])
+                idObject['cbx'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'unbracedLengthLateralTorsional']))
+                idObject['cby'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'lateralTorsionalModificationFactor']))
+                idObject['s_rc'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'slendernessRatioInCompression']))
+                idObject['s_rt'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'LST']))
                 idObject['mod_e'] = system === 'Metric' ? parseFloat(materialHashMetric[materialId].EMPA) : parseFloat(materialHashEnglish[materialId].EMPA)
                 idObject['yield_str'] = system === 'Metric' ? parseFloat(materialHashMetric[materialId].FYMPA) : parseFloat(materialHashEnglish[materialId].FYMPA)
                 idObject['ult_str'] = system === 'Metric' ? parseFloat(materialHashMetric[materialId].FUMPA) : parseFloat(materialHashEnglish[materialId].FYMPA)

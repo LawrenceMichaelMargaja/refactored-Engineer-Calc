@@ -1,11 +1,27 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Button, Paper, Tab, Tabs} from "@material-ui/core";
 import CancelIcon from "@material-ui/icons/Cancel";
 import AddIcon from '@material-ui/icons/Add';
 import {useDispatch, useSelector} from "react-redux";
 import {mapKeys, size} from "lodash";
 import {
-    addNewSheet,
+    addNewSheet, get2LShapeEnglish, get2LShapeMetric, getCShapeEnglish,
+    getCShapeMetric,
+    getIShapesEnglish,
+    getIShapesMetric,
+    getLShapesEnglish,
+    getLShapesMetric,
+    getPipeShapesEnglish,
+    getPipeShapesMetric,
+    getRecHsShapesEnglish,
+    getRecHsShapesMetric,
+    getRoundHsShapesEnglish,
+    getRoundHsShapesMetric,
+    getSectionDimensionsEnglish,
+    getSectionDimensionsMetric, getSectionPropertiesEnglish, getSectionPropertiesMetric,
+    getShapes, getSteelTypesEnglishAPI, getSteelTypesMetricAPI,
+    getTShapesEnglish,
+    getTShapesMetric,
     removeSheet,
     setDisableMenuButtons,
     setRouteUrl,
@@ -14,6 +30,7 @@ import {
 } from "../../store/actions/sheets/sheets";
 import {useNavigate} from "react-router";
 import {makeStyles} from "@material-ui/core/styles";
+import {objectChecker} from "../../utilities/utilities";
 
 const useStyles = makeStyles((theme) => ({
     indicator: {
@@ -33,6 +50,228 @@ const SheetTabs = () => {
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
 
     const navigate = useNavigate()
+
+    const toBeAddedSheetNumber = parseFloat(size(sheets) - 1)
+
+    console.log("the new sheet index -- ", parseFloat(size(sheets)))
+
+    const fetchShapes = () => {
+        fetch("http://127.0.0.1:8080/shape")
+            .then((response) => response.json())
+            .then((data) => dispatch(getShapes(data, parseFloat(size(sheets)))))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchSectionDimensionsMetric = () => {
+        fetch("http://127.0.0.1:8080/sectiondimensionmetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getSectionDimensionsMetric(data, parseFloat(size(sheets)))))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchSectionDimensionsEnglish = () => {
+        fetch("http://127.0.0.1:8080/sectiondimensionenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(getSectionDimensionsEnglish(data, parseFloat(size(sheets)))))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    /**
+     * Start of T-Shape
+     */
+    const fetchTShapeMetric = () => {
+        fetch("http://127.0.0.1:8080/tshapemetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getTShapesMetric(data, parseFloat(size(sheets)))))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchTShapeEnglish = () => {
+        fetch("http://127.0.0.1:8080/tshapeenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(getTShapesEnglish(data, parseFloat(size(sheets)))))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+    /**
+     * End of T-Shape
+     */
+
+    /**
+     * Start of Round HS - Shape
+     */
+    const fetchRoundHSShapeMetric = () => {
+        fetch("http://127.0.0.1:8080/roundhsshapemetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getRoundHsShapesMetric(data, parseFloat(size(sheets)))))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchRoundHSShapeEnglish = () => {
+        fetch("http://127.0.0.1:8080/roundhsshapeenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(getRoundHsShapesEnglish(data, parseFloat(size(sheets)))))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchRecHSShapeMetric = () => {
+        fetch("http://127.0.0.1:8080/rechsshapemetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getRecHsShapesMetric(data, parseFloat(size(sheets)))))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchRecHSShapeEnglish = () => {
+        fetch("http://127.0.0.1:8080/rechsshapeenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(getRecHsShapesEnglish(data, parseFloat(size(sheets)))))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchPipeShapeMetric = () => {
+        fetch("http://127.0.0.1:8080/pipeshapemetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getPipeShapesMetric(data, parseFloat(size(sheets)))))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchPipeShapeEnglish = () => {
+        fetch("http://127.0.0.1:8080/pipeshapeenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(getPipeShapesEnglish(data, parseFloat(size(sheets)))))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchLShapeMetric = () => {
+        fetch("http://127.0.0.1:8080/lshapemetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getLShapesMetric(data, parseFloat(size(sheets)))))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchLShapeEnglish = () => {
+        fetch("http://127.0.0.1:8080/lshapeenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(getLShapesEnglish(data, parseFloat(size(sheets)))))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchIShapeMetric = () => {
+        fetch("http://127.0.0.1:8080/ishapemetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getIShapesMetric(data, parseFloat(size(sheets)))))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchIShapeEnglish = () => {
+        fetch("http://127.0.0.1:8080/ishapeenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(getIShapesEnglish(data, parseFloat(size(sheets)))))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchCShapeMetric = () => {
+        fetch("http://127.0.0.1:8080/cshapemetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getCShapeMetric(data, parseFloat(size(sheets)))))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchCShapeEnglish = () => {
+        fetch("http://127.0.0.1:8080/cshapeenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(getCShapeEnglish(data, parseFloat(size(sheets)))))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetch2LShapeMetric = () => {
+        fetch("http://127.0.0.1:8080/2lshapemetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(get2LShapeMetric(data, parseFloat(size(sheets)))))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetch2LShapeEnglish = () => {
+        fetch("http://127.0.0.1:8080/2lshapeenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(get2LShapeEnglish(data, parseFloat(size(sheets)))))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const getSteelTypesMetric = () => {
+        fetch("http://127.0.0.1:8080/steeltypesmetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getSteelTypesMetricAPI(data, parseFloat(size(sheets)))))
+            //     .then((data) => alert(JSON.stringify(data)))
+            .catch((error) => {
+                console.log(error)
+            });
+    }
+
+    const getSteelTypesEnglish = () => {
+        fetch("http://127.0.0.1:8080/steeltypesenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(getSteelTypesEnglishAPI(data, parseFloat(size(sheets)))))
+            .catch((error) => {
+                console.log(error)
+            });
+    }
+
+    const getMetricSectionProperties = () => {
+        fetch("http://127.0.0.1:8080/sectionpropertiesmetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getSectionPropertiesMetric(data, parseFloat(size(sheets)))))
+            // .then((data) => console.log(sectionPropertiesMetric))
+            .catch((error) => {
+                console.log(error)
+            });
+    }
+
+    const getEnglishSectionProperties = () => {
+        fetch("http://127.0.0.1:8080/sectionpropertiesenglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(getSectionPropertiesEnglish(data, parseFloat(size(sheets)))))
+            .catch((error) => {
+                console.log(error)
+            });
+    }
 
     const insertSheet = () => {
         if (size(sheets) === 0) {
@@ -88,6 +327,7 @@ const SheetTabs = () => {
                     customMaterialModal: false,
                     steelTypeMetricProperties: {
                         0: {
+                            id: 1,
                             name: 'A36',
                             EMPA: '200000',
                             FYMPA: '248',
@@ -97,6 +337,7 @@ const SheetTabs = () => {
                     },
                     steelTypeEnglishProperties: {
                         0: {
+                            id: 1,
                             name: 'A36',
                             EMPA: '200000',
                             FYMPA: '248',
@@ -106,6 +347,7 @@ const SheetTabs = () => {
                     },
                     customSteelTypes: {
                         0: {
+                            id: 1,
                             name: 'Custom Steel Type',
                             EMPA: '',
                             FYMPA: '',
@@ -196,6 +438,29 @@ const SheetTabs = () => {
             // getSheetTabSelected(0)
             dispatch(setDisableMenuButtons(false))
             dispatch(setSelectedSheet(0))
+            fetchSectionDimensionsMetric()
+            fetchSectionDimensionsEnglish()
+            fetch2LShapeEnglish()
+            fetch2LShapeMetric()
+            fetchCShapeEnglish()
+            fetchCShapeMetric()
+            fetchIShapeEnglish()
+            fetchIShapeMetric()
+            fetchLShapeEnglish()
+            fetchLShapeMetric()
+            fetchPipeShapeEnglish()
+            fetchPipeShapeMetric()
+            fetchRecHSShapeEnglish()
+            fetchRecHSShapeMetric()
+            fetchRoundHSShapeEnglish()
+            fetchRoundHSShapeMetric()
+            fetchTShapeEnglish()
+            fetchTShapeMetric()
+            fetchShapes()
+            getSteelTypesMetric()
+            getSteelTypesEnglish()
+            getMetricSectionProperties()
+            getEnglishSectionProperties()
         } else {
             const newSizeIndex = size(sheets)
             const currentSheets = {...sheets}
@@ -251,6 +516,7 @@ const SheetTabs = () => {
                     customMaterialModal: false,
                     steelTypeMetricProperties: {
                         0: {
+                            id: 1,
                             name: 'A36',
                             EMPA: '200000',
                             FYMPA: '248',
@@ -260,6 +526,7 @@ const SheetTabs = () => {
                     },
                     steelTypeEnglishProperties: {
                         0: {
+                            id: 1,
                             name: 'A36',
                             EMPA: '200000',
                             FYMPA: '248',
@@ -269,6 +536,7 @@ const SheetTabs = () => {
                     },
                     customSteelTypes: {
                         0: {
+                            id: 1,
                             name: 'Custom Steel Type',
                             EMPA: '',
                             FYMPA: '',
@@ -359,8 +627,39 @@ const SheetTabs = () => {
             navigate('/details')
             // getSheetTabSelected(newSizeIndex)
             dispatch(setSelectedSheet(newSizeIndex))
+            fetchSectionDimensionsMetric()
+            fetchSectionDimensionsEnglish()
+            fetch2LShapeEnglish()
+            fetch2LShapeMetric()
+            fetchCShapeEnglish()
+            fetchCShapeMetric()
+            fetchIShapeEnglish()
+            fetchIShapeMetric()
+            fetchLShapeEnglish()
+            fetchLShapeMetric()
+            fetchPipeShapeEnglish()
+            fetchPipeShapeMetric()
+            fetchRecHSShapeEnglish()
+            fetchRecHSShapeMetric()
+            fetchRoundHSShapeEnglish()
+            fetchRoundHSShapeMetric()
+            fetchTShapeEnglish()
+            fetchTShapeMetric()
+            fetchShapes()
+            getSteelTypesMetric()
+            getSteelTypesEnglish()
+            getMetricSectionProperties()
+            getEnglishSectionProperties()
         }
     }
+
+    const tabState = objectChecker(sheets, ['sheets', selectedSheet, 'tabState'])
+
+    // useEffect(() => {
+    //     if(tabState === 'forces') {
+    //         navigate('/details')
+    //     }
+    // }, [])
 
     const removeSelectedSheet = (sheetIndex, event) => {
         if (event.button === 0) {

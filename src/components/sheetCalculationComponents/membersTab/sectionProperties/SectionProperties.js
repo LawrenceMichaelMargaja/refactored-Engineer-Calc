@@ -31,6 +31,7 @@ import {
 } from "../../../../store/actions/sheets/sheets";
 import {objectChecker} from "../../../../utilities/utilities";
 import {setSystemDropdown} from "../../../../store/actions/dashboardDropdowns/systemDropdown";
+import SectionPropertiesRowsDesign from "./sectionPropertiesRows/SectionPropertiesRowsDesign";
 
 
 const SectionProperties = () => {
@@ -956,6 +957,18 @@ const SectionProperties = () => {
         }
     }
 
+    const displayRows = () => {
+        if(method === 'Investigation') {
+            return (
+                <SectionPropertiesRows/>
+            )
+        } else if(method === 'Design') {
+            return (
+                <SectionPropertiesRowsDesign/>
+            )
+        }
+    }
+
     return (
         <div style={{
             width: '40%',
@@ -1000,7 +1013,6 @@ const SectionProperties = () => {
                     border: '1px solid black',
                     padding: '5px',
                     backgroundColor: '#e2e2e2',
-                    width: '100%',
                     textAlign: 'center'
                 }}>
                     <p style={{margin: '0px'}}><strong>SECTIONS</strong></p>
@@ -1060,7 +1072,8 @@ const SectionProperties = () => {
                 </div>
             </div>
             <div style={{margin: '0 auto', width: '95%'}}>
-                <SectionPropertiesRows/>
+                {displayRows()}
+                {/*<SectionPropertiesRows/>*/}
             </div>
             {displayModal()}
         </div>
