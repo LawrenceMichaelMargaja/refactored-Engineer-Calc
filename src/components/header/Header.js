@@ -125,7 +125,7 @@ const Header = () => {
                     wordWrap: 'break-word'
                     // width: '50vw'
                 }}>
-                    {JSON.stringify(sectionDimensionsMetric.length)}
+                    {JSON.stringify(sectionsMetric)}
                 </p>
             </div>
             <div className={classes.root}>

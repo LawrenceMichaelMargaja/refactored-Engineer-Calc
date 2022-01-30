@@ -78,8 +78,8 @@ const ResultsTab = () => {
                 <>
                     <DesignMaterials/>
                     <SectionDimensions/>
+                    <MemberTabProperties/>
                     {/*<SectionProperties/>*/}
-                    {/*<MemberTabProperties/>*/}
                     {/*<MemberDesignCapacity/>*/}
                     {/*<MemberDesignRatio/>*/}
                 </>

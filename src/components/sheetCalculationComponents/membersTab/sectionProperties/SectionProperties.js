@@ -555,17 +555,6 @@ const SectionProperties = () => {
             return checkedIndexEnglish
         }
 
-        const metricShapeIndexChecker = () => {
-            let checkedIndexMetric = null
-            for (let index in sectionPropertiesMetric) {
-                if (selectedSectionShape === sectionPropertiesMetric[index].section_properties_metric_name) {
-                    checkedIndexMetric = index
-                }
-            }
-            return checkedIndexMetric
-        }
-
-
         const insertSectionProperty = () => {
             const counterNameValue = () => {
                 if(system === 'Metric') {
@@ -611,8 +600,8 @@ const SectionProperties = () => {
                         return null
                     }
                 }
-
             }
+
             if (system === 'Metric') {
                 if (size(insertedSectionPropertiesMetric) === 0) {
                     // alert("made it inside")
@@ -660,24 +649,6 @@ const SectionProperties = () => {
                         sectionName: counterNameValue()
                     }
 
-                    // if(selectedSectionShape === 'I-shaped' && sectionDimensionsArray.includes('I-shaped')) {
-                    //     alert("I-shaped")
-                    // } else if(selectedSectionShape === 'C-shaped' && sectionDimensionsArray.includes('C-shaped')) {
-                    //     alert("C-shaped")
-                    // } else if(selectedSectionShape === 'Angles' && sectionDimensionsArray.includes('Angles')) {
-                    //     alert("Angles")
-                    // } else if(selectedSectionShape === 'T-shaped' && sectionDimensionsArray.includes('T-shaped')) {
-                    //     alert('T-shaped')
-                    // } else if(selectedSectionShape === 'Double Angles' && sectionDimensionsArray.includes('Double Angles')) {
-                    //     alert("Double Angles")
-                    // } else if(selectedSectionShape === 'Rectangular HSS' && sectionDimensionsArray.includes('Rectangular HSS')) {
-                    //     alert("Rectangular HSS")
-                    // } else if(selectedSectionShape === 'Round HSS' && sectionDimensionsArray.includes('Round HSS')) {
-                    //     alert("Round HSS")
-                    // } else if(selectedSectionShape === 'Pipe' && sectionDimensionsArray.includes('Pipe')) {
-                    //     alert("Pipe")
-                    // }
-
                     if(sectionDimensionsArray.length <= 0) {
                         // alert("please")
                         dispatch(setSectionDimensionsArrayMetric(selectedSectionShape, selectedSheet))
@@ -707,13 +678,6 @@ const SectionProperties = () => {
                                 break
                             }
                         }
-                        // alert("ho ho ho")
-                        // dispatch(setSectionDimensionsArrayMetric(selectedSectionShape, selectedSheet))
-                        // dispatch(setSectionDimensionsArrayEnglish(selectedSectionShape, selectedSheet))
-                        // dispatch(setCurrentSectionPropertiesArray(parseFloat(newSectionSizeMetric) + 1, selectedSheet))
-                        // dispatch(addSectionPropertyMetric(currentSectionsMetric, selectedSheet))
-                        // dispatch(addSectionPropertyEnglish(currentSectionEnglish, selectedSheet))
-                        // setOpenNestedModal(false)
                     }
 
                 }

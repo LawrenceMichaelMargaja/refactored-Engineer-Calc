@@ -14,10 +14,10 @@ const SectionDimensionGraphs = () => {
 
     const sheets = useSelector(state => state.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
+    const method = objectChecker(sheets, ['sheets', selectedSheet, 'method'])
     const insertedSectionPropertiesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric'])
     const insertedSectionPropertiesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesEnglish'])
     const sectionDimensionShapes = objectChecker(sheets, ['sheets', selectedSheet, 'sectionDimensionsArrayMetric'])
-    // const angles = require('../../sectionDimensions/images/anglesShape.jpeg')
 
     let shapesArray = []
     const [shape, setShape] = useState('')
@@ -61,60 +61,10 @@ const SectionDimensionGraphs = () => {
             setRoundHSAndPipeDisplay('fit-content')
         }
     }, [])
-    //
-    // useEffect(() => {
-    //     if(iShapePresent) {
-    //         alert("hell = " + JSON.stringify(insertedSectionPropertiesMetric))
-    //         setIShapeDisplay('fit-content')
-    //     }
-    //     if(cShapePresent) {
-    //         setCShapeDisplay('fit-content')
-    //     }
-    //     if(anglesPresent) {
-    //         setAnglesDisplay('fit-content')
-    //     }
-    //     if(tShapePresent) {
-    //         // alert("yes yes");
-    //         setTShapeDisplay('fit-content')
-    //     }
-    //     if(doubleAnglePresent) {
-    //         setDoubleAnglesDisplay('fit-content')
-    //     }
-    //     if(rectangularHSShapePresent) {
-    //         setRectangularDisplay('fit-content')
-    //     }
-    //     if(roundHSAndPipeShapePresent) {
-    //         setRoundHSAndPipeDisplay('fit-content')
-    //     }
-    // }, [insertedSectionPropertiesMetric])
-
-    // useEffect(() => {
-    //     if(iShapePresent) {
-    //         setIShapeDisplay('visible')
-    //     }
-    //     if(cShapePresent) {
-    //         setCShapeDisplay('visible')
-    //     }
-    //     if(anglesPresent) {
-    //         setAnglesDisplay('visible')
-    //     }
-    //     if(tShapePresent) {
-    //         setTShapeDisplay('visible')
-    //     }
-    //     if(doubleAnglePresent) {
-    //         setDoubleAnglesDisplay('visible')
-    //     }
-    //     if(rectangularHSShapePresent) {
-    //         setRectangularDisplay('visible')
-    //     }
-    //     if(roundHSAndPipeShapePresent) {
-    //         setRoundHSAndPipeDisplay('visible')
-    //     }
-    // }, [sectionDimensionShapes])
 
     const renderIShape = () => {
         for (let i in insertedSectionPropertiesMetric) {
-            if (insertedSectionPropertiesMetric[i].sectionShape === 'I-shaped') {
+            if ((insertedSectionPropertiesMetric[i].sectionShape).toUpperCase() === ('I-shaped').toUpperCase()) {
                 // alert("i shape");
                 setIShapeDisplay('initial')
                 setIShapePresent(true)
@@ -125,7 +75,7 @@ const SectionDimensionGraphs = () => {
 
     const renderCShape = () => {
         for (let i in insertedSectionPropertiesMetric) {
-            if (insertedSectionPropertiesMetric[i].sectionShape === 'C-shaped') {
+            if ((insertedSectionPropertiesMetric[i].sectionShape).toUpperCase() === ('C-shaped').toUpperCase()) {
                 // alert("c shape");
                 setCShapeDisplay('initial')
                 setCShapePresent(true)
@@ -136,7 +86,7 @@ const SectionDimensionGraphs = () => {
 
     const renderAngles = () => {
         for (let i in insertedSectionPropertiesMetric) {
-            if (insertedSectionPropertiesMetric[i].sectionShape === 'Angles') {
+            if ((insertedSectionPropertiesMetric[i].sectionShape).toUpperCase() === ('Angles').toUpperCase()) {
                 // alert("angles");
                 setAnglesDisplay('initial')
                 setAnglesPresent(true)
@@ -147,7 +97,7 @@ const SectionDimensionGraphs = () => {
 
     const renderTShape = () => {
         for (let i in insertedSectionPropertiesMetric) {
-            if (insertedSectionPropertiesMetric[i].sectionShape === 'T-shaped') {
+            if ((insertedSectionPropertiesMetric[i].sectionShape).toUpperCase() === ('T-shaped').toUpperCase()) {
                 // alert("t shape");
                 setTShapeDisplay('initial')
                 setTShapePresent(true)
@@ -158,7 +108,7 @@ const SectionDimensionGraphs = () => {
 
     const renderDoubleAngles = () => {
         for (let i in insertedSectionPropertiesMetric) {
-            if (insertedSectionPropertiesMetric[i].sectionShape === 'Double Angles') {
+            if ((insertedSectionPropertiesMetric[i].sectionShape).toUpperCase() === ('Double Angles').toUpperCase()) {
                 // alert("double angles");
                 setDoubleAnglesDisplay('initial')
                 setDoubleAnglePresent(true)
@@ -169,7 +119,7 @@ const SectionDimensionGraphs = () => {
 
     const renderRectangularHS = () => {
         for (let i in insertedSectionPropertiesMetric) {
-            if (insertedSectionPropertiesMetric[i].sectionShape === 'Rectangular HSS') {
+            if ((insertedSectionPropertiesMetric[i].sectionShape).toUpperCase() === ('Rectangular HSS').toUpperCase()) {
                 // alert("rec shape");
                 setRectangularDisplay('initial')
                 setDoubleAnglePresent(true)
@@ -180,7 +130,7 @@ const SectionDimensionGraphs = () => {
 
     const renderRoundAndPipeShape = () => {
         for (let i in insertedSectionPropertiesMetric) {
-            if (insertedSectionPropertiesMetric[i].sectionShape === 'Round HSS' || insertedSectionPropertiesMetric[i].sectionShape === 'Pipe') {
+            if ((insertedSectionPropertiesMetric[i].sectionShape).toUpperCase() === ('Round HSS').toUpperCase() || (insertedSectionPropertiesMetric[i].sectionShape).toUpperCase() === ('Pipe').toUpperCase()) {
                 // alert("round and pipe shape");
                 setRoundHSAndPipeDisplay('initial')
                 setRoundHSAndPipeShapePresent(true)
@@ -252,85 +202,6 @@ const SectionDimensionGraphs = () => {
             </div>
         )
     }
-
-    // const renderGraphs = () => {
-    //     // alert(sectionDimensionShapes)
-    //
-    //     for (let index in sectionDimensionShapes) {
-    //         // shapesArray.push(
-    //         //     <div style={{width: '100%'}} key={index}>
-    //         //         <img style={{width: '220px', height: '200px'}} src={shape} alt="angle shape"/>
-    //         //     </div>
-    //         // )
-    //
-    //         if(iShapePresent) {
-    //             shapesArray.push(
-    //                 <div style={{width: '100%'}} key={index}>
-    //                     <img style={{width: '220px', height: '200px'}} src={iShape} alt="angle shape"/>
-    //                 </div>
-    //             )
-    //         }
-    //
-    //         if(cShapePresent) {
-    //             shapesArray.push(
-    //                 <div style={{width: '100%'}} key={index}>
-    //                     <img style={{width: '220px', height: '200px'}} src={cShape} alt="angle shape"/>
-    //                 </div>
-    //             )
-    //         }
-    //
-    //         if(anglesPresent) {
-    //             shapesArray.push(
-    //                 <div style={{width: '100%'}} key={index}>
-    //                     <img style={{width: '220px', height: '200px'}} src={anglesShape} alt="angle shape"/>
-    //                 </div>
-    //             )
-    //         }
-    //
-    //         if(tShapePresent) {
-    //             shapesArray.push(
-    //                 <div style={{width: '100%'}} key={index}>
-    //                     <img style={{width: '220px', height: '200px'}} src={tShape} alt="angle shape"/>
-    //                 </div>
-    //             )
-    //         }
-    //
-    //         if(doubleAnglePresent) {
-    //             shapesArray.push(
-    //                 <div style={{width: '100%'}} key={index}>
-    //                     <img style={{width: '220px', height: '200px'}} src={doubleAngles} alt="angle shape"/>
-    //                 </div>
-    //             )
-    //         }
-    //
-    //         if(rectangularHSShapePresent) {
-    //             shapesArray.push(
-    //                 <div style={{width: '100%'}} key={index}>
-    //                     <img style={{width: '220px', height: '200px'}} src={recShape} alt="angle shape"/>
-    //                 </div>
-    //             )
-    //         }
-    //
-    //         if(roundHSAndPipeShapePresent) {
-    //             shapesArray.push(
-    //                 <div style={{width: '100%'}} key={index}>
-    //                     <img style={{width: '220px', height: '200px'}} src={pipeAndRoundShape} alt="angle shape"/>
-    //                 </div>
-    //             )
-    //         }
-    //     }
-    //     return (
-    //         <div style={{width: '90%', margin: '1em auto'}}>
-    //             <div style={{
-    //                 width: '100%',
-    //                 margin: '0 auto',
-    //                 display: 'flex',
-    //             }}>
-    //                 {shapesArray}
-    //             </div>
-    //         </div>
-    //     )
-    // }
     return renderGraphs()
 }
 export default SectionDimensionGraphs

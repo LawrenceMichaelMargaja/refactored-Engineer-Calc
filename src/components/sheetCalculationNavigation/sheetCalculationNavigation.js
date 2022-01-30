@@ -174,6 +174,12 @@ const SheetCalculationNavigation = () => {
                 idObject['my'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'shearAlongYAxis']))
                 idObject['p'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'axial']))
             }
+
+            for(let sectionIndex in sectionPropertiesMetric) {
+                idObject['name'] = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric', sectionIndex, 'sectionName'])
+                console.log("the shape == ", JSON.stringify(objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric', sectionIndex, 'sectionName'])));
+            }
+
                 idObject['id'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'memberId']))
                 idObject['lb'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'totalLengthOfMember']))
                 idObject['lx'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'yAxisUnbracedLength']))
@@ -225,6 +231,8 @@ const SheetCalculationNavigation = () => {
         let errorLocation = null
         let important = null
 
+        const insertedSectionPropertiesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric'])
+
         for (let memberIndex in members) {
             const memberId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'memberId'])
             // const materialId = sheetTabs.members[memberIndex].materialId
@@ -275,6 +283,29 @@ const SheetCalculationNavigation = () => {
 
             if ((memberId === '0' || memberId === 0) || (materialId === '0' || materialId === 0 || materialId === '' || materialId < 0 || materialId < '0') || (sectionId === '0' || sectionId === 0 || sectionId === '' || sectionId < 0 || sectionId < '0') || (totalLengthOfMember === '0' || totalLengthOfMember === 0 || totalLengthOfMember === '' || totalLengthOfMember < 0 || totalLengthOfMember < '0') || (yAxisUnbracedLength === '0' || yAxisUnbracedLength === 0 || yAxisUnbracedLength === '' || yAxisUnbracedLength < 0 || yAxisUnbracedLength < '0') || (yAxisEffectiveLengthFactor === '0' || yAxisEffectiveLengthFactor === 0 || yAxisEffectiveLengthFactor === '' || yAxisEffectiveLengthFactor < 0 || yAxisEffectiveLengthFactor < '0') || (zAxisUnbracedLength === '0' || zAxisUnbracedLength === 0 || zAxisUnbracedLength === '' || zAxisUnbracedLength < 0 || zAxisUnbracedLength < '0') || (zAxisEffectiveLengthFactor === '0' || zAxisEffectiveLengthFactor === 0 || zAxisEffectiveLengthFactor === '' || zAxisEffectiveLengthFactor < 0 || zAxisEffectiveLengthFactor < '0') || (unbracedLengthLateralTorsional === '0' || unbracedLengthLateralTorsional === 0 || unbracedLengthLateralTorsional === '' || unbracedLengthLateralTorsional < 0 || unbracedLengthLateralTorsional < '0') || (lateralTorsionalModificationFactor === '0' || lateralTorsionalModificationFactor === 0 || lateralTorsionalModificationFactor === '' || lateralTorsionalModificationFactor < 0 || lateralTorsionalModificationFactor < '0') || (slendernessRatioInCompression === '0' || slendernessRatioInCompression === 0 || slendernessRatioInCompression === '' || slendernessRatioInCompression < 0 || slendernessRatioInCompression < '0') || (slendernessRatioInTension === '0' || slendernessRatioInTension === 0 || slendernessRatioInTension === '' || slendernessRatioInTension < 0 || slendernessRatioInTension < '0')) {
                 arrayCheck.push('membersTab error : membersTab value is zero, null, or negative')
+            }
+        }
+
+        const shapes = ['I-shaped', 'C-shaped', 'Angles', 'T-shaped', 'Double Angles', 'Rectangular HSS', 'Pipe']
+
+        if(method === 'Design') {
+            let shapeState = false
+            for(let sectionIndex in insertedSectionPropertiesMetric) {
+                for(let shape in shapes) {
+                    if(((shapes[shape]).toUpperCase()).includes((insertedSectionPropertiesMetric[sectionIndex].sectionShape).toUpperCase())) {
+                        // shapeState = false
+                        shapeState = true
+                        // alert("yes!")
+                        // break
+                    }
+                }
+                // if(!(insertedSectionPropertiesMetric[sectionIndex].sectionShape).includes('-') || !(insertedSectionPropertiesMetric[sectionIndex].sectionShape).includes('shaped')) {
+                //     arrayCheck.push("Section Shape must conform to format : *name of shape*-shaped. Exceptions: 'Angles', 'Double Angles', 'Rectangular HSS', 'Pipe'")
+                //     // alert("Opps")
+                // }
+            }
+            if(shapeState == false) {
+                arrayCheck.push("Invalid section used. Make sure section shape conforms with format: *section name*-shaped. Exceptions: 'Angles', 'Double Angles', 'Rectangular HSS', 'Pipe'")
             }
         }
 

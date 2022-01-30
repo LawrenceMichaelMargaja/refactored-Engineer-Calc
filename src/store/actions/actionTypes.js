@@ -1,4 +1,9 @@
 /**
+ * Design Sections
+ */
+export const SET_SECTION_SHAPE_DESIGN = '@@sheets/SET_SECTION_SHAPE_DESIGN'
+
+/**
  * Calculated Data
  */
 export const SET_CALCULATED_DATA = '@@sheets/SET_CALCULATED_DATA'

@@ -291,18 +291,6 @@ const SectionPropertiesRows = () => {
         return twoLMetricOptions
     }
 
-    // function insertDataFromAPI(item) {
-    //     return {
-    //         value: `${item[`two_l_shape_metric_name`]}`,
-    //         label: `${item[`two_l_shape_metric_name`]}`
-    //     }
-    // }
-    //
-    // const display2LShapesMetric = () => {
-    //     // alert(JSON.stringify(twoLShapesMetricData))
-    //     return twoLShapesMetricData.map(insertDataFromAPI)
-    // }
-
     const display2LShapesEnglish = () => {
         const twoLEnglishOptions = twoLShapesEnglishData.map((data) => ({
             value: `${data[`two_l_shape_english_name`]}`,

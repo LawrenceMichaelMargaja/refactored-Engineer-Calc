@@ -40,7 +40,7 @@ import {
     SET_ROUTE_URL,
     SET_SECTION_DIMENSIONS_ARRAY,
     SET_SECTION_DIMENSIONS_ARRAY_ENGLISH,
-    SET_SECTION_DIMENSIONS_ARRAY_METRIC,
+    SET_SECTION_DIMENSIONS_ARRAY_METRIC, SET_SECTION_SHAPE_DESIGN,
     SET_SELECTED_SHEET,
     SET_SELECTED_STEEL_TYPE,
     SET_TAB_STATE
@@ -352,3 +352,9 @@ export const setMappedSteelTypeEnglish = (data, sheetIndex) => {
     }
 }
 
+export const setSectionShapeDesign = (data, sheetIndex, sectionIndex) => {
+    return {
+        type: SET_SECTION_SHAPE_DESIGN,
+        payload: {data: data, sheetIndex: sheetIndex, sectionIndex: sectionIndex}
+    }
+}

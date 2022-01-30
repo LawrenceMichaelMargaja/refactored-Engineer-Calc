@@ -101,7 +101,7 @@ import {
     SET_SECTION_DIMENSIONS_ARRAY,
     SET_SECTION_DIMENSIONS_ARRAY_ENGLISH,
     SET_SECTION_DIMENSIONS_ARRAY_METRIC,
-    SET_SECTION_ID,
+    SET_SECTION_ID, SET_SECTION_SHAPE_DESIGN,
     SET_SELECTED_SHEET,
     SET_SELECTED_STEEL_TYPE,
     SET_SHEAR_ALONG_X_AXIS,
@@ -501,8 +501,36 @@ const Reducer = (state = initialState, action) => {
             return getSteelSections(state, action.payload)
         case SET_CALCULATED_DATA:
             return setCalculatedData(state, action.payload)
+        case SET_SECTION_SHAPE_DESIGN:
+            return setSectionShapeDesign(state, action.payload)
         default:
             return state
+    }
+}
+
+/**
+ * Design Section Shape
+ */
+const setSectionShapeDesign = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    sectionPropertiesMetric: {
+                        ...state.sheets[payload.sheetIndex].apiMap.steelTypeMetricProperties,
+                        [payload.sectionIndex]: {
+                            sectionId: 1,
+                            sectionShape: payload.data,
+                            sectionName: ''
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
