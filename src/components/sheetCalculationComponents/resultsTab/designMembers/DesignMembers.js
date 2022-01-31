@@ -1,32 +1,30 @@
 import React, {useEffect, useState} from "react";
-import {Card} from "@material-ui/core";
-import MemberDesignCapacityRows from "./memberDesignCapacityRows/MemberDesignCapacityRows";
 import {useSelector} from "react-redux";
 import {objectChecker} from "../../../../utilities/utilities";
+import DesignMembersRows from "./designMembersRows/DesignMembersRows";
 
-const MemberDesignCapacity = () => {
+const DesignMembers = () => {
 
     const sheets = useSelector(state => state.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     const system = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
-    const calculatedData = objectChecker(sheets, ['sheets', selectedSheet, 'calculatedData'])
 
     const [unit, setUnit] = useState('')
-    const [unitWithMeter, setUnitWithMeter] = useState('')
+    const [weight, setWeight] = useState('')
 
     useEffect(() => {
         if(system === 'Metric') {
-            setUnitWithMeter('kN-m')
-        } else if(system === 'English') {
-            setUnitWithMeter('kips-ft')
+            setWeight('kg/m')
+        } else {
+            setWeight('kg/ft')
         }
     }, [system])
 
     useEffect(() => {
         if(system === 'Metric') {
-            setUnit('kN')
+            setUnit('(mm)')
         } else if(system === 'English') {
-            setUnit('kips')
+            setUnit('(inch)')
         }
     }, [system])
 
@@ -34,131 +32,134 @@ const MemberDesignCapacity = () => {
         <>
             <div style={{
                 height: '100%',
-                margin: '5% auto 0%',
-                padding: '15px 15px 0px 15px',
+                marginTop: '1em',
                 textAlign: 'center'
-            }}>
-                <Card style={{
-                    // margin: '0 15px 0 15px',
+            }}
+            >
+                <div style={{
+                    marginBottom: '0px',
                     border: '1px solid black',
-                    padding: '5px 0',
+                    borderBottom: '0px',
                     height: '50%',
+                    padding: '5px',
                     backgroundColor: '#f2f2f2',
                 }}>
-                    <p style={{margin: '0px'}}><strong>Member Design Capacity</strong></p>
-                </Card>
+                    <p><strong>Design Members</strong></p>
+                </div>
+
                 <div style={{
                     display: 'flex',
+                    height: '100%'
                 }}>
                     <div style={{
-                        padding: '15px 0',
-                        width: '14.28%',
+                        width: '16.66%',
+                        height: '100%'
                     }}>
                         <div style={{
                             marginBottom: '0px',
                             border: '1px solid black',
                             padding: '5px',
+                            height: '50%',
                             backgroundColor: '#fff',
                         }}>
-                            <strong> <sub></sub> Member ID</strong>
+                            <strong>ID</strong>
                         </div>
                     </div>
                     <div style={{
-                        padding: '15px',
-                        paddingRight: '0px',
-                        paddingLeft: '0px',
-                        width: '14.28%',
+                        width: '16.66%',
+                        height: '100%'
                     }}>
                         <div style={{
                             marginBottom: '0px',
                             border: '1px solid black',
                             padding: '5px',
-                            backgroundColor: '#fff'
+                            height: '50%',
+                            backgroundColor: '#fff',
                         }}>
-                            <strong>P<sub>n</sub>/Ω<sub>t</sub>({unit})</strong>
+                            <strong>Section</strong>
                         </div>
                     </div>
                     <div style={{
                         padding: '15px',
                         paddingRight: '0px',
+                        paddingTop: '0px',
                         paddingLeft: '0px',
-                        width: '14.28%',
+                        width: '16.66%',
+                        height: '100%'
                     }}>
                         <div style={{
                             marginBottom: '0px',
                             border: '1px solid black',
                             padding: '5px',
-                            backgroundColor: '#fff'
+                            height: '50%',
+                            backgroundColor: '#fff',
                         }}>
-                            <strong>P<sub>n</sub>/Ω<sub>c</sub>({unit})</strong>
+                            <strong>Overall Depth{unit}</strong>
                         </div>
                     </div>
                     <div style={{
                         padding: '15px',
                         paddingRight: '0px',
+                        paddingTop: '0px',
                         paddingLeft: '0px',
-                        width: '14.28%',
+                        width: '16.66%',
+                        height: '100%',
+                        margin: '0px'
                     }}>
                         <div style={{
                             marginBottom: '0px',
                             border: '1px solid black',
                             padding: '5px',
-                            backgroundColor: '#fff'
+                            height: '50%',
+                            backgroundColor: '#fff',
                         }}>
-                            <strong>M<sub>xn</sub>/Ω<sub>b</sub>({unitWithMeter})</strong>
+                            <strong>Weight({weight})</strong>
                         </div>
                     </div>
                     <div style={{
                         padding: '15px',
                         paddingRight: '0px',
+                        paddingTop: '0px',
                         paddingLeft: '0px',
-                        width: '14.28%',
+                        width: '16.66%',
+                        height: '100%',
+                        margin: '0px'
                     }}>
                         <div style={{
                             marginBottom: '0px',
                             border: '1px solid black',
                             padding: '5px',
-                            backgroundColor: '#fff'
+                            height: '50%',
+                            backgroundColor: '#fff',
                         }}>
-                            <strong>M<sub>yn</sub>/Ω<sub>b</sub>({unitWithMeter})</strong>
-                        </div>
-                    </div>
-
-                    <div style={{
-                        padding: '15px',
-                        paddingRight: '0px',
-                        paddingLeft: '0px',
-                        width: '14.28%',
-                    }}>
-                        <div style={{
-                            marginBottom: '0px',
-                            border: '1px solid black',
-                            padding: '5px',
-                            backgroundColor: '#fff'
-                        }}>
-                            <strong>V<sub>xn</sub>/Ω<sub>v</sub>({unit})</strong>
+                            <strong>Critical Design Ratio</strong>
                         </div>
                     </div>
                     <div style={{
                         padding: '15px',
                         paddingRight: '0px',
+                        paddingTop: '0px',
                         paddingLeft: '0px',
-                        width: '14.28%',
+                        width: '16.66%',
+                        height: '100%',
+                        margin: '0px'
                     }}>
                         <div style={{
                             marginBottom: '0px',
                             border: '1px solid black',
                             padding: '5px',
-                            backgroundColor: '#fff'
+                            height: '50%',
+                            backgroundColor: '#fff',
                         }}>
-                            <strong>V<sub>yn</sub>/Ω<sub>v</sub>({unit})</strong>
+                            <strong>KL/r</strong>
                         </div>
                     </div>
                 </div>
             </div>
-            <MemberDesignCapacityRows/>
+            <DesignMembersRows/>
+            {/*<DesignMaterialsRows/>*/}
         </>
     )
 }
 
-export default MemberDesignCapacity
+export default DesignMembers

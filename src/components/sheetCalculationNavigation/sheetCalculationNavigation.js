@@ -5,7 +5,7 @@ import {setCalculatedData, setTabState} from "../../store/actions/sheets/sheets"
 import {makeStyles} from "@material-ui/core/styles";
 import {useNavigate} from "react-router";
 import {objectChecker} from "../../utilities/utilities";
-import {size} from "lodash";
+import {includes, size} from "lodash";
 import {addSectionProperty} from "../../store/actions/sheets/sheetCalculationComponents/sectionProperties/sectionProperties";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
@@ -292,9 +292,12 @@ const SheetCalculationNavigation = () => {
             let shapeState = false
             for(let sectionIndex in insertedSectionPropertiesMetric) {
                 for(let shape in shapes) {
-                    if(((shapes[shape]).toUpperCase()).includes((insertedSectionPropertiesMetric[sectionIndex].sectionShape).toUpperCase())) {
+                    alert("the shapes looped == " + shapes[shape].toUpperCase() + " == " + "shape user == " + (insertedSectionPropertiesMetric[sectionIndex].sectionShape).toUpperCase());
+                    if(((insertedSectionPropertiesMetric[sectionIndex].sectionShape).toUpperCase()).includes(shapes[shape].toUpperCase())) {
                         // shapeState = false
                         shapeState = true
+                        break
+                        alert("shapeState == " + shapeState)
                         // alert("yes!")
                         // break
                     }

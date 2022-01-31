@@ -14,6 +14,7 @@ import SectionDimensions from "./sectionDimensions/SectionDimension";
 import {objectChecker} from "../../../utilities/utilities";
 import {useSelector} from "react-redux";
 import size from 'lodash/size'
+import DesignMembers from "./designMembers/DesignMembers";
 
 const useStyles = makeStyles((theme) => ({
     textField: {
@@ -79,9 +80,10 @@ const ResultsTab = () => {
                     <DesignMaterials/>
                     <SectionDimensions/>
                     <MemberTabProperties/>
+                    <DesignMembers/>
+                    <MemberDesignRatio/>
                     {/*<SectionProperties/>*/}
                     {/*<MemberDesignCapacity/>*/}
-                    {/*<MemberDesignRatio/>*/}
                 </>
             )
         }

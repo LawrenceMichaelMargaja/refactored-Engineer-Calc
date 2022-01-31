@@ -23,6 +23,7 @@ const Header = () => {
     const sheets = useSelector(state => state.sheets)
     const sheetTabs = useSelector(state => state.sheets.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
+    const system = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
     const steelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesMetric'])
     const sectionsMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric'])
     const sectionsEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesEnglish'])
@@ -107,6 +108,8 @@ const Header = () => {
         }
     }
 
+    const iShapeData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'iShapesMetric'])
+
     let tabs = null
 
     for(let sheetIndex in sheetTabs) {
@@ -120,13 +123,13 @@ const Header = () => {
         <div>
             <div>
                 {/*{listSectionIds()}*/}
-                <p style={{
-                    padding: '2em',
-                    wordWrap: 'break-word'
-                    // width: '50vw'
-                }}>
-                    {JSON.stringify(sectionsMetric)}
-                </p>
+                {/*<p style={{*/}
+                {/*    padding: '2em',*/}
+                {/*    wordWrap: 'break-word'*/}
+                {/*    // width: '50vw'*/}
+                {/*}}>*/}
+                {/*    {JSON.stringify(iShapeData)}*/}
+                {/*</p>*/}
             </div>
             <div className={classes.root}>
                 <div className={classes.titleContainer}>
