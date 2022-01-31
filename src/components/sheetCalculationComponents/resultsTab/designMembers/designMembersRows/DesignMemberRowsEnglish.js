@@ -50,88 +50,108 @@ const DesignMembersRows = () => {
     const [name, setName] = useState('')
 
     useEffect(() => {
-        for (let index in insertedSectionMetric) {
-            if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('I-shaped').toUpperCase()) {
-                setDataToBeLooped(iShapeMetricData)
-            } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('C-shaped').toUpperCase()) {
-                setDataToBeLooped(cShapeMetricData)
-            } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Angles').toUpperCase()) {
-                setDataToBeLooped(anglesMetricData)
-            } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('T-shaped').toUpperCase()) {
-                setDataToBeLooped(tShapeMetricData)
-            } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Double Angles').toUpperCase()) {
-                setDataToBeLooped(doubleAnglesMetricData)
-            } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Rectangular HSS').toUpperCase()) {
-                setDataToBeLooped(recHSSMetricData)
+        for (let index in insertedSectionEnglish) {
+            if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('I-shaped').toUpperCase()) {
+                setDataToBeLooped(iShapeEnglishData)
+            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('C-shaped').toUpperCase()) {
+                setDataToBeLooped(cShapeEnglishData)
+            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Angles').toUpperCase()) {
+                setDataToBeLooped(anglesEnglishData)
+            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('T-shaped').toUpperCase()) {
+                setDataToBeLooped(tShapeEnglishData)
+            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Double Angles').toUpperCase()) {
+                setDataToBeLooped(doubleAnglesEnglishData)
+            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Rectangular HSS').toUpperCase()) {
+                setDataToBeLooped(recHSSEnglishData)
             } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Round HSS').toUpperCase()) {
-                setDataToBeLooped(roundHSSMetricData)
-            } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Pipe').toUpperCase()) {
-                setDataToBeLooped(pipeMetricData)
+                setDataToBeLooped(roundHSSEnglishData)
+            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Pipe').toUpperCase()) {
+                setDataToBeLooped(pipeEnglishData)
             }
         }
     }, [system])
 
     useEffect(() => {
-        for (let index in insertedSectionMetric) {
-            if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('I-shaped').toUpperCase()) {
-                setDataName('i_shape_metric_name')
-            } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('C-shaped').toUpperCase()) {
-                setDataName('c_shape_metric_name')
-            } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Angles').toUpperCase()) {
-                setDataName('l_shape_metric_name')
-            } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('T-shaped').toUpperCase()) {
-                setDataName('t_shape_metric_name')
-            } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Double Angles').toUpperCase()) {
-                setDataName('2l_shape_metric_name')
-            } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Rectangular HSS').toUpperCase()) {
-                setDataName('rec_hs_shape_metric_name')
-            } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Round HSS').toUpperCase()) {
-                setDataName('round_hs_shape_metric_name')
-            } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Pipe').toUpperCase()) {
-                setDataName('pipe_shape_metric_name')
+        for (let index in insertedSectionEnglish) {
+            if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('I-shaped').toUpperCase()) {
+                setDataName('i_shape_english_name')
+            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('C-shaped').toUpperCase()) {
+                setDataName('c_shape_english_name')
+            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Angles').toUpperCase()) {
+                setDataName('l_shape_english_name')
+            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('T-shaped').toUpperCase()) {
+                setDataName('t_shape_english_name')
+            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Double Angles').toUpperCase()) {
+                setDataName('2l_shape_english_name')
+            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Rectangular HSS').toUpperCase()) {
+                setDataName('rec_hs_shape_english_name')
+            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Round HSS').toUpperCase()) {
+                setDataName('round_hs_shape_english_name')
+            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Pipe').toUpperCase()) {
+                setDataName('pipe_shape_english_name')
             }
         }
     }, [dataToBeLooped, system])
 
     const hashData = useMemo(() => {
         let hash = {}
-        for (let i in designMembersMetric) {
-            let {
-                design_members_metric_name,
-            } = designMembersMetric[i]
-            hash[design_members_metric_name] = designMembersMetric[i]
+        if (system === 'Metric') {
+            for (let i in designMembersMetric) {
+                let {
+                    design_members_metric_name,
+                } = designMembersMetric[i]
+                hash[design_members_metric_name] = designMembersMetric[i]
+            }
+        } else if (system === 'English') {
+            for (let i in designMembersEnglish) {
+                let {
+                    design_members_english_name,
+                } = designMembersEnglish[i]
+                hash[design_members_english_name] = designMembersEnglish[i]
+            }
         }
         return hash
     }, [insertedSteelTypesMetric])
 
+    const hashEnglish = useMemo(() => {
+        let hash = {}
+        for (let i in designMembersEnglish) {
+            let {
+                design_members_english_name,
+            } = designMembersEnglish[i]
+            hash[design_members_english_name] = designMembersEnglish[i]
+        }
+        return hash
+    }, [insertedSteelTypesEnglish])
+
     const renderMemberRowsMetric = () => {
         for (let index in dataToBeLooped) {
-            const nameValueHandler = () => {
-                if (dataToBeLooped === iShapeMetricData) {
-                    return iShapeMetricData[index][dataName]
-                } else if (dataToBeLooped === cShapeMetricData) {
-                    return cShapeMetricData[index][dataName]
-                } else if (dataToBeLooped === anglesMetricData) {
-                    return anglesMetricData[index][dataName]
-                } else if (dataToBeLooped === tShapeMetricData) {
-                    return tShapeMetricData[index][dataName]
-                } else if (dataToBeLooped === doubleAnglesMetricData) {
-                    return doubleAnglesMetricData[index][dataName]
-                } else if (dataToBeLooped === recHSSMetricData) {
-                    return recHSSMetricData[index][dataName]
-                } else if (dataToBeLooped === roundHSSMetricData) {
-                    return roundHSSMetricData[index][dataName]
-                } else if (dataToBeLooped === pipeMetricData) {
-                    return pipeMetricData[index][dataName]
+            const nameValueHandlerEnglish = () => {
+                if (dataToBeLooped === iShapeEnglishData) {
+                    return iShapeEnglishData[index][dataName]
+                } else if (dataToBeLooped === cShapeEnglishData) {
+                    return cShapeEnglishData[index][dataName]
+                } else if (dataToBeLooped === anglesEnglishData) {
+                    return anglesEnglishData[index][dataName]
+                } else if (dataToBeLooped === tShapeEnglishData) {
+                    return tShapeEnglishData[index][dataName]
+                } else if (dataToBeLooped === doubleAnglesEnglishData) {
+                    return doubleAnglesEnglishData[index][dataName]
+                } else if (dataToBeLooped === recHSSEnglishData) {
+                    return recHSSEnglishData[index][dataName]
+                } else if (dataToBeLooped === roundHSSEnglishData) {
+                    return roundHSSEnglishData[index][dataName]
+                } else if (dataToBeLooped === pipeEnglishData) {
+                    return pipeEnglishData[index][dataName]
                 }
             }
 
             const depthValue = () => {
-                return hashData[nameValueHandler()].design_members_metric_total_depth
+                return hashData[nameValueHandlerEnglish()].design_members_english_total_depth
             }
 
             const weightValue = () => {
-                return hashData[nameValueHandler()].design_members_metric_weight
+                return hashData[nameValueHandlerEnglish()].design_members_english_weight
             }
 
             // design_members_metric_total_depth
@@ -166,7 +186,7 @@ const DesignMembersRows = () => {
                             padding: '0.5em'
                         }}>
                             {/*{JSON.stringify(sectionsMetric)}*/}
-                            <strong>{nameValueHandler()}</strong>
+                            <strong>{nameValueHandlerEnglish()}</strong>
                             {/*section name*/}
                             {/*<strong>{hashMetric['W1100X499']}</strong>*/}
                         </div>

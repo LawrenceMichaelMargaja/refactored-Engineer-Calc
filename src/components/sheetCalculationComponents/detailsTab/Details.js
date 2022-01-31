@@ -16,7 +16,7 @@ import {
     get2LShapeEnglish,
     get2LShapeMetric,
     getCShapeEnglish,
-    getCShapeMetric, getIShapesEnglish, getIShapesMetric,
+    getCShapeMetric, getDesignMembersEnglish, getDesignMembersMetric, getIShapesEnglish, getIShapesMetric,
     getLShapesEnglish,
     getLShapesMetric,
     getMaterialPropertiesData,
@@ -101,6 +101,24 @@ const Details = () => {
         fetch("http://127.0.0.1:8080/shape")
             .then((response) => response.json())
             .then((data) => dispatch(getShapes(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchDesignMembersMetric = () => {
+        fetch("http://127.0.0.1:8080/designMembersMetric")
+            .then((response) => response.json())
+            .then((data) => dispatch(getDesignMembersMetric(data, selectedSheet)))
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const fetchDesignMembersEnglish = () => {
+        fetch("http://127.0.0.1:8080/designMembersEnglish")
+            .then((response) => response.json())
+            .then((data) => dispatch(getDesignMembersEnglish(data, selectedSheet)))
             .catch((error) => {
                 console.log(error)
             })
@@ -297,6 +315,8 @@ const Details = () => {
     }
 
     useEffect(() => {
+        fetchDesignMembersEnglish()
+        fetchDesignMembersMetric()
         fetchSectionDimensionsMetric()
         fetchSectionDimensionsEnglish()
         fetch2LShapeEnglish()

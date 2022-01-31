@@ -109,6 +109,9 @@ const Header = () => {
     }
 
     const iShapeData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'iShapesMetric'])
+    const designMembersMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'designMemberMetric'])
+    const designMembersEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'designMemberEnglish'])
+
 
     let tabs = null
 
@@ -123,13 +126,13 @@ const Header = () => {
         <div>
             <div>
                 {/*{listSectionIds()}*/}
-                {/*<p style={{*/}
-                {/*    padding: '2em',*/}
-                {/*    wordWrap: 'break-word'*/}
-                {/*    // width: '50vw'*/}
-                {/*}}>*/}
-                {/*    {JSON.stringify(iShapeData)}*/}
-                {/*</p>*/}
+                <p style={{
+                    padding: '2em',
+                    wordWrap: 'break-word'
+                    // width: '50vw'
+                }}>
+                    {JSON.stringify(designMembersEnglish.length)}
+                </p>
             </div>
             <div className={classes.root}>
                 <div className={classes.titleContainer}>

@@ -5,7 +5,7 @@ import {
     GET_2_L_SHAPES_ENGLISH,
     GET_2_L_SHAPES_METRIC,
     GET_C_SHAPES_ENGLISH,
-    GET_C_SHAPES_METRIC,
+    GET_C_SHAPES_METRIC, GET_DESIGN_MEMBERS_ENGLISH, GET_DESIGN_MEMBERS_METRIC,
     GET_I_SHAPES_ENGLISH,
     GET_I_SHAPES_METRIC,
     GET_L_SHAPES_ENGLISH,
@@ -22,12 +22,14 @@ import {
     GET_SECTION_DIMENSIONS_METRIC,
     GET_SECTION_PROPERTIES_ENGLISH,
     GET_SECTION_PROPERTIES_METRIC,
-    GET_SHAPES, GET_STEEL_SECTIONS,
+    GET_SHAPES,
+    GET_STEEL_SECTIONS,
     GET_STEEL_TYPES_ENGLISH_API,
     GET_STEEL_TYPES_METRIC_API,
     GET_T_SHAPES_ENGLISH,
     GET_T_SHAPES_METRIC,
-    REMOVE_SHEET, SET_CALCULATED_DATA,
+    REMOVE_SHEET,
+    SET_CALCULATED_DATA,
     SET_DISABLE_MENU_BUTTONS,
     SET_ENGLISH_EMPA,
     SET_ENGLISH_FUMPA,
@@ -40,7 +42,10 @@ import {
     SET_ROUTE_URL,
     SET_SECTION_DIMENSIONS_ARRAY,
     SET_SECTION_DIMENSIONS_ARRAY_ENGLISH,
-    SET_SECTION_DIMENSIONS_ARRAY_METRIC, SET_SECTION_SHAPE_DESIGN,
+    SET_SECTION_DIMENSIONS_ARRAY_METRIC,
+    SET_SECTION_SHAPE_DESIGN,
+    SET_SECTION_SHAPE_DESIGN_ENGLISH,
+    SET_SECTION_SHAPE_DESIGN_METRIC,
     SET_SELECTED_SHEET,
     SET_SELECTED_STEEL_TYPE,
     SET_TAB_STATE
@@ -352,9 +357,30 @@ export const setMappedSteelTypeEnglish = (data, sheetIndex) => {
     }
 }
 
-export const setSectionShapeDesign = (data, sheetIndex, sectionIndex) => {
+export const setSectionShapeMetricDesign = (data, sheetIndex, sectionIndex) => {
     return {
-        type: SET_SECTION_SHAPE_DESIGN,
+        type: SET_SECTION_SHAPE_DESIGN_METRIC,
         payload: {data: data, sheetIndex: sheetIndex, sectionIndex: sectionIndex}
+    }
+}
+
+export const setSectionShapeEnglishDesign = (data, sheetIndex, sectionIndex) => {
+    return {
+        type: SET_SECTION_SHAPE_DESIGN_ENGLISH,
+        payload: {data: data, sheetIndex: sheetIndex, sectionIndex: sectionIndex}
+    }
+}
+
+export const getDesignMembersMetric = (data, sheetIndex) => {
+    return {
+        type: GET_DESIGN_MEMBERS_METRIC,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const getDesignMembersEnglish = (data, sheetIndex) => {
+    return {
+        type: GET_DESIGN_MEMBERS_ENGLISH,
+        payload: {data: data, sheetIndex: sheetIndex}
     }
 }

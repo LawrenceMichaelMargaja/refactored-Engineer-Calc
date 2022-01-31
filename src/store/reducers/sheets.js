@@ -16,7 +16,7 @@ import {
     GET_2_L_SHAPES_ENGLISH,
     GET_2_L_SHAPES_METRIC,
     GET_C_SHAPES_ENGLISH,
-    GET_C_SHAPES_METRIC,
+    GET_C_SHAPES_METRIC, GET_DESIGN_MEMBERS_ENGLISH, GET_DESIGN_MEMBERS_METRIC,
     GET_I_SHAPES_ENGLISH,
     GET_I_SHAPES_METRIC,
     GET_L_SHAPES_ENGLISH,
@@ -101,7 +101,7 @@ import {
     SET_SECTION_DIMENSIONS_ARRAY,
     SET_SECTION_DIMENSIONS_ARRAY_ENGLISH,
     SET_SECTION_DIMENSIONS_ARRAY_METRIC,
-    SET_SECTION_ID, SET_SECTION_SHAPE_DESIGN,
+    SET_SECTION_ID, SET_SECTION_SHAPE_DESIGN, SET_SECTION_SHAPE_DESIGN_ENGLISH, SET_SECTION_SHAPE_DESIGN_METRIC,
     SET_SELECTED_SHEET,
     SET_SELECTED_STEEL_TYPE,
     SET_SHEAR_ALONG_X_AXIS,
@@ -136,6 +136,8 @@ const initialState = {
             route: '',
             calculatedData: null,
             apiData: {
+                designMemberMetric: [],
+                designMemberEnglish: [],
                 steelSections: [],
                 shapes: [],
                 sectionDimensionsMetric: [],
@@ -501,17 +503,58 @@ const Reducer = (state = initialState, action) => {
             return getSteelSections(state, action.payload)
         case SET_CALCULATED_DATA:
             return setCalculatedData(state, action.payload)
-        case SET_SECTION_SHAPE_DESIGN:
-            return setSectionShapeDesign(state, action.payload)
+        case SET_SECTION_SHAPE_DESIGN_METRIC:
+            return setSectionShapeMetricDesign(state, action.payload)
+        case SET_SECTION_SHAPE_DESIGN_ENGLISH:
+            return setSectionShapeEnglishDesign(state, action.payload)
+        case GET_DESIGN_MEMBERS_METRIC:
+            return getDesignMembersMetric(state, action.payload)
+        case GET_DESIGN_MEMBERS_ENGLISH:
+            return getDesignMembersEnglish(state, action.payload)
         default:
             return state
     }
 }
 
 /**
+ * Design Member
+ */
+const getDesignMembersMetric = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    designMemberMetric: payload.data
+                }
+            }
+        }
+    }
+}
+
+const getDesignMembersEnglish = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiData: {
+                    ...state.sheets[payload.sheetIndex].apiData,
+                    designMemberEnglish: payload.data
+                }
+            }
+        }
+    }
+}
+
+/**
  * Design Section Shape
  */
-const setSectionShapeDesign = (state, payload) => {
+const setSectionShapeMetricDesign = (state, payload) => {
     return {
         ...state,
         sheets: {
@@ -521,7 +564,31 @@ const setSectionShapeDesign = (state, payload) => {
                 apiMap: {
                     ...state.sheets[payload.sheetIndex].apiMap,
                     sectionPropertiesMetric: {
-                        ...state.sheets[payload.sheetIndex].apiMap.steelTypeMetricProperties,
+                        ...state.sheets[payload.sheetIndex].apiMap.sectionPropertiesMetric,
+                        [payload.sectionIndex]: {
+                            sectionId: 1,
+                            sectionShape: payload.data,
+                            sectionName: ''
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+const setSectionShapeEnglishDesign = (state, payload) => {
+    // alert("at the reducer == " + JSON.stringify(payload.data))
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    sectionPropertiesEnglish: {
+                        ...state.sheets[payload.sheetIndex].apiMap.sectionPropertiesEnglish,
                         [payload.sectionIndex]: {
                             sectionId: 1,
                             sectionShape: payload.data,

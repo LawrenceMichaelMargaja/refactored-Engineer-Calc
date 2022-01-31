@@ -9,7 +9,11 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import {Input} from "@material-ui/core";
 import {objectChecker} from "../../../../../utilities/utilities";
 import {useDispatch, useSelector} from "react-redux";
-import {setSectionShapeDesign} from "../../../../../store/actions/sheets/sheets";
+import {
+    setSectionShapeDesign,
+    setSectionShapeEnglishDesign,
+    setSectionShapeMetricDesign
+} from "../../../../../store/actions/sheets/sheets";
 
 const SectionPropertiesRowsDesign = () => {
 
@@ -48,7 +52,8 @@ const SectionPropertiesRowsDesign = () => {
     }
 
     const ShapeValueChanger = (event, sectionIndex) => {
-        dispatch(setSectionShapeDesign(event.target.value, selectedSheet, sectionIndex))
+        dispatch(setSectionShapeMetricDesign(event.target.value, selectedSheet, sectionIndex))
+        dispatch(setSectionShapeEnglishDesign(event.target.value, selectedSheet, sectionIndex))
     }
 
     console.log("insertedSectionPropertiesMetric == ", insertedSection);

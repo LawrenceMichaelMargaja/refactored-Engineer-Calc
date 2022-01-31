@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {objectChecker} from "../../../../utilities/utilities";
 import DesignMembersRows from "./designMembersRows/DesignMembersRows";
+import DesignMemberRowsEnglish from "./designMembersRows/DesignMemberRowsEnglish";
 
 const DesignMembers = () => {
 
@@ -27,6 +28,14 @@ const DesignMembers = () => {
             setUnit('(inch)')
         }
     }, [system])
+
+    const displayDesignMemberRows = () => {
+        if(system === 'Metric') {
+            return <DesignMembersRows/>
+        } else if(system === 'English') {
+            return <DesignMemberRowsEnglish/>
+        }
+    }
 
     return (
         <>
@@ -156,7 +165,8 @@ const DesignMembers = () => {
                     </div>
                 </div>
             </div>
-            <DesignMembersRows/>
+            {displayDesignMemberRows()}
+            {/*<DesignMembersRows/>*/}
             {/*<DesignMaterialsRows/>*/}
         </>
     )

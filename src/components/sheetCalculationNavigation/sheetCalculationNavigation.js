@@ -177,7 +177,7 @@ const SheetCalculationNavigation = () => {
 
             for(let sectionIndex in sectionPropertiesMetric) {
                 idObject['name'] = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric', sectionIndex, 'sectionName'])
-                console.log("the shape == ", JSON.stringify(objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric', sectionIndex, 'sectionName'])));
+                // console.log("the shape == ", JSON.stringify(objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric', sectionIndex, 'sectionName'])));
             }
 
                 idObject['id'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'memberId']))
@@ -286,18 +286,18 @@ const SheetCalculationNavigation = () => {
             }
         }
 
-        const shapes = ['I-shaped', 'C-shaped', 'Angles', 'T-shaped', 'Double Angles', 'Rectangular HSS', 'Pipe']
+        const shapes = ['I-shaped', 'C-shaped', 'Angles', 'T-shaped', 'Double Angles', 'Rectangular HSS', 'Pipe', 'Round HSS']
 
         if(method === 'Design') {
             let shapeState = false
             for(let sectionIndex in insertedSectionPropertiesMetric) {
                 for(let shape in shapes) {
-                    alert("the shapes looped == " + shapes[shape].toUpperCase() + " == " + "shape user == " + (insertedSectionPropertiesMetric[sectionIndex].sectionShape).toUpperCase());
-                    if(((insertedSectionPropertiesMetric[sectionIndex].sectionShape).toUpperCase()).includes(shapes[shape].toUpperCase())) {
+                    // alert("the shapes looped == " + shapes[shape].toUpperCase() + " == " + "shape user == " + (insertedSectionPropertiesMetric[sectionIndex].sectionShape).toUpperCase());
+                    if(((insertedSectionPropertiesMetric[sectionIndex].sectionShape).toUpperCase()) === shapes[shape].toUpperCase()) {
                         // shapeState = false
                         shapeState = true
                         break
-                        alert("shapeState == " + shapeState)
+                        // alert("shapeState == " + shapeState)
                         // alert("yes!")
                         // break
                     }

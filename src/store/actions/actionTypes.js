@@ -1,7 +1,8 @@
 /**
  * Design Sections
  */
-export const SET_SECTION_SHAPE_DESIGN = '@@sheets/SET_SECTION_SHAPE_DESIGN'
+export const SET_SECTION_SHAPE_DESIGN_METRIC = '@@sheets/SET_SECTION_SHAPE_DESIGN_METRIC'
+export const SET_SECTION_SHAPE_DESIGN_ENGLISH = '@@sheets/SET_SECTION_SHAPE_DESIGN_ENGLISH'
 
 /**
  * Calculated Data
@@ -13,6 +14,8 @@ export const SET_CALCULATED_DATA = '@@sheets/SET_CALCULATED_DATA'
  * API
  */
 // =================== GET REQUESTS =====================
+export const GET_DESIGN_MEMBERS_METRIC = '@@sheets/GET_DESIGN_MEMBERS_METRIC'
+export const GET_DESIGN_MEMBERS_ENGLISH = '@@sheets/GET_DESIGN_MEMBERS_ENGLISH'
 export const GET_STEEL_SECTIONS = '@@sheets/GET_STEEL_SECTIONS'
 export const GET_STEEL_TYPES_METRIC_API = '@@sheets/GET_STEEL_TYPES_METRIC_API'
 export const GET_STEEL_TYPES_ENGLISH_API = '@@sheets/GET_STEEL_TYPES_ENGLISH_API'
