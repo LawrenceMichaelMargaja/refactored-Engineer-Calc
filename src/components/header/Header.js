@@ -134,7 +134,7 @@ const Header = () => {
                     wordWrap: 'break-word'
                     // width: '50vw'
                 }}>
-                    {JSON.stringify(calculatedData)}
+                    {JSON.stringify(currentShape)}
                 </p>
             </div>
             <div className={classes.root}>

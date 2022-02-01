@@ -10,6 +10,7 @@ import {Input} from "@material-ui/core";
 import {objectChecker} from "../../../../../utilities/utilities";
 import {useDispatch, useSelector} from "react-redux";
 import {
+    setCalculatedData,
     setCurrentShape,
     setSectionShapeDesign,
     setSectionShapeEnglishDesign,
@@ -41,6 +42,30 @@ const SectionPropertiesRowsDesign = () => {
         }
     }
 
+    /**
+     * Metric Data to be looped
+     */
+    const iShapeMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'iShapesMetric'])
+    const cShapeMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'cShapesMetric'])
+    const anglesMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'lShapesMetric'])
+    const tShapeMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'tShapesMetric'])
+    const doubleAnglesMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'twoLShapesMetric'])
+    const recHSSMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'recHSShapesMetric'])
+    const roundHSSMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'roundHSShapesMetric'])
+    const pipeMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'pipeShapesMetric'])
+
+    /**
+     * English Data to be looped
+     */
+    const iShapeEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'iShapesEnglish'])
+    const cShapeEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'cShapesEnglish'])
+    const anglesEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'lShapesEnglish'])
+    const tShapeEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'tShapesEnglish'])
+    const doubleAnglesEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'twoLShapesEnglish'])
+    const recHSSEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'recHSShapesEnglish'])
+    const roundHSSEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'roundHSShapesEnglish'])
+    const pipeEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'pipeShapesEnglish'])
+
     const ShapeValueHandler = (sectionIndex) => {
         if (system === 'Metric') {
             // alert("insertedSectionPropertiesMetric[0].sectionShape == " + insertedSectionPropertiesMetric[0].sectionShape)
@@ -54,6 +79,7 @@ const SectionPropertiesRowsDesign = () => {
 
     const ShapeValueChanger = (event, sectionIndex) => {
         dispatch(setCurrentShape(event.target.value, selectedSheet))
+        dispatch(setCalculatedData(null, selectedSheet))
         dispatch(setSectionShapeMetricDesign(event.target.value, selectedSheet, sectionIndex))
         dispatch(setSectionShapeEnglishDesign(event.target.value, selectedSheet, sectionIndex))
     }
@@ -155,7 +181,6 @@ const SectionPropertiesRowsDesign = () => {
                         }}>
                             <BorderColorIcon
                                 style={{marginRight: '5px'}}
-                                color='#fff'
                                 // onClick={() => {
                                 //     dispatch(setCurrentMetricSectionPropertyIndex(sectionIndex, selectedSheet))
                                 //     dispatch(setCurrentEnglishSectionPropertyIndex(sectionIndex, selectedSheet))

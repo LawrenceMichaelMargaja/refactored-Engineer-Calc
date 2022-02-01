@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo, useState} from 'react'
 import {AppBar, Button, Card, FormControl, Tab, Tabs, TextField} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
-import {setCalculatedData, setTabState} from "../../store/actions/sheets/sheets";
+import {setCalculatedData, setDataToBeLoopedForPostRequest, setTabState} from "../../store/actions/sheets/sheets";
 import {makeStyles} from "@material-ui/core/styles";
 import {useNavigate} from "react-router";
 import {objectChecker} from "../../utilities/utilities";
@@ -155,9 +155,54 @@ const SheetCalculationNavigation = () => {
 
     const currentShape = objectChecker(sheets, ['sheets', selectedSheet, 'currentShape'])
 
+    /**
+     * Metric Data to be looped
+     */
+    const iShapeMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'iShapesMetric'])
+    const cShapeMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'cShapesMetric'])
+    const anglesMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'lShapesMetric'])
+    const tShapeMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'tShapesMetric'])
+    const doubleAnglesMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'twoLShapesMetric'])
+    const recHSSMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'recHSShapesMetric'])
+    const roundHSSMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'roundHSShapesMetric'])
+    const pipeMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'pipeShapesMetric'])
+
+    /**
+     * English Data to be looped
+     */
+    const iShapeEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'iShapesEnglish'])
+    const cShapeEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'cShapesEnglish'])
+    const anglesEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'lShapesEnglish'])
+    const tShapeEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'tShapesEnglish'])
+    const doubleAnglesEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'twoLShapesEnglish'])
+    const recHSSEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'recHSShapesEnglish'])
+    const roundHSSEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'roundHSShapesEnglish'])
+    const pipeEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'pipeShapesEnglish'])
+
+    useEffect(() => {
+        if ((currentShape).toUpperCase() === ('I-shaped').toUpperCase()) {
+            dispatch(setDataToBeLoopedForPostRequest(iShapeMetricData, selectedSheet))
+        } else if ((currentShape).toUpperCase() === ('C-shaped').toUpperCase()) {
+            dispatch(setDataToBeLoopedForPostRequest(cShapeMetricData, selectedSheet))
+        } else if ((currentShape).toUpperCase() === ('Angles').toUpperCase()) {
+            dispatch(setDataToBeLoopedForPostRequest(anglesMetricData, selectedSheet))
+        } else if ((currentShape).toUpperCase() === ('T-shaped').toUpperCase()) {
+            dispatch(setDataToBeLoopedForPostRequest(tShapeMetricData, selectedSheet))
+        } else if ((currentShape).toUpperCase() === ('Double Angles').toUpperCase()) {
+            dispatch(setDataToBeLoopedForPostRequest(doubleAnglesMetricData, selectedSheet))
+        } else if ((currentShape).toUpperCase() === ('Rectangular HSS').toUpperCase()) {
+            dispatch(setDataToBeLoopedForPostRequest(recHSSMetricData, selectedSheet))
+        } else if ((currentShape).toUpperCase() === ('Round HSS').toUpperCase()) {
+            dispatch(setDataToBeLoopedForPostRequest(roundHSSMetricData, selectedSheet))
+        } else if ((currentShape).toUpperCase() === ('Pipe').toUpperCase()) {
+            dispatch(setDataToBeLoopedForPostRequest(pipeMetricData, selectedSheet))
+        }
+    }, [currentShape])
+
     const beamCalcDataSenderDesign = () => {
         let body = []
-        for(let loopedIndex in dataToBeLoopedForPostRequest) {
+        alert("dataToBeLoopedForPostRequest == " + JSON.stringify(dataToBeLoopedForPostRequest));
+        for (let loopedIndex in dataToBeLoopedForPostRequest) {
 
             for (let memberIndex in members) {
                 const memberId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'memberId'])
@@ -184,15 +229,25 @@ const SheetCalculationNavigation = () => {
                     idObject['p'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'axial']))
                 }
 
-                if ((sectionHashMetric[sectionId].sectionShape).toUpperCase() === ('I-shaped').toUpperCase()) {
+                if ((currentShape).toUpperCase() === ('I-shaped').toUpperCase()) {
                     idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].i_shape_metric_name
-                } else if((sectionHashMetric[sectionId].sectionShape).toUpperCase() === ('C-shaped').toUpperCase()) {
+                } else if ((currentShape).toUpperCase() === ('C-shaped').toUpperCase()) {
                     idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].c_shape_metric_name
-                } else if((currentShape).toUpperCase() === ('Angles').toUpperCase()) {
-                    idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].c_shape_metric_name
-                } else if((currentShape).toUpperCase() === ('T-shaped').toUpperCase()) {
-                    idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].c_shape_metric_name
-                } else {
+                } else if ((currentShape).toUpperCase() === ('Angles').toUpperCase()) {
+                    idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].l_shape_metric_name
+                } else if ((currentShape).toUpperCase() === ('T-shaped').toUpperCase()) {
+                    idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].t_shape_metric_name
+                } else if ((currentShape).toUpperCase() === ('Double Angles').toUpperCase()) {
+                    idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].two_l_shape_metric_name
+                } else if ((currentShape).toUpperCase() === ('Rectangular HSS').toUpperCase()) {
+                    idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].rec_hs_shape_metric_name
+                } else if ((currentShape).toUpperCase() === ('Round HSS').toUpperCase()) {
+                    idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].round_hs_shape_metric_name
+                } else if ((currentShape).toUpperCase() === ('Pipe').toUpperCase()) {
+                    idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].pipe_shape_metric_name
+                }
+
+                else {
                     console.log("oh no");
                 }
 
@@ -214,6 +269,7 @@ const SheetCalculationNavigation = () => {
                 body.push(idObject)
             }
         }
+        alert("Hey I am called!")
         axios.defaults.baseURL = 'http://localhost:8080'
 
         axios.post('/steelArguments', body)
@@ -229,12 +285,15 @@ const SheetCalculationNavigation = () => {
             const sectionId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'sectionId'])
             const materialId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'materialId'])
 
-            let idObject = {
-                analysis: analysis,
-                method: method,
-                units: units,
+            let idObject = {}
+
+            idObject['id'] = parseFloat(memberId)
+            for (let sectionIndex in sectionPropertiesMetric) {
+                idObject['name'] = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric', memberIndex, 'sectionName'])
             }
-            console.log('materialId', materialHashMetric);
+            idObject['analysis'] = null
+            idObject['method'] = analysis
+            idObject['units'] = units
 
             for (let factorsIndex in factors) {
                 idObject['tensile_factor'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForTensile']))
@@ -242,23 +301,19 @@ const SheetCalculationNavigation = () => {
                 idObject['bending_factor'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForFlexure']))
                 idObject['shear_factor'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForShear']))
             }
+
             for (let forcesIndex in forces) {
-                idObject['vx'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'bendingMomentAlongXAxis']))
-                idObject['vy'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'bendingMomentAlongYAxis']))
-                idObject['mx'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'shearAlongXAxis']))
-                idObject['my'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'shearAlongYAxis']))
+                idObject['vx'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'shearAlongXAxis']))
+                idObject['vy'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'shearAlongYAxis']))
+                idObject['mx'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'bendingMomentAlongXAxis']))
+                idObject['my'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'bendingMomentAlongYAxis']))
                 idObject['p'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'axial']))
             }
 
-            for (let sectionIndex in sectionPropertiesMetric) {
-                idObject['name'] = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric', sectionIndex, 'sectionName'])
-            }
-
-            idObject['id'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'memberId']))
             idObject['lb'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'totalLengthOfMember']))
             idObject['lx'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'yAxisUnbracedLength']))
-            idObject['Kx'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'yAxisEffectiveLengthFactor']))
-            idObject['Ly'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'zAxisUnbracedLength']))
+            idObject['kx'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'yAxisEffectiveLengthFactor']))
+            idObject['ly'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'zAxisUnbracedLength']))
             idObject['ky'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'zAxisEffectiveLengthFactor']))
             idObject['llt'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'LLT']))
             idObject['cbx'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'unbracedLengthLateralTorsional']))
@@ -272,6 +327,7 @@ const SheetCalculationNavigation = () => {
             body.push(idObject)
         }
 
+        console.log("the body == ", JSON.stringify(body))
         axios.defaults.baseURL = 'http://localhost:8080'
 
         axios.post('/steelArguments', body)
@@ -360,7 +416,9 @@ const SheetCalculationNavigation = () => {
                 // }
             }
             if (shapeState == false) {
-                arrayCheck.push("Invalid section used. Make sure section shape conforms with format: *section name*-shaped. Exceptions: 'Angles', 'Double Angles', 'Rectangular HSS', 'Pipe'")
+                arrayCheck.push("Invalid section used. Make sure section shape conforms with format: *section name*-shaped.")
+                arrayCheck.push("i.e. 'I-shaped', 'C-shaped', 'T-shaped', 'Angles', etc.")
+                arrayCheck.push("Exceptions: 'Angles', 'Double Angles', 'Rectangular HSS', 'Pipe'")
             }
         }
 
@@ -982,12 +1040,52 @@ const SheetCalculationNavigation = () => {
         }
     }
 
+    // useEffect(() => {
+    //     if(system === 'Metric') {
+    //         if((event.target.value).toUpperCase() === ("I-shaped").toUpperCase()) {
+    //             dispatch(setCalculatedData(iShapeMetricData, selectedSheet))
+    //         } else if((event.target.value).toUpperCase() === ("C-shaped").toUpperCase()) {
+    //             dispatch(setCalculatedData(cShapeMetricData, selectedSheet))
+    //         } else if((event.target.value).toUpperCase() === ("Angles").toUpperCase()) {
+    //             dispatch(setCalculatedData(anglesMetricData, selectedSheet))
+    //         } else if((event.target.value).toUpperCase() === ("T-shaped").toUpperCase()) {
+    //             dispatch(setCalculatedData(tShapeMetricData, selectedSheet))
+    //         } else if((event.target.value).toUpperCase() === ("Double Angles").toUpperCase()) {
+    //             dispatch(setCalculatedData(doubleAnglesMetricData, selectedSheet))
+    //         } else if((event.target.value).toUpperCase() === ("Rectangular HSS").toUpperCase()) {
+    //             dispatch(setCalculatedData(recHSSMetricData, selectedSheet))
+    //         } else if((event.target.value).toUpperCase() === ("Round HSS").toUpperCase()) {
+    //             dispatch(setCalculatedData(roundHSSMetricData, selectedSheet))
+    //         } else if((event.target.value).toUpperCase() === ("Pipe").toUpperCase()) {
+    //             dispatch(setCalculatedData(pipeMetricData, selectedSheet))
+    //         }
+    //     } else if(system === 'English') {
+    //         if((event.target.value).toUpperCase() === ("I-shaped").toUpperCase()) {
+    //             dispatch(setCalculatedData(iShapeEnglishData, selectedSheet))
+    //         } else if((event.target.value).toUpperCase() === ("C-shaped").toUpperCase()) {
+    //             dispatch(setCalculatedData(cShapeEnglishData, selectedSheet))
+    //         } else if((event.target.value).toUpperCase() === ("Angles").toUpperCase()) {
+    //             dispatch(setCalculatedData(anglesEnglishData, selectedSheet))
+    //         } else if((event.target.value).toUpperCase() === ("T-shaped").toUpperCase()) {
+    //             dispatch(setCalculatedData(tShapeEnglishData, selectedSheet))
+    //         } else if((event.target.value).toUpperCase() === ("Double Angles").toUpperCase()) {
+    //             dispatch(setCalculatedData(doubleAnglesEnglishData, selectedSheet))
+    //         } else if((event.target.value).toUpperCase() === ("Rectangular HSS").toUpperCase()) {
+    //             dispatch(setCalculatedData(recHSSEnglishData, selectedSheet))
+    //         } else if((event.target.value).toUpperCase() === ("Round HSS").toUpperCase()) {
+    //             dispatch(setCalculatedData(roundHSSEnglishData, selectedSheet))
+    //         } else if((event.target.value).toUpperCase() === ("Pipe").toUpperCase()) {
+    //             dispatch(setCalculatedData(pipeEnglishData, selectedSheet))
+    //         }
+    //     }
+    // })
+
     useEffect(() => {
         if (tabState === 'results') {
-            if(method === 'Investigation') {
+            if (method === 'Investigation') {
                 alert("investigation done")
                 beamCalcDataSender()
-            } else if(method === 'Design') {
+            } else if (method === 'Design') {
                 alert("Design done");
                 beamCalcDataSenderDesign()
             }

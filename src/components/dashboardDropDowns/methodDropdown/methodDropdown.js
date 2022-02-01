@@ -71,10 +71,6 @@ const MethodDropdown = () => {
     const insertedSteelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeEnglishProperties'])
 
 
-    const klrValue = () => {
-
-    }
-
     useEffect(() => {
         for (let index in insertedSectionMetric) {
             if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('I-shaped').toUpperCase()) {
@@ -111,7 +107,7 @@ const MethodDropdown = () => {
                 dispatch(setDataToBeLoopedForPostRequest(pipeMetricData, selectedSheet))
             }
         }
-    }, [])
+    }, [methodValue])
 
     const handleChange = (event) => {
         if(event.target.value === 'Design') {
@@ -130,8 +126,21 @@ const MethodDropdown = () => {
                 return
             }
         } else if(event.target.value === 'Investigation') {
-            // alert("nono")
-            dispatch(setMethodDropdown(event.target.value, selectedSheet))
+            if(methodValue === 'Design') {
+                const proceed = window.confirm("This will remove all completed design calculations. Are you sure you want to continue?")
+                if(proceed) {
+                    dispatch(resetMemberFields(selectedSheet))
+                    dispatch(resetMetricMaterialProperties(selectedSheet))
+                    dispatch(resetEnglishMaterialProperties(selectedSheet))
+                    dispatch(resetMetricSectionProperties(selectedSheet))
+                    dispatch(resetEnglishSectionProperties(selectedSheet))
+                    dispatch(setMethodDropdown(event.target.value, selectedSheet))
+                    dispatch(setTabState('members', selectedSheet))
+                    navigate('/members')
+                }
+            } else {
+                dispatch(setMethodDropdown(event.target.value, selectedSheet))
+            }
         }
     };
 

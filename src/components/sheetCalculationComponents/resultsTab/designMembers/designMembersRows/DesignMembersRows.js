@@ -1,7 +1,11 @@
 import React, {useEffect, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {objectChecker} from "../../../../../utilities/utilities";
-import {setCurrentShape, setDataToBeLoopedForPostRequest} from "../../../../../store/actions/sheets/sheets";
+import {
+    setCalculatedData,
+    setCurrentShape,
+    setDataToBeLoopedForPostRequest
+} from "../../../../../store/actions/sheets/sheets";
 
 const DesignMembersRows = () => {
 
@@ -45,6 +49,7 @@ const DesignMembersRows = () => {
     const designMembersEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'designMemberEnglish'])
 
     const calculatedData = objectChecker(sheets, ['sheets', selectedSheet, 'calculatedData'])
+    const currentShape = objectChecker(sheets, ['sheets', selectedSheet, 'currentSheets'])
 
     let memberRows = []
     const [dataToBeLooped, setDataToBeLooped] = useState('')
@@ -53,9 +58,9 @@ const DesignMembersRows = () => {
 
     const dispatch = useDispatch()
 
-    const klrValue = () => {
-
-    }
+    // useEffect(() => {
+    //     dispatch(setCalculatedData(iShapeMetricData))
+    // }, [])
 
     useEffect(() => {
         for (let index in insertedSectionMetric) {
@@ -93,7 +98,7 @@ const DesignMembersRows = () => {
                 dispatch(setDataToBeLoopedForPostRequest(pipeMetricData, selectedSheet))
             }
         }
-    }, [])
+    }, [currentShape])
 
     useEffect(() => {
         for (let index in insertedSectionMetric) {
@@ -165,8 +170,9 @@ const DesignMembersRows = () => {
 
             const criticalDesignRatioValue = () => {
                 let value = null
-                    // value = calculatedData[calculatedIndex].mx_ratio
-                    // console.log("the pratio == ", JSON.stringify(calculatedData[calculatedIndex].pratio));
+                if(calculatedData === null) {
+                    return "Calculating..."
+                } else {
                     if((calculatedData[index].pratio > calculatedData[index].mx_ratio) && (calculatedData[index].pratio > calculatedData[index].my_ratio) && (calculatedData[index].pratio > calculatedData[index].vx_ratio) && (calculatedData[index].pratio > calculatedData[index].vy_ratio)) {
                         // console.log("hi haat");
                         value = calculatedData[index].pratio
@@ -185,7 +191,18 @@ const DesignMembersRows = () => {
                     } else {
                         // console.log("ho haaa");
                     }
-                return value
+                }
+                return (value).toFixed(3)
+            }
+
+            const klrValue = () => {
+                let value = null
+                if(calculatedData === null) {
+                    return "Calculating..."
+                } else {
+                    value = calculatedData[index].k_lr
+                }
+                return (value).toFixed(3)
             }
 
             memberRows.push(
@@ -249,6 +266,7 @@ const DesignMembersRows = () => {
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
+                            <strong>{criticalDesignRatioValue()}</strong>
                             {/*<strong>{calculatedData[index].pt}</strong>*/}
                             {/*<strong>{(criticalDesignRatioValue()).toFixed(2)}</strong>*/}
                         </p>
@@ -259,6 +277,7 @@ const DesignMembersRows = () => {
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
+                            <strong>{klrValue()}</strong>
                             {/*<strong>{(calculatedData[index].k_lr).toFixed(2)}</strong>*/}
                             {/*<strong>KL/r value</strong>*/}
                         </p>
