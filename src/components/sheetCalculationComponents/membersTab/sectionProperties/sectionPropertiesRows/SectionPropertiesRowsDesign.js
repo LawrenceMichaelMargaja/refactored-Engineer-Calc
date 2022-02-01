@@ -10,6 +10,7 @@ import {Input} from "@material-ui/core";
 import {objectChecker} from "../../../../../utilities/utilities";
 import {useDispatch, useSelector} from "react-redux";
 import {
+    setCurrentShape,
     setSectionShapeDesign,
     setSectionShapeEnglishDesign,
     setSectionShapeMetricDesign
@@ -52,11 +53,12 @@ const SectionPropertiesRowsDesign = () => {
     }
 
     const ShapeValueChanger = (event, sectionIndex) => {
+        dispatch(setCurrentShape(event.target.value, selectedSheet))
         dispatch(setSectionShapeMetricDesign(event.target.value, selectedSheet, sectionIndex))
         dispatch(setSectionShapeEnglishDesign(event.target.value, selectedSheet, sectionIndex))
     }
 
-    console.log("insertedSectionPropertiesMetric == ", insertedSection);
+    // console.log("insertedSectionPropertiesMetric == ", insertedSection);
     // alert("insertedSectionPropertiesMetric == " + JSON.stringify(insertedSectionPropertiesMetric))
 
     for(let sectionIndex in insertedSectionPropertiesMetric) {
@@ -65,7 +67,9 @@ const SectionPropertiesRowsDesign = () => {
                 display: 'flex',
                 width: '100%',
                 margin: '0 auto',
-            }}>
+            }}
+                 key={sectionIndex}
+            >
                 <div style={{
                     border: '1px solid black',
                     margin: '0px',

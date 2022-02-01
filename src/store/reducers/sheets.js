@@ -58,8 +58,8 @@ import {
     SET_CURRENT_MATERIALS_ARRAY,
     SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX,
     SET_CURRENT_METRIC_SECTION_PROPERTY_INDEX,
-    SET_CURRENT_SECTION_PROPERTIES_ARRAY,
-    SET_CUSTOM_SELECTED_STEEL_TYPE,
+    SET_CURRENT_SECTION_PROPERTIES_ARRAY, SET_CURRENT_SHAPE,
+    SET_CUSTOM_SELECTED_STEEL_TYPE, SET_DATA_TO_BE_LOOPED_FOR_DESIGN_MEMBERS_POST_REQUEST,
     SET_DISABLE_MENU_BUTTONS,
     SET_ENGLISH_EMPA,
     SET_ENGLISH_FUMPA,
@@ -133,6 +133,8 @@ const initialState = {
             sectionDimensionsArrayEnglish: [],
             removedMemberRowArray: [],
             arrayCheck: [],
+            dataToBeLoopedForPostRequest: [],
+            currentShape: 'I-shaped',
             route: '',
             calculatedData: null,
             apiData: {
@@ -511,8 +513,41 @@ const Reducer = (state = initialState, action) => {
             return getDesignMembersMetric(state, action.payload)
         case GET_DESIGN_MEMBERS_ENGLISH:
             return getDesignMembersEnglish(state, action.payload)
+        case SET_DATA_TO_BE_LOOPED_FOR_DESIGN_MEMBERS_POST_REQUEST:
+            return setDataToBeLoopedForPostRequest(state, action.payload)
+        case SET_CURRENT_SHAPE:
+            return setCurrentShape(state, action.payload)
         default:
             return state
+    }
+}
+
+/**
+ * Data to be looped for post request
+ */
+const setDataToBeLoopedForPostRequest = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                dataToBeLoopedForPostRequest: payload.data
+            }
+        }
+    }
+}
+
+const setCurrentShape = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                currentShape: payload.data
+            }
+        }
     }
 }
 

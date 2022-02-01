@@ -1,6 +1,7 @@
 import React, {useEffect, useMemo, useState} from "react";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {objectChecker} from "../../../../../utilities/utilities";
+import {setCurrentShape, setDataToBeLoopedForPostRequest} from "../../../../../store/actions/sheets/sheets";
 
 const DesignMembersRows = () => {
 
@@ -49,24 +50,42 @@ const DesignMembersRows = () => {
     const [dataName, setDataName] = useState('')
     const [name, setName] = useState('')
 
+    const dispatch = useDispatch()
+
     useEffect(() => {
         for (let index in insertedSectionEnglish) {
             if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('I-shaped').toUpperCase()) {
                 setDataToBeLooped(iShapeEnglishData)
+                // dispatch(setCurrentShape('I-shaped'))
+                dispatch(setDataToBeLoopedForPostRequest(iShapeEnglishData, selectedSheet))
             } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('C-shaped').toUpperCase()) {
                 setDataToBeLooped(cShapeEnglishData)
+                // dispatch(setCurrentShape('C-shaped'))
+                dispatch(setDataToBeLoopedForPostRequest(cShapeEnglishData, selectedSheet))
             } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Angles').toUpperCase()) {
                 setDataToBeLooped(anglesEnglishData)
+                // dispatch(setCurrentShape('Angles'))
+                dispatch(setDataToBeLoopedForPostRequest(anglesEnglishData, selectedSheet))
             } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('T-shaped').toUpperCase()) {
                 setDataToBeLooped(tShapeEnglishData)
+                // dispatch(setCurrentShape('T-shaped'))
+                dispatch(setDataToBeLoopedForPostRequest(tShapeEnglishData, selectedSheet))
             } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Double Angles').toUpperCase()) {
                 setDataToBeLooped(doubleAnglesEnglishData)
+                // dispatch(setCurrentShape('Double Angles'))
+                dispatch(setDataToBeLoopedForPostRequest(doubleAnglesEnglishData, selectedSheet))
             } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Rectangular HSS').toUpperCase()) {
                 setDataToBeLooped(recHSSEnglishData)
+                // dispatch(setCurrentShape('Rectangular HSS'))
+                dispatch(setDataToBeLoopedForPostRequest(recHSSEnglishData, selectedSheet))
             } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Round HSS').toUpperCase()) {
                 setDataToBeLooped(roundHSSEnglishData)
+                // dispatch(setCurrentShape('Round HSS'))
+                dispatch(setDataToBeLoopedForPostRequest(roundHSSEnglishData, selectedSheet))
             } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Pipe').toUpperCase()) {
                 setDataToBeLooped(pipeEnglishData)
+                // dispatch(setCurrentShape('Pipe'))
+                dispatch(setDataToBeLoopedForPostRequest(pipeEnglishData, selectedSheet))
             }
         }
     }, [system])

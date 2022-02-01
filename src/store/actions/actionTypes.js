@@ -9,6 +9,12 @@ export const SET_SECTION_SHAPE_DESIGN_ENGLISH = '@@sheets/SET_SECTION_SHAPE_DESI
  */
 export const SET_CALCULATED_DATA = '@@sheets/SET_CALCULATED_DATA'
 
+/**
+ * Design Members Loop
+ */
+export const SET_DATA_TO_BE_LOOPED_FOR_DESIGN_MEMBERS_POST_REQUEST = '@@sheets/SET_DATA_TO_BE_LOOPED_FOR_DESIGN_MEMBERS_POST_REQUEST'
+export const SET_CURRENT_SHAPE = '@@sheets/SET_CURRENT_SHAPE'
+
 
 /**
  * API

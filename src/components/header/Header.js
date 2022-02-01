@@ -111,6 +111,9 @@ const Header = () => {
     const iShapeData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'iShapesMetric'])
     const designMembersMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'designMemberMetric'])
     const designMembersEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'designMemberEnglish'])
+    const dataToBeLooped = objectChecker(sheets, ['sheets', selectedSheet, 'dataToBeLoopedForPostRequest'])
+    const currentShape = objectChecker(sheets, ['sheets', selectedSheet, 'currentShape'])
+
 
 
     let tabs = null
@@ -131,7 +134,7 @@ const Header = () => {
                     wordWrap: 'break-word'
                     // width: '50vw'
                 }}>
-                    {JSON.stringify(designMembersEnglish.length)}
+                    {JSON.stringify(calculatedData)}
                 </p>
             </div>
             <div className={classes.root}>

@@ -29,7 +29,7 @@ import {
     GET_T_SHAPES_ENGLISH,
     GET_T_SHAPES_METRIC,
     REMOVE_SHEET,
-    SET_CALCULATED_DATA,
+    SET_CALCULATED_DATA, SET_CURRENT_SHAPE, SET_DATA_TO_BE_LOOPED_FOR_DESIGN_MEMBERS_POST_REQUEST,
     SET_DISABLE_MENU_BUTTONS,
     SET_ENGLISH_EMPA,
     SET_ENGLISH_FUMPA,
@@ -381,6 +381,20 @@ export const getDesignMembersMetric = (data, sheetIndex) => {
 export const getDesignMembersEnglish = (data, sheetIndex) => {
     return {
         type: GET_DESIGN_MEMBERS_ENGLISH,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const setDataToBeLoopedForPostRequest = (data, sheetIndex) => {
+    return {
+        type: SET_DATA_TO_BE_LOOPED_FOR_DESIGN_MEMBERS_POST_REQUEST,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const setCurrentShape = (data, sheetIndex) => {
+    return {
+        type: SET_CURRENT_SHAPE,
         payload: {data: data, sheetIndex: sheetIndex}
     }
 }

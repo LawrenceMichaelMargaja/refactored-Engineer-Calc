@@ -15,7 +15,7 @@ import {
     resetMetricMaterialProperties
 } from "../../../store/actions/sheets/sheetCalculationComponents/materialProperties/materialProperties";
 import {useNavigate} from "react-router";
-import {setTabState} from "../../../store/actions/sheets/sheets";
+import {setDataToBeLoopedForPostRequest, setTabState} from "../../../store/actions/sheets/sheets";
 
 const useStyles = makeStyles((theme) => ({
     dropDown: {
@@ -47,6 +47,71 @@ const MethodDropdown = () => {
             return false
         }
     }
+
+    const [dataToBeLooped, setDataToBeLooped] = useState('')
+    const [dataName, setDataName] = useState('')
+    const [name, setName] = useState('')
+
+    // const dispatch = useDispatch()
+    /**
+     * Metric Data to be looped
+     */
+    const iShapeMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'iShapesMetric'])
+    const cShapeMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'cShapesMetric'])
+    const anglesMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'lShapesMetric'])
+    const tShapeMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'tShapesMetric'])
+    const doubleAnglesMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'twoLShapesMetric'])
+    const recHSSMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'recHSShapesMetric'])
+    const roundHSSMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'roundHSShapesMetric'])
+    const pipeMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'pipeShapesMetric'])
+
+    const insertedSectionMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric'])
+    const insertedSectionEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesEnglish'])
+    const insertedSteelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties'])
+    const insertedSteelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeEnglishProperties'])
+
+
+    const klrValue = () => {
+
+    }
+
+    useEffect(() => {
+        for (let index in insertedSectionMetric) {
+            if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('I-shaped').toUpperCase()) {
+                setDataToBeLooped(iShapeMetricData)
+                // dispatch(setCurrentShape('I-shaped', selectedSheet))
+                dispatch(setDataToBeLoopedForPostRequest(iShapeMetricData, selectedSheet))
+            } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('C-shaped').toUpperCase()) {
+                setDataToBeLooped(cShapeMetricData)
+                // dispatch(setCurrentShape('C-shaped', selectedSheet))
+                dispatch(setDataToBeLoopedForPostRequest(cShapeMetricData, selectedSheet))
+            } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Angles').toUpperCase()) {
+                setDataToBeLooped(anglesMetricData)
+                // dispatch(setCurrentShape('Angles', selectedSheet))
+                dispatch(setDataToBeLoopedForPostRequest(anglesMetricData, selectedSheet))
+            } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('T-shaped').toUpperCase()) {
+                setDataToBeLooped(tShapeMetricData)
+                // dispatch(setCurrentShape('T-shaped', selectedSheet))
+                dispatch(setDataToBeLoopedForPostRequest(tShapeMetricData, selectedSheet))
+            } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Double Angles').toUpperCase()) {
+                setDataToBeLooped(doubleAnglesMetricData)
+                // dispatch(setCurrentShape('Double Angles', selectedSheet))
+                dispatch(setDataToBeLoopedForPostRequest(doubleAnglesMetricData, selectedSheet))
+            } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Rectangular HSS').toUpperCase()) {
+                setDataToBeLooped(recHSSMetricData)
+                // dispatch(setCurrentShape('Rectangular HSS', selectedSheet))
+                dispatch(setDataToBeLoopedForPostRequest(recHSSMetricData, selectedSheet))
+            } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Round HSS').toUpperCase()) {
+                setDataToBeLooped(roundHSSMetricData)
+                // dispatch(setCurrentShape('Round HSS', selectedSheet))
+                dispatch(setDataToBeLoopedForPostRequest(roundHSSMetricData, selectedSheet))
+            } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Pipe').toUpperCase()) {
+                setDataToBeLooped(pipeMetricData)
+                // dispatch(setCurrentShape('Pipe', selectedSheet))
+                dispatch(setDataToBeLoopedForPostRequest(pipeMetricData, selectedSheet))
+            }
+        }
+    }, [])
 
     const handleChange = (event) => {
         if(event.target.value === 'Design') {

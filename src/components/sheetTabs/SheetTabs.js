@@ -53,7 +53,7 @@ const SheetTabs = () => {
 
     const toBeAddedSheetNumber = parseFloat(size(sheets) - 1)
 
-    console.log("the new sheet index -- ", parseFloat(size(sheets)))
+    // console.log("the new sheet index -- ", parseFloat(size(sheets)))
 
     const fetchShapes = () => {
         fetch("http://127.0.0.1:8080/shape")

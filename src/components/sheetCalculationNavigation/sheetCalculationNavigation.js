@@ -95,6 +95,13 @@ const SheetCalculationNavigation = () => {
     const axial = objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'axial'])
 
     /**
+     * Data to be looped for post request
+     */
+    const dataToBeLoopedForPostRequest = objectChecker(sheets, ['sheets', selectedSheet, 'dataToBeLoopedForPostRequest'])
+    const insertedSectionMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric'])
+    const insertedSectionEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesEnglish'])
+
+    /**
      * Data from Material Properties
      */
     const ModE = objectChecker(sheets, ['sheets', selectedSheet, ''])
@@ -104,7 +111,7 @@ const SheetCalculationNavigation = () => {
      */
     const sectionHashMetric = useMemo(() => {
         let hash = {}
-        for(let i in sectionPropertiesMetric) {
+        for (let i in sectionPropertiesMetric) {
             let {
                 sectionId
             } = sectionPropertiesMetric[i]
@@ -115,7 +122,7 @@ const SheetCalculationNavigation = () => {
 
     const sectionHashEnglish = useMemo(() => {
         let hash = {}
-        for(let i in sectionPropertiesEnglish) {
+        for (let i in sectionPropertiesEnglish) {
             let {
                 sectionId
             } = sectionPropertiesEnglish[i]
@@ -126,7 +133,7 @@ const SheetCalculationNavigation = () => {
 
     const materialHashMetric = useMemo(() => {
         let hash = {}
-        for(let i in materialPropertiesMetric) {
+        for (let i in materialPropertiesMetric) {
             let {
                 id
             } = materialPropertiesMetric[i]
@@ -137,7 +144,7 @@ const SheetCalculationNavigation = () => {
 
     const materialHashEnglish = useMemo(() => {
         let hash = {}
-        for(let i in materialPropertiesEnglish) {
+        for (let i in materialPropertiesEnglish) {
             let {
                 id
             } = materialPropertiesEnglish[i]
@@ -146,39 +153,48 @@ const SheetCalculationNavigation = () => {
         return hash
     }, [materialPropertiesEnglish])
 
-    const beamCalcDataSender = () => {
+    const currentShape = objectChecker(sheets, ['sheets', selectedSheet, 'currentShape'])
+
+    const beamCalcDataSenderDesign = () => {
         let body = []
+        for(let loopedIndex in dataToBeLoopedForPostRequest) {
 
-        for(let memberIndex in members) {
-            const memberId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'memberId'])
-            const sectionId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'sectionId'])
-            const materialId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'materialId'])
+            for (let memberIndex in members) {
+                const memberId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'memberId'])
+                const sectionId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'sectionId'])
+                const materialId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'materialId'])
 
-            let idObject = {
-                analysis: analysis,
-                method: method,
-                units: units,
-            }
-            console.log('materialId', materialHashMetric);
+                let idObject = {
+                    analysis: analysis,
+                    method: method,
+                    units: units,
+                }
 
-            for(let factorsIndex in factors) {
-                idObject['tensile_factor'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForTensile']))
-                idObject['compress_factor'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForCompression']))
-                idObject['bending_factor'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForFlexure']))
-                idObject['shear_factor'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForShear']))
-            }
-            for(let forcesIndex in forces) {
-                idObject['vx'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'bendingMomentAlongXAxis']))
-                idObject['vy'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'bendingMomentAlongYAxis']))
-                idObject['mx'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'shearAlongXAxis']))
-                idObject['my'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'shearAlongYAxis']))
-                idObject['p'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'axial']))
-            }
+                for (let factorsIndex in factors) {
+                    idObject['tensile_factor'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForTensile']))
+                    idObject['compress_factor'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForCompression']))
+                    idObject['bending_factor'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForFlexure']))
+                    idObject['shear_factor'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForShear']))
+                }
+                for (let forcesIndex in forces) {
+                    idObject['vx'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'bendingMomentAlongXAxis']))
+                    idObject['vy'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'bendingMomentAlongYAxis']))
+                    idObject['mx'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'shearAlongXAxis']))
+                    idObject['my'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'shearAlongYAxis']))
+                    idObject['p'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'axial']))
+                }
 
-            for(let sectionIndex in sectionPropertiesMetric) {
-                idObject['name'] = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric', sectionIndex, 'sectionName'])
-                // console.log("the shape == ", JSON.stringify(objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric', sectionIndex, 'sectionName'])));
-            }
+                if ((sectionHashMetric[sectionId].sectionShape).toUpperCase() === ('I-shaped').toUpperCase()) {
+                    idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].i_shape_metric_name
+                } else if((sectionHashMetric[sectionId].sectionShape).toUpperCase() === ('C-shaped').toUpperCase()) {
+                    idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].c_shape_metric_name
+                } else if((currentShape).toUpperCase() === ('Angles').toUpperCase()) {
+                    idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].c_shape_metric_name
+                } else if((currentShape).toUpperCase() === ('T-shaped').toUpperCase()) {
+                    idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].c_shape_metric_name
+                } else {
+                    console.log("oh no");
+                }
 
                 idObject['id'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'memberId']))
                 idObject['lb'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'totalLengthOfMember']))
@@ -195,36 +211,73 @@ const SheetCalculationNavigation = () => {
                 idObject['yield_str'] = system === 'Metric' ? parseFloat(materialHashMetric[materialId].FYMPA) : parseFloat(materialHashEnglish[materialId].FYMPA)
                 idObject['ult_str'] = system === 'Metric' ? parseFloat(materialHashMetric[materialId].FUMPA) : parseFloat(materialHashEnglish[materialId].FYMPA)
                 idObject['shape'] = sectionHashMetric[sectionId].sectionShape
-            // console.log('materialId', materialId);
-            // console.log('system == ', system);
-            // console.log('materialPropertiesEnglish == ', materialPropertiesEnglish);
-            // console.log('materialHashEnglish == ', materialHashEnglish);
-            // console.log('materialId == ', materialId);
-            // console.log('selectedSheet == ', selectedSheet);
-            body.push(idObject)
+                body.push(idObject)
+            }
         }
-
-
-
-        // console.log(JSON.stringify(body));
-
         axios.defaults.baseURL = 'http://localhost:8080'
-        //
-        // const baseURL = ""
 
         axios.post('/steelArguments', body)
             .then(res => dispatch(setCalculatedData(res.data, selectedSheet)))
-            // .then(response => console.log("res.data", response.payload.data))
             .catch(err => console.log(err))
-
-        // const result = calculatedData.map(data => ({ pt: data.pt, pc: data.pc, mcx: data.mcx, mcy: data.mcy, vcx: data.vcx, vcy: data.vcy }));
-        // console.log("the calculated result == ", result);
-        // axios.post('/steelArguments', body)
-        //     .then(res => console.log(res.data))
-        //     .then(res => dispatch(setCalculatedData(res.data, selectedSheet)))
-        //     .catch(err => console.log(err))
     }
 
+    const beamCalcDataSender = () => {
+        let body = []
+
+        for (let memberIndex in members) {
+            const memberId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'memberId'])
+            const sectionId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'sectionId'])
+            const materialId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'materialId'])
+
+            let idObject = {
+                analysis: analysis,
+                method: method,
+                units: units,
+            }
+            console.log('materialId', materialHashMetric);
+
+            for (let factorsIndex in factors) {
+                idObject['tensile_factor'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForTensile']))
+                idObject['compress_factor'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForCompression']))
+                idObject['bending_factor'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForFlexure']))
+                idObject['shear_factor'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForShear']))
+            }
+            for (let forcesIndex in forces) {
+                idObject['vx'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'bendingMomentAlongXAxis']))
+                idObject['vy'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'bendingMomentAlongYAxis']))
+                idObject['mx'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'shearAlongXAxis']))
+                idObject['my'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'shearAlongYAxis']))
+                idObject['p'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'axial']))
+            }
+
+            for (let sectionIndex in sectionPropertiesMetric) {
+                idObject['name'] = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric', sectionIndex, 'sectionName'])
+            }
+
+            idObject['id'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'memberId']))
+            idObject['lb'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'totalLengthOfMember']))
+            idObject['lx'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'yAxisUnbracedLength']))
+            idObject['Kx'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'yAxisEffectiveLengthFactor']))
+            idObject['Ly'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'zAxisUnbracedLength']))
+            idObject['ky'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'zAxisEffectiveLengthFactor']))
+            idObject['llt'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'LLT']))
+            idObject['cbx'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'unbracedLengthLateralTorsional']))
+            idObject['cby'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'lateralTorsionalModificationFactor']))
+            idObject['s_rc'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'slendernessRatioInCompression']))
+            idObject['s_rt'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'LST']))
+            idObject['mod_e'] = system === 'Metric' ? parseFloat(materialHashMetric[materialId].EMPA) : parseFloat(materialHashEnglish[materialId].EMPA)
+            idObject['yield_str'] = system === 'Metric' ? parseFloat(materialHashMetric[materialId].FYMPA) : parseFloat(materialHashEnglish[materialId].FYMPA)
+            idObject['ult_str'] = system === 'Metric' ? parseFloat(materialHashMetric[materialId].FUMPA) : parseFloat(materialHashEnglish[materialId].FYMPA)
+            idObject['shape'] = sectionHashMetric[sectionId].sectionShape
+            body.push(idObject)
+        }
+
+        axios.defaults.baseURL = 'http://localhost:8080'
+
+        axios.post('/steelArguments', body)
+            .then(res => dispatch(setCalculatedData(res.data, selectedSheet)))
+            .catch(err => console.log(err))
+    }
 
 
     const resultErrorHandler = () => {
@@ -254,7 +307,6 @@ const SheetCalculationNavigation = () => {
             if (size(materialPropertiesMetric) === 0 || size(sectionPropertiesMetric) === 0) {
                 arrayCheck.push('material property or section property is null')
             }
-
 
 
             if (materialPropertiesMetric !== null) {
@@ -288,12 +340,12 @@ const SheetCalculationNavigation = () => {
 
         const shapes = ['I-shaped', 'C-shaped', 'Angles', 'T-shaped', 'Double Angles', 'Rectangular HSS', 'Pipe', 'Round HSS']
 
-        if(method === 'Design') {
+        if (method === 'Design') {
             let shapeState = false
-            for(let sectionIndex in insertedSectionPropertiesMetric) {
-                for(let shape in shapes) {
+            for (let sectionIndex in insertedSectionPropertiesMetric) {
+                for (let shape in shapes) {
                     // alert("the shapes looped == " + shapes[shape].toUpperCase() + " == " + "shape user == " + (insertedSectionPropertiesMetric[sectionIndex].sectionShape).toUpperCase());
-                    if(((insertedSectionPropertiesMetric[sectionIndex].sectionShape).toUpperCase()) === shapes[shape].toUpperCase()) {
+                    if (((insertedSectionPropertiesMetric[sectionIndex].sectionShape).toUpperCase()) === shapes[shape].toUpperCase()) {
                         // shapeState = false
                         shapeState = true
                         break
@@ -307,7 +359,7 @@ const SheetCalculationNavigation = () => {
                 //     // alert("Opps")
                 // }
             }
-            if(shapeState == false) {
+            if (shapeState == false) {
                 arrayCheck.push("Invalid section used. Make sure section shape conforms with format: *section name*-shaped. Exceptions: 'Angles', 'Double Angles', 'Rectangular HSS', 'Pipe'")
             }
         }
@@ -904,22 +956,22 @@ const SheetCalculationNavigation = () => {
                 </p>
         }
 
-        if(arrayCheck.length === 0) {
+        if (arrayCheck.length === 0) {
             // console.log("arrayCheck == ", arrayCheck)
             dispatch(setTabState('results', selectedSheet))
-        } else if(arrayCheck.length !== 0) {
+        } else if (arrayCheck.length !== 0) {
             dispatch(setTabState('errors', selectedSheet))
         }
         resultCheckerHandler(errorLocation, important)
         // return resultCheckerHandler(errorLocation, important)
         return (
-            <Errors errorLocation={errorLocation} important={important} />
+            <Errors errorLocation={errorLocation} important={important}/>
         )
     }
 
 
     const resultCheckerHandler = () => {
-        if(tabState === 'results') {
+        if (tabState === 'results') {
             // beamCalcDataSender()
             resultsNavigationHandler()
 
@@ -931,8 +983,14 @@ const SheetCalculationNavigation = () => {
     }
 
     useEffect(() => {
-        if(tabState === 'results') {
-            beamCalcDataSender()
+        if (tabState === 'results') {
+            if(method === 'Investigation') {
+                alert("investigation done")
+                beamCalcDataSender()
+            } else if(method === 'Design') {
+                alert("Design done");
+                beamCalcDataSenderDesign()
+            }
         }
     }, [tabState])
 

@@ -1,6 +1,7 @@
 import React, {useEffect, useMemo, useState} from "react";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {objectChecker} from "../../../../../utilities/utilities";
+import {setCurrentShape, setDataToBeLoopedForPostRequest} from "../../../../../store/actions/sheets/sheets";
 
 const DesignMembersRows = () => {
 
@@ -42,34 +43,57 @@ const DesignMembersRows = () => {
 
     const designMembersMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'designMemberMetric'])
     const designMembersEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'designMemberEnglish'])
-    // alert("I shape english === " + JSON.stringify(iShapeEnglishData))
+
+    const calculatedData = objectChecker(sheets, ['sheets', selectedSheet, 'calculatedData'])
 
     let memberRows = []
     const [dataToBeLooped, setDataToBeLooped] = useState('')
     const [dataName, setDataName] = useState('')
     const [name, setName] = useState('')
 
+    const dispatch = useDispatch()
+
+    const klrValue = () => {
+
+    }
+
     useEffect(() => {
         for (let index in insertedSectionMetric) {
             if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('I-shaped').toUpperCase()) {
                 setDataToBeLooped(iShapeMetricData)
+                // dispatch(setCurrentShape('I-shaped', selectedSheet))
+                dispatch(setDataToBeLoopedForPostRequest(iShapeMetricData, selectedSheet))
             } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('C-shaped').toUpperCase()) {
                 setDataToBeLooped(cShapeMetricData)
+                // dispatch(setCurrentShape('C-shaped', selectedSheet))
+                dispatch(setDataToBeLoopedForPostRequest(cShapeMetricData, selectedSheet))
             } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Angles').toUpperCase()) {
                 setDataToBeLooped(anglesMetricData)
+                // dispatch(setCurrentShape('Angles', selectedSheet))
+                dispatch(setDataToBeLoopedForPostRequest(anglesMetricData, selectedSheet))
             } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('T-shaped').toUpperCase()) {
                 setDataToBeLooped(tShapeMetricData)
+                // dispatch(setCurrentShape('T-shaped', selectedSheet))
+                dispatch(setDataToBeLoopedForPostRequest(tShapeMetricData, selectedSheet))
             } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Double Angles').toUpperCase()) {
                 setDataToBeLooped(doubleAnglesMetricData)
+                // dispatch(setCurrentShape('Double Angles', selectedSheet))
+                dispatch(setDataToBeLoopedForPostRequest(doubleAnglesMetricData, selectedSheet))
             } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Rectangular HSS').toUpperCase()) {
                 setDataToBeLooped(recHSSMetricData)
+                // dispatch(setCurrentShape('Rectangular HSS', selectedSheet))
+                dispatch(setDataToBeLoopedForPostRequest(recHSSMetricData, selectedSheet))
             } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Round HSS').toUpperCase()) {
                 setDataToBeLooped(roundHSSMetricData)
+                // dispatch(setCurrentShape('Round HSS', selectedSheet))
+                dispatch(setDataToBeLoopedForPostRequest(roundHSSMetricData, selectedSheet))
             } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Pipe').toUpperCase()) {
                 setDataToBeLooped(pipeMetricData)
+                // dispatch(setCurrentShape('Pipe', selectedSheet))
+                dispatch(setDataToBeLoopedForPostRequest(pipeMetricData, selectedSheet))
             }
         }
-    }, [system])
+    }, [])
 
     useEffect(() => {
         for (let index in insertedSectionMetric) {
@@ -91,7 +115,7 @@ const DesignMembersRows = () => {
                 setDataName('pipe_shape_metric_name')
             }
         }
-    }, [dataToBeLooped, system])
+    }, [])
 
     const hashData = useMemo(() => {
         let hash = {}
@@ -138,6 +162,31 @@ const DesignMembersRows = () => {
 
             // console.log("the names -- ", insertedSectionEnglish[0].sectionName);
             // console.log("the name == ", JSON.stringify(hashMetric[insertedSectionMetric[0].sectionName]));
+
+            const criticalDesignRatioValue = () => {
+                let value = null
+                    // value = calculatedData[calculatedIndex].mx_ratio
+                    // console.log("the pratio == ", JSON.stringify(calculatedData[calculatedIndex].pratio));
+                    if((calculatedData[index].pratio > calculatedData[index].mx_ratio) && (calculatedData[index].pratio > calculatedData[index].my_ratio) && (calculatedData[index].pratio > calculatedData[index].vx_ratio) && (calculatedData[index].pratio > calculatedData[index].vy_ratio)) {
+                        // console.log("hi haat");
+                        value = calculatedData[index].pratio
+                    } else if(calculatedData[index].mx_ratio > calculatedData[index].pratio && calculatedData[index].mx_ratio > calculatedData[index].my_ratio && calculatedData[index].mx_ratio > calculatedData[index].vx_ratio && calculatedData[index].mx_ratio > calculatedData[index].vy_ratio) {
+                        // console.log("ahiuihi");
+                        value = calculatedData[index].mx_ratio
+                    } else if(calculatedData[index].my_ratio > calculatedData[index].pratio && calculatedData[index].my_ratio > calculatedData[index].mx_ratio && calculatedData[index].my_ratio > calculatedData[index].vx_ratio && calculatedData[index].my_ratio > calculatedData[index].vy_ratio) {
+                        // console.log("heshes");
+                        value = calculatedData[index].my_ratio
+                    } else if(calculatedData[index].vx_ratio > calculatedData[index].pratio && calculatedData[index].vx_ratio > calculatedData[index].mx_ratio && calculatedData[index].vx_ratio > calculatedData[index].my_ratio && calculatedData[index].vx_ratio > calculatedData[index].vy_ratio) {
+                        // console.log("atututu");
+                        value = calculatedData[index].vx_ratio
+                    } else if(calculatedData[index].vy_ratio > calculatedData[index].pratio && calculatedData[index].vy_ratio > calculatedData[index].mx_ratio && calculatedData[index].vy_ratio > calculatedData[index].my_ratio && calculatedData[index].vy_ratio > calculatedData[index].vx_ratio) {
+                        // console.log("hihihihi");
+                        value = calculatedData[index].vy_ratio
+                    } else {
+                        // console.log("ho haaa");
+                    }
+                return value
+            }
 
             memberRows.push(
                 <div style={{
@@ -200,7 +249,8 @@ const DesignMembersRows = () => {
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>Critical Design Ratio</strong>
+                            {/*<strong>{calculatedData[index].pt}</strong>*/}
+                            {/*<strong>{(criticalDesignRatioValue()).toFixed(2)}</strong>*/}
                         </p>
                         <p style={{
                             width: '16.66%',
@@ -209,7 +259,8 @@ const DesignMembersRows = () => {
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>KL/r value</strong>
+                            {/*<strong>{(calculatedData[index].k_lr).toFixed(2)}</strong>*/}
+                            {/*<strong>KL/r value</strong>*/}
                         </p>
                     </div>
                 </div>

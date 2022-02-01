@@ -89,7 +89,7 @@ const MemberDesignCapacityRows = () => {
                                 border: '1px solid black',
                                 padding: '0.5em'
                             }}>
-                                <strong>{systemValue === 'Metric' ? (calculatedData[calculatedIndex].pt).toFixed(3) : (1 / 4.4482216 * (calculatedData[calculatedIndex].pt)).toFixed(3) } <sub> </sub></strong>
+                                <strong>{systemValue === 'Metric' ? (calculatedData[calculatedIndex].pt).toFixed(3) : (1 / 4.4482216 * (calculatedData[calculatedIndex].pt)).toFixed(3)} <sub> </sub></strong>
                             </p>
                             <p style={{
                                 width: '14.28%',
@@ -98,7 +98,7 @@ const MemberDesignCapacityRows = () => {
                                 border: '1px solid black',
                                 padding: '0.5em'
                             }}>
-                                <strong>{(calculatedData[calculatedIndex].pc).toFixed(3)} <sub> </sub></strong>
+                                <strong>{systemValue === 'Metric' ? (calculatedData[calculatedIndex].pc).toFixed(3) : (1 / 4.4482216 * (calculatedData[calculatedIndex].pc)).toFixed(3)} <sub> </sub></strong>
                             </p>
                             <p style={{
                                 width: '14.28%',
@@ -107,7 +107,7 @@ const MemberDesignCapacityRows = () => {
                                 border: '1px solid black',
                                 padding: '0.5em'
                             }}>
-                                <strong>{(calculatedData[calculatedIndex].mcx).toFixed(3)} <sub> </sub></strong>
+                                <strong>{systemValue === 'Metric' ? (calculatedData[calculatedIndex].mcx).toFixed(3) : (1 / 1.35581795 * calculatedData[calculatedIndex].mcx).toFixed(3)} <sub> </sub></strong>
                             </p>
                             <p style={{
                                 width: '14.28%',
@@ -116,7 +116,7 @@ const MemberDesignCapacityRows = () => {
                                 border: '1px solid black',
                                 padding: '0.5em'
                             }}>
-                                <strong>{(calculatedData[calculatedIndex].mcy).toFixed(3)} <sub> </sub></strong>
+                                <strong>{systemValue === 'Metric' ? (calculatedData[calculatedIndex].mcy).toFixed(3) : (1 / 1.35581795 * calculatedData[calculatedIndex].mcy).toFixed(3)} <sub> </sub></strong>
                             </p>
                             <p style={{
                                 width: '14.28%',
@@ -125,7 +125,7 @@ const MemberDesignCapacityRows = () => {
                                 border: '1px solid black',
                                 padding: '0.5em'
                             }}>
-                                <strong>{(calculatedData[calculatedIndex].vcx).toFixed(3)} <sub> </sub></strong>
+                                <strong>{systemValue === 'Metric' ? (calculatedData[calculatedIndex].vcx).toFixed(3) : (1 / 4.4482216 * (calculatedData[calculatedIndex].vcx)).toFixed(3)} <sub> </sub></strong>
                             </p>
                             <p style={{
                                 width: '14.28%',
@@ -134,7 +134,7 @@ const MemberDesignCapacityRows = () => {
                                 border: '1px solid black',
                                 padding: '0.5em'
                             }}>
-                                <strong>{(calculatedData[calculatedIndex].vcy).toFixed(3)} <sub> </sub></strong>
+                                <strong>{systemValue === 'Metric' ? (calculatedData[calculatedIndex].vcy).toFixed(3) : (1 / 4.4482216 * (calculatedData[calculatedIndex].vcy)).toFixed(3)} <sub> </sub></strong>
                             </p>
                         </div>
                     </div>
