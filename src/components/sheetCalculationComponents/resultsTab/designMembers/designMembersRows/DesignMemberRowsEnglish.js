@@ -41,6 +41,7 @@ const DesignMembersRows = () => {
     const insertedSteelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties'])
     const insertedSteelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeEnglishProperties'])
 
+    const calculatedData = objectChecker(sheets, ['sheets', selectedSheet, 'calculatedData'])
     const designMembersMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'designMemberMetric'])
     const designMembersEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'designMemberEnglish'])
     // alert("I shape english === " + JSON.stringify(iShapeEnglishData))
@@ -178,6 +179,43 @@ const DesignMembersRows = () => {
             // console.log("the names -- ", insertedSectionEnglish[0].sectionName);
             // console.log("the name == ", JSON.stringify(hashMetric[insertedSectionMetric[0].sectionName]));
 
+            const criticalDesignRatioValue = () => {
+                let value = null
+                if(calculatedData === null) {
+                    return "Calculating..."
+                } else {
+                    if((calculatedData[index].pratio > calculatedData[index].mx_ratio) && (calculatedData[index].pratio > calculatedData[index].my_ratio) && (calculatedData[index].pratio > calculatedData[index].vx_ratio) && (calculatedData[index].pratio > calculatedData[index].vy_ratio)) {
+                        // console.log("hi haat");
+                        value = calculatedData[index].pratio
+                    } else if(calculatedData[index].mx_ratio > calculatedData[index].pratio && calculatedData[index].mx_ratio > calculatedData[index].my_ratio && calculatedData[index].mx_ratio > calculatedData[index].vx_ratio && calculatedData[index].mx_ratio > calculatedData[index].vy_ratio) {
+                        // console.log("ahiuihi");
+                        value = calculatedData[index].mx_ratio
+                    } else if(calculatedData[index].my_ratio > calculatedData[index].pratio && calculatedData[index].my_ratio > calculatedData[index].mx_ratio && calculatedData[index].my_ratio > calculatedData[index].vx_ratio && calculatedData[index].my_ratio > calculatedData[index].vy_ratio) {
+                        // console.log("heshes");
+                        value = calculatedData[index].my_ratio
+                    } else if(calculatedData[index].vx_ratio > calculatedData[index].pratio && calculatedData[index].vx_ratio > calculatedData[index].mx_ratio && calculatedData[index].vx_ratio > calculatedData[index].my_ratio && calculatedData[index].vx_ratio > calculatedData[index].vy_ratio) {
+                        // console.log("atututu");
+                        value = calculatedData[index].vx_ratio
+                    } else if(calculatedData[index].vy_ratio > calculatedData[index].pratio && calculatedData[index].vy_ratio > calculatedData[index].mx_ratio && calculatedData[index].vy_ratio > calculatedData[index].my_ratio && calculatedData[index].vy_ratio > calculatedData[index].vx_ratio) {
+                        // console.log("hihihihi");
+                        value = calculatedData[index].vy_ratio
+                    } else {
+                        // console.log("ho haaa");
+                    }
+                }
+                return (value).toFixed(3)
+            }
+
+            const klrValue = () => {
+                let value = null
+                if(calculatedData === null) {
+                    return "Calculating..."
+                } else {
+                    value = calculatedData[index].k_lr
+                }
+                return (value).toFixed(3)
+            }
+
             memberRows.push(
                 <div style={{
                     textAlign: 'center'
@@ -239,7 +277,7 @@ const DesignMembersRows = () => {
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>Critical Design Ratio</strong>
+                            <strong>{criticalDesignRatioValue()}</strong>
                         </p>
                         <p style={{
                             width: '16.66%',
@@ -248,7 +286,7 @@ const DesignMembersRows = () => {
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>KL/r value</strong>
+                            <strong>{klrValue()}</strong>
                         </p>
                     </div>
                 </div>

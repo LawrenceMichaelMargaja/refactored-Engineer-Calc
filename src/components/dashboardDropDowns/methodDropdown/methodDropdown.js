@@ -15,7 +15,7 @@ import {
     resetMetricMaterialProperties
 } from "../../../store/actions/sheets/sheetCalculationComponents/materialProperties/materialProperties";
 import {useNavigate} from "react-router";
-import {setDataToBeLoopedForPostRequest, setTabState} from "../../../store/actions/sheets/sheets";
+import {setCalculatedData, setDataToBeLoopedForPostRequest, setTabState} from "../../../store/actions/sheets/sheets";
 
 const useStyles = makeStyles((theme) => ({
     dropDown: {
@@ -115,6 +115,7 @@ const MethodDropdown = () => {
             // alert("hi")
             if(proceed) {
                 dispatch(resetMemberFields(selectedSheet))
+                dispatch(setCalculatedData(null, selectedSheet))
                 dispatch(resetMetricMaterialProperties(selectedSheet))
                 dispatch(resetEnglishMaterialProperties(selectedSheet))
                 dispatch(resetMetricSectionProperties(selectedSheet))
@@ -130,6 +131,7 @@ const MethodDropdown = () => {
                 const proceed = window.confirm("This will remove all completed design calculations. Are you sure you want to continue?")
                 if(proceed) {
                     dispatch(resetMemberFields(selectedSheet))
+                    dispatch(setCalculatedData(null, selectedSheet))
                     dispatch(resetMetricMaterialProperties(selectedSheet))
                     dispatch(resetEnglishMaterialProperties(selectedSheet))
                     dispatch(resetMetricSectionProperties(selectedSheet))

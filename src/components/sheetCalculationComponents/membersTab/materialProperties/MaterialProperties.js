@@ -36,6 +36,7 @@ import {size} from "lodash";
 import MetricMaterialPropertiesRows from "./materialPropertiesRows/metricMaterialPropertiesRows";
 import EnglishMaterialPropertiesRows from "./materialPropertiesRows/englishMaterialPropertiesRow";
 import {objectChecker} from "../../../../utilities/utilities";
+import MetricMaterialPropertiesRowsDesign from "./materialPropertiesRows/metricMaterialPropertiesRowsDesign";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -178,9 +179,15 @@ const MaterialProperties = () => {
 
 
     const renderRows = () => {
-        return (
-            <MetricMaterialPropertiesRows/>
-        )
+        if(method === 'Investigation') {
+            return (
+                <MetricMaterialPropertiesRows/>
+            )
+        } else if(method === 'Design') {
+            return (
+                <MetricMaterialPropertiesRowsDesign/>
+            )
+        }
     }
 
     const NestedModal = () => {
