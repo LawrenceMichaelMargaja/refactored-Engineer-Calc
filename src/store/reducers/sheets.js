@@ -7,7 +7,7 @@ import {
     ADD_SECTION_PROPERTY_METRIC,
     CHANGE_MATERIAL_CUSTOM_STATUS,
     CLEAR_METRIC_MATERIAL_PROPERTIES,
-    CLEAR_REMOVED_MEMBERS_ARRAY,
+    CLEAR_REMOVED_MEMBERS_ARRAY, EDIT_SELECTED_ENGLISH_MATERIAL_PROPERTY,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTIES,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
     EDIT_SELECTED_SECTION,
@@ -517,6 +517,8 @@ const Reducer = (state = initialState, action) => {
             return setDataToBeLoopedForPostRequest(state, action.payload)
         case SET_CURRENT_SHAPE:
             return setCurrentShape(state, action.payload)
+        case EDIT_SELECTED_ENGLISH_MATERIAL_PROPERTY:
+            return editSelectedEnglishMaterialProperty(state, action.payload)
         default:
             return state
     }
@@ -2032,6 +2034,7 @@ const setCurrentMetricMaterialPropertyIndex = (state, payload) => {
 }
 
 const editSelectedMetricMaterialProperty = (state, payload) => {
+    alert("bitch")
     return {
         ...state,
         sheets: {
@@ -2044,6 +2047,33 @@ const editSelectedMetricMaterialProperty = (state, payload) => {
                         ...state.sheets[payload.sheetIndex].apiMap.steelTypeMetricProperties,
                         [payload.materialIndex]: {
                             ...state.sheets[payload.sheetIndex].apiMap.steelTypeMetricProperties[payload.materialIndex],
+                            name: payload.name,
+                            EMPA: payload.EMPA,
+                            FYMPA: payload.FYMPA,
+                            FUMPA: payload.FUMPA,
+                            custom: payload.custom
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+const editSelectedEnglishMaterialProperty = (state, payload) => {
+    alert("the payload == " + payload.data);
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    steelTypeEnglishProperties: {
+                        ...state.sheets[payload.sheetIndex].apiMap.steelTypeEnglishProperties,
+                        [payload.materialIndex]: {
+                            ...state.sheets[payload.sheetIndex].apiMap.steelTypeEnglishProperties[payload.materialIndex],
                             name: payload.name,
                             EMPA: payload.EMPA,
                             FYMPA: payload.FYMPA,
@@ -2164,9 +2194,9 @@ const resetEnglishMaterialProperties = (state, payload) => {
                         0: {
                             id: 1,
                             name: 'A36',
-                            EMPA: 200000,
-                            FYMPA: 248,
-                            FUMPA: 400
+                            EMPA: 29000,
+                            FYMPA: 36,
+                            FUMPA: 58
                         }
                     }
                 }

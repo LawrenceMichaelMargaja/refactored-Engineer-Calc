@@ -12,17 +12,17 @@ const MemberDesignRatio = () => {
     const method = objectChecker(sheets, ['sheets', selectedSheet, 'method'])
 
     const [hide, setHide] = useState('none')
-    const [buttonText, setButtonText] = useState('Show Investigation Rows')
+    const [buttonText, setButtonText] = useState('More Details')
     const [buttonColor, setButtonColor] = useState('green')
 
     const hideHandler = () => {
         if (hide === 'none') {
             setHide('block')
-            setButtonText('Close Investigation Rows')
+            setButtonText('Hide Details')
             setButtonColor('red')
         } else if (hide === 'block') {
             setHide('none')
-            setButtonText('Show Investigation Rows')
+            setButtonText('More Details')
             setButtonColor('green')
         }
     }

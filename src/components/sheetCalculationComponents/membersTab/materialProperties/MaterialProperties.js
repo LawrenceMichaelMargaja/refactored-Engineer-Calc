@@ -179,15 +179,15 @@ const MaterialProperties = () => {
 
 
     const renderRows = () => {
-        if(method === 'Investigation') {
-            return (
-                <MetricMaterialPropertiesRows/>
-            )
-        } else if(method === 'Design') {
-            return (
-                <MetricMaterialPropertiesRowsDesign/>
-            )
-        }
+            if(system === 'Metric') {
+                return (
+                    <MetricMaterialPropertiesRows/>
+                )
+            } else if(system === 'English') {
+                return (
+                    <EnglishMaterialPropertiesRows/>
+                )
+            }
     }
 
     const NestedModal = () => {

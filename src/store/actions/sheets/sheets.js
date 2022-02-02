@@ -1,11 +1,13 @@
 import {
-    ADD_NEW_SHEET,
+    ADD_NEW_SHEET, EDIT_SELECTED_ENGLISH_MATERIAL_PROPERTY,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTIES,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
     GET_2_L_SHAPES_ENGLISH,
     GET_2_L_SHAPES_METRIC,
     GET_C_SHAPES_ENGLISH,
-    GET_C_SHAPES_METRIC, GET_DESIGN_MEMBERS_ENGLISH, GET_DESIGN_MEMBERS_METRIC,
+    GET_C_SHAPES_METRIC,
+    GET_DESIGN_MEMBERS_ENGLISH,
+    GET_DESIGN_MEMBERS_METRIC,
     GET_I_SHAPES_ENGLISH,
     GET_I_SHAPES_METRIC,
     GET_L_SHAPES_ENGLISH,
@@ -29,7 +31,10 @@ import {
     GET_T_SHAPES_ENGLISH,
     GET_T_SHAPES_METRIC,
     REMOVE_SHEET,
-    SET_CALCULATED_DATA, SET_CURRENT_SHAPE, SET_DATA_TO_BE_LOOPED_FOR_DESIGN_MEMBERS_POST_REQUEST,
+    SET_CALCULATED_DATA,
+    SET_CURRENT_METRIC_ENGLISH_PROPERTIES_INDEX,
+    SET_CURRENT_SHAPE,
+    SET_DATA_TO_BE_LOOPED_FOR_DESIGN_MEMBERS_POST_REQUEST,
     SET_DISABLE_MENU_BUTTONS,
     SET_ENGLISH_EMPA,
     SET_ENGLISH_FUMPA,
@@ -84,6 +89,20 @@ export const setRouteUrl = (data, sheetIndex) => {
     return {
         type: SET_ROUTE_URL,
         payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const setCurrentEnglishMaterialPropertiesIndex = (data, sheetIndex, materialIndex) => {
+    return {
+        type: SET_CURRENT_METRIC_ENGLISH_PROPERTIES_INDEX,
+        payload: {data: data, sheetIndex: sheetIndex, materialIndex: materialIndex}
+    }
+}
+
+export const editSelectedEnglishMaterialProperty = (name, EMPA, FYMPA, FUMPA, custom, sheetIndex, materialIndex) => {
+    return {
+        type: EDIT_SELECTED_ENGLISH_MATERIAL_PROPERTY,
+        payload: {name: name, EMPA: EMPA, FYMPA: FYMPA, FUMPA: FUMPA, custom: custom, sheetIndex: sheetIndex, materialIndex: materialIndex}
     }
 }
 

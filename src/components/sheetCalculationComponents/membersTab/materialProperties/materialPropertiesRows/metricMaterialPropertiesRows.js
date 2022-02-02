@@ -64,11 +64,11 @@ const MetricMaterialPropertiesRows = () => {
 
     const hashMetric = useMemo(() => {
         let hash = {}
-        for (let i in insertedSteelTypesMetric) {
+        for (let i in steelTypesMetric) {
             let {
-                name,
-            } = insertedSteelTypesMetric[i]
-            hash[name] = insertedSteelTypesMetric[i]
+                steel_type_metric_name,
+            } = steelTypesMetric[i]
+            hash[steel_type_metric_name] = steelTypesMetric[i]
         }
         return hash
     }, [insertedSteelTypesMetric])
@@ -683,32 +683,6 @@ const MetricMaterialPropertiesRows = () => {
                                 return;
                             }
                         }
-                    } else if (system === 'English') {
-                        if (size(insertedSteelTypesMetric) === 0) {
-                            const initialMaterial = {}
-                            initialMaterial[0] = {
-                                name: selectedName,
-                                EMPA: hashEnglish[selectedName].steel_type_english_e,
-                                FYMPA: hashEnglish[selectedName].steel_type_english_fy,
-                                FUMPA: hashEnglish[selectedName].steel_type_english_fu,
-                                custom: false
-                            }
-                            dispatch(editSelectedMetricMaterialProperty(initialMaterial, selectedSheet, currentMetricMaterialPropertyIndex))
-                            setOpenNestedModal(false)
-                        } else {
-                            // alert("I made it here")
-                            const newMaterialIndex = size(insertedSteelTypesEnglish)
-                            const currentMaterial = {...insertedSteelTypesEnglish}
-                            currentMaterial[newMaterialIndex] = {
-                                name: selectedName,
-                                EMPA: hashEnglish[selectedName].steel_type_english_e,
-                                FYMPA: hashEnglish[selectedName].steel_type_english_fy,
-                                FUMPA: hashEnglish[selectedName].steel_type_english_fu,
-                                custom: false
-                            }
-                            dispatch(editSelectedMetricMaterialProperty(currentMaterial, selectedSheet, currentMetricMaterialPropertyIndex))
-                            setOpenNestedModal(false)
-                        }
                     }
                 }
             } else {
@@ -754,37 +728,6 @@ const MetricMaterialPropertiesRows = () => {
                                     return;
                                 }
                             }
-                        } else if (system === 'English') {
-                            if (size(insertedSteelTypesMetric) === 0) {
-                                const initialMaterial = {}
-                                initialMaterial[0] = {
-                                    name: selectedName,
-                                    EMPA: EMPAValue,
-                                    FYMPA: FYMPAValue,
-                                    FUMPA: FUMPAValue,
-                                    // name: selectedSteelType,
-                                    // EMPA: hashEnglish[selectedSteelType].steel_type_english_e,
-                                    // FYMPA: hashEnglish[selectedSteelType].steel_type_english_fy,
-                                    // FUMPA: hashEnglish[selectedSteelType].steel_type_english_fu,
-                                    custom: true
-                                }
-                                dispatch(editSelectedMetricMaterialProperty(initialMaterial, selectedSheet, currentMetricMaterialPropertyIndex))
-                                setOpenNestedModal(false)
-                            } else {
-                                const proceed = window.confirm("Are you sure you want to keep these changes?")
-                                if (proceed) {
-                                    dispatch(editSelectedMetricMaterialProperty(
-                                        selectedName,
-                                        EMPAValue,
-                                        FYMPAValue,
-                                        FUMPAValue,
-                                        true,
-                                        selectedSheet,
-                                        currentMetricMaterialPropertyIndex
-                                    ))
-                                    setOpenNestedModal(false)
-                                }
-                            }
                         }
                     } else if (nestedModalDisabled === false) {
                         if (system === 'Metric') {
@@ -820,37 +763,6 @@ const MetricMaterialPropertiesRows = () => {
                                     setOpenNestedModal(false)
                                 } else {
                                     return;
-                                }
-                            }
-                        } else if (system === 'English') {
-                            if (size(insertedSteelTypesMetric) === 0) {
-                                const initialMaterial = {}
-                                initialMaterial[0] = {
-                                    name: selectedCustomName,
-                                    EMPA: EMPAValue,
-                                    FYMPA: FYMPAValue,
-                                    FUMPA: FUMPAValue,
-                                    // name: selectedSteelType,
-                                    // EMPA: hashEnglish[selectedSteelType].steel_type_english_e,
-                                    // FYMPA: hashEnglish[selectedSteelType].steel_type_english_fy,
-                                    // FUMPA: hashEnglish[selectedSteelType].steel_type_english_fu,
-                                    custom: true
-                                }
-                                dispatch(editSelectedMetricMaterialProperty(initialMaterial, selectedSheet, currentMetricMaterialPropertyIndex))
-                                setOpenNestedModal(false)
-                            } else {
-                                const proceed = window.confirm("Are you sure you want to keep these changes?")
-                                if (proceed) {
-                                    dispatch(editSelectedMetricMaterialProperty(
-                                        selectedCustomName,
-                                        EMPAValue,
-                                        FYMPAValue,
-                                        FUMPAValue,
-                                        true,
-                                        selectedSheet,
-                                        currentMetricMaterialPropertyIndex
-                                    ))
-                                    setOpenNestedModal(false)
                                 }
                             }
                         }
@@ -1038,9 +950,10 @@ const MetricMaterialPropertiesRows = () => {
     }
 
     const EMPAValueSetter = (materialPropertyIndex) => {
-        if (steelTypesMetric.length < 1) {
-            return 'something went wrong with database connection.'
-        } else if (steelTypesMetric.length > 0) {
+        if(steelTypesMetric.length === 0 || steelTypesMetric === null) {
+            alert(steelTypesMetric)
+            return
+        } else {
             if (system === 'Metric') {
                 /**
                  * This is for when the used material property is a not custom one.
@@ -1050,7 +963,8 @@ const MetricMaterialPropertiesRows = () => {
                         console.log("insertedSteelTypesMetric[materialPropertyIndex].name == " + insertedSteelTypesMetric[materialPropertyIndex].name)
                         return "nullss"
                     } else {
-                        return hashMetric[insertedSteelTypesMetric[materialPropertyIndex].name].EMPA
+                        // alert("steelTypesMetric" + JSON.stringify(steelTypesMetric));
+                        return hashMetric[insertedSteelTypesMetric[materialPropertyIndex].name].steel_type_metric_e
                     }
                 } else {
                     for (let name in steelTypesMetric) {
@@ -1085,10 +999,15 @@ const MetricMaterialPropertiesRows = () => {
                 }
             }
         }
+        // if (steelTypesMetric.length < 1) {
+        //     return 'something went wrong with database connection.'
+        // } else if (steelTypesMetric.length > 0) {
+        //
+        // }
     }
 
     const FYMPAValueSetter = (materialPropertyIndex) => {
-        if (steelTypesMetric.length < 1) {
+        if (steelTypesMetric.length < 1 || steelTypesMetric === null) {
             return 'something went wrong with database connection.'
         } else if (steelTypesMetric.length > 0) {
             if (system === 'Metric') {
@@ -1097,7 +1016,7 @@ const MetricMaterialPropertiesRows = () => {
                         return null
                     } else {
                         // alert("hoho")
-                        return hashMetric[insertedSteelTypesMetric[materialPropertyIndex].name].FYMPA
+                        return hashMetric[insertedSteelTypesMetric[materialPropertyIndex].name].steel_type_metric_fy
                     }
                 } else {
                     for (let name in steelTypesMetric) {
@@ -1119,7 +1038,7 @@ const MetricMaterialPropertiesRows = () => {
                         return null
                     } else {
                         // alert("hoho")
-                        return hashEnglish[insertedSteelTypesEnglish[materialPropertyIndex].name].FYMPA
+                        return hashEnglish[insertedSteelTypesEnglish[materialPropertyIndex].name].steel_type_english_fy
                     }
                 } else {
                     for (let name in steelTypesEnglish) {
@@ -1136,7 +1055,7 @@ const MetricMaterialPropertiesRows = () => {
     }
 
     const FUMPAValueSetter = (materialPropertyIndex) => {
-        if (steelTypesMetric.length < 1) {
+        if (steelTypesMetric.length < 1 || steelTypesMetric === null) {
             return 'something went wrong with database connection.'
         } else if (steelTypesMetric.length > 0) {
             if (system === 'Metric') {
@@ -1145,7 +1064,7 @@ const MetricMaterialPropertiesRows = () => {
                         return null
                     } else {
                         // alert("hoho")
-                        return hashMetric[insertedSteelTypesMetric[materialPropertyIndex].name].FUMPA
+                        return hashMetric[insertedSteelTypesMetric[materialPropertyIndex].name].steel_type_metric_fu
                     }
                 } else {
                     for (let name in steelTypesMetric) {
@@ -1167,7 +1086,7 @@ const MetricMaterialPropertiesRows = () => {
                         return null
                     } else {
                         // alert("hoho")
-                        return hashEnglish[insertedSteelTypesEnglish[materialPropertyIndex].name].FUMPA
+                        return hashEnglish[insertedSteelTypesEnglish[materialPropertyIndex].name].steel_type_english_fu
                     }
                 } else {
                     for (let name in steelTypesEnglish) {
@@ -1302,7 +1221,7 @@ const MetricMaterialPropertiesRows = () => {
                                 <p style={{margin: '7px 0px 5px'}}>
                                     <BorderColorIcon
                                         variant='contained'
-                                        color='primary'
+                                        color='secondary'
                                         onClick={() => {
                                             // alert(materialPropertiesIndex)
                                             setEdit(curVal => !curVal)
@@ -1314,6 +1233,7 @@ const MetricMaterialPropertiesRows = () => {
                                         EDIT
                                     </BorderColorIcon>
                                     <CancelIcon
+                                        color='secondary'
                                         variant='contained' color='secondary'
                                         style={{margin: '2px 5px'}}
                                         onClick={() => deleteMetricMaterialPropertyRow(materialPropertiesIndex)}
