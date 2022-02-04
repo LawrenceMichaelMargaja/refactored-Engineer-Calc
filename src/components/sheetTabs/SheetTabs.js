@@ -5,7 +5,7 @@ import AddIcon from '@material-ui/icons/Add';
 import {useDispatch, useSelector} from "react-redux";
 import {mapKeys, size} from "lodash";
 import {
-    addNewSheet, get2LShapeEnglish, get2LShapeMetric, getCShapeEnglish,
+    addNewSheet, addSheetName, get2LShapeEnglish, get2LShapeMetric, getCShapeEnglish,
     getCShapeMetric,
     getIShapesEnglish,
     getIShapesMetric,
@@ -278,6 +278,7 @@ const SheetTabs = () => {
             const newSheet = {}
             newSheet[0] = {
                 tabState: 'details',
+                name: 'sheets',
                 provision: 'ASD',
                 system: "Metric",
                 method: "Investigation",
@@ -468,6 +469,7 @@ const SheetTabs = () => {
 
             currentSheets[newSizeIndex] = {
                 tabState: 'details',
+                name: 'sheets',
                 provision: 'ASD',
                 system: "Metric",
                 method: "Investigation",
@@ -508,6 +510,7 @@ const SheetTabs = () => {
                     sectionPropertiesEnglish: []
                 },
                 apiMap: {
+                    latestMaterialMetricId: 1,
                     selectedSteelType: '',
                     customSteelType: '',
                     currentMetricMaterialPropertyIndex: 0,
@@ -761,24 +764,44 @@ const SheetTabs = () => {
         }
     }
 
+    const changeName = () => {
+        let newName = prompt("change the name of this member row")
+        const alphaExp = /^[a-z0-9]+$/i
+        alert("the changed name === " + newName)
+        if(newName) {
+            if(newName === null || !newName.match(alphaExp)) {
+                prompt("Name cannot be white space or blank.sss")
+            } else if(newName.length !== 0 && newName.match(alphaExp)) {
+                dispatch(addSheetName(newName, selectedSheet))
+            }
+        } else {
+            return;
+        }
+    }
+
     const renderSheets = () => {
 
         const tabs = []
 
         for (let currentSheetIndex in sheets) {
+            const {
+                name,
+            } = sheets[currentSheetIndex]
             tabs.push(
                 <Tab
-                    style={{borderRight: '1px solid grey', fontWeight: 'bold'}}
+                    style={{borderRight: '1px solid grey', fontWeight: 'bold', flexGrow: 1}}
                     onClick={() => {
                         // alert("the index  =  " + currentSheetIndex)
                         dispatch(setSelectedSheet(currentSheetIndex))
                         // getSheetTabSelected(currentSheetIndex)
                     }}
+                    onDoubleClick={() => changeName()}
                     key={currentSheetIndex}
                     // value={currentSheetIndex}
                     label={
                         <span style={{width: '100%', zIndex: 1}}>
-                            SHEET
+                            {name}
+                            {/*{name}*/}
                             <CancelIcon
                                 color='primary'
                                 style={{
@@ -797,13 +820,18 @@ const SheetTabs = () => {
         return (
             <Paper style={{backgroundColor: '#d3d3d3'}}>
                 <Tabs
+                    // style={{fontWeight: 'bold', color: 'white'}}
                     value={parseFloat(selectedSheet)}
+                    // indicatorColor="secondary"
+                    // textColor="secondary"
+                    // color='white'
+                    // inkBarStyle={{background: 'blue'}}
                     classes={{
                         indicator: classes.indicator
                     }}
-                    // onChange={(event, value) => {
-                    //     dispatch(setSelectedSheet(parseFloat(value)))
-                    // }}
+                    onChange={(event, value) => {
+                        dispatch(setSelectedSheet(parseFloat(value)))
+                    }}
                     aria-label="disabled tabs example"
                 >
                     {tabs}

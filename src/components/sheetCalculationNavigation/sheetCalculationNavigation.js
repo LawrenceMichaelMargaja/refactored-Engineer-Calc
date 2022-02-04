@@ -277,6 +277,17 @@ const SheetCalculationNavigation = () => {
             .catch(err => console.log(err))
     }
 
+    const hashSections = useMemo(() => {
+        let hash = {}
+        for(let i in sectionPropertiesMetric) {
+            let {
+                sectionId
+            } = sectionPropertiesMetric[i]
+            hash[sectionId] = sectionPropertiesMetric[i]
+        }
+        return hash
+    }, [sectionPropertiesMetric])
+
     const beamCalcDataSender = () => {
         let body = []
 
@@ -287,10 +298,11 @@ const SheetCalculationNavigation = () => {
 
             let idObject = {}
 
+
+
+
             idObject['id'] = parseFloat(memberId)
-            for (let sectionIndex in sectionPropertiesMetric) {
-                idObject['name'] = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric', memberIndex, 'sectionName'])
-            }
+            idObject['name'] = hashSections[sectionId].sectionName
             idObject['analysis'] = null
             idObject['method'] = analysis
             idObject['units'] = units

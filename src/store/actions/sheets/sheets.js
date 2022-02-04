@@ -1,5 +1,5 @@
 import {
-    ADD_NEW_SHEET, EDIT_SELECTED_ENGLISH_MATERIAL_PROPERTY,
+    ADD_NEW_SHEET, ADD_SHEET_NAME, EDIT_SELECTED_ENGLISH_MATERIAL_PROPERTY,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTIES,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
     GET_2_L_SHAPES_ENGLISH,
@@ -38,7 +38,7 @@ import {
     SET_DISABLE_MENU_BUTTONS,
     SET_ENGLISH_EMPA,
     SET_ENGLISH_FUMPA,
-    SET_ENGLISH_FYMPA,
+    SET_ENGLISH_FYMPA, SET_LATEST_MATERIAL_METRIC_ID,
     SET_MAPPED_STEEL_TYPE_ENGLISH,
     SET_MAPPED_STEEL_TYPE_METRIC,
     SET_METRIC_EMPA,
@@ -55,6 +55,13 @@ import {
     SET_SELECTED_STEEL_TYPE,
     SET_TAB_STATE
 } from "../actionTypes";
+
+export const addSheetName = (data, sheetIndex) => {
+    return {
+        type: ADD_SHEET_NAME,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
 
 export const addNewSheet = (data) => {
     return {
@@ -103,6 +110,13 @@ export const editSelectedEnglishMaterialProperty = (name, EMPA, FYMPA, FUMPA, cu
     return {
         type: EDIT_SELECTED_ENGLISH_MATERIAL_PROPERTY,
         payload: {name: name, EMPA: EMPA, FYMPA: FYMPA, FUMPA: FUMPA, custom: custom, sheetIndex: sheetIndex, materialIndex: materialIndex}
+    }
+}
+
+export const setLatestMaterialMetricId = (data, sheetIndex) => {
+    return {
+        type: SET_LATEST_MATERIAL_METRIC_ID,
+        payload: {data: data, sheetIndex: sheetIndex}
     }
 }
 

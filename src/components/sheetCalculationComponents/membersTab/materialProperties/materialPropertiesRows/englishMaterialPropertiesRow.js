@@ -65,13 +65,24 @@ const MetricMaterialPropertiesRows = () => {
     //     }
     // }, [])
 
+    const hashMetricId = useMemo(() => {
+        let hash = {}
+        for (let i in steelTypesMetric) {
+            let {
+                id,
+            } = steelTypesMetric[i]
+            hash[id] = steelTypesMetric[i]
+        }
+        return hash
+    }, [insertedSteelTypesMetric])
+
     const hashMetric = useMemo(() => {
         let hash = {}
-        for (let i in insertedSteelTypesMetric) {
+        for (let i in steelTypesMetric) {
             let {
-                name,
-            } = insertedSteelTypesMetric[i]
-            hash[name] = insertedSteelTypesMetric[i]
+                steel_type_metric_name,
+            } = steelTypesMetric[i]
+            hash[steel_type_metric_name] = steelTypesMetric[i]
         }
         return hash
     }, [insertedSteelTypesMetric])
@@ -86,6 +97,17 @@ const MetricMaterialPropertiesRows = () => {
         }
         return hash
     }, [insertedSteelTypesMetric])
+
+    const hashEnglishId = useMemo(() => {
+        let hash = {}
+        for (let i in steelTypesEnglish) {
+            let {
+                id,
+            } = steelTypesEnglish[i]
+            hash[id] = steelTypesEnglish[i]
+        }
+        return hash
+    }, [insertedSteelTypesEnglish])
 
     const hashEnglish = useMemo(() => {
         let hash = {}
@@ -647,6 +669,32 @@ const MetricMaterialPropertiesRows = () => {
             fumpaValueChecker()
         }
 
+        /**
+         * The System is currently in METRIC and we edit the value of the shape. Used to provide a counter value for english
+         */
+        const materialEnglishCounterValueEMPA = () => {
+            // alert(JSON.stringify(hashMetric[selectedSectionName].id));
+            return hashEnglishId[hashMetric[selectedName].id].steel_type_english_e
+        }
+
+        // const materialEnglishCounterValueFYMPA = () => {
+        //     // alert(JSON.stringify(hashMetric[selectedSectionName].id));
+        //     return hashEnglishId[hashMetric[selectedSectionName].id].section_properties_english_name
+        // }
+        //
+        // const materialEnglishCounterValueFUMPA = () => {
+        //     // alert(JSON.stringify(hashMetric[selectedSectionName].id));
+        //     return hashEnglishId[hashMetric[selectedSectionName].id].section_properties_english_name
+        // }
+
+        /**
+         * The System is currently in ENGLISH and we edit the value of the shape. Used to provide a counter value for metric
+         */
+        const materialMetricCounterValueEMPA = () => {
+            // alert(JSON.stringify(hashMetric[hashEnglish[selectedSectionName].id].section_properties_metric_name));
+            return hashMetricId[hashEnglish[selectedName].id].steel_type_metric_e
+        }
+
         const editMaterialProperty = () => {
             /**
              * This means that the property to be edited is not a custom one
@@ -668,11 +716,20 @@ const MetricMaterialPropertiesRows = () => {
                         dispatch(editSelectedEnglishMaterialProperty(initialMaterial, selectedSheet, currentMetricMaterialPropertyIndex))
                         setOpenNestedModal(false)
                     } else {
-                        const proceed = window.confirm("Are you sure you want to keep these english changes?")
+                        const proceed = window.confirm("Are you sure you want to keep these english and shit changes?")
                         if(proceed) {
                             dispatch(editSelectedEnglishMaterialProperty(
                                 selectedName,
                                 hashEnglish[selectedName].steel_type_english_e,
+                                hashEnglish[selectedName].steel_type_english_fy,
+                                hashEnglish[selectedName].steel_type_english_fu,
+                                false,
+                                selectedSheet,
+                                currentMetricMaterialPropertyIndex
+                            ))
+                            dispatch(editSelectedMetricMaterialProperty(
+                                selectedName,
+                                materialMetricCounterValueEMPA(),
                                 hashEnglish[selectedName].steel_type_english_fy,
                                 hashEnglish[selectedName].steel_type_english_fu,
                                 false,
@@ -709,7 +766,8 @@ const MetricMaterialPropertiesRows = () => {
                             dispatch(editSelectedEnglishMaterialProperty(initialMaterial, selectedSheet, currentMetricMaterialPropertyIndex))
                             setOpenNestedModal(false)
                         } else {
-                            const proceed = window.confirm("Are you sure you want to keep these changes?")
+                            alert("the hash custom == " + JSON.stringify(hashCustom[insertedSteelTypesMetric[currentMaterialPropertyIndex].name]));
+                            const proceed = window.confirm("Are you sure you want to keep these english english changes?")
                             if (proceed) {
                                 dispatch(editSelectedEnglishMaterialProperty(
                                     selectedName,
@@ -1132,7 +1190,7 @@ const MetricMaterialPropertiesRows = () => {
                                         onClick={() => {
                                             // alert(materialPropertiesIndex)
                                             setEdit(curVal => !curVal)
-                                            dispatch(changeMaterialCustomStatus(true, selectedSheet, materialPropertiesIndex))
+                                            // dispatch(changeMaterialCustomStatus(true, selectedSheet, materialPropertiesIndex))
                                             dispatch(setCurrentEnglishMaterialPropertiesIndex(materialPropertiesIndex, selectedSheet))
                                             handleOpenNestedModal()
                                         }}
@@ -1140,7 +1198,7 @@ const MetricMaterialPropertiesRows = () => {
                                         EDIT
                                     </BorderColorIcon>
                                     <CancelIcon
-                                        color='primary'
+                                        color='secondary'
                                         variant='contained'
                                         style={{margin: '2px 5px'}}
                                         onClick={() => deleteMetricMaterialPropertyRow(materialPropertiesIndex)}

@@ -17,7 +17,7 @@ import {
     getSteelTypesEnglishAPI,
     getSteelTypesMetricAPI,
     setEnglishEMPA, setEnglishFUMPA,
-    setEnglishFYMPA, setMappedSteelTypeEnglish, setMappedSteelTypeMetric,
+    setEnglishFYMPA, setLatestMaterialMetricId, setMappedSteelTypeEnglish, setMappedSteelTypeMetric,
     setMetricEMPA,
     setMetricFUMPA,
     setMetricFYMPA,
@@ -180,13 +180,25 @@ const MaterialProperties = () => {
 
     const renderRows = () => {
             if(system === 'Metric') {
-                return (
-                    <MetricMaterialPropertiesRows/>
-                )
+                if(method === 'Investigation') {
+                    return (
+                        <MetricMaterialPropertiesRows/>
+                    )
+                } else if(method === 'Design') {
+                    return (
+                        <MetricMaterialPropertiesRowsDesign/>
+                    )
+                }
             } else if(system === 'English') {
-                return (
-                    <EnglishMaterialPropertiesRows/>
-                )
+                if(method === 'Investigation') {
+                    return (
+                        <EnglishMaterialPropertiesRows/>
+                    )
+                } else if(method === 'Design') {
+                    return (
+                        <MetricMaterialPropertiesRowsDesign/>
+                    )
+                }
             }
     }
 
@@ -535,6 +547,26 @@ const MaterialProperties = () => {
             }
         }
 
+        const materialIdChecker = () => {
+            let idValue = 0
+            for(let id in insertedSteelTypesMetric) {
+                if(insertedSteelTypesMetric[id].custom === true && insertedSteelTypesMetric[id].id === 1 && size(insertedSteelTypesMetric) === 1) {
+                    idValue = 1
+                    break
+                } else if(insertedSteelTypesMetric[id].custom === true && insertedSteelTypesMetric[id].id !== 1) {
+                    alert("pleaaase");
+                    idValue = insertedSteelTypesMetric[id].id
+                    break
+                } else {
+                    idValue = insertedSteelTypesMetric[id].id
+                }
+                break
+            }
+            return idValue
+        }
+
+        const latestMaterialMetricId = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'latestMaterialMetricId'])
+
         const insertMaterialProperty = () => {
             if (nestedModalDisabled === false) {
                 if (size(insertedSteelTypesMetric) === 0) {
@@ -553,11 +585,12 @@ const MaterialProperties = () => {
                     dispatch(setCurrentMetricMaterialPropertiesIndex(0, selectedSheet))
                     dispatch(setCurrentMaterialsArray(1, selectedSheet))
                     setOpenNestedModal(false)
-                } else if (size(insertedSteelTypesMetric) > 0) {
+                } else if(materialIdChecker() === 1 && size(insertedSteelTypesMetric) === 1) {
+                    alert("dust in the wind")
                     const currentCustomSteelTypes = {...insertedSteelTypesMetric}
                     const currentCustomSteelTypesSize = size(insertedSteelTypesMetric)
                     currentCustomSteelTypes[currentCustomSteelTypesSize] = {
-                        id: parseFloat(currentCustomSteelTypesSize + 1),
+                        id: 2,
                         name: customSteelType,
                         EMPA: theEMPAValue,
                         FYMPA: theFYMPAValue,
@@ -569,12 +602,37 @@ const MaterialProperties = () => {
                     dispatch(setEnglishMaterialSteelType(currentCustomSteelTypes, selectedSheet))
                     dispatch(setCustomSelectedSteelType(customSteelType, selectedSheet))
                     dispatch(setCurrentMaterialsArray(parseFloat(currentCustomSteelTypesSize + 1), selectedSheet))
+                    dispatch(setLatestMaterialMetricId(parseFloat(materialIdChecker() + 1), selectedSheet))
+                    // dispatch(setMetricMaterialSteelType(currentMaterial, selectedSheet))
+                    // dispatch(setCurrentMetricMaterialPropertiesIndex(parseFloat(currentCustomSteelTypesSize) + 1, selectedSheet))
+                    setOpenNestedModal(false)
+                } else if (size(insertedSteelTypesMetric) > 0) {
+                    alert("hello my friend!")
+                    const newMaterialIndex = size(insertedSteelTypesMetric)
+                    const currentCustomSteelTypes = {...insertedSteelTypesMetric}
+                    // const currentCustomSteelTypesSize = size(insertedSteelTypesMetric)
+                    currentCustomSteelTypes[newMaterialIndex] = {
+                        id: parseFloat(newMaterialIndex + 1),
+                        name: customSteelType,
+                        EMPA: theEMPAValue,
+                        FYMPA: theFYMPAValue,
+                        FUMPA: theFUMPAValue,
+                        custom: true
+                    }
+                    console.log("Herer == ", currentCustomSteelTypes)
+                    dispatch(setMetricMaterialSteelType(currentCustomSteelTypes, selectedSheet))
+                    dispatch(setEnglishMaterialSteelType(currentCustomSteelTypes, selectedSheet))
+                    dispatch(setCustomSelectedSteelType(customSteelType, selectedSheet))
+                    // dispatch(setCurrentMaterialsArray(parseFloat(latestMaterialMetricId + 1), selectedSheet))
+                    dispatch(setCurrentMaterialsArray(parseFloat(materialIdChecker() + 1), selectedSheet))
+                    dispatch(setLatestMaterialMetricId(parseFloat(newMaterialIndex + 1), selectedSheet))
                     // dispatch(setCurrentMetricMaterialPropertiesIndex(parseFloat(currentCustomSteelTypesSize) + 1, selectedSheet))
                     setOpenNestedModal(false)
                 }
             } else {
                 // alert("over here")
                 if (size(insertedSteelTypesMetric) === 0) {
+                    alert("oh nossss");
                     const initialMaterialEnglish = {}
                     const initialMaterial = {}
                     initialMaterial[0] = {
@@ -597,15 +655,14 @@ const MaterialProperties = () => {
                     dispatch(setMetricMaterialSteelType(initialMaterial, selectedSheet))
                     dispatch(setCurrentMaterialsArray(1, selectedSheet))
                     dispatch(setEnglishMaterialSteelType(initialMaterialEnglish, selectedSheet))
-                    dispatch(setCurrentMaterialsArray(id, selectedSheet))
                     setOpenNestedModal(false)
-                } else {
-                    // alert("actually here")
+                } else if(materialIdChecker() === 1 && size(insertedSteelTypesMetric) === 1) {
+                    alert("what's up?")
                     const newMaterialIndex = size(insertedSteelTypesMetric)
                     const currentMaterialEnglish = {...insertedSteelTypesEnglish}
                     const currentMaterial = {...insertedSteelTypesMetric}
                     currentMaterial[newMaterialIndex] = {
-                        id: parseFloat(newMaterialIndex + 1),
+                        id: 2,
                         name: selectedName,
                         EMPA: hashMetric[selectedName].steel_type_metric_e,
                         FYMPA: hashMetric[selectedName].steel_type_metric_fy,
@@ -613,7 +670,34 @@ const MaterialProperties = () => {
                         custom: false
                     }
                     currentMaterialEnglish[newMaterialIndex] = {
-                        id: parseFloat(newMaterialIndex + 1),
+                        id: 2,
+                        name: selectedName,
+                        EMPA: hashEnglish[selectedName].steel_type_english_e,
+                        FYMPA: hashEnglish[selectedName].steel_type_english_fy,
+                        FUMPA: hashEnglish[selectedName].steel_type_english_fu,
+                        custom: false
+                    }
+                    alert("the current body == " + JSON.stringify(currentMaterial));
+                    dispatch(setLatestMaterialMetricId(2, selectedSheet))
+                    dispatch(setMetricMaterialSteelType(currentMaterial, selectedSheet))
+                    dispatch(setCurrentMaterialsArray(2, selectedSheet))
+                    dispatch(setEnglishMaterialSteelType(currentMaterialEnglish, selectedSheet))
+                    setOpenNestedModal(false)
+                } if(materialIdChecker() !== 1 && size(insertedSteelTypesMetric) === 1) {
+                    alert("oh yeah man")
+                    const newMaterialIndex = size(insertedSteelTypesMetric)
+                    const currentMaterialEnglish = {...insertedSteelTypesEnglish}
+                    const currentMaterial = {...insertedSteelTypesMetric}
+                    currentMaterial[newMaterialIndex] = {
+                        id: parseFloat(materialIdChecker() + 1),
+                        name: selectedName,
+                        EMPA: hashMetric[selectedName].steel_type_metric_e,
+                        FYMPA: hashMetric[selectedName].steel_type_metric_fy,
+                        FUMPA: hashMetric[selectedName].steel_type_metric_fu,
+                        custom: false
+                    }
+                    currentMaterialEnglish[newMaterialIndex] = {
+                        id: parseFloat(materialIdChecker() + 1),
                         name: selectedName,
                         EMPA: hashEnglish[selectedName].steel_type_english_e,
                         FYMPA: hashEnglish[selectedName].steel_type_english_fy,
@@ -622,8 +706,47 @@ const MaterialProperties = () => {
                     }
                     // alert("newMaterialIndex == " + parseFloat(newMaterialIndex + 1))
                     // alert("Here I am === " + JSON.stringify(currentMaterial))
+                    // if(size(insertedSteelTypesMetric) > 1) {
+                    //     dispatch(setLatestMaterialMetricId(parseFloat(latestMaterialMetricId + 1), selectedSheet))
+                    // } else {
+                    //     dispatch(setLatestMaterialMetricId())
+                    // }
+                    dispatch(setLatestMaterialMetricId(parseFloat(materialIdChecker() + 1), selectedSheet))
                     dispatch(setMetricMaterialSteelType(currentMaterial, selectedSheet))
-                    dispatch(setCurrentMaterialsArray(parseFloat(newMaterialIndex) + 1, selectedSheet))
+                    dispatch(setCurrentMaterialsArray(parseFloat(materialIdChecker() + 1), selectedSheet))
+                    dispatch(setEnglishMaterialSteelType(currentMaterialEnglish, selectedSheet))
+                    setOpenNestedModal(false)
+                } else if(size(insertedSteelTypesMetric) > 1) {
+                    alert("actually here")
+                    const newMaterialIndex = size(insertedSteelTypesMetric)
+                    const currentMaterialEnglish = {...insertedSteelTypesEnglish}
+                    const currentMaterial = {...insertedSteelTypesMetric}
+                    currentMaterial[newMaterialIndex] = {
+                        id: parseFloat(latestMaterialMetricId + 1),
+                        name: selectedName,
+                        EMPA: hashMetric[selectedName].steel_type_metric_e,
+                        FYMPA: hashMetric[selectedName].steel_type_metric_fy,
+                        FUMPA: hashMetric[selectedName].steel_type_metric_fu,
+                        custom: false
+                    }
+                    currentMaterialEnglish[newMaterialIndex] = {
+                        id: parseFloat(latestMaterialMetricId + 1),
+                        name: selectedName,
+                        EMPA: hashEnglish[selectedName].steel_type_english_e,
+                        FYMPA: hashEnglish[selectedName].steel_type_english_fy,
+                        FUMPA: hashEnglish[selectedName].steel_type_english_fu,
+                        custom: false
+                    }
+                    // alert("newMaterialIndex == " + parseFloat(newMaterialIndex + 1))
+                    // alert("Here I am === " + JSON.stringify(currentMaterial))
+                    // if(size(insertedSteelTypesMetric) > 1) {
+                    //     dispatch(setLatestMaterialMetricId(parseFloat(latestMaterialMetricId + 1), selectedSheet))
+                    // } else {
+                    //     dispatch(setLatestMaterialMetricId())
+                    // }
+                    dispatch(setLatestMaterialMetricId(parseFloat(latestMaterialMetricId + 1), selectedSheet))
+                    dispatch(setMetricMaterialSteelType(currentMaterial, selectedSheet))
+                    dispatch(setCurrentMaterialsArray(parseFloat(latestMaterialMetricId + 1), selectedSheet))
                     dispatch(setEnglishMaterialSteelType(currentMaterialEnglish, selectedSheet))
                     setOpenNestedModal(false)
                 }
@@ -802,6 +925,7 @@ const MaterialProperties = () => {
         // alert(selectedSheet)
         const proceed = window.confirm("Are you sure you want to remove all Material Property rows?")
         if (proceed) {
+            dispatch(setLatestMaterialMetricId(1, selectedSheet))
             dispatch(clearMetricMaterialProperties(selectedSheet))
         } else {
             return

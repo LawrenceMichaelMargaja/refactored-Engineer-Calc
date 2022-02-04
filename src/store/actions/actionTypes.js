@@ -80,6 +80,7 @@ export const SET_METHOD_DROPDOWN = '@@methodDropdown/SET_METHOD_DROPDOWN'
 /**
  * Sheets
  */
+export const ADD_SHEET_NAME = '@@sheets/ADD_SHEET_NAME'
 export const ADD_NEW_SHEET = '@@sheets/ADD_NEW_SHEET'
 export const SET_TAB_STATE = '@@sheets/SET_TAB_STATE'
 export const SET_SELECTED_SHEET = '@@sheets/SET_SELECTED_SHEET'
@@ -147,6 +148,7 @@ export const RESET_MEMBER_FIELDS = '@@sheets/RESET_MEMBER_FIELDS'
 /**
  * Sheet Material Properties
  */
+export const SET_LATEST_MATERIAL_METRIC_ID = '@@sheets/SET_LATEST_MATERIAL_METRIC_ID'
 export const SET_CURRENT_MATERIALS_ARRAY = '@@sheets/SET_CURRENT_MATERIALS_ARRAY'
 export const SET_MATERIAL_PROPERTIES_ID = '@@sheets/SET_MATERIAL_PROPERTIES_ID'
 export const SET_MATERIAL_PROPERTIES_EMPA = '@@sheets/SET_MATERIAL_PROPERTIES_EMPA'

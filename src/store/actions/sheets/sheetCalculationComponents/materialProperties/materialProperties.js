@@ -59,6 +59,7 @@ export const setMaterialPropertiesSelectedMaterial = (data, sheetIndex, material
 }
 
 export const setMetricMaterialSteelType = (data, sheetIndex) => {
+    alert("at the action == " + JSON.stringify(data));
     return {
         type: SET_METRIC_MATERIAL_STEEL_TYPES,
         payload: {data: data, sheetIndex: sheetIndex}

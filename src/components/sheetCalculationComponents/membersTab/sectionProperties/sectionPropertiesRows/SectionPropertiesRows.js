@@ -78,6 +78,29 @@ const SectionPropertiesRows = () => {
         return hash
     }, [sectionPropertiesMetric])
 
+    const hashMetricId = useMemo(() => {
+        let hash = {}
+        // alert(JSON.stringify(steelTypesMetric))
+        for (let i in sectionPropertiesMetric) {
+            let {
+                id,
+            } = sectionPropertiesMetric[i]
+            hash[id] = sectionPropertiesMetric[i]
+        }
+        return hash
+    }, [sectionPropertiesMetric])
+
+    const hashEnglishId = useMemo(() => {
+        let hash = {}
+        for (let i in sectionPropertiesEnglish) {
+            let {
+                id,
+            } = sectionPropertiesEnglish[i]
+            hash[id] = sectionPropertiesEnglish[i]
+        }
+        return hash
+    }, [sectionPropertiesEnglish])
+
     const hashEnglish = useMemo(() => {
         let hash = {}
         for (let i in sectionPropertiesEnglish) {
@@ -376,13 +399,15 @@ const SectionPropertiesRows = () => {
             }
         }
 
+        const method = objectChecker(sheets, ['sheets', selectedSheet, 'method'])
+
         useEffect(() => {
             if (system === 'Metric') {
                 setSelectedSectionName(insertedSectionPropertiesMetric[theCurrentSectionIndex].sectionName)
             } else if (system === 'English') {
                 setSelectedSectionName(insertedSectionPropertiesEnglish[theCurrentSectionIndex].sectionName)
             }
-        }, [insertedSectionPropertiesMetric, insertedSectionPropertiesEnglish])
+        }, [insertedSectionPropertiesMetric, insertedSectionPropertiesEnglish, method])
 
         useEffect(() => {
             if (system === 'Metric') {
@@ -390,10 +415,26 @@ const SectionPropertiesRows = () => {
             } else if (system === 'English') {
                 setSelectedSectionShape(insertedSectionPropertiesEnglish[theCurrentSectionIndex].sectionShape)
             }
-        }, [insertedSectionPropertiesMetric, insertedSectionPropertiesEnglish])
+        }, [insertedSectionPropertiesMetric, insertedSectionPropertiesEnglish, method])
 
         const editDispatchHandler = () => {
 
+        }
+
+        /**
+         * The System is currently in METRIC and we edit the value of the shape. Used to provide a counter value for english
+         */
+        const shapeEnglishCounterValue = () => {
+            // alert(JSON.stringify(hashMetric[selectedSectionName].id));
+            return hashEnglishId[hashMetric[selectedSectionName].id].section_properties_english_name
+        }
+
+        /**
+         * The System is currently in ENGLISH and we edit the value of the shape. Used to provide a counter value for metric
+         */
+        const shapeMetricCounterValue = () => {
+            // alert(JSON.stringify(hashMetric[hashEnglish[selectedSectionName].id].section_properties_metric_name));
+            return hashMetricId[hashEnglish[selectedSectionName].id].section_properties_metric_name
         }
 
         const editSectionProperty = () => {
@@ -414,7 +455,7 @@ const SectionPropertiesRows = () => {
                     if (proceed) {
                         // alert("to be dispatched == " + selectedSectionName)
                         dispatch(editSelectedSectionMetric(selectedSectionShape, selectedSectionName, selectedSheet, theCurrentSectionIndex))
-                        // dispatch(editSelectedSectionEnglish(selectedSectionShape, selectedSectionName, selectedSheet, theCurrentSectionIndex))
+                        dispatch(editSelectedSectionEnglish(selectedSectionShape, shapeEnglishCounterValue(), selectedSheet, theCurrentSectionIndex))
                         setOpenNestedModal(false)
                     } else {
                         return;
@@ -434,7 +475,9 @@ const SectionPropertiesRows = () => {
                 } else {
                     const proceed = window.confirm("Are you sure you want to keep these changes?")
                     if (proceed) {
+                        shapeMetricCounterValue()
                         dispatch(editSelectedSectionEnglish(selectedSectionShape, selectedSectionName, selectedSheet, theCurrentSectionIndex))
+                        dispatch(editSelectedSectionMetric(selectedSectionShape, shapeMetricCounterValue(), selectedSheet, theCurrentSectionIndex))
                         setOpenNestedModal(false)
                     } else {
                         return;
