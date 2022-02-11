@@ -4,13 +4,9 @@ import BorderColorIcon from '@material-ui/icons/BorderColor';
 import {useDispatch, useSelector} from "react-redux";
 import {makeStyles} from "@material-ui/core/styles";
 import {
-    changeMaterialCustomStatus,
     editSelectedMetricMaterialProperty,
     removeMetricMaterialPropertyRow,
-    resetMetricMaterialIndex, setCurrentMaterialsArray,
-    setCurrentMetricMaterialPropertiesIndex, setCustomSelectedSteelType,
-    setEnglishMaterialSteelType,
-    setMetricMaterialSteelType
+    resetMetricMaterialIndex,
 } from "../../../../../store/actions/sheets/sheetCalculationComponents/materialProperties/materialProperties";
 import {Button, FormControl, Input, TextField} from "@material-ui/core";
 import {mapKeys, size} from "lodash";
@@ -18,7 +14,10 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import {Autocomplete} from "@mui/material";
 import {objectChecker} from "../../../../../utilities/utilities";
-import {editSelectedEnglishMaterialProperty} from "../../../../../store/actions/sheets/sheets";
+import {
+    editSelectedEnglishMaterialProperty, setCurrentEnglishMaterialPropertyIndex,
+    setCurrentMetricMaterialPropertyIndex
+} from "../../../../../store/actions/sheets/sheets";
 
 const useStyles = makeStyles((theme) => ({
     textField: {
@@ -45,6 +44,7 @@ const MetricMaterialPropertiesRowsDesign = () => {
     const steelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesEnglish'])
     // const currentMetricMaterialPropertyIndex = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.currentMetricMaterialPropertyIndex)
     const currentMetricMaterialPropertyIndex = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'currentMetricMaterialPropertyIndex'])
+    const currentEnglishMaterialPropertyIndex = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'currentEnglishMaterialPropertyIndex'])
     // const insertedSteelTypesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeMetricProperties)
     const insertedSteelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties'])
     // const insertedSteelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.steelTypeEnglishProperties)
@@ -209,28 +209,55 @@ const MetricMaterialPropertiesRowsDesign = () => {
 
         const selectedNameChecker = () => {
             if (nestedModalDisabled === false) {
-                for (let name in steelTypesMetric) {
-                    if ((selectedCustomName).toUpperCase() === (steelTypesMetric[name].steel_type_metric_name).toUpperCase()) {
-                        // alert("what do i know")
-                        setSelectedNameError(
-                            <p style={{margin: '0', padding: '0'}}>
-                                <strong style={{color: 'red'}}>Custom name cannot match preset values.</strong>
-                            </p>
-                        )
-                        // setErrorDisplay(true)
-                        break
-                    } else if (selectedCustomName === '') {
-                        // setSelectedNameNoError(false)
-                        setSelectedNameError(
-                            <p style={{margin: '0', padding: '0'}}>
-                                <strong style={{color: 'red'}}>This Field cannot be empty.</strong>
-                            </p>
-                        )
-                    } else {
-                        setSelectedNameNoError(true)
-                        setSelectedNameError(
-                            <></>
-                        )
+                if(system === 'Metric') {
+                    for (let name in steelTypesMetric) {
+                        if ((selectedCustomName).toUpperCase() === (steelTypesMetric[name].steel_type_metric_name).toUpperCase()) {
+                            // alert("what do i know")
+                            setSelectedNameError(
+                                <p style={{margin: '0', padding: '0'}}>
+                                    <strong style={{color: 'red'}}>Custom name cannot match preset values.</strong>
+                                </p>
+                            )
+                            // setErrorDisplay(true)
+                            break
+                        } else if (selectedCustomName === '') {
+                            // setSelectedNameNoError(false)
+                            setSelectedNameError(
+                                <p style={{margin: '0', padding: '0'}}>
+                                    <strong style={{color: 'red'}}>This Field cannot be empty.</strong>
+                                </p>
+                            )
+                        } else {
+                            setSelectedNameNoError(true)
+                            setSelectedNameError(
+                                <></>
+                            )
+                        }
+                    }
+                } else if(system === 'English') {
+                    for (let name in steelTypesEnglish) {
+                        if ((selectedCustomName).toUpperCase() === (steelTypesEnglish[name].steel_type_english_name).toUpperCase()) {
+                            // alert("what do i know")
+                            setSelectedNameError(
+                                <p style={{margin: '0', padding: '0'}}>
+                                    <strong style={{color: 'red'}}>Custom name cannot match preset values.</strong>
+                                </p>
+                            )
+                            // setErrorDisplay(true)
+                            break
+                        } else if (selectedCustomName === '') {
+                            // setSelectedNameNoError(false)
+                            setSelectedNameError(
+                                <p style={{margin: '0', padding: '0'}}>
+                                    <strong style={{color: 'red'}}>This Field cannot be empty.</strong>
+                                </p>
+                            )
+                        } else {
+                            setSelectedNameNoError(true)
+                            setSelectedNameError(
+                                <></>
+                            )
+                        }
                     }
                 }
             }
@@ -344,10 +371,17 @@ const MetricMaterialPropertiesRowsDesign = () => {
         const [FUMPAValue, setFUMPAValue] = useState('')
 
         useEffect(() => {
-            setSelectedName(hashCustom[insertedSteelTypesMetric[currentMetricMaterialPropertyIndex].name].name)
-            setEMPAValue(hashCustom[insertedSteelTypesMetric[currentMetricMaterialPropertyIndex].name].EMPA)
-            setFYMPAValue(hashCustom[insertedSteelTypesMetric[currentMetricMaterialPropertyIndex].name].FYMPA)
-            setFUMPAValue(hashCustom[insertedSteelTypesMetric[currentMetricMaterialPropertyIndex].name].FUMPA)
+            if(system === 'Metric') {
+                setSelectedName(hashCustom[insertedSteelTypesMetric[currentMetricMaterialPropertyIndex].name].name)
+                setEMPAValue(hashCustom[insertedSteelTypesMetric[currentMetricMaterialPropertyIndex].name].EMPA)
+                setFYMPAValue(hashCustom[insertedSteelTypesMetric[currentMetricMaterialPropertyIndex].name].FYMPA)
+                setFUMPAValue(hashCustom[insertedSteelTypesMetric[currentMetricMaterialPropertyIndex].name].FUMPA)
+            } else if(system === 'English') {
+                setSelectedName(hashCustom[insertedSteelTypesEnglish[currentEnglishMaterialPropertyIndex].name].name)
+                setEMPAValue(hashCustom[insertedSteelTypesEnglish[currentEnglishMaterialPropertyIndex].name].EMPA)
+                setFYMPAValue(hashCustom[insertedSteelTypesEnglish[currentEnglishMaterialPropertyIndex].name].FYMPA)
+                setFUMPAValue(hashCustom[insertedSteelTypesEnglish[currentEnglishMaterialPropertyIndex].name].FUMPA)
+            }
         }, [])
 
         useEffect(() => {
@@ -701,6 +735,7 @@ const MetricMaterialPropertiesRowsDesign = () => {
         }
 
         const editMaterialProperty = () => {
+            // alert("I am here");
             // alert("hashCustom == " + JSON.stringify(hashCustom))
             // alert("the hashEnglishId --- " + JSON.stringify(hashEnglishId[hashMetric[selectedName].id]))
             /**
@@ -708,6 +743,7 @@ const MetricMaterialPropertiesRowsDesign = () => {
              */
             if (customData === false) {
                 if (selectedName === '') {
+                    alert("Not here"); //not called
                     // setErrorDisplay(currVal => !currVal)
                     return
                 } else {
@@ -751,6 +787,47 @@ const MetricMaterialPropertiesRowsDesign = () => {
                                 return;
                             }
                         }
+                    } else if(system === 'English') {
+                        alert("i am here");
+                        if (size(insertedSteelTypesEnglish) === 0) {
+                            const initialMaterial = {}
+                            initialMaterial[0] = {
+                                name: selectedName,
+                                EMPA: hashEnglish[selectedName].steel_type_english_e,
+                                FYMPA: hashEnglish[selectedName].steel_type_english_fy,
+                                FUMPA: hashEnglish[selectedName].steel_type_english_fu,
+                                custom: false
+                            }
+                            // console.log("sheet index == " + selectedSheet)
+                            dispatch(editSelectedEnglishMaterialProperty(initialMaterial, selectedSheet, currentMetricMaterialPropertyIndex))
+                            setOpenNestedModal(false)
+                        } else {
+                            const proceed = window.confirm("Are you sure you want to keep these changes?")
+                            if (proceed) {
+                                // alert("here I am 2")
+                                dispatch(editSelectedMetricMaterialProperty(
+                                    selectedName,
+                                    materialMetricCounterValueEMPA(),
+                                    hashEnglish[selectedName].steel_type_english_fy,
+                                    hashEnglish[selectedName].steel_type_english_fu,
+                                    false,
+                                    selectedSheet,
+                                    currentMetricMaterialPropertyIndex
+                                ))
+                                dispatch(editSelectedEnglishMaterialProperty(
+                                    selectedName,
+                                    hashEnglish[selectedName].steel_type_english_e,
+                                    hashEnglish[selectedName].steel_type_english_fy,
+                                    hashEnglish[selectedName].steel_type_english_fu,
+                                    false,
+                                    selectedSheet,
+                                    currentMetricMaterialPropertyIndex
+                                ))
+                                setOpenNestedModal(false)
+                            } else {
+                                return;
+                            }
+                        }
                     }
                 }
             } else if(customData === true) {
@@ -758,6 +835,7 @@ const MetricMaterialPropertiesRowsDesign = () => {
                  * The properties edited here are customs
                  */
                 if (selectedName === '') {
+                    alert("What");
                     // setErrorDisplay(currVal => !currVal)
                     return;
                 } else {
@@ -803,6 +881,55 @@ const MetricMaterialPropertiesRowsDesign = () => {
                                     true,
                                     selectedSheet,
                                     currentMetricMaterialPropertyIndex
+                                ))
+                                setOpenNestedModal(false)
+                            } else {
+                                return;
+                            }
+                        }
+                    } else if(system === 'English') {
+                        if (size(insertedSteelTypesEnglish) === 0) {
+                            const initialMaterial = {}
+                            initialMaterial[0] = {
+                                name: selectedCustomName,
+                                EMPA: EMPAValue,
+                                FYMPA: FYMPAValue,
+                                FUMPA: FUMPAValue,
+                                custom: true
+                            }
+                            // console.log("sheet index == " + selectedSheet)
+                            // dispatch(editSelectedMetricMaterialProperty(initialMaterial, selectedSheet, currentMetricMaterialPropertyIndex))
+                            dispatch(editSelectedEnglishMaterialProperty(initialMaterial, selectedSheet, currentMetricMaterialPropertyIndex))
+                            setOpenNestedModal(false)
+                        } else {
+                            const proceed = window.confirm("Are you sure you want to keep these boo changes?")
+                            if (proceed) {
+                                // alert("no here")
+                                dispatch(editSelectedMetricMaterialProperty(
+                                    selectedCustomName,
+                                    EMPAValue,
+                                    FYMPAValue,
+                                    FUMPAValue,
+                                    // selectedSteelType,
+                                    // hashMetric[selectedSteelType].steel_type_metric_e,
+                                    // hashMetric[selectedSteelType].steel_type_metric_fy,
+                                    // hashMetric[selectedSteelType].steel_type_metric_fu,
+                                    true,
+                                    selectedSheet,
+                                    currentEnglishMaterialPropertyIndex
+                                ))
+                                dispatch(editSelectedEnglishMaterialProperty(
+                                    selectedCustomName,
+                                    EMPAValue,
+                                    FYMPAValue,
+                                    FUMPAValue,
+                                    // selectedSteelType,
+                                    // hashMetric[selectedSteelType].steel_type_metric_e,
+                                    // hashMetric[selectedSteelType].steel_type_metric_fy,
+                                    // hashMetric[selectedSteelType].steel_type_metric_fu,
+                                    true,
+                                    selectedSheet,
+                                    currentEnglishMaterialPropertyIndex
                                 ))
                                 setOpenNestedModal(false)
                             } else {
@@ -944,13 +1071,13 @@ const MetricMaterialPropertiesRowsDesign = () => {
                                     onClick={() => {
                                         errorCheckRender()
                                         if (nameMatch === true && nestedModalDisabled === false) {
-                                            // alert("Hola")
+                                            alert("Hola")
                                             setErrorDisplay(true)
                                             return
                                         } else {
                                             if (selectedNameError !== null || empaError !== null || fympaError !== null || fumpaError !== null) {
                                                 // alert("selectedNameError == " + JSON.stringify(selectedNameError))
-                                                // alert("I made it here")
+                                                alert("I made it here")
                                                 return
                                             } else {
                                                 // alert("somebody like me")
@@ -1085,6 +1212,7 @@ const MetricMaterialPropertiesRowsDesign = () => {
                     }
                 } else {
                     for (let name in steelTypesEnglish) {
+                        // alert("Here man");
                         if (customSelectedSteelType === steelTypesEnglish[name].steel_type_english_name) {
                             // alert("hey hey")
                             return hashEnglish[[insertedSteelTypesEnglish[materialPropertyIndex].name]].FYMPA
@@ -1269,7 +1397,8 @@ const MetricMaterialPropertiesRowsDesign = () => {
                                         onClick={() => {
                                             // alert(materialPropertiesIndex)
                                             setEdit(curVal => !curVal)
-                                            dispatch(setCurrentMetricMaterialPropertiesIndex(materialPropertiesIndex, selectedSheet))
+                                            dispatch(setCurrentMetricMaterialPropertyIndex(materialPropertiesIndex, selectedSheet))
+                                            dispatch(setCurrentEnglishMaterialPropertyIndex(materialPropertiesIndex, selectedSheet))
                                             handleOpenNestedModal()
                                         }}
                                     >

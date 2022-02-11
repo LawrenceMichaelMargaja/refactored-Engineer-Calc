@@ -53,7 +53,7 @@ import {
     SET_ARRAY_CHECK,
     SET_AXIAL,
     SET_BENDING_MOMENT_ALONG_X_AXIS,
-    SET_BENDING_MOMENT_ALONG_Y_AXIS, SET_CALCULATED_DATA,
+    SET_BENDING_MOMENT_ALONG_Y_AXIS, SET_CALCULATED_DATA, SET_CURRENT_ENGLISH_MATERIAL_PROPERTIES_INDEX,
     SET_CURRENT_ENGLISH_SECTION_PROPERTY_INDEX,
     SET_CURRENT_MATERIALS_ARRAY,
     SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX,
@@ -407,6 +407,8 @@ const Reducer = (state = initialState, action) => {
             return removeMetricMaterialPropertyRow(state, action.payload)
         case SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX:
             return setCurrentMetricMaterialPropertyIndex(state, action.payload)
+        case SET_CURRENT_ENGLISH_MATERIAL_PROPERTIES_INDEX:
+            return setCurrentEnglishMaterialPropertyIndex(state, action.payload)
         case EDIT_SELECTED_METRIC_MATERIAL_PROPERTY:
             return editSelectedMetricMaterialProperty(state, action.payload)
         case CLEAR_METRIC_MATERIAL_PROPERTIES:
@@ -2081,6 +2083,22 @@ const setCurrentMetricMaterialPropertyIndex = (state, payload) => {
                 apiMap: {
                     ...state.sheets[payload.sheetIndex].apiMap,
                     currentMetricMaterialPropertyIndex: payload.data
+                }
+            }
+        }
+    }
+}
+
+const setCurrentEnglishMaterialPropertyIndex = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    currentEnglishMaterialPropertyIndex: payload.data
                 }
             }
         }

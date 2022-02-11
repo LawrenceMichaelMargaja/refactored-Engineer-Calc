@@ -4,13 +4,9 @@ import BorderColorIcon from '@material-ui/icons/BorderColor';
 import {useDispatch, useSelector} from "react-redux";
 import {makeStyles} from "@material-ui/core/styles";
 import {
-    changeMaterialCustomStatus,
     editSelectedMetricMaterialProperty,
     removeMetricMaterialPropertyRow,
-    resetMetricMaterialIndex, setCurrentMaterialsArray,
-    setCurrentMetricMaterialPropertiesIndex, setCustomSelectedSteelType,
-    setEnglishMaterialSteelType,
-    setMetricMaterialSteelType
+    resetMetricMaterialIndex,
 } from "../../../../../store/actions/sheets/sheetCalculationComponents/materialProperties/materialProperties";
 import {Button, FormControl, Input, TextField} from "@material-ui/core";
 import {mapKeys, size} from "lodash";
@@ -18,7 +14,10 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import {Autocomplete} from "@mui/material";
 import {objectChecker} from "../../../../../utilities/utilities";
-import {editSelectedEnglishMaterialProperty} from "../../../../../store/actions/sheets/sheets";
+import {
+    editSelectedEnglishMaterialProperty,
+    setCurrentMetricMaterialPropertyIndex
+} from "../../../../../store/actions/sheets/sheets";
 
 const useStyles = makeStyles((theme) => ({
     textField: {
@@ -1269,7 +1268,7 @@ const MetricMaterialPropertiesRows = () => {
                                         onClick={() => {
                                             // alert(materialPropertiesIndex)
                                             setEdit(curVal => !curVal)
-                                            dispatch(setCurrentMetricMaterialPropertiesIndex(materialPropertiesIndex, selectedSheet))
+                                            dispatch(setCurrentMetricMaterialPropertyIndex(materialPropertiesIndex, selectedSheet))
                                             handleOpenNestedModal()
                                         }}
                                     >

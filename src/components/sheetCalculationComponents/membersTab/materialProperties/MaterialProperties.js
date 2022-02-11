@@ -1,35 +1,22 @@
-import {Button, Card, FormControl, Input, InputLabel, MenuItem, Select, TextField} from "@material-ui/core";
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import {Button, Card, FormControl, Input, TextField} from "@material-ui/core";
+import React, {useEffect, useMemo, useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import MaterialPropertiesRows from "./materialPropertiesRows/metricMaterialPropertiesRows";
-import {ENGLISH, METRIC} from "../../../../config";
 import {useDispatch, useSelector} from "react-redux";
-import MaterialPropertiesModal from "../../../modal/materialPropertiesModal/MaterialPropertiesModal";
-import MaterialSelectModal from "../../../modal/materialPropertiesModal/MaterialPropertiesModal";
-import SpringModal from "../../../modal/materialPropertiesModal/MaterialPropertiesModal";
 import NestedModal from "../../../modal/materialPropertiesModal/MaterialPropertiesModal";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import {setMethodDropdown} from "../../../../store/actions/dashboardDropdowns/methodDropdown";
-import axios from "axios";
 import {
-    getMaterialPropertiesData,
     getSteelTypesEnglishAPI,
-    getSteelTypesMetricAPI,
-    setEnglishEMPA, setEnglishFUMPA,
-    setEnglishFYMPA, setLatestMaterialMetricId, setMappedSteelTypeEnglish, setMappedSteelTypeMetric,
-    setMetricEMPA,
-    setMetricFUMPA,
-    setMetricFYMPA,
-    setSelectedSteelType
+    getSteelTypesMetricAPI, setCurrentMetricMaterialPropertyIndex,
+    setLatestMaterialMetricId,
 } from "../../../../store/actions/sheets/sheets";
 import {Autocomplete} from "@mui/material";
 import {
-    addCustomSteelType,
-    clearMetricMaterialProperties, setCurrentMaterialsArray,
-    setCurrentMetricMaterialPropertiesIndex,
+    clearMetricMaterialProperties,
+    setCurrentMaterialsArray,
     setCustomSelectedSteelType,
-    setEnglishMaterialSteelType, setMaterialModalCustom,
+    setEnglishMaterialSteelType,
+    setMaterialModalCustom,
     setMetricMaterialSteelType
 } from "../../../../store/actions/sheets/sheetCalculationComponents/materialProperties/materialProperties";
 import {size} from "lodash";
@@ -582,7 +569,7 @@ const MaterialProperties = () => {
                     dispatch(setMetricMaterialSteelType(customSteelTypeInitial, selectedSheet))
                     dispatch(setEnglishMaterialSteelType(customSteelTypeInitial, selectedSheet))
                     dispatch(setCustomSelectedSteelType(customSteelType, selectedSheet))
-                    dispatch(setCurrentMetricMaterialPropertiesIndex(0, selectedSheet))
+                    dispatch(setCurrentMetricMaterialPropertyIndex(0, selectedSheet))
                     dispatch(setCurrentMaterialsArray(1, selectedSheet))
                     setOpenNestedModal(false)
                 } else if(materialIdChecker() === 1 && size(insertedSteelTypesMetric) === 1) {

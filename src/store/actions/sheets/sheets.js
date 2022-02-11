@@ -31,8 +31,8 @@ import {
     GET_T_SHAPES_ENGLISH,
     GET_T_SHAPES_METRIC,
     REMOVE_SHEET,
-    SET_CALCULATED_DATA,
-    SET_CURRENT_METRIC_ENGLISH_PROPERTIES_INDEX,
+    SET_CALCULATED_DATA, SET_CURRENT_ENGLISH_MATERIAL_PROPERTIES_INDEX,
+    SET_CURRENT_METRIC_ENGLISH_PROPERTIES_INDEX, SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX,
     SET_CURRENT_SHAPE,
     SET_DATA_TO_BE_LOOPED_FOR_DESIGN_MEMBERS_POST_REQUEST,
     SET_DISABLE_MENU_BUTTONS,
@@ -106,10 +106,24 @@ export const setRouteUrl = (data, sheetIndex) => {
     }
 }
 
-export const setCurrentEnglishMaterialPropertiesIndex = (data, sheetIndex, materialIndex) => {
+// export const setCurrentEnglishMaterialPropertiesIndex = (data, sheetIndex, materialIndex) => {
+//     return {
+//         type: SET_CURRENT_METRIC_ENGLISH_PROPERTIES_INDEX,
+//         payload: {data: data, sheetIndex: sheetIndex, materialIndex: materialIndex}
+//     }
+// }
+
+export const setCurrentMetricMaterialPropertyIndex = (data, sheetIndex) => {
     return {
-        type: SET_CURRENT_METRIC_ENGLISH_PROPERTIES_INDEX,
-        payload: {data: data, sheetIndex: sheetIndex, materialIndex: materialIndex}
+        type: SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const setCurrentEnglishMaterialPropertyIndex = (data, sheetIndex) => {
+    return {
+        type: SET_CURRENT_ENGLISH_MATERIAL_PROPERTIES_INDEX,
+        payload: {data: data, sheetIndex: sheetIndex}
     }
 }
 

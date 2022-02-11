@@ -15,12 +15,11 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import {Autocomplete} from "@mui/material";
 import {objectChecker} from "../../../../../utilities/utilities";
+
 import {
-    setCurrentEnglishMaterialPropertiesIndex
-
+    editSelectedEnglishMaterialProperty,
+    setCurrentEnglishMaterialPropertyIndex
 } from "../../../../../store/actions/sheets/sheets";
-
-import {editSelectedEnglishMaterialProperty} from "../../../../../store/actions/sheets/sheets";
 
 const useStyles = makeStyles((theme) => ({
     textField: {
@@ -1191,7 +1190,7 @@ const MetricMaterialPropertiesRows = () => {
                                             // alert(materialPropertiesIndex)
                                             setEdit(curVal => !curVal)
                                             // dispatch(changeMaterialCustomStatus(true, selectedSheet, materialPropertiesIndex))
-                                            dispatch(setCurrentEnglishMaterialPropertiesIndex(materialPropertiesIndex, selectedSheet))
+                                            dispatch(setCurrentEnglishMaterialPropertyIndex(materialPropertiesIndex, selectedSheet))
                                             handleOpenNestedModal()
                                         }}
                                     >
