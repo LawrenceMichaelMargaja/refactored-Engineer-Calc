@@ -516,7 +516,7 @@ const MetricMaterialPropertiesRows = () => {
                             // setFYMPAValue(null)
                         } else {
                             // alert("hoho")
-                            alert("the name == " + insertedSteelTypesMetric[currentMetricMaterialPropertyIndex].name);
+                            // alert("the name == " + insertedSteelTypesMetric[currentMetricMaterialPropertyIndex].name);
                             setFYMPAValue(hashEnglish[selectedName].steel_type_english_fy)
                         }
                     } else {
@@ -766,7 +766,7 @@ const MetricMaterialPropertiesRows = () => {
                             dispatch(editSelectedEnglishMaterialProperty(initialMaterial, selectedSheet, currentMetricMaterialPropertyIndex))
                             setOpenNestedModal(false)
                         } else {
-                            alert("the hash custom == " + JSON.stringify(hashCustom[insertedSteelTypesMetric[currentMaterialPropertyIndex].name]));
+                            // alert("the hash custom == " + JSON.stringify(hashCustom[insertedSteelTypesMetric[currentMaterialPropertyIndex].name]));
                             const proceed = window.confirm("Are you sure you want to keep these english english changes?")
                             if (proceed) {
                                 dispatch(editSelectedEnglishMaterialProperty(

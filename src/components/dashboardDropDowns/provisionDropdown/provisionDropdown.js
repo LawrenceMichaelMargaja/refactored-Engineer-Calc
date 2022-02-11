@@ -40,7 +40,7 @@ const ProvisionDropdown = () => {
     }
 
     const handleChange = (event) => {
-        alert("the provision == " + selectedSheet)
+        // alert("the provision == " + selectedSheet)
         dispatch(setProvisionDropdown(event.target.value, selectedSheet))
         if(event.target.value === 'ASD') {
             dispatch(setSafetyFactorForTensile(1.67, selectedSheet))

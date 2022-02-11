@@ -105,26 +105,26 @@ const SectionPropertiesRowsDesign = () => {
                     textAlign: 'center'
                 }}>
                     <p style={{
-                        margin: '0%',
-                        padding: '5%',
+                        margin: '5%',
                     }}>
-                        Test
+                        {parseFloat(sectionIndex) + 1}
                     </p>
                 </div>
                 <div style={{
                     border: '1px solid black',
                     margin: '0px',
                     width: '25%',
+                    padding: 0,
                     // height: '100%',
                     backgroundColor: '#fff',
                     textAlign: 'center'
                 }}>
                     <Input style={{
                         margin: '0%',
-                        padding: '5%',
+                        padding: 0,
                         textAlign: 'center'
                     }}
-                        inputProps={{style: {textAlign: 'center'}}}
+                        inputProps={{style: {textAlign: 'center', padding: '0px', margin: '5%'}}}
                         onChange={(event) => {ShapeValueChanger(event, sectionIndex)}}
                         value={ShapeValueHandler(sectionIndex)}
                         // value={insertedSectionPropertiesMetric[1].sectionShape}
@@ -141,8 +141,7 @@ const SectionPropertiesRowsDesign = () => {
                     textAlign: 'center'
                 }}>
                     <p style={{
-                        margin: '0%',
-                        padding: '5%',
+                        margin: '5%',
                     }}>
                         N/A
                     </p>
@@ -158,7 +157,7 @@ const SectionPropertiesRowsDesign = () => {
                         textAlign: 'center'
                     }}>
                         <p style={{
-                            margin: '7px 0px 2px',
+                            margin: '0px'
                         }}
                            aria-disabled={true}
                         >

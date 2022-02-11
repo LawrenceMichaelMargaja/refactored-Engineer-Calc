@@ -3,9 +3,25 @@ import {Card, FormControl, InputLabel, MenuItem, Select} from "@material-ui/core
 import {makeStyles} from "@material-ui/core/styles";
 import {useDispatch, useSelector} from "react-redux";
 import {setSystemDropdown} from "../../../store/actions/dashboardDropdowns/systemDropdown";
-import {getSteelTypesEnglishAPI, getSteelTypesMetricAPI} from "../../../store/actions/sheets/sheets";
+import {
+    clearCalculatedData,
+    getSteelTypesEnglishAPI,
+    getSteelTypesMetricAPI,
+    setCalculatedData,
+    setTabState
+} from "../../../store/actions/sheets/sheets";
 import {objectChecker} from "../../../utilities/utilities";
 import {size} from "lodash";
+import {resetMemberFields} from "../../../store/actions/sheets/sheetCalculationComponents/memberFields/memberFields";
+import {
+    resetEnglishMaterialProperties,
+    resetMetricMaterialProperties
+} from "../../../store/actions/sheets/sheetCalculationComponents/materialProperties/materialProperties";
+import {
+    resetEnglishSectionProperties,
+    resetMetricSectionProperties
+} from "../../../store/actions/sheets/sheetCalculationComponents/sectionProperties/sectionProperties";
+import {useNavigate} from "react-router";
 
 const useStyles = makeStyles((theme) => ({
     dropDown: {
@@ -29,8 +45,47 @@ const SystemDropdown = () => {
     const materialModalCustomState = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'customMaterialModal'])
     const classes = useStyles()
 
+    const tabState = objectChecker(sheets, ['sheets', selectedSheet, 'tabState'])
+    const navigate = useNavigate()
+
     const handleChange = (event) => {
-        dispatch(setSystemDropdown(event.target.value, selectedSheet))
+        if(tabState === 'results') {
+            if(systemValue === 'Metric') {
+                const proceed = window.confirm("Changing the system now will result in the loss of all Metric calculations and will navigate you back to the members tab. Do you wish to continue?")
+                if(proceed) {
+                    dispatch(resetMemberFields(selectedSheet))
+                    dispatch(setCalculatedData(null, selectedSheet))
+                    dispatch(resetMetricMaterialProperties(selectedSheet))
+                    dispatch(resetEnglishMaterialProperties(selectedSheet))
+                    dispatch(resetMetricSectionProperties(selectedSheet))
+                    dispatch(resetEnglishSectionProperties(selectedSheet))
+                    // dispatch(clearCalculatedData(null, selectedSheet))
+                    dispatch(setTabState('members', selectedSheet))
+                    navigate('/members')
+                    dispatch(setSystemDropdown(event.target.value, selectedSheet))
+                } else {
+                    return
+                }
+            } else if(systemValue === 'English') {
+                const proceed = window.confirm("Changing the system now will result in the loss of all English calculations and will navigate you back to the members tab. Do you wish to continue?")
+                if(proceed) {
+                    dispatch(resetMemberFields(selectedSheet))
+                    dispatch(setCalculatedData(null, selectedSheet))
+                    dispatch(resetMetricMaterialProperties(selectedSheet))
+                    dispatch(resetEnglishMaterialProperties(selectedSheet))
+                    dispatch(resetMetricSectionProperties(selectedSheet))
+                    // dispatch(clearCalculatedData(null, selectedSheet))
+                    dispatch(resetEnglishSectionProperties(selectedSheet))
+                    dispatch(setTabState('members', selectedSheet))
+                    navigate('/members')
+                    dispatch(setSystemDropdown(event.target.value, selectedSheet))
+                } else {
+                    return
+                }
+            }
+        } else {
+            dispatch(setSystemDropdown(event.target.value, selectedSheet))
+        }
     };
 
     const disable = () => {

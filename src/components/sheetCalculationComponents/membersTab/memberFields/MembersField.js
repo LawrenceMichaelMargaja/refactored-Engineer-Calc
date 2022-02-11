@@ -98,11 +98,11 @@ const Members = () => {
             }
             dispatch(addInitialMember(initialMember, selectedSheet))
         } else if(removedMemberRowsArray.length > 0) {
-            alert("I am called")
+            // alert("I am called")
             // const newSizeIndex = Object.keys(members).length - 1
             const sortedRemovedMemberRowsArray = removedMemberRowsArray.sort()
             const newSizeIndex = sortedRemovedMemberRowsArray.shift()
-            alert("the new size " + newSizeIndex)
+            // alert("the new size " + newSizeIndex)
             const currentMembers = {...members}
             currentMembers[newSizeIndex] = {
                 memberId: parseFloat(newSizeIndex) + parseFloat(1),

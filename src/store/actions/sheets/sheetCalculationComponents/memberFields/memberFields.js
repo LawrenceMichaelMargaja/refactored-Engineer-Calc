@@ -48,7 +48,7 @@ export const clearRemovedMembersArray = (sheetIndex) => {
 }
 
 export const setRemovedMemberRows = (data, sheetIndex) => {
-    alert("the member index to be removed == " + data)
+    // alert("the member index to be removed == " + data)
     return {
         type: SET_REMOVED_MEMBER_ROW_ARRAY,
         payload: {data: data, sheetIndex: sheetIndex}

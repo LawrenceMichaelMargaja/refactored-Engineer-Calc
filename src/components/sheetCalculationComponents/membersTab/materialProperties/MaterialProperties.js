@@ -554,7 +554,7 @@ const MaterialProperties = () => {
                     idValue = 1
                     break
                 } else if(insertedSteelTypesMetric[id].custom === true && insertedSteelTypesMetric[id].id !== 1) {
-                    alert("pleaaase");
+                    // alert("pleaaase");
                     idValue = insertedSteelTypesMetric[id].id
                     break
                 } else {
@@ -586,7 +586,7 @@ const MaterialProperties = () => {
                     dispatch(setCurrentMaterialsArray(1, selectedSheet))
                     setOpenNestedModal(false)
                 } else if(materialIdChecker() === 1 && size(insertedSteelTypesMetric) === 1) {
-                    alert("dust in the wind")
+                    // alert("dust in the wind")
                     const currentCustomSteelTypes = {...insertedSteelTypesMetric}
                     const currentCustomSteelTypesSize = size(insertedSteelTypesMetric)
                     currentCustomSteelTypes[currentCustomSteelTypesSize] = {
@@ -607,7 +607,7 @@ const MaterialProperties = () => {
                     // dispatch(setCurrentMetricMaterialPropertiesIndex(parseFloat(currentCustomSteelTypesSize) + 1, selectedSheet))
                     setOpenNestedModal(false)
                 } else if (size(insertedSteelTypesMetric) > 0) {
-                    alert("hello my friend!")
+                    // alert("hello my friend!")
                     const newMaterialIndex = size(insertedSteelTypesMetric)
                     const currentCustomSteelTypes = {...insertedSteelTypesMetric}
                     // const currentCustomSteelTypesSize = size(insertedSteelTypesMetric)
@@ -632,7 +632,7 @@ const MaterialProperties = () => {
             } else {
                 // alert("over here")
                 if (size(insertedSteelTypesMetric) === 0) {
-                    alert("oh nossss");
+                    // alert("oh nossss");
                     const initialMaterialEnglish = {}
                     const initialMaterial = {}
                     initialMaterial[0] = {
@@ -657,7 +657,7 @@ const MaterialProperties = () => {
                     dispatch(setEnglishMaterialSteelType(initialMaterialEnglish, selectedSheet))
                     setOpenNestedModal(false)
                 } else if(materialIdChecker() === 1 && size(insertedSteelTypesMetric) === 1) {
-                    alert("what's up?")
+                    // alert("what's up?")
                     const newMaterialIndex = size(insertedSteelTypesMetric)
                     const currentMaterialEnglish = {...insertedSteelTypesEnglish}
                     const currentMaterial = {...insertedSteelTypesMetric}
@@ -677,14 +677,14 @@ const MaterialProperties = () => {
                         FUMPA: hashEnglish[selectedName].steel_type_english_fu,
                         custom: false
                     }
-                    alert("the current body == " + JSON.stringify(currentMaterial));
+                    // alert("the current body == " + JSON.stringify(currentMaterial));
                     dispatch(setLatestMaterialMetricId(2, selectedSheet))
                     dispatch(setMetricMaterialSteelType(currentMaterial, selectedSheet))
                     dispatch(setCurrentMaterialsArray(2, selectedSheet))
                     dispatch(setEnglishMaterialSteelType(currentMaterialEnglish, selectedSheet))
                     setOpenNestedModal(false)
                 } if(materialIdChecker() !== 1 && size(insertedSteelTypesMetric) === 1) {
-                    alert("oh yeah man")
+                    // alert("oh yeah man")
                     const newMaterialIndex = size(insertedSteelTypesMetric)
                     const currentMaterialEnglish = {...insertedSteelTypesEnglish}
                     const currentMaterial = {...insertedSteelTypesMetric}
@@ -717,7 +717,7 @@ const MaterialProperties = () => {
                     dispatch(setEnglishMaterialSteelType(currentMaterialEnglish, selectedSheet))
                     setOpenNestedModal(false)
                 } else if(size(insertedSteelTypesMetric) > 1) {
-                    alert("actually here")
+                    // alert("actually here")
                     const newMaterialIndex = size(insertedSteelTypesMetric)
                     const currentMaterialEnglish = {...insertedSteelTypesEnglish}
                     const currentMaterial = {...insertedSteelTypesMetric}

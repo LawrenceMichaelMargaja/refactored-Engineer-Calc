@@ -180,28 +180,58 @@ const SheetCalculationNavigation = () => {
     const pipeEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'pipeShapesEnglish'])
 
     useEffect(() => {
-        if ((currentShape).toUpperCase() === ('I-shaped').toUpperCase()) {
-            dispatch(setDataToBeLoopedForPostRequest(iShapeMetricData, selectedSheet))
-        } else if ((currentShape).toUpperCase() === ('C-shaped').toUpperCase()) {
-            dispatch(setDataToBeLoopedForPostRequest(cShapeMetricData, selectedSheet))
-        } else if ((currentShape).toUpperCase() === ('Angles').toUpperCase()) {
-            dispatch(setDataToBeLoopedForPostRequest(anglesMetricData, selectedSheet))
-        } else if ((currentShape).toUpperCase() === ('T-shaped').toUpperCase()) {
-            dispatch(setDataToBeLoopedForPostRequest(tShapeMetricData, selectedSheet))
-        } else if ((currentShape).toUpperCase() === ('Double Angles').toUpperCase()) {
-            dispatch(setDataToBeLoopedForPostRequest(doubleAnglesMetricData, selectedSheet))
-        } else if ((currentShape).toUpperCase() === ('Rectangular HSS').toUpperCase()) {
-            dispatch(setDataToBeLoopedForPostRequest(recHSSMetricData, selectedSheet))
-        } else if ((currentShape).toUpperCase() === ('Round HSS').toUpperCase()) {
-            dispatch(setDataToBeLoopedForPostRequest(roundHSSMetricData, selectedSheet))
-        } else if ((currentShape).toUpperCase() === ('Pipe').toUpperCase()) {
-            dispatch(setDataToBeLoopedForPostRequest(pipeMetricData, selectedSheet))
+        if(system === 'Metric') {
+            if ((currentShape).toUpperCase() === ('I-shaped').toUpperCase()) {
+                dispatch(setDataToBeLoopedForPostRequest(iShapeMetricData, selectedSheet))
+            } else if ((currentShape).toUpperCase() === ('C-shaped').toUpperCase()) {
+                dispatch(setDataToBeLoopedForPostRequest(cShapeMetricData, selectedSheet))
+            } else if ((currentShape).toUpperCase() === ('Angles').toUpperCase()) {
+                dispatch(setDataToBeLoopedForPostRequest(anglesMetricData, selectedSheet))
+            } else if ((currentShape).toUpperCase() === ('T-shaped').toUpperCase()) {
+                dispatch(setDataToBeLoopedForPostRequest(tShapeMetricData, selectedSheet))
+            } else if ((currentShape).toUpperCase() === ('Double Angles').toUpperCase()) {
+                dispatch(setDataToBeLoopedForPostRequest(doubleAnglesMetricData, selectedSheet))
+            } else if ((currentShape).toUpperCase() === ('Rectangular HSS').toUpperCase()) {
+                dispatch(setDataToBeLoopedForPostRequest(recHSSMetricData, selectedSheet))
+            } else if ((currentShape).toUpperCase() === ('Round HSS').toUpperCase()) {
+                dispatch(setDataToBeLoopedForPostRequest(roundHSSMetricData, selectedSheet))
+            } else if ((currentShape).toUpperCase() === ('Pipe').toUpperCase()) {
+                dispatch(setDataToBeLoopedForPostRequest(pipeMetricData, selectedSheet))
+            }
+        } else if(system === 'English') {
+            if ((currentShape).toUpperCase() === ('I-shaped').toUpperCase()) {
+                dispatch(setDataToBeLoopedForPostRequest(iShapeEnglishData, selectedSheet))
+            } else if ((currentShape).toUpperCase() === ('C-shaped').toUpperCase()) {
+                dispatch(setDataToBeLoopedForPostRequest(cShapeEnglishData, selectedSheet))
+            } else if ((currentShape).toUpperCase() === ('Angles').toUpperCase()) {
+                dispatch(setDataToBeLoopedForPostRequest(anglesEnglishData, selectedSheet))
+            } else if ((currentShape).toUpperCase() === ('T-shaped').toUpperCase()) {
+                dispatch(setDataToBeLoopedForPostRequest(tShapeEnglishData, selectedSheet))
+            } else if ((currentShape).toUpperCase() === ('Double Angles').toUpperCase()) {
+                dispatch(setDataToBeLoopedForPostRequest(doubleAnglesEnglishData, selectedSheet))
+            } else if ((currentShape).toUpperCase() === ('Rectangular HSS').toUpperCase()) {
+                dispatch(setDataToBeLoopedForPostRequest(recHSSEnglishData, selectedSheet))
+            } else if ((currentShape).toUpperCase() === ('Round HSS').toUpperCase()) {
+                dispatch(setDataToBeLoopedForPostRequest(roundHSSEnglishData, selectedSheet))
+            } else if ((currentShape).toUpperCase() === ('Pipe').toUpperCase()) {
+                dispatch(setDataToBeLoopedForPostRequest(pipeEnglishData, selectedSheet))
+            }
         }
-    }, [currentShape])
+    }, [system, currentShape, method])
+
+
+
+    // useEffect(() => {
+    //     if(method === 'Design') {
+    //         if(tabState === 'results') {
+    //             beamCalcDataSenderDesign()
+    //         }
+    //     }
+    // }, [system])
 
     const beamCalcDataSenderDesign = () => {
         let body = []
-        alert("dataToBeLoopedForPostRequest == " + JSON.stringify(dataToBeLoopedForPostRequest));
+        // alert("dataToBeLoopedForPostRequest == " + JSON.stringify(dataToBeLoopedForPostRequest));
         for (let loopedIndex in dataToBeLoopedForPostRequest) {
 
             for (let memberIndex in members) {
@@ -228,27 +258,42 @@ const SheetCalculationNavigation = () => {
                     idObject['my'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'shearAlongYAxis']))
                     idObject['p'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'axial']))
                 }
-
-                if ((currentShape).toUpperCase() === ('I-shaped').toUpperCase()) {
-                    idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].i_shape_metric_name
-                } else if ((currentShape).toUpperCase() === ('C-shaped').toUpperCase()) {
-                    idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].c_shape_metric_name
-                } else if ((currentShape).toUpperCase() === ('Angles').toUpperCase()) {
-                    idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].l_shape_metric_name
-                } else if ((currentShape).toUpperCase() === ('T-shaped').toUpperCase()) {
-                    idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].t_shape_metric_name
-                } else if ((currentShape).toUpperCase() === ('Double Angles').toUpperCase()) {
-                    idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].two_l_shape_metric_name
-                } else if ((currentShape).toUpperCase() === ('Rectangular HSS').toUpperCase()) {
-                    idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].rec_hs_shape_metric_name
-                } else if ((currentShape).toUpperCase() === ('Round HSS').toUpperCase()) {
-                    idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].round_hs_shape_metric_name
-                } else if ((currentShape).toUpperCase() === ('Pipe').toUpperCase()) {
-                    idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].pipe_shape_metric_name
-                }
-
-                else {
-                    console.log("oh no");
+                if(system === 'Metric') {
+                    if ((currentShape).toUpperCase() === ('I-shaped').toUpperCase()) {
+                        idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].i_shape_metric_name
+                    } else if ((currentShape).toUpperCase() === ('C-shaped').toUpperCase()) {
+                        idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].c_shape_metric_name
+                    } else if ((currentShape).toUpperCase() === ('Angles').toUpperCase()) {
+                        idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].l_shape_metric_name
+                    } else if ((currentShape).toUpperCase() === ('T-shaped').toUpperCase()) {
+                        idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].t_shape_metric_name
+                    } else if ((currentShape).toUpperCase() === ('Double Angles').toUpperCase()) {
+                        idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].two_l_shape_metric_name
+                    } else if ((currentShape).toUpperCase() === ('Rectangular HSS').toUpperCase()) {
+                        idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].rec_hs_shape_metric_name
+                    } else if ((currentShape).toUpperCase() === ('Round HSS').toUpperCase()) {
+                        idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].round_hs_shape_metric_name
+                    } else if ((currentShape).toUpperCase() === ('Pipe').toUpperCase()) {
+                        idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].pipe_shape_metric_name
+                    }
+                } else if(system === 'English') {
+                    if ((currentShape).toUpperCase() === ('I-shaped').toUpperCase()) {
+                        idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].i_shape_english_name
+                    } else if ((currentShape).toUpperCase() === ('C-shaped').toUpperCase()) {
+                        idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].c_shape_english_name
+                    } else if ((currentShape).toUpperCase() === ('Angles').toUpperCase()) {
+                        idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].l_shape_english_name
+                    } else if ((currentShape).toUpperCase() === ('T-shaped').toUpperCase()) {
+                        idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].t_shape_english_name
+                    } else if ((currentShape).toUpperCase() === ('Double Angles').toUpperCase()) {
+                        idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].two_l_shape_english_name
+                    } else if ((currentShape).toUpperCase() === ('Rectangular HSS').toUpperCase()) {
+                        idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].rec_hs_shape_english_name
+                    } else if ((currentShape).toUpperCase() === ('Round HSS').toUpperCase()) {
+                        idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].round_hs_shape_english_name
+                    } else if ((currentShape).toUpperCase() === ('Pipe').toUpperCase()) {
+                        idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].pipe_shape_english_name
+                    }
                 }
 
                 idObject['id'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'memberId']))
@@ -269,12 +314,19 @@ const SheetCalculationNavigation = () => {
                 body.push(idObject)
             }
         }
-        alert("Hey I am called!")
+        // alert("Hey I am called!")
         axios.defaults.baseURL = 'http://localhost:8080'
-
-        axios.post('/steelArguments', body)
-            .then(res => dispatch(setCalculatedData(res.data, selectedSheet)))
-            .catch(err => console.log(err))
+        if(system === 'Metric') {
+            // alert("It's the metric");
+            axios.post('/steelArgumentsDesign', body)
+                .then(res => dispatch(setCalculatedData(res.data, selectedSheet)))
+                .catch(err => console.log(err))
+        } else if(system === 'English') {
+            // alert("oh my lawd")
+            axios.post('/steelArgumentsDesignEnglish', body)
+                .then(res => dispatch(setCalculatedData(res.data, selectedSheet)))
+                .catch(err => console.log(err))
+        }
     }
 
     const hashSections = useMemo(() => {
@@ -1095,10 +1147,10 @@ const SheetCalculationNavigation = () => {
     useEffect(() => {
         if (tabState === 'results') {
             if (method === 'Investigation') {
-                alert("investigation done")
+                // alert("investigation done")
                 beamCalcDataSender()
             } else if (method === 'Design') {
-                alert("Design done");
+                // alert("Design done");
                 beamCalcDataSenderDesign()
             }
         }

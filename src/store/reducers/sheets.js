@@ -5,7 +5,7 @@ import {
     ADD_SECTION_PROPERTY,
     ADD_SECTION_PROPERTY_ENGLISH,
     ADD_SECTION_PROPERTY_METRIC, ADD_SHEET_NAME,
-    CHANGE_MATERIAL_CUSTOM_STATUS,
+    CHANGE_MATERIAL_CUSTOM_STATUS, CLEAR_CALCULATED_DATA,
     CLEAR_METRIC_MATERIAL_PROPERTIES,
     CLEAR_REMOVED_MEMBERS_ARRAY, EDIT_SELECTED_ENGLISH_MATERIAL_PROPERTY,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTIES,
@@ -525,6 +525,8 @@ const Reducer = (state = initialState, action) => {
             return setLatestMaterialMetricId(state, action.payload)
         case ADD_SHEET_NAME:
             return addSheetName(state, action.payload)
+        case CLEAR_CALCULATED_DATA:
+            return clearCalculatedData(state, action.payload)
         default:
             return state
     }
@@ -570,6 +572,19 @@ const setDataToBeLoopedForPostRequest = (state, payload) => {
             [payload.sheetIndex]: {
                 ...state.sheets[payload.sheetIndex],
                 dataToBeLoopedForPostRequest: payload.data
+            }
+        }
+    }
+}
+
+const clearCalculatedData = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                calculatedData: null
             }
         }
     }

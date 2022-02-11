@@ -727,7 +727,7 @@ const MetricMaterialPropertiesRows = () => {
                         } else {
                             const proceed = window.confirm("Are you sure you want to keep these changes?")
                             if (proceed) {
-                                alert("here I am 2")
+                                // alert("here I am 2")
                                 dispatch(editSelectedMetricMaterialProperty(
                                     selectedName,
                                     hashMetric[selectedName].steel_type_metric_e,
@@ -994,7 +994,7 @@ const MetricMaterialPropertiesRows = () => {
 
     const EMPAValueSetter = (materialPropertyIndex) => {
         if(steelTypesMetric.length === 0 || steelTypesMetric === null) {
-            alert(steelTypesMetric)
+            // alert(steelTypesMetric)
             return
         } else {
             if (system === 'Metric') {

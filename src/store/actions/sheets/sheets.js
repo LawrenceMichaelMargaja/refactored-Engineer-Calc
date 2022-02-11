@@ -1,5 +1,5 @@
 import {
-    ADD_NEW_SHEET, ADD_SHEET_NAME, EDIT_SELECTED_ENGLISH_MATERIAL_PROPERTY,
+    ADD_NEW_SHEET, ADD_SHEET_NAME, CLEAR_CALCULATED_DATA, EDIT_SELECTED_ENGLISH_MATERIAL_PROPERTY,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTIES,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
     GET_2_L_SHAPES_ENGLISH,
@@ -59,6 +59,13 @@ import {
 export const addSheetName = (data, sheetIndex) => {
     return {
         type: ADD_SHEET_NAME,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const clearCalculatedData = (data, sheetIndex) => {
+    return {
+        type: CLEAR_CALCULATED_DATA,
         payload: {data: data, sheetIndex: sheetIndex}
     }
 }

@@ -116,6 +116,8 @@ const Header = () => {
     const insertedSteelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties'])
     const latestMaterialMetricId = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'latestMaterialMetricId'])
 
+
+
     const hashSections = useMemo(() => {
         let hash = {}
         for(let i in sectionsMetric) {
@@ -140,20 +142,20 @@ const Header = () => {
         <div>
             <div>
                 {/*{listSectionIds()}*/}
-                <p style={{
-                    padding: '2em',
-                    wordWrap: 'break-word'
-                    // width: '50vw'
-                }}>
-                    {JSON.stringify(latestMaterialMetricId)}
-                </p>
-                <p style={{
-                    padding: '2em',
-                    wordWrap: 'break-word'
-                    // width: '50vw'
-                }}>
-                    {JSON.stringify(hashSections[1])}
-                </p>
+                {/*<p style={{*/}
+                {/*    padding: '2em',*/}
+                {/*    wordWrap: 'break-word'*/}
+                {/*    // width: '50vw'*/}
+                {/*}}>*/}
+                {/*    {JSON.stringify(latestMaterialMetricId)}*/}
+                {/*</p>*/}
+                {/*<p style={{*/}
+                {/*    padding: '2em',*/}
+                {/*    wordWrap: 'break-word'*/}
+                {/*    // width: '50vw'*/}
+                {/*}}>*/}
+                {/*    {JSON.stringify(currentShape)}*/}
+                {/*</p>*/}
             </div>
             <div className={classes.root}>
                 <div className={classes.titleContainer}>

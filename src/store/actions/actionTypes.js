@@ -7,6 +7,7 @@ export const SET_SECTION_SHAPE_DESIGN_ENGLISH = '@@sheets/SET_SECTION_SHAPE_DESI
 /**
  * Calculated Data
  */
+export const CLEAR_CALCULATED_DATA = '@@sheets/CLEAR_CALCULATED_DATA'
 export const SET_CALCULATED_DATA = '@@sheets/SET_CALCULATED_DATA'
 
 /**
