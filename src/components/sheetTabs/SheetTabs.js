@@ -551,14 +551,14 @@ const SheetTabs = () => {
                     sectionPropertiesMetric: {
                         0: {
                             sectionId: 1,
-                            sectionShape: 'I-shaped',
+                            sectionShape: 'I',
                             sectionName: 'W1100X499',
                         }
                     },
                     sectionPropertiesEnglish: {
                         0: {
                             sectionId: 1,
-                            sectionShape: 'W44X335',
+                            sectionShape: 'I',
                             sectionName: 'W44X335'
                         }
                     },

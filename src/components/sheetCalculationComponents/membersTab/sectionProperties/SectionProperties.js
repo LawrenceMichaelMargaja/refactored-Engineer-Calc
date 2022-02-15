@@ -359,13 +359,13 @@ const SectionProperties = () => {
 
         const systemCheck = () => {
             if (system === 'Metric') {
-                if(selectedSectionShape === 'I-shaped') {
+                if(selectedSectionShape === 'I') {
                     return displayIShapesMetric()
-                } else if(selectedSectionShape === 'C-shaped') {
+                } else if(selectedSectionShape === 'C') {
                     return displayCShapesMetric()
                 } else if(selectedSectionShape === 'Angles') {
                     return displayLShapesMetric()
-                } else if(selectedSectionShape === 'T-shaped') {
+                } else if(selectedSectionShape === 'T') {
                     return displayTShapesMetric()
                 } else if(selectedSectionShape === 'Double Angles') {
                     return display2LShapesMetric()
@@ -379,13 +379,13 @@ const SectionProperties = () => {
                     return displaySectionPropertiesMetric()
                 }
             } else if (system === 'English') {
-                if(selectedSectionShape === 'I-shaped') {
+                if(selectedSectionShape === 'I') {
                     return displayIShapesEnglish()
-                } else if(selectedSectionShape === 'C-shaped') {
+                } else if(selectedSectionShape === 'C') {
                     return displayCShapesEnglish()
                 } else if(selectedSectionShape === 'Angles') {
                     return displayLShapesEnglish()
-                } else if(selectedSectionShape === 'T-shaped') {
+                } else if(selectedSectionShape === 'T') {
                     return displayTShapesEnglish()
                 } else if(selectedSectionShape === 'Double Angles') {
                     return display2LShapesEnglish()
@@ -444,13 +444,13 @@ const SectionProperties = () => {
         const metricNameIndexChecker = () => {
             let checkedIndexMetric = null
 
-            if(selectedSectionShape === 'I-shaped') {
+            if(selectedSectionShape === 'I') {
                 iShapesMetricData.map((data) => {
                     if(selectedSectionName === data.i_shape_metric_name) {
                         checkedIndexMetric = parseFloat(data.id) - 1
                     }
                 })
-            } else if(selectedSectionShape === 'C-shaped') {
+            } else if(selectedSectionShape === 'C') {
                 cShapesMetricData.map((data) => {
                     if(selectedSectionName === data.c_shape_metric_name) {
                         checkedIndexMetric = parseFloat(data.id) - 1
@@ -462,7 +462,7 @@ const SectionProperties = () => {
                         checkedIndexMetric = parseFloat(data.id) - 1
                     }
                 })
-            } else if(selectedSectionShape === 'T-shaped') {
+            } else if(selectedSectionShape === 'T') {
                 tShapesMetricData.map((data) => {
                     if(selectedSectionName === data.t_shape_metric_name) {
                         checkedIndexMetric = parseFloat(data.id) - 1
@@ -501,13 +501,13 @@ const SectionProperties = () => {
         const englishNameIndexChecker = () => {
             let checkedIndexEnglish = null
 
-            if(selectedSectionShape === 'I-shaped') {
+            if(selectedSectionShape === 'I') {
                 iShapesEnglishData.map((data) => {
                     if(selectedSectionName === data.i_shape_english_name) {
                         checkedIndexEnglish = parseFloat(data.id) - 1
                     }
                 })
-            } else if(selectedSectionShape === 'C-shaped') {
+            } else if(selectedSectionShape === 'C') {
                 cShapesEnglishData.map((data) => {
                     if(selectedSectionName === data.c_shape_english_name) {
                         checkedIndexEnglish = parseFloat(data.id) - 1
@@ -519,7 +519,7 @@ const SectionProperties = () => {
                         checkedIndexEnglish = parseFloat(data.id) - 1
                     }
                 })
-            } else if(selectedSectionShape === 'T-shaped') {
+            } else if(selectedSectionShape === 'T') {
                 tShapesEnglishData.map((data) => {
                     if(selectedSectionName === data.t_shape_english_name) {
                         checkedIndexEnglish = parseFloat(data.id) - 1
@@ -558,13 +558,13 @@ const SectionProperties = () => {
         const insertSectionProperty = () => {
             const counterNameValue = () => {
                 if(system === 'Metric') {
-                    if(selectedSectionShape === 'I-shaped') {
+                    if(selectedSectionShape === 'I') {
                         return iShapesEnglishData[metricNameIndexChecker()].i_shape_english_name
-                    } else if(selectedSectionShape === 'C-shaped') {
+                    } else if(selectedSectionShape === 'C') {
                         return cShapesEnglishData[metricNameIndexChecker()].c_shape_english_name
                     } else if(selectedSectionShape === 'Angles') {
                         return lShapesEnglishData[metricNameIndexChecker()].l_shape_english_name
-                    } else if(selectedSectionShape === 'T-shaped') {
+                    } else if(selectedSectionShape === 'T') {
                         return tShapesEnglishData[metricNameIndexChecker()].t_shape_english_name
                     } else if(selectedSectionShape === 'Double Angles') {
                         return twoLShapesEnglishData[metricNameIndexChecker()].two_l_shape_english_name
@@ -579,13 +579,13 @@ const SectionProperties = () => {
                         return null
                     }
                 } else if(system === 'English') {
-                    if(selectedSectionShape === 'I-shaped') {
+                    if(selectedSectionShape === 'I') {
                         return iShapesMetricData[englishNameIndexChecker()].i_shape_metric_name
-                    } else if(selectedSectionShape === 'C-shaped') {
+                    } else if(selectedSectionShape === 'C') {
                         return cShapesMetricData[englishNameIndexChecker()].c_shape_metric_name
                     } else if(selectedSectionShape === 'Angles') {
                         return lShapesMetricData[englishNameIndexChecker()].l_shape_metric_name
-                    } else if(selectedSectionShape === 'T-shaped') {
+                    } else if(selectedSectionShape === 'T') {
                         return tShapesMetricData[englishNameIndexChecker()].t_shape_metric_name
                     } else if(selectedSectionShape === 'Double Angles') {
                         return twoLShapesMetricData[englishNameIndexChecker()].two_l_shape_metric_name
@@ -747,7 +747,23 @@ const SectionProperties = () => {
         }
 
         const setSectionShape = (event) => {
-            setSelectedSectionShape(event.target.textContent)
+            if(event.target.textContent === 'I') {
+                setSelectedSectionShape('I')
+            } else if(event.target.textContent === 'C') {
+                setSelectedSectionShape('C')
+            } else if(event.target.textContent === 'Angles') {
+                setSelectedSectionShape('L')
+            } else if(event.target.textContent === 'T') {
+                setSelectedSectionShape('T')
+            } else if(event.target.textContent === 'Double Angles') {
+                setSelectedSectionShape('2L')
+            } else if(event.target.textContent === 'Rectangular HSS') {
+                setSelectedSectionShape('recHSS')
+            } else if(event.target.textContent === 'Round HSS') {
+                setSelectedSectionShape('roundHSS')
+            } else if(event.target.textContent === 'Pipe') {
+                setSelectedSectionShape('Pipe')
+            }
             setSelectedSectionName("")
         }
 

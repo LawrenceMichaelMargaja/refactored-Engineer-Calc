@@ -130,12 +130,12 @@ const initialState = {
             method: "Investigation",
             currentMaterialsArray: [1],
             currentSectionsArray: [1],
-            sectionDimensionsArrayMetric: ['I-shaped'],
+            sectionDimensionsArrayMetric: ['I'],
             sectionDimensionsArrayEnglish: [],
             removedMemberRowArray: [],
             arrayCheck: [],
             dataToBeLoopedForPostRequest: [],
-            currentShape: 'I-shaped',
+            currentShape: 'I',
             route: '',
             calculatedData: null,
             apiData: {
@@ -208,14 +208,14 @@ const initialState = {
                 sectionPropertiesMetric: {
                     0: {
                         sectionId: 1,
-                        sectionShape: 'I-shaped',
+                        sectionShape: 'I',
                         sectionName: 'W1100X499',
                     }
                 },
                 sectionPropertiesEnglish: {
                     0: {
                         sectionId: 1,
-                        sectionShape: 'I-shaped',
+                        sectionShape: 'I',
                         sectionName: 'W44X335'
                     }
                 },
@@ -2564,7 +2564,7 @@ const resetMetricSectionProperties = (state, payload) => {
                     sectionPropertiesMetric: {
                         0: {
                             sectionId: 1,
-                            sectionShape: 'I-shaped',
+                            sectionShape: 'I',
                             sectionName: 'W1100X499',
                         }
                     }
@@ -2586,8 +2586,8 @@ const resetEnglishSectionProperties = (state, payload) => {
                     sectionPropertiesEnglish: {
                         0: {
                             sectionId: 1,
-                            sectionShape: 'W1100X499',
-                            sectionName: 'W1100X499',
+                            sectionShape: 'I',
+                            sectionName: 'W44X335',
                         }
                     }
                 }

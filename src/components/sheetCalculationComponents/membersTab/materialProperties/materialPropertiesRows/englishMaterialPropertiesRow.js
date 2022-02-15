@@ -729,8 +729,8 @@ const MetricMaterialPropertiesRows = () => {
                             dispatch(editSelectedMetricMaterialProperty(
                                 selectedName,
                                 materialMetricCounterValueEMPA(),
-                                hashEnglish[selectedName].steel_type_english_fy,
-                                hashEnglish[selectedName].steel_type_english_fu,
+                                hashMetric[selectedName].steel_type_metric_fy,
+                                hashMetric[selectedName].steel_type_metric_fu,
                                 false,
                                 selectedSheet,
                                 currentMetricMaterialPropertyIndex
@@ -1072,7 +1072,14 @@ const MetricMaterialPropertiesRows = () => {
             const materialEMPa = materialPropertiesMetric[materialPropertiesIndex].EMPA
             const materialFyMPa = materialPropertiesMetric[materialPropertiesIndex].FYMPA
             const materialFuMPa = materialPropertiesMetric[materialPropertiesIndex].FUMPA
-            const materialSelectedMaterial = materialPropertiesMetric[materialPropertiesIndex].name
+            // const materialSelectedMaterial = materialPropertiesMetric[materialPropertiesIndex].name
+            const materialSelectedMaterial = () => {
+                if(system == 'Metric') {
+                    return materialPropertiesMetric[materialPropertiesIndex].name
+                } else if(system === 'English') {
+                    return materialPropertiesEnglish[materialPropertiesIndex].name
+                }
+            }
 
             materialPropertiesRows.push(
                 <div style={{
@@ -1114,7 +1121,7 @@ const MetricMaterialPropertiesRows = () => {
                             padding: '7%',
                             textAlign: 'center'
                         }}>
-                            {materialSelectedMaterial}
+                            {materialSelectedMaterial()}
                         </p>
                     </div>
                     <div style={{

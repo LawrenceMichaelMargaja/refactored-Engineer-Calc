@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     input: {
-        width: '20rem'
+        // width: '20rem'
     }
 }));
 
@@ -131,11 +131,11 @@ const Forces = () => {
                     <div style={{
                         marginTop: '2em',
                         marginBottom: '2em',
-                        marginLeft: '1em',
+                        // marginLeft: '1em',
                         display: 'flex'
                     }}>
                         <form key='bendingMomentAlongXAxis' className={classes.textField} noValidate autoComplete="off">
-                            <div style={{margin: '0 8px', width: '20rem', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}>
+                            <div style={{margin: '0 8px', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}>
                                 <strong>Mx({unitHandlerForBendingFunc()})</strong>
                                 <sub> </sub>
                             </div>
@@ -153,7 +153,7 @@ const Forces = () => {
                             />
                         </form>
                         <form key='bendingMomentAlongYAxis' className={classes.textField} noValidate autoComplete="off">
-                            <div style={{margin: '0 8px', width: '20rem', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}>
+                            <div style={{margin: '0 8px', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}>
                                 <strong>My({unitHandlerForBendingFunc()})</strong>
                                 <sub> </sub>
                             </div>
@@ -171,7 +171,7 @@ const Forces = () => {
                             />
                         </form>
                         <form key='shearAlongXAxis' className={classes.textField} noValidate autoComplete="off">
-                            <div style={{margin: '0 8px', width: '20rem', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}>
+                            <div style={{margin: '0 8px', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}>
                                 <strong>Vx({unitHandlerForShearAndAxialFunc()})</strong>
                                 <sub> </sub>
                             </div>
@@ -190,7 +190,7 @@ const Forces = () => {
 
                         </form>
                         <form key='shearAlongYAxis' className={classes.textField} noValidate autoComplete="off">
-                            <div style={{margin: '0 8px', width: '20rem', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}>
+                            <div style={{margin: '0 8px', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}>
                                 <strong>Vy({unitHandlerForShearAndAxialFunc()})</strong>
                                 <sub> </sub>
                             </div>
@@ -208,7 +208,7 @@ const Forces = () => {
                             />
                         </form>
                         <form key='axial' className={classes.textField} noValidate autoComplete="off">
-                            <div style={{margin: '0 8px', width: '20rem', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}>
+                            <div style={{margin: '0 8px', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}>
                                 <strong>P({unitHandlerForShearAndAxialFunc()})</strong>
                                 <sub> </sub>
                             </div>

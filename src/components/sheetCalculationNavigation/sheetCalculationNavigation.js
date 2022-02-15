@@ -180,14 +180,14 @@ const SheetCalculationNavigation = () => {
     const pipeEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'pipeShapesEnglish'])
 
     useEffect(() => {
-        if(system === 'Metric') {
-            if ((currentShape).toUpperCase() === ('I-shaped').toUpperCase()) {
+        if (system === 'Metric') {
+            if ((currentShape).toUpperCase() === ('I').toUpperCase()) {
                 dispatch(setDataToBeLoopedForPostRequest(iShapeMetricData, selectedSheet))
-            } else if ((currentShape).toUpperCase() === ('C-shaped').toUpperCase()) {
+            } else if ((currentShape).toUpperCase() === ('C').toUpperCase()) {
                 dispatch(setDataToBeLoopedForPostRequest(cShapeMetricData, selectedSheet))
             } else if ((currentShape).toUpperCase() === ('Angles').toUpperCase()) {
                 dispatch(setDataToBeLoopedForPostRequest(anglesMetricData, selectedSheet))
-            } else if ((currentShape).toUpperCase() === ('T-shaped').toUpperCase()) {
+            } else if ((currentShape).toUpperCase() === ('T').toUpperCase()) {
                 dispatch(setDataToBeLoopedForPostRequest(tShapeMetricData, selectedSheet))
             } else if ((currentShape).toUpperCase() === ('Double Angles').toUpperCase()) {
                 dispatch(setDataToBeLoopedForPostRequest(doubleAnglesMetricData, selectedSheet))
@@ -198,14 +198,14 @@ const SheetCalculationNavigation = () => {
             } else if ((currentShape).toUpperCase() === ('Pipe').toUpperCase()) {
                 dispatch(setDataToBeLoopedForPostRequest(pipeMetricData, selectedSheet))
             }
-        } else if(system === 'English') {
-            if ((currentShape).toUpperCase() === ('I-shaped').toUpperCase()) {
+        } else if (system === 'English') {
+            if ((currentShape).toUpperCase() === ('I').toUpperCase()) {
                 dispatch(setDataToBeLoopedForPostRequest(iShapeEnglishData, selectedSheet))
-            } else if ((currentShape).toUpperCase() === ('C-shaped').toUpperCase()) {
+            } else if ((currentShape).toUpperCase() === ('C').toUpperCase()) {
                 dispatch(setDataToBeLoopedForPostRequest(cShapeEnglishData, selectedSheet))
             } else if ((currentShape).toUpperCase() === ('Angles').toUpperCase()) {
                 dispatch(setDataToBeLoopedForPostRequest(anglesEnglishData, selectedSheet))
-            } else if ((currentShape).toUpperCase() === ('T-shaped').toUpperCase()) {
+            } else if ((currentShape).toUpperCase() === ('T').toUpperCase()) {
                 dispatch(setDataToBeLoopedForPostRequest(tShapeEnglishData, selectedSheet))
             } else if ((currentShape).toUpperCase() === ('Double Angles').toUpperCase()) {
                 dispatch(setDataToBeLoopedForPostRequest(doubleAnglesEnglishData, selectedSheet))
@@ -220,7 +220,6 @@ const SheetCalculationNavigation = () => {
     }, [system, currentShape, method])
 
 
-
     // useEffect(() => {
     //     if(method === 'Design') {
     //         if(tabState === 'results') {
@@ -233,7 +232,7 @@ const SheetCalculationNavigation = () => {
         let body = []
         // alert("dataToBeLoopedForPostRequest == " + JSON.stringify(dataToBeLoopedForPostRequest));
         for (let loopedIndex in dataToBeLoopedForPostRequest) {
-
+            // alert("I made it here")
             for (let memberIndex in members) {
                 const memberId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'memberId'])
                 const sectionId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'sectionId'])
@@ -242,7 +241,8 @@ const SheetCalculationNavigation = () => {
                 let idObject = {
                     analysis: analysis,
                     method: method,
-                    units: units,
+                    units: units
+                    // units: 'Metric',
                 }
 
                 for (let factorsIndex in factors) {
@@ -258,14 +258,14 @@ const SheetCalculationNavigation = () => {
                     idObject['my'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'shearAlongYAxis']))
                     idObject['p'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'forces', 'axial']))
                 }
-                if(system === 'Metric') {
-                    if ((currentShape).toUpperCase() === ('I-shaped').toUpperCase()) {
+                if (system === 'Metric') {
+                    if ((currentShape).toUpperCase() === ('I').toUpperCase()) {
                         idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].i_shape_metric_name
-                    } else if ((currentShape).toUpperCase() === ('C-shaped').toUpperCase()) {
+                    } else if ((currentShape).toUpperCase() === ('C').toUpperCase()) {
                         idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].c_shape_metric_name
                     } else if ((currentShape).toUpperCase() === ('Angles').toUpperCase()) {
                         idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].l_shape_metric_name
-                    } else if ((currentShape).toUpperCase() === ('T-shaped').toUpperCase()) {
+                    } else if ((currentShape).toUpperCase() === ('T').toUpperCase()) {
                         idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].t_shape_metric_name
                     } else if ((currentShape).toUpperCase() === ('Double Angles').toUpperCase()) {
                         idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].two_l_shape_metric_name
@@ -276,14 +276,14 @@ const SheetCalculationNavigation = () => {
                     } else if ((currentShape).toUpperCase() === ('Pipe').toUpperCase()) {
                         idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].pipe_shape_metric_name
                     }
-                } else if(system === 'English') {
-                    if ((currentShape).toUpperCase() === ('I-shaped').toUpperCase()) {
+                } else if (system === 'English') {
+                    if ((currentShape).toUpperCase() === ('I').toUpperCase()) {
                         idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].i_shape_english_name
-                    } else if ((currentShape).toUpperCase() === ('C-shaped').toUpperCase()) {
+                    } else if ((currentShape).toUpperCase() === ('C').toUpperCase()) {
                         idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].c_shape_english_name
                     } else if ((currentShape).toUpperCase() === ('Angles').toUpperCase()) {
                         idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].l_shape_english_name
-                    } else if ((currentShape).toUpperCase() === ('T-shaped').toUpperCase()) {
+                    } else if ((currentShape).toUpperCase() === ('T').toUpperCase()) {
                         idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].t_shape_english_name
                     } else if ((currentShape).toUpperCase() === ('Double Angles').toUpperCase()) {
                         idObject['name'] = dataToBeLoopedForPostRequest[loopedIndex].two_l_shape_english_name
@@ -307,21 +307,33 @@ const SheetCalculationNavigation = () => {
                 idObject['cby'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'lateralTorsionalModificationFactor']))
                 idObject['s_rc'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'slendernessRatioInCompression']))
                 idObject['s_rt'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'LST']))
+                // if(system === 'Metric') {
+                //     alert("metric")
+                //     idObject['mod_e'] = parseFloat(materialHashMetric[materialId].EMPA)
+                //     idObject['yield_str'] = parseFloat(materialHashMetric[materialId].FYMPA)
+                //     idObject['ult_str'] = parseFloat(materialHashMetric[materialId].FUMPA)
+                // } else if(system === 'English') {
+                //     alert("english");
+                //     idObject['mod_e'] = parseFloat(materialHashEnglish[materialId].EMPA)
+                //     idObject['yield_str'] = parseFloat(materialHashEnglish[materialId].FYMPA)
+                //     idObject['ult_str'] = parseFloat(materialHashEnglish[materialId].FUMPA)
+                // }
                 idObject['mod_e'] = system === 'Metric' ? parseFloat(materialHashMetric[materialId].EMPA) : parseFloat(materialHashEnglish[materialId].EMPA)
                 idObject['yield_str'] = system === 'Metric' ? parseFloat(materialHashMetric[materialId].FYMPA) : parseFloat(materialHashEnglish[materialId].FYMPA)
-                idObject['ult_str'] = system === 'Metric' ? parseFloat(materialHashMetric[materialId].FUMPA) : parseFloat(materialHashEnglish[materialId].FYMPA)
+                idObject['ult_str'] = system === 'Metric' ? parseFloat(materialHashMetric[materialId].FUMPA) : parseFloat(materialHashEnglish[materialId].FUMPA)
                 idObject['shape'] = sectionHashMetric[sectionId].sectionShape
                 body.push(idObject)
+                // alert("the id object == " + JSON.stringify(idObject))
             }
         }
-        // alert("Hey I am called!")
+        alert("the body === " + JSON.stringify(body))
         axios.defaults.baseURL = 'http://localhost:8080'
-        if(system === 'Metric') {
+        if (system === 'Metric') {
             // alert("It's the metric");
             axios.post('/steelArgumentsDesign', body)
                 .then(res => dispatch(setCalculatedData(res.data, selectedSheet)))
                 .catch(err => console.log(err))
-        } else if(system === 'English') {
+        } else if (system === 'English') {
             // alert("oh my lawd")
             axios.post('/steelArgumentsDesignEnglish', body)
                 .then(res => dispatch(setCalculatedData(res.data, selectedSheet)))
@@ -331,7 +343,7 @@ const SheetCalculationNavigation = () => {
 
     const hashSections = useMemo(() => {
         let hash = {}
-        for(let i in sectionPropertiesMetric) {
+        for (let i in sectionPropertiesMetric) {
             let {
                 sectionId
             } = sectionPropertiesMetric[i]
@@ -340,8 +352,20 @@ const SheetCalculationNavigation = () => {
         return hash
     }, [sectionPropertiesMetric])
 
+    const hashSectionsEnglish = useMemo(() => {
+        let hash = {}
+        for (let i in sectionPropertiesEnglish) {
+            let {
+                sectionId
+            } = sectionPropertiesEnglish[i]
+            hash[sectionId] = sectionPropertiesEnglish[i]
+        }
+        return hash
+    }, [sectionPropertiesEnglish])
+
     const beamCalcDataSender = () => {
         let body = []
+
 
         for (let memberIndex in members) {
             const memberId = objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'memberId'])
@@ -350,14 +374,12 @@ const SheetCalculationNavigation = () => {
 
             let idObject = {}
 
-
-
-
             idObject['id'] = parseFloat(memberId)
             idObject['name'] = hashSections[sectionId].sectionName
             idObject['analysis'] = null
             idObject['method'] = analysis
             idObject['units'] = units
+            // idObject['units'] = 'Metric'
 
             for (let factorsIndex in factors) {
                 idObject['tensile_factor'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'factors', 'safetyFactorForTensile']))
@@ -384,16 +406,31 @@ const SheetCalculationNavigation = () => {
             idObject['cby'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'lateralTorsionalModificationFactor']))
             idObject['s_rc'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'slendernessRatioInCompression']))
             idObject['s_rt'] = parseFloat(objectChecker(sheets, ['sheets', selectedSheet, 'members', memberIndex, 'LST']))
+            // if(system === 'Metric') {
+            //     alert("metric")
+            //     idObject['mod_e'] = parseFloat(materialHashMetric[materialId].EMPA)
+            //     idObject['yield_str'] = parseFloat(materialHashMetric[materialId].FYMPA)
+            //     idObject['ult_str'] = parseFloat(materialHashMetric[materialId].FUMPA)
+            // } else if(system === 'English') {
+            //     alert("english");
+            //     idObject['mod_e'] = parseFloat(materialHashEnglish[materialId].EMPA)
+            //     idObject['yield_str'] = parseFloat(materialHashEnglish[materialId].FYMPA)
+            //     idObject['ult_str'] = parseFloat(materialHashEnglish[materialId].FUMPA)
+            // }
+            // alert("Mamamamama");
             idObject['mod_e'] = system === 'Metric' ? parseFloat(materialHashMetric[materialId].EMPA) : parseFloat(materialHashEnglish[materialId].EMPA)
             idObject['yield_str'] = system === 'Metric' ? parseFloat(materialHashMetric[materialId].FYMPA) : parseFloat(materialHashEnglish[materialId].FYMPA)
-            idObject['ult_str'] = system === 'Metric' ? parseFloat(materialHashMetric[materialId].FUMPA) : parseFloat(materialHashEnglish[materialId].FYMPA)
+            idObject['ult_str'] = system === 'Metric' ? parseFloat(materialHashMetric[materialId].FUMPA) : parseFloat(materialHashEnglish[materialId].FUMPA)
+            // idObject['mod_e'] = system === 'Metric' ? parseFloat(materialHashMetric[materialId].EMPA) : parseFloat(materialHashEnglish[materialId].EMPA)
+            // idObject['yield_str'] = system === 'Metric' ? parseFloat(materialHashMetric[materialId].FYMPA) : parseFloat(materialHashEnglish[materialId].FYMPA)
+            // idObject['ult_str'] = system === 'Metric' ? parseFloat(materialHashMetric[materialId].FUMPA) : parseFloat(materialHashEnglish[materialId].FUMPA)
             idObject['shape'] = sectionHashMetric[sectionId].sectionShape
             body.push(idObject)
         }
 
         console.log("the body == ", JSON.stringify(body))
         axios.defaults.baseURL = 'http://localhost:8080'
-
+        alert("the body === " + JSON.stringify(body));
         axios.post('/steelArguments', body)
             .then(res => dispatch(setCalculatedData(res.data, selectedSheet)))
             .catch(err => console.log(err))
@@ -458,7 +495,7 @@ const SheetCalculationNavigation = () => {
             }
         }
 
-        const shapes = ['I-shaped', 'C-shaped', 'Angles', 'T-shaped', 'Double Angles', 'Rectangular HSS', 'Pipe', 'Round HSS']
+        const shapes = ['I', 'C', 'Angles', 'T', 'Double Angles', 'Rectangular HSS', 'Pipe', 'Round HSS']
 
         if (method === 'Design') {
             let shapeState = false
@@ -475,14 +512,13 @@ const SheetCalculationNavigation = () => {
                     }
                 }
                 // if(!(insertedSectionPropertiesMetric[sectionIndex].sectionShape).includes('-') || !(insertedSectionPropertiesMetric[sectionIndex].sectionShape).includes('shaped')) {
-                //     arrayCheck.push("Section Shape must conform to format : *name of shape*-shaped. Exceptions: 'Angles', 'Double Angles', 'Rectangular HSS', 'Pipe'")
+                //     arrayCheck.push("Section Shape must conform to format : *name of shape*. Exceptions: 'Angles', 'Double Angles', 'Rectangular HSS', 'Pipe'")
                 //     // alert("Opps")
                 // }
             }
             if (shapeState == false) {
-                arrayCheck.push("Invalid section used. Make sure section shape conforms with format: *section name*-shaped.")
-                arrayCheck.push("i.e. 'I-shaped', 'C-shaped', 'T-shaped', 'Angles', etc.")
-                arrayCheck.push("Exceptions: 'Angles', 'Double Angles', 'Rectangular HSS', 'Pipe'")
+                arrayCheck.push("Invalid section used.")
+                arrayCheck.push("Valid Sections: I, C, Angles, T, Double Angles, Rectangular HSS, Pipe, Round HSS")
             }
         }
 

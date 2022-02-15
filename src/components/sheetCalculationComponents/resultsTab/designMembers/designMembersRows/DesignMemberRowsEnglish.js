@@ -55,31 +55,31 @@ const DesignMembersRows = () => {
 
     useEffect(() => {
         for (let index in insertedSectionEnglish) {
-            if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('I-shaped').toUpperCase()) {
+            if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('I').toUpperCase()) {
                 setDataToBeLooped(iShapeEnglishData)
-                // dispatch(setCurrentShape('I-shaped'))
+                // dispatch(setCurrentShape('I'))
                 dispatch(setDataToBeLoopedForPostRequest(iShapeEnglishData, selectedSheet))
-            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('C-shaped').toUpperCase()) {
+            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('C').toUpperCase()) {
                 setDataToBeLooped(cShapeEnglishData)
-                // dispatch(setCurrentShape('C-shaped'))
+                // dispatch(setCurrentShape('C'))
                 dispatch(setDataToBeLoopedForPostRequest(cShapeEnglishData, selectedSheet))
-            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Angles').toUpperCase()) {
+            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('L').toUpperCase()) {
                 setDataToBeLooped(anglesEnglishData)
                 // dispatch(setCurrentShape('Angles'))
                 dispatch(setDataToBeLoopedForPostRequest(anglesEnglishData, selectedSheet))
-            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('T-shaped').toUpperCase()) {
+            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('T').toUpperCase()) {
                 setDataToBeLooped(tShapeEnglishData)
-                // dispatch(setCurrentShape('T-shaped'))
+                // dispatch(setCurrentShape('T'))
                 dispatch(setDataToBeLoopedForPostRequest(tShapeEnglishData, selectedSheet))
-            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Double Angles').toUpperCase()) {
+            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('2L').toUpperCase()) {
                 setDataToBeLooped(doubleAnglesEnglishData)
                 // dispatch(setCurrentShape('Double Angles'))
                 dispatch(setDataToBeLoopedForPostRequest(doubleAnglesEnglishData, selectedSheet))
-            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Rectangular HSS').toUpperCase()) {
+            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('recHSS').toUpperCase()) {
                 setDataToBeLooped(recHSSEnglishData)
                 // dispatch(setCurrentShape('Rectangular HSS'))
                 dispatch(setDataToBeLoopedForPostRequest(recHSSEnglishData, selectedSheet))
-            } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Round HSS').toUpperCase()) {
+            } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('roundHSS').toUpperCase()) {
                 setDataToBeLooped(roundHSSEnglishData)
                 // dispatch(setCurrentShape('Round HSS'))
                 dispatch(setDataToBeLoopedForPostRequest(roundHSSEnglishData, selectedSheet))
@@ -93,19 +93,19 @@ const DesignMembersRows = () => {
 
     useEffect(() => {
         for (let index in insertedSectionEnglish) {
-            if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('I-shaped').toUpperCase()) {
+            if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('I').toUpperCase()) {
                 setDataName('i_shape_english_name')
-            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('C-shaped').toUpperCase()) {
+            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('C').toUpperCase()) {
                 setDataName('c_shape_english_name')
-            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Angles').toUpperCase()) {
+            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('L').toUpperCase()) {
                 setDataName('l_shape_english_name')
-            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('T-shaped').toUpperCase()) {
+            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('T').toUpperCase()) {
                 setDataName('t_shape_english_name')
-            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Double Angles').toUpperCase()) {
+            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('2L').toUpperCase()) {
                 setDataName('2l_shape_english_name')
-            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Rectangular HSS').toUpperCase()) {
+            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('recHSS').toUpperCase()) {
                 setDataName('rec_hs_shape_english_name')
-            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Round HSS').toUpperCase()) {
+            } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('roundHSS').toUpperCase()) {
                 setDataName('round_hs_shape_english_name')
             } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Pipe').toUpperCase()) {
                 setDataName('pipe_shape_english_name')

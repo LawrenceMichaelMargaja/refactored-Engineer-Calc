@@ -365,7 +365,7 @@ const Details = () => {
     }, [])
 
     return (
-        <Grid>
+        <Grid style={{width: '100%'}}>
             <Grid style={{
                 height: 'fit-content',
                 margin: '0 auto',
@@ -377,7 +377,7 @@ const Details = () => {
                 }}>
                     <div style={{
                         margin: '0 auto',
-                        width: '20%'
+                        // width: '20%'
                     }}>
                         <form key='projectUnitForm' className={classes.textField} noValidate autoComplete="off">
                             <TextField
@@ -411,7 +411,7 @@ const Details = () => {
                     </div>
                     <div style={{
                         margin: '0 auto',
-                        width: '20%'
+                        // width: '20%'
                     }}>
                         <form key='projectCompanyForm' className={classes.textField} noValidate autoComplete="off">
                             <TextField

@@ -213,7 +213,7 @@ const Members = () => {
                                         textAlign: 'center'
                                     }}>
                                         <p>
-                                            <strong>Member ID <sub></sub></strong>
+                                            <strong>Member ID<sub></sub></strong>
                                         </p>
                                     </div>
                                 </div>

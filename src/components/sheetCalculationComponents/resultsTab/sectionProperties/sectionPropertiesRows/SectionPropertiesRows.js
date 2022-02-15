@@ -109,6 +109,14 @@ const SectionPropertiesResultsRows = () => {
                 }
             }
 
+            const sectionPropertiesName = () => {
+                if(system === 'Metric') {
+                    return insertedSectionsMetric[index].sectionName
+                } else if(system === 'English') {
+                    return insertedSectionsEnglish[index].sectionName
+                }
+            }
+
             memberRows.push(
                 <div style={{
                     textAlign: 'center',
@@ -136,7 +144,7 @@ const SectionPropertiesResultsRows = () => {
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>{insertedSectionsMetric[index].sectionName}</strong>
+                            <strong>{sectionPropertiesName()}</strong>
                         </p>
                         <p style={{
                             width: '14.28%',

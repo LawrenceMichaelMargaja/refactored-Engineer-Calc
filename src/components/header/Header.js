@@ -25,6 +25,7 @@ const Header = () => {
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     const system = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
     const steelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesMetric'])
+    const steelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesEnglish'])
     const sectionsMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric'])
     const sectionsEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesEnglish'])
     const materials = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties'])
@@ -114,6 +115,7 @@ const Header = () => {
     const dataToBeLooped = objectChecker(sheets, ['sheets', selectedSheet, 'dataToBeLoopedForPostRequest'])
     const currentShape = objectChecker(sheets, ['sheets', selectedSheet, 'currentShape'])
     const insertedSteelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties'])
+    const insertedSteelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeEnglishProperties'])
     const latestMaterialMetricId = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'latestMaterialMetricId'])
 
 
@@ -154,7 +156,7 @@ const Header = () => {
                 {/*    wordWrap: 'break-word'*/}
                 {/*    // width: '50vw'*/}
                 {/*}}>*/}
-                {/*    {JSON.stringify(currentShape)}*/}
+                {/*    {JSON.stringify(insertedSteelTypesEnglish)}*/}
                 {/*</p>*/}
             </div>
             <div className={classes.root}>

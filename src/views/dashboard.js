@@ -18,6 +18,7 @@ import {size} from "lodash/collection";
 import EmptySheet from "../components/sheetCalculationComponents/emptySheet/emptySheet";
 import Errors from "../components/sheetCalculationComponents/errors/Errors";
 import {objectChecker} from "../utilities/utilities";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
     mainTab: {
@@ -37,7 +38,7 @@ const Dashboard = () => {
     const steelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesMetric'])
 
     return (
-        <div style={{margin: '0', padding: '0', backgroundColor: '#e1e1e1', height: '100vh'}}>
+        <Grid xs={12} style={{margin: '0', padding: '0', backgroundColor: '#e1e1e1', height: '100vh'}}>
             <BrowserRouter>
                 <Header/>
                 <MenuButtons/>
@@ -59,7 +60,7 @@ const Dashboard = () => {
                     {/*<SheetComponentsHandler/>*/}
                 </div>
             </BrowserRouter>
-        </div>
+        </Grid>
     )
 }
 export default Dashboard

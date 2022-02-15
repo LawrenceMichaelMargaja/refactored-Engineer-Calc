@@ -64,7 +64,7 @@ const SectionDimensionGraphs = () => {
 
     const renderIShape = () => {
         for (let i in insertedSectionPropertiesMetric) {
-            if ((insertedSectionPropertiesMetric[i].sectionShape).toUpperCase() === ('I-shaped').toUpperCase()) {
+            if ((insertedSectionPropertiesMetric[i].sectionShape).toUpperCase() === ('I').toUpperCase()) {
                 // alert("i shape");
                 setIShapeDisplay('initial')
                 setIShapePresent(true)
@@ -75,7 +75,7 @@ const SectionDimensionGraphs = () => {
 
     const renderCShape = () => {
         for (let i in insertedSectionPropertiesMetric) {
-            if ((insertedSectionPropertiesMetric[i].sectionShape).toUpperCase() === ('C-shaped').toUpperCase()) {
+            if ((insertedSectionPropertiesMetric[i].sectionShape).toUpperCase() === ('C').toUpperCase()) {
                 // alert("c shape");
                 setCShapeDisplay('initial')
                 setCShapePresent(true)
@@ -97,7 +97,7 @@ const SectionDimensionGraphs = () => {
 
     const renderTShape = () => {
         for (let i in insertedSectionPropertiesMetric) {
-            if ((insertedSectionPropertiesMetric[i].sectionShape).toUpperCase() === ('T-shaped').toUpperCase()) {
+            if ((insertedSectionPropertiesMetric[i].sectionShape).toUpperCase() === ('T').toUpperCase()) {
                 // alert("t shape");
                 setTShapeDisplay('initial')
                 setTShapePresent(true)

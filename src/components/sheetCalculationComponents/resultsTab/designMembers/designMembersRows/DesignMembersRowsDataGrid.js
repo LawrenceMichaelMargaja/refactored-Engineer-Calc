@@ -52,91 +52,6 @@ const DataGridDemo = () => {
     const currentShape = objectChecker(sheets, ['sheets', selectedSheet, 'currentSheets'])
     const dispatch = useDispatch()
 
-    // useEffect(() => {
-    //     for (let index in insertedSectionMetric) {
-    //         if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('I-shaped').toUpperCase()) {
-    //             alert("What's up man?");
-    //             setDataToBeLooped(iShapeMetricData)
-    //             // dispatch(setCurrentShape('I-shaped', selectedSheet))
-    //             dispatch(setDataToBeLoopedForPostRequest(iShapeMetricData, selectedSheet))
-    //         } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('C-shaped').toUpperCase()) {
-    //             setDataToBeLooped(cShapeMetricData)
-    //             // dispatch(setCurrentShape('C-shaped', selectedSheet))
-    //             dispatch(setDataToBeLoopedForPostRequest(cShapeMetricData, selectedSheet))
-    //         } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Angles').toUpperCase()) {
-    //             setDataToBeLooped(anglesMetricData)
-    //             // dispatch(setCurrentShape('Angles', selectedSheet))
-    //             dispatch(setDataToBeLoopedForPostRequest(anglesMetricData, selectedSheet))
-    //         } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('T-shaped').toUpperCase()) {
-    //             setDataToBeLooped(tShapeMetricData)
-    //             // dispatch(setCurrentShape('T-shaped', selectedSheet))
-    //             dispatch(setDataToBeLoopedForPostRequest(tShapeMetricData, selectedSheet))
-    //         } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Double Angles').toUpperCase()) {
-    //             setDataToBeLooped(doubleAnglesMetricData)
-    //             // dispatch(setCurrentShape('Double Angles', selectedSheet))
-    //             dispatch(setDataToBeLoopedForPostRequest(doubleAnglesMetricData, selectedSheet))
-    //         } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Rectangular HSS').toUpperCase()) {
-    //             setDataToBeLooped(recHSSMetricData)
-    //             // dispatch(setCurrentShape('Rectangular HSS', selectedSheet))
-    //             dispatch(setDataToBeLoopedForPostRequest(recHSSMetricData, selectedSheet))
-    //         } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Round HSS').toUpperCase()) {
-    //             setDataToBeLooped(roundHSSMetricData)
-    //             // dispatch(setCurrentShape('Round HSS', selectedSheet))
-    //             dispatch(setDataToBeLoopedForPostRequest(roundHSSMetricData, selectedSheet))
-    //         } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Pipe').toUpperCase()) {
-    //             setDataToBeLooped(pipeMetricData)
-    //             // dispatch(setCurrentShape('Pipe', selectedSheet))
-    //             dispatch(setDataToBeLoopedForPostRequest(pipeMetricData, selectedSheet))
-    //         }
-    //     }
-    // }, [])
-
-    // useEffect(() => {
-    //     if(system === 'Metric') {
-    //         for (let index in insertedSectionMetric) {
-    //             if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('I-shaped').toUpperCase()) {
-    //                 alert("Heelo")
-    //                 setDataName('i_shape_metric_name')
-    //             } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('C-shaped').toUpperCase()) {
-    //                 setDataName('c_shape_metric_name')
-    //             } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Angles').toUpperCase()) {
-    //                 setDataName('l_shape_metric_name')
-    //             } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('T-shaped').toUpperCase()) {
-    //                 setDataName('t_shape_metric_name')
-    //             } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Double Angles').toUpperCase()) {
-    //                 setDataName('2l_shape_metric_name')
-    //             } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Rectangular HSS').toUpperCase()) {
-    //                 setDataName('rec_hs_shape_metric_name')
-    //             } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Round HSS').toUpperCase()) {
-    //                 setDataName('round_hs_shape_metric_name')
-    //             } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Pipe').toUpperCase()) {
-    //                 setDataName('pipe_shape_metric_name')
-    //             }
-    //         }
-    //     } else if(system === 'English') {
-    //         for (let index in insertedSectionEnglish) {
-    //             if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('I-shaped').toUpperCase()) {
-    //                 alert("english hello")
-    //                 setDataName('i_shape_metric_name')
-    //             } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('C-shaped').toUpperCase()) {
-    //                 setDataName('c_shape_metric_name')
-    //             } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Angles').toUpperCase()) {
-    //                 setDataName('l_shape_metric_name')
-    //             } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('T-shaped').toUpperCase()) {
-    //                 setDataName('t_shape_metric_name')
-    //             } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Double Angles').toUpperCase()) {
-    //                 setDataName('2l_shape_metric_name')
-    //             } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Rectangular HSS').toUpperCase()) {
-    //                 setDataName('rec_hs_shape_metric_name')
-    //             } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Round HSS').toUpperCase()) {
-    //                 setDataName('round_hs_shape_metric_name')
-    //             } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Pipe').toUpperCase()) {
-    //                 setDataName('pipe_shape_metric_name')
-    //             }
-    //         }
-    //     }
-    // }, [])
-
     const columns = [
         {
             field: 'id',
@@ -216,8 +131,9 @@ const DataGridDemo = () => {
         } else {
             let criticalValue = null
             console.log("The new calculated Data === ", JSON.stringify(calculatedData));
+            let id = 1
             const newOptions = calculatedData.map((data) => ({
-                id: `${data.id}`,
+                id: id++,
                 section: `${data.name}`,
                 overallDepth: `${data.overall_depth}`,
                 weight: `${data.weight}`,

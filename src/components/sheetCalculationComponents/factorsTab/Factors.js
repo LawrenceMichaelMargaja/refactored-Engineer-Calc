@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     input: {
-        width: '20rem'
+        // width: '20rem'
     }
 }));
 
@@ -91,7 +91,7 @@ const Factors = () => {
                         display: 'flex'
                     }}>
                         <form className={classes.textField} noValidate autoComplete="off">
-                            <p style={{margin: '0 8px', width: '20rem', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}> <strong>{factorsSymbolHandler()}<sub>t</sub></strong></p>
+                            <p style={{margin: '0 8px', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}> <strong>{factorsSymbolHandler()}<sub>t</sub></strong></p>
                             <TextField
                                 className={classes.input}
                                 label={'Safety factor for tensile'}
@@ -102,7 +102,7 @@ const Factors = () => {
                             />
                         </form>
                         <form className={classes.textField} noValidate autoComplete="off">
-                            <p style={{margin: '0 8px', width: '20rem', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}> <strong>{factorsSymbolHandler()}<sub>c</sub></strong></p>
+                            <p style={{margin: '0 8px', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}> <strong>{factorsSymbolHandler()}<sub>c</sub></strong></p>
                             <TextField
                                 className={classes.input}
                                 label={'Safety factor for compression'}
@@ -113,7 +113,7 @@ const Factors = () => {
                             />
                         </form>
                         <form className={classes.textField} noValidate autoComplete="off">
-                            <p style={{margin: '0 8px', width: '20rem', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}> <strong>{factorsSymbolHandler()}<sub>b</sub></strong></p>
+                            <p style={{margin: '0 8px', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}> <strong>{factorsSymbolHandler()}<sub>b</sub></strong></p>
                             <TextField
                                 className={classes.input}
                                 label={'Safety factor for flexure'}
@@ -124,7 +124,7 @@ const Factors = () => {
                             />
                         </form>
                         <form className={classes.textField} noValidate autoComplete="off">
-                            <p style={{margin: '0 8px', width: '20rem', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}> <strong>{factorsSymbolHandler()}<sub>v</sub></strong></p>
+                            <p style={{margin: '0 8px', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}> <strong>{factorsSymbolHandler()}<sub>v</sub></strong></p>
                             <TextField
                                 className={classes.input}
                                 label={'Safety factor for shear'}
