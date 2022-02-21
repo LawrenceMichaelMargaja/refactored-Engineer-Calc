@@ -8,6 +8,7 @@ const MemberDesignRatioRows = () => {
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     const members = objectChecker(sheets, ['sheets', selectedSheet, 'members'])
     const calculatedData = objectChecker(sheets, ['sheets', selectedSheet, 'calculatedData'])
+    const method = objectChecker(sheets, ['sheets', selectedSheet, 'method'])
 
     let memberRows = []
 
@@ -131,7 +132,7 @@ const MemberDesignRatioRows = () => {
                 >
                     <div style={{
                         display: 'flex',
-                        padding: '0 15px 0 15px',
+                        padding: method === 'Investigation' ? '0px 15px 0px 15px' : '0px',
                     }}
                     >
                         <p style={{

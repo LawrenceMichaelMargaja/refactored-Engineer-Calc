@@ -22,6 +22,7 @@ import {
     resetMetricSectionProperties
 } from "../../../store/actions/sheets/sheetCalculationComponents/sectionProperties/sectionProperties";
 import {useNavigate} from "react-router";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
     dropDown: {
@@ -96,25 +97,25 @@ const SystemDropdown = () => {
         }
     }
 
-    const getMaterialProperties = () => {
-        if(systemValue === 'Metric') {
-            fetch("http://127.0.0.1:8080/steeltypesmetric")
-                .then((response) => response.json())
-                .then((data) => dispatch(getSteelTypesMetricAPI(data, selectedSheet)))
-                //     .then((data) => alert(JSON.stringify(data)))
-                .catch((error) => {
-                    console.log(error)
-                });
-        } else if(systemValue === 'English') {
-            fetch("http://127.0.0.1:8080/steeltypesenglish")
-                .then((response) => response.json())
-                .then((data) => dispatch(getSteelTypesEnglishAPI(data, selectedSheet)))
-                //     .then((data) => alert(JSON.stringify(data)))
-                .catch((error) => {
-                    console.log(error)
-                });
-        }
-    }
+    // const getMaterialProperties = () => {
+    //     if(systemValue === 'Metric') {
+    //         axios.get("http://127.0.0.1:8080/steeltypesmetric")
+    //             // .then((response) => response.json())
+    //             .then((data) => dispatch(getSteelTypesMetricAPI(data, selectedSheet)))
+    //             //     .then((data) => alert(JSON.stringify(data)))
+    //             .catch((error) => {
+    //                 console.log(error)
+    //             });
+    //     } else if(systemValue === 'English') {
+    //         axios.get("http://127.0.0.1:8080/steeltypesenglish")
+    //             // .then((response) => response.json())
+    //             .then((data) => dispatch(getSteelTypesEnglishAPI(data, selectedSheet)))
+    //             //     .then((data) => alert(JSON.stringify(data)))
+    //             .catch((error) => {
+    //                 console.log(error)
+    //             });
+    //     }
+    // }
 
 
     return (
@@ -130,7 +131,7 @@ const SystemDropdown = () => {
                     defaultValue={systemValue}
                     onChange={(event) => {
                         handleChange(event)
-                        getMaterialProperties()
+                        // getMaterialProperties()
                     }}
                 >
                     <MenuItem value={'Metric'}>Metric</MenuItem>

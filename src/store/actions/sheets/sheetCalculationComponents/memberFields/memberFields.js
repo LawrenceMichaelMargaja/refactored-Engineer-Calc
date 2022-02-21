@@ -1,13 +1,13 @@
 import {
     ADD_INITIAL_MEMBER, CLEAR_REMOVED_MEMBERS_ARRAY, REMOVE_ALL_MEMBER_ROWS,
-    REMOVE_MEMBER_ROW, RESET_MEMBER_FIELDS,
+    REMOVE_MEMBER_ROW, RESET_MEMBER_FIELDS, SET_ALL_MEMBER_INDEX, SET_ALL_MEMBER_VALUES,
     SET_LATERAL_TORSIONAL_MODIFICATION_FACTOR,
     SET_LLT,
     SET_LST,
     SET_MATERIAL_ID,
     SET_MEMBER_ID,
     SET_REMOVED_MEMBER_ROW_ARRAY,
-    SET_SECTION_ID,
+    SET_SECTION_ID, SET_SELECTED_MEMBER_INDEX,
     SET_SLENDERNESS_RATIO_IN_COMPRESSION,
     SET_SLENDERNESS_RATIO_IN_TENSION,
     SET_TOTAL_LENGTH_OF_MEMBER,
@@ -18,6 +18,27 @@ import {
     SET_Z_AXIS_UNBRACED_LENGTH,
     SHIFT_REMOVED_MEMBER_ROW_ARRAY
 } from "../../../actionTypes";
+
+export const setSelectedMemberIndex = (data, sheetIndex) => {
+    return {
+        type: SET_SELECTED_MEMBER_INDEX,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const setAllMemberIndex = (data, sheetIndex) => {
+    return {
+        type: SET_ALL_MEMBER_INDEX,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const setAllMemberValues = (data, sheetIndex, memberIndex) => {
+    return {
+        type: SET_ALL_MEMBER_VALUES,
+        payload: {data: data, sheetIndex: sheetIndex, memberIndex: memberIndex}
+    }
+}
 
 export const addInitialMember = (data, sheetIndex) => {
     return {

@@ -24,6 +24,7 @@ const Header = () => {
     const sheetTabs = useSelector(state => state.sheets.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     const system = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
+    const apiSectionsMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'sectionPropertiesMetric'])
     const steelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesMetric'])
     const steelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesEnglish'])
     const sectionsMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric'])
@@ -117,6 +118,7 @@ const Header = () => {
     const insertedSteelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties'])
     const insertedSteelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeEnglishProperties'])
     const latestMaterialMetricId = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'latestMaterialMetricId'])
+    const selectedMemberIndex = objectChecker(sheets, ['sheets', selectedSheet, 'selectedMemberIndex'])
 
 
 
@@ -144,20 +146,20 @@ const Header = () => {
         <div>
             <div>
                 {/*{listSectionIds()}*/}
-                {/*<p style={{*/}
-                {/*    padding: '2em',*/}
-                {/*    wordWrap: 'break-word'*/}
-                {/*    // width: '50vw'*/}
-                {/*}}>*/}
-                {/*    {JSON.stringify(latestMaterialMetricId)}*/}
-                {/*</p>*/}
-                {/*<p style={{*/}
-                {/*    padding: '2em',*/}
-                {/*    wordWrap: 'break-word'*/}
-                {/*    // width: '50vw'*/}
-                {/*}}>*/}
-                {/*    {JSON.stringify(insertedSteelTypesEnglish)}*/}
-                {/*</p>*/}
+                <p style={{
+                    padding: '2em',
+                    wordWrap: 'break-word'
+                    // width: '50vw'
+                }}>
+                    {JSON.stringify(members)}
+                </p>
+                <p style={{
+                    padding: '2em',
+                    wordWrap: 'break-word'
+                    // width: '50vw'
+                }}>
+                    {JSON.stringify(selectedMemberIndex)}
+                </p>
             </div>
             <div className={classes.root}>
                 <div className={classes.titleContainer}>

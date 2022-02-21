@@ -88,33 +88,33 @@ const SectionProperties = () => {
 
     const [openNestedModal, setOpenNestedModal] = useState(false);
 
-    const fetchShapes = () => {
-        fetch("http://127.0.0.1:8080/shape")
-            .then((response) => response.json())
-            .then((data) => dispatch(getShapes(data, selectedSheet)))
-            .catch((error) => {
-                console.log(error)
-            })
-    }
+    // const fetchShapes = () => {
+    //     fetch("http://127.0.0.1:8080/shape")
+    //         .then((response) => response.json())
+    //         .then((data) => dispatch(getShapes(data, selectedSheet)))
+    //         .catch((error) => {
+    //             console.log(error)
+    //         })
+    // }
 
-    const getMetricSectionProperties = () => {
-        fetch("http://127.0.0.1:8080/sectionpropertiesmetric")
-            .then((response) => response.json())
-            .then((data) => dispatch(getSectionPropertiesMetric(data, selectedSheet)))
-            // .then((data) => console.log(sectionPropertiesMetric))
-            .catch((error) => {
-                console.log(error)
-            });
-    }
-
-    const getEnglishSectionProperties = () => {
-        fetch("http://127.0.0.1:8080/sectionpropertiesenglish")
-            .then((response) => response.json())
-            .then((data) => dispatch(getSectionPropertiesEnglish(data, selectedSheet)))
-            .catch((error) => {
-                console.log(error)
-            });
-    }
+    // const getMetricSectionProperties = () => {
+    //     fetch("http://127.0.0.1:8080/sectionpropertiesmetric")
+    //         .then((response) => response.json())
+    //         .then((data) => dispatch(getSectionPropertiesMetric(data, selectedSheet)))
+    //         // .then((data) => console.log(sectionPropertiesMetric))
+    //         .catch((error) => {
+    //             console.log(error)
+    //         });
+    // }
+    //
+    // const getEnglishSectionProperties = () => {
+    //     fetch("http://127.0.0.1:8080/sectionpropertiesenglish")
+    //         .then((response) => response.json())
+    //         .then((data) => dispatch(getSectionPropertiesEnglish(data, selectedSheet)))
+    //         .catch((error) => {
+    //             console.log(error)
+    //         });
+    // }
 
     const hashMetric = useMemo(() => {
         let hash = {}
@@ -321,28 +321,28 @@ const SectionProperties = () => {
      * end of API Data per shape.
      */
 
-    useEffect(() => {
-        fetchShapes()
-        getMetricSectionProperties()
-        getEnglishSectionProperties()
-    }, [])
+    // useEffect(() => {
+    //     fetchShapes()
+    //     getMetricSectionProperties()
+    //     getEnglishSectionProperties()
+    // }, [])
 
     const handleOpenNestedModal = () => {
         setOpenNestedModal(true);
     };
 
-    const fetchCShapeEnglish = () => {
-        fetch("http://127.0.0.1:8080/cshapeenglish")
-            .then((response) => response.json())
-            .then((data) => dispatch(getCShapeEnglish(data, selectedSheet)))
-            .catch((error) => {
-                console.log(error)
-            })
-    }
-
-    useEffect(() => {
-        fetchCShapeEnglish()
-    }, [])
+    // const fetchCShapeEnglish = () => {
+    //     fetch("http://127.0.0.1:8080/cshapeenglish")
+    //         .then((response) => response.json())
+    //         .then((data) => dispatch(getCShapeEnglish(data, selectedSheet)))
+    //         .catch((error) => {
+    //             console.log(error)
+    //         })
+    // }
+    //
+    // useEffect(() => {
+    //     fetchCShapeEnglish()
+    // }, [])
 
 
     const NestedModal = () => {
@@ -363,15 +363,15 @@ const SectionProperties = () => {
                     return displayIShapesMetric()
                 } else if(selectedSectionShape === 'C') {
                     return displayCShapesMetric()
-                } else if(selectedSectionShape === 'Angles') {
+                } else if(selectedSectionShape === 'L') {
                     return displayLShapesMetric()
                 } else if(selectedSectionShape === 'T') {
                     return displayTShapesMetric()
-                } else if(selectedSectionShape === 'Double Angles') {
+                } else if(selectedSectionShape === '2L') {
                     return display2LShapesMetric()
-                } else if(selectedSectionShape === 'Rectangular HSS') {
+                } else if(selectedSectionShape === 'recHSS') {
                     return displayRecHSShapesMetric()
-                } else if(selectedSectionShape === 'Round HSS') {
+                } else if(selectedSectionShape === 'roundHSS') {
                     return displayRoundHSShapesMetric()
                 } else if(selectedSectionShape === 'Pipe') {
                     return displayPipeShapesMetric()

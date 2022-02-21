@@ -86,7 +86,7 @@ const SectionDimensionGraphs = () => {
 
     const renderAngles = () => {
         for (let i in insertedSectionPropertiesMetric) {
-            if ((insertedSectionPropertiesMetric[i].sectionShape).toUpperCase() === ('Angles').toUpperCase()) {
+            if ((insertedSectionPropertiesMetric[i].sectionShape).toUpperCase() === ('L').toUpperCase()) {
                 // alert("angles");
                 setAnglesDisplay('initial')
                 setAnglesPresent(true)
@@ -108,7 +108,7 @@ const SectionDimensionGraphs = () => {
 
     const renderDoubleAngles = () => {
         for (let i in insertedSectionPropertiesMetric) {
-            if ((insertedSectionPropertiesMetric[i].sectionShape).toUpperCase() === ('Double Angles').toUpperCase()) {
+            if ((insertedSectionPropertiesMetric[i].sectionShape).toUpperCase() === ('2L').toUpperCase()) {
                 // alert("double angles");
                 setDoubleAnglesDisplay('initial')
                 setDoubleAnglePresent(true)
@@ -119,7 +119,7 @@ const SectionDimensionGraphs = () => {
 
     const renderRectangularHS = () => {
         for (let i in insertedSectionPropertiesMetric) {
-            if ((insertedSectionPropertiesMetric[i].sectionShape).toUpperCase() === ('Rectangular HSS').toUpperCase()) {
+            if ((insertedSectionPropertiesMetric[i].sectionShape).toUpperCase() === ('recHSS').toUpperCase()) {
                 // alert("rec shape");
                 setRectangularDisplay('initial')
                 setDoubleAnglePresent(true)
@@ -130,7 +130,7 @@ const SectionDimensionGraphs = () => {
 
     const renderRoundAndPipeShape = () => {
         for (let i in insertedSectionPropertiesMetric) {
-            if ((insertedSectionPropertiesMetric[i].sectionShape).toUpperCase() === ('Round HSS').toUpperCase() || (insertedSectionPropertiesMetric[i].sectionShape).toUpperCase() === ('Pipe').toUpperCase()) {
+            if ((insertedSectionPropertiesMetric[i].sectionShape).toUpperCase() === ('roundHSS').toUpperCase() || (insertedSectionPropertiesMetric[i].sectionShape).toUpperCase() === ('Pipe').toUpperCase()) {
                 // alert("round and pipe shape");
                 setRoundHSAndPipeDisplay('initial')
                 setRoundHSAndPipeShapePresent(true)

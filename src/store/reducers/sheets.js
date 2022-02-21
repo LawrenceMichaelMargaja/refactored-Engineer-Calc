@@ -115,7 +115,8 @@ import {
     SET_Y_AXIS_UNBRACED_LENGTH,
     SET_Z_AXIS_EFFECTIVE_LENGTH_FACTOR,
     SET_Z_AXIS_UNBRACED_LENGTH,
-    SHIFT_REMOVED_MEMBER_ROW_ARRAY
+    SHIFT_REMOVED_MEMBER_ROW_ARRAY,
+    SET_ALL_MEMBER_VALUES, SET_SELECTED_MEMBER_INDEX, SET_ALL_MEMBER_INDEX
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -138,6 +139,7 @@ const initialState = {
             currentShape: 'I',
             route: '',
             calculatedData: null,
+            selectedMemberIndex: 0,
             apiData: {
                 designMemberMetric: [],
                 designMemberEnglish: [],
@@ -529,8 +531,44 @@ const Reducer = (state = initialState, action) => {
             return addSheetName(state, action.payload)
         case CLEAR_CALCULATED_DATA:
             return clearCalculatedData(state, action.payload)
+        case SET_ALL_MEMBER_VALUES:
+            return setAllMemberValues(state, action.payload)
+        case SET_SELECTED_MEMBER_INDEX:
+            return setSelectedMemberIndex(state, action.payload)
+        case SET_ALL_MEMBER_INDEX:
+            return setAllMemberIndex(state, action.payload)
         default:
             return state
+    }
+}
+
+const setSelectedMemberIndex = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                selectedMemberIndex: payload.data
+            }
+        }
+    }
+}
+
+const setAllMemberValues = (state, payload) => {
+    // alert("payload.data == " + JSON.stringify(payload.data));
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                members: {
+                    ...state.sheets[payload.sheetIndex].members,
+                    [payload.memberIndex]: payload.data
+                }
+            }
+        }
     }
 }
 
@@ -1673,6 +1711,19 @@ const setAxial = (state, payload) => {
  */
 
 const addInitialMember = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                members: payload.data
+            }
+        }
+    }
+}
+
+const setAllMemberIndex = (state, payload) => {
     return {
         ...state,
         sheets: {

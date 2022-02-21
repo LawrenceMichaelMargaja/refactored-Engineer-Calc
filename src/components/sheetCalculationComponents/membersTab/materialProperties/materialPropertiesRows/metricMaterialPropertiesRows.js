@@ -40,6 +40,7 @@ const MetricMaterialPropertiesRows = () => {
     const materialPropertiesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeEnglishProperties'])
     // const steelTypesMetric = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesMetric)
     const steelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesMetric'])
+    // const steelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesMetric'])
     // const steelTypesEnglish = useSelector(state => state.sheets.sheets[selectedSheet].apiData.steelTypesEnglish)
     const steelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesEnglish'])
     // const currentMetricMaterialPropertyIndex = useSelector(state => state.sheets.sheets[selectedSheet].apiMap.currentMetricMaterialPropertyIndex)
@@ -1005,7 +1006,8 @@ const MetricMaterialPropertiesRows = () => {
                         console.log("insertedSteelTypesMetric[materialPropertyIndex].name == " + insertedSteelTypesMetric[materialPropertyIndex].name)
                         return "nullss"
                     } else {
-                        // alert("steelTypesMetric" + JSON.stringify(steelTypesMetric));
+                        // alert("the steel Types metric == ", + JSON.stringify(steelTypesMetric));
+                        // alert("steelTypesMetric" + JSON.stringify(insertedSteelTypesMetric[materialPropertyIndex].name));
                         return hashMetric[insertedSteelTypesMetric[materialPropertyIndex].name].steel_type_metric_e
                     }
                 } else {

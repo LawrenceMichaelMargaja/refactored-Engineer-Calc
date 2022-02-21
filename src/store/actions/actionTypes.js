@@ -124,6 +124,9 @@ export const SET_AXIAL = '@@sheets/SET_AXIAL'
 /**
  * Sheet MemberFields
  */
+export const SET_ALL_MEMBER_INDEX = '@@sheets/SET_ALL_MEMBER_INDEX'
+export const SET_SELECTED_MEMBER_INDEX = '@@sheets/SET_SELECTED_MEMBER_INDEX'
+export const SET_ALL_MEMBER_VALUES = '@@sheets/SET_ALL_MEMBER_VALUES'
 export const ADD_INITIAL_MEMBER = '@@sheets/ADD_INITIAL_MEMBER'
 export const REMOVE_MEMBER_ROW = '@@sheets/REMOVE_MEMBER_ROW'
 export const REMOVE_ALL_MEMBER_ROWS = '@@sheets/REMOVE_ALL_MEMBER_ROWS'

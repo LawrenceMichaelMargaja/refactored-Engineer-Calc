@@ -63,7 +63,7 @@ const Forces = () => {
     }
 
     const unitHandlerForBendingFunc = () => {
-        if(system === 'Metric') {
+        if (system === 'Metric') {
             return 'kN-m'
         } else {
             return 'kips-ft'
@@ -71,7 +71,7 @@ const Forces = () => {
     }
 
     const unitHandlerForShearAndAxialFunc = () => {
-        if(system === 'Metric') {
+        if (system === 'Metric') {
             return 'kN'
         } else {
             return 'kips'
@@ -86,19 +86,19 @@ const Forces = () => {
 
 
     const focusValueChecker = (event) => {
-        if(event.target.value === 0 || event.target.value === '0') {
-            if(document.activeElement.id === 'bendingMomentAlongXAxis') {
+        if (event.target.value === 0 || event.target.value === '0') {
+            if (document.activeElement.id === 'bendingMomentAlongXAxis') {
                 dispatch(setBendingMomentAlongXAxis(null, selectedSheet))
-            } else if(document.activeElement.id === 'bendingMomentAlongYAxis') {
+            } else if (document.activeElement.id === 'bendingMomentAlongYAxis') {
                 dispatch(setBendingMomentAlongYAxis(null, selectedSheet))
-            } else if(document.activeElement.id === 'shearAlongXAxis') {
+            } else if (document.activeElement.id === 'shearAlongXAxis') {
                 dispatch(setShearAlongXAxis(null, selectedSheet))
-            } else if(document.activeElement.id === 'shearAlongYAxis') {
-                dispatch(setShearAlongYAxis(null,selectedSheet))
-            } else if(document.activeElement.id === 'axial') {
+            } else if (document.activeElement.id === 'shearAlongYAxis') {
+                dispatch(setShearAlongYAxis(null, selectedSheet))
+            } else if (document.activeElement.id === 'axial') {
                 dispatch(setAxial(null, selectedSheet))
             }
-        } else if(event.target.value !== '0') {
+        } else if (event.target.value !== '0') {
             return
         }
     }
@@ -118,116 +118,139 @@ const Forces = () => {
     }
 
     return (
-        <Grid>
-            <Grid style={{
-                width: '100%',
-                height: 'fit-content',
-                margin: '0 auto'
+        <Grid style={{
+            width: '100%',
+            height: 'fit-content',
+            margin: '0 auto'
+        }}>
+            <Card style={{
+                height: '100%',
+                padding: '10px',
             }}>
-                <Card style={{
-                    height: '100%',
-                    padding: '10px',
+                <div style={{
+                    marginTop: '2em',
+                    marginBottom: '2em',
+                    // marginLeft: '1em',
+                    display: 'flex'
                 }}>
-                    <div style={{
-                        marginTop: '2em',
-                        marginBottom: '2em',
-                        // marginLeft: '1em',
-                        display: 'flex'
-                    }}>
-                        <form key='bendingMomentAlongXAxis' className={classes.textField} noValidate autoComplete="off">
-                            <div style={{margin: '0 8px', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}>
-                                <strong>Mx({unitHandlerForBendingFunc()})</strong>
-                                <sub> </sub>
-                            </div>
-                            <TextField
-                                type='number'
-                                id='bendingMomentAlongXAxis'
-                                className={classes.input}
-                                label={`Bending Moment along X-axis`}
-                                variant="outlined"
-                                type='number'
-                                value={bendingMomentAlongXAxisValue}
-                                onFocus={(event) => focusValueChecker(event)}
-                                onBlur={(event) => blurValueChecker(event)}
-                                onChange={(event) => bendingMomentAlongXAxisHandler(event)}
-                            />
-                        </form>
-                        <form key='bendingMomentAlongYAxis' className={classes.textField} noValidate autoComplete="off">
-                            <div style={{margin: '0 8px', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}>
-                                <strong>My({unitHandlerForBendingFunc()})</strong>
-                                <sub> </sub>
-                            </div>
-                            <TextField
-                                type='number'
-                                id='bendingMomentAlongYAxis'
-                                className={classes.input}
-                                label={`Bending Moment along Y-axis`}
-                                variant="outlined"
-                                type='number'
-                                onFocus={(event) => focusValueChecker(event)}
-                                onBlur={(event) => blurValueChecker(event)}
-                                value={bendingMomentAlongYAxisValue}
-                                onChange={(event) => bendingMomentAlongYAxisHandler(event)}
-                            />
-                        </form>
-                        <form key='shearAlongXAxis' className={classes.textField} noValidate autoComplete="off">
-                            <div style={{margin: '0 8px', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}>
-                                <strong>Vx({unitHandlerForShearAndAxialFunc()})</strong>
-                                <sub> </sub>
-                            </div>
-                            <TextField
-                                type='number'
-                                id='shearAlongXAxis'
-                                className={classes.input}
-                                label={`Shear along X-axis`}
-                                variant="outlined"
-                                type='number'
-                                onFocus={(event) => focusValueChecker(event)}
-                                onBlur={(event) => blurValueChecker(event)}
-                                value={shearAlongXAxisValue}
-                                onChange={(event) => shearAlongXAxisHandler(event)}
-                            />
+                    <form key='bendingMomentAlongXAxis' className={classes.textField} noValidate autoComplete="off">
+                        <div style={{
+                            margin: '0 8px',
+                            textAlign: 'initial',
+                            borderBottom: '1px solid black',
+                            paddingLeft: '15px'
+                        }}>
+                            <strong>Mx({unitHandlerForBendingFunc()})</strong>
+                            <sub> </sub>
+                        </div>
+                        <TextField
+                            type='number'
+                            id='bendingMomentAlongXAxis'
+                            className={classes.input}
+                            label={`Bending Moment along X-axis`}
+                            variant="outlined"
+                            type='number'
+                            value={bendingMomentAlongXAxisValue}
+                            onFocus={(event) => focusValueChecker(event)}
+                            onBlur={(event) => blurValueChecker(event)}
+                            onChange={(event) => bendingMomentAlongXAxisHandler(event)}
+                        />
+                    </form>
+                    <form key='bendingMomentAlongYAxis' className={classes.textField} noValidate autoComplete="off">
+                        <div style={{
+                            margin: '0 8px',
+                            textAlign: 'initial',
+                            borderBottom: '1px solid black',
+                            paddingLeft: '15px'
+                        }}>
+                            <strong>My({unitHandlerForBendingFunc()})</strong>
+                            <sub> </sub>
+                        </div>
+                        <TextField
+                            type='number'
+                            id='bendingMomentAlongYAxis'
+                            className={classes.input}
+                            label={`Bending Moment along Y-axis`}
+                            variant="outlined"
+                            type='number'
+                            onFocus={(event) => focusValueChecker(event)}
+                            onBlur={(event) => blurValueChecker(event)}
+                            value={bendingMomentAlongYAxisValue}
+                            onChange={(event) => bendingMomentAlongYAxisHandler(event)}
+                        />
+                    </form>
+                    <form key='shearAlongXAxis' className={classes.textField} noValidate autoComplete="off">
+                        <div style={{
+                            margin: '0 8px',
+                            textAlign: 'initial',
+                            borderBottom: '1px solid black',
+                            paddingLeft: '15px'
+                        }}>
+                            <strong>Vx({unitHandlerForShearAndAxialFunc()})</strong>
+                            <sub> </sub>
+                        </div>
+                        <TextField
+                            type='number'
+                            id='shearAlongXAxis'
+                            className={classes.input}
+                            label={`Shear along X-axis`}
+                            variant="outlined"
+                            type='number'
+                            onFocus={(event) => focusValueChecker(event)}
+                            onBlur={(event) => blurValueChecker(event)}
+                            value={shearAlongXAxisValue}
+                            onChange={(event) => shearAlongXAxisHandler(event)}
+                        />
 
-                        </form>
-                        <form key='shearAlongYAxis' className={classes.textField} noValidate autoComplete="off">
-                            <div style={{margin: '0 8px', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}>
-                                <strong>Vy({unitHandlerForShearAndAxialFunc()})</strong>
-                                <sub> </sub>
-                            </div>
-                            <TextField
-                                type='number'
-                                id='shearAlongYAxis'
-                                className={classes.input}
-                                label={`Shear along Y-axis`}
-                                variant="outlined"
-                                type='number'
-                                onFocus={(event) => focusValueChecker(event)}
-                                onBlur={(event) => blurValueChecker(event)}
-                                value={shearAlongYAxisValue}
-                                onChange={(event) => shearAlongYAxisHandler(event)}
-                            />
-                        </form>
-                        <form key='axial' className={classes.textField} noValidate autoComplete="off">
-                            <div style={{margin: '0 8px', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}>
-                                <strong>P({unitHandlerForShearAndAxialFunc()})</strong>
-                                <sub> </sub>
-                            </div>
-                            <TextField
-                                type='number'
-                                id='axial'
-                                className={classes.input}
-                                label={`Axial`}
-                                variant="outlined"
-                                type='number'
-                                onFocus={(event) => focusValueChecker(event)}
-                                onBlur={(event) => blurValueChecker(event)}
-                                value={axialValue}
-                                onChange={(event) => axialHandler(event)}
-                            />
-                        </form>
-                    </div>
-                </Card>
-            </Grid>
+                    </form>
+                    <form key='shearAlongYAxis' className={classes.textField} noValidate autoComplete="off">
+                        <div style={{
+                            margin: '0 8px',
+                            textAlign: 'initial',
+                            borderBottom: '1px solid black',
+                            paddingLeft: '15px'
+                        }}>
+                            <strong>Vy({unitHandlerForShearAndAxialFunc()})</strong>
+                            <sub> </sub>
+                        </div>
+                        <TextField
+                            type='number'
+                            id='shearAlongYAxis'
+                            className={classes.input}
+                            label={`Shear along Y-axis`}
+                            variant="outlined"
+                            type='number'
+                            onFocus={(event) => focusValueChecker(event)}
+                            onBlur={(event) => blurValueChecker(event)}
+                            value={shearAlongYAxisValue}
+                            onChange={(event) => shearAlongYAxisHandler(event)}
+                        />
+                    </form>
+                    <form key='axial' className={classes.textField} noValidate autoComplete="off">
+                        <div style={{
+                            margin: '0 8px',
+                            textAlign: 'initial',
+                            borderBottom: '1px solid black',
+                            paddingLeft: '15px'
+                        }}>
+                            <strong>P({unitHandlerForShearAndAxialFunc()})</strong>
+                            <sub> </sub>
+                        </div>
+                        <TextField
+                            type='number'
+                            id='axial'
+                            className={classes.input}
+                            label={`Axial`}
+                            variant="outlined"
+                            type='number'
+                            onFocus={(event) => focusValueChecker(event)}
+                            onBlur={(event) => blurValueChecker(event)}
+                            value={axialValue}
+                            onChange={(event) => axialHandler(event)}
+                        />
+                    </form>
+                </div>
+            </Card>
         </Grid>
     )
 }

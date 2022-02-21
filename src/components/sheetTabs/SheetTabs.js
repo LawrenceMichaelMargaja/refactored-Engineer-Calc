@@ -31,6 +31,7 @@ import {
 import {useNavigate} from "react-router";
 import {makeStyles} from "@material-ui/core/styles";
 import {objectChecker} from "../../utilities/utilities";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
     indicator: {
@@ -56,27 +57,27 @@ const SheetTabs = () => {
     // console.log("the new sheet index -- ", parseFloat(size(sheets)))
 
     const fetchShapes = () => {
-        fetch("http://127.0.0.1:8080/shape")
-            .then((response) => response.json())
-            .then((data) => dispatch(getShapes(data, parseFloat(size(sheets)))))
+        axios.get("http://127.0.0.1:8080/shape")
+            // .then((response) => response.json())
+            .then((response) => dispatch(getShapes(response.data, parseFloat(size(sheets)))))
             .catch((error) => {
                 console.log(error)
             })
     }
 
     const fetchSectionDimensionsMetric = () => {
-        fetch("http://127.0.0.1:8080/sectiondimensionmetric")
-            .then((response) => response.json())
-            .then((data) => dispatch(getSectionDimensionsMetric(data, parseFloat(size(sheets)))))
+        axios.get("http://127.0.0.1:8080/sectiondimensionmetric")
+            // .then((response) => response.json())
+            .then((response) => dispatch(getSectionDimensionsMetric(response.data, parseFloat(size(sheets)))))
             .catch((error) => {
                 console.log(error)
             })
     }
 
     const fetchSectionDimensionsEnglish = () => {
-        fetch("http://127.0.0.1:8080/sectiondimensionenglish")
-            .then((response) => response.json())
-            .then((data) => dispatch(getSectionDimensionsEnglish(data, parseFloat(size(sheets)))))
+        axios.get("http://127.0.0.1:8080/sectiondimensionenglish")
+            // .then((response) => response.json())
+            .then((response) => dispatch(getSectionDimensionsEnglish(response.data, parseFloat(size(sheets)))))
             .catch((error) => {
                 console.log(error)
             })
@@ -86,18 +87,18 @@ const SheetTabs = () => {
      * Start of T-Shape
      */
     const fetchTShapeMetric = () => {
-        fetch("http://127.0.0.1:8080/tshapemetric")
-            .then((response) => response.json())
-            .then((data) => dispatch(getTShapesMetric(data, parseFloat(size(sheets)))))
+        axios.get("http://127.0.0.1:8080/tshapemetric")
+            // .then((response) => response.json())
+            .then((response) => dispatch(getTShapesMetric(response.data, parseFloat(size(sheets)))))
             .catch((error) => {
                 console.log(error)
             })
     }
 
     const fetchTShapeEnglish = () => {
-        fetch("http://127.0.0.1:8080/tshapeenglish")
-            .then((response) => response.json())
-            .then((data) => dispatch(getTShapesEnglish(data, parseFloat(size(sheets)))))
+        axios.get("http://127.0.0.1:8080/tshapeenglish")
+            // .then((response) => response.json())
+            .then((response) => dispatch(getTShapesEnglish(response.data, parseFloat(size(sheets)))))
             .catch((error) => {
                 console.log(error)
             })
@@ -110,164 +111,164 @@ const SheetTabs = () => {
      * Start of Round HS - Shape
      */
     const fetchRoundHSShapeMetric = () => {
-        fetch("http://127.0.0.1:8080/roundhsshapemetric")
-            .then((response) => response.json())
-            .then((data) => dispatch(getRoundHsShapesMetric(data, parseFloat(size(sheets)))))
+        axios.get("http://127.0.0.1:8080/roundhsshapemetric")
+            // .then((response) => response.json())
+            .then((response) => dispatch(getRoundHsShapesMetric(response.data, parseFloat(size(sheets)))))
             .catch((error) => {
                 console.log(error)
             })
     }
 
     const fetchRoundHSShapeEnglish = () => {
-        fetch("http://127.0.0.1:8080/roundhsshapeenglish")
-            .then((response) => response.json())
-            .then((data) => dispatch(getRoundHsShapesEnglish(data, parseFloat(size(sheets)))))
+        axios.get("http://127.0.0.1:8080/roundhsshapeenglish")
+            // .then((response) => response.json())
+            .then((response) => dispatch(getRoundHsShapesEnglish(response.data, parseFloat(size(sheets)))))
             .catch((error) => {
                 console.log(error)
             })
     }
 
     const fetchRecHSShapeMetric = () => {
-        fetch("http://127.0.0.1:8080/rechsshapemetric")
-            .then((response) => response.json())
-            .then((data) => dispatch(getRecHsShapesMetric(data, parseFloat(size(sheets)))))
+        axios.get("http://127.0.0.1:8080/rechsshapemetric")
+            // .then((response) => response.json())
+            .then((response) => dispatch(getRecHsShapesMetric(response.data, parseFloat(size(sheets)))))
             .catch((error) => {
                 console.log(error)
             })
     }
 
     const fetchRecHSShapeEnglish = () => {
-        fetch("http://127.0.0.1:8080/rechsshapeenglish")
-            .then((response) => response.json())
-            .then((data) => dispatch(getRecHsShapesEnglish(data, parseFloat(size(sheets)))))
+        axios.get("http://127.0.0.1:8080/rechsshapeenglish")
+            // .then((response) => response.json())
+            .then((response) => dispatch(getRecHsShapesEnglish(response.data, parseFloat(size(sheets)))))
             .catch((error) => {
                 console.log(error)
             })
     }
 
     const fetchPipeShapeMetric = () => {
-        fetch("http://127.0.0.1:8080/pipeshapemetric")
-            .then((response) => response.json())
-            .then((data) => dispatch(getPipeShapesMetric(data, parseFloat(size(sheets)))))
+        axios.get("http://127.0.0.1:8080/pipeshapemetric")
+            // .then((response) => response.json())
+            .then((response) => dispatch(getPipeShapesMetric(response.data, parseFloat(size(sheets)))))
             .catch((error) => {
                 console.log(error)
             })
     }
 
     const fetchPipeShapeEnglish = () => {
-        fetch("http://127.0.0.1:8080/pipeshapeenglish")
-            .then((response) => response.json())
-            .then((data) => dispatch(getPipeShapesEnglish(data, parseFloat(size(sheets)))))
+        axios.get("http://127.0.0.1:8080/pipeshapeenglish")
+            // .then((response) => response.json())
+            .then((response) => dispatch(getPipeShapesEnglish(response.data, parseFloat(size(sheets)))))
             .catch((error) => {
                 console.log(error)
             })
     }
 
     const fetchLShapeMetric = () => {
-        fetch("http://127.0.0.1:8080/lshapemetric")
-            .then((response) => response.json())
-            .then((data) => dispatch(getLShapesMetric(data, parseFloat(size(sheets)))))
+        axios.get("http://127.0.0.1:8080/lshapemetric")
+            // .then((response) => response.json())
+            .then((response) => dispatch(getLShapesMetric(response.data, parseFloat(size(sheets)))))
             .catch((error) => {
                 console.log(error)
             })
     }
 
     const fetchLShapeEnglish = () => {
-        fetch("http://127.0.0.1:8080/lshapeenglish")
-            .then((response) => response.json())
-            .then((data) => dispatch(getLShapesEnglish(data, parseFloat(size(sheets)))))
+        axios.get("http://127.0.0.1:8080/lshapeenglish")
+            // .then((response) => response.json())
+            .then((response) => dispatch(getLShapesEnglish(response.data, parseFloat(size(sheets)))))
             .catch((error) => {
                 console.log(error)
             })
     }
 
     const fetchIShapeMetric = () => {
-        fetch("http://127.0.0.1:8080/ishapemetric")
-            .then((response) => response.json())
-            .then((data) => dispatch(getIShapesMetric(data, parseFloat(size(sheets)))))
+        axios.get("http://127.0.0.1:8080/ishapemetric")
+            // .then((response) => response.json())
+            .then((response) => dispatch(getIShapesMetric(response.data, parseFloat(size(sheets)))))
             .catch((error) => {
                 console.log(error)
             })
     }
 
     const fetchIShapeEnglish = () => {
-        fetch("http://127.0.0.1:8080/ishapeenglish")
-            .then((response) => response.json())
-            .then((data) => dispatch(getIShapesEnglish(data, parseFloat(size(sheets)))))
+        axios.get("http://127.0.0.1:8080/ishapeenglish")
+            // .then((response) => response.json())
+            .then((response) => dispatch(getIShapesEnglish(response.data, parseFloat(size(sheets)))))
             .catch((error) => {
                 console.log(error)
             })
     }
 
     const fetchCShapeMetric = () => {
-        fetch("http://127.0.0.1:8080/cshapemetric")
-            .then((response) => response.json())
-            .then((data) => dispatch(getCShapeMetric(data, parseFloat(size(sheets)))))
+        axios.get("http://127.0.0.1:8080/cshapemetric")
+            // .then((response) => response.json())
+            .then((response) => dispatch(getCShapeMetric(response.data, parseFloat(size(sheets)))))
             .catch((error) => {
                 console.log(error)
             })
     }
 
     const fetchCShapeEnglish = () => {
-        fetch("http://127.0.0.1:8080/cshapeenglish")
-            .then((response) => response.json())
-            .then((data) => dispatch(getCShapeEnglish(data, parseFloat(size(sheets)))))
+        axios.get("http://127.0.0.1:8080/cshapeenglish")
+            // .then((response) => response.json())
+            .then((response) => dispatch(getCShapeEnglish(response.data, parseFloat(size(sheets)))))
             .catch((error) => {
                 console.log(error)
             })
     }
 
     const fetch2LShapeMetric = () => {
-        fetch("http://127.0.0.1:8080/2lshapemetric")
-            .then((response) => response.json())
-            .then((data) => dispatch(get2LShapeMetric(data, parseFloat(size(sheets)))))
+        axios.get("http://127.0.0.1:8080/2lshapemetric")
+            // .then((response) => response.json())
+            .then((response) => dispatch(get2LShapeMetric(response.data, parseFloat(size(sheets)))))
             .catch((error) => {
                 console.log(error)
             })
     }
 
     const fetch2LShapeEnglish = () => {
-        fetch("http://127.0.0.1:8080/2lshapeenglish")
-            .then((response) => response.json())
-            .then((data) => dispatch(get2LShapeEnglish(data, parseFloat(size(sheets)))))
+        axios.get("http://127.0.0.1:8080/2lshapeenglish")
+            // .then((response) => response.json())
+            .then((response) => dispatch(get2LShapeEnglish(response.data, parseFloat(size(sheets)))))
             .catch((error) => {
                 console.log(error)
             })
     }
 
     const getSteelTypesMetric = () => {
-        fetch("http://127.0.0.1:8080/steeltypesmetric")
-            .then((response) => response.json())
-            .then((data) => dispatch(getSteelTypesMetricAPI(data, parseFloat(size(sheets)))))
-            //     .then((data) => alert(JSON.stringify(data)))
+        axios.get("http://127.0.0.1:8080/steeltypesmetric")
+            // .then((response) => response.json())
+            .then((response) => dispatch(getSteelTypesMetricAPI(response.data, parseFloat(size(sheets)))))
+            //     .then((response) => alert(JSON.stringify(response.data)))
             .catch((error) => {
                 console.log(error)
             });
     }
 
     const getSteelTypesEnglish = () => {
-        fetch("http://127.0.0.1:8080/steeltypesenglish")
-            .then((response) => response.json())
-            .then((data) => dispatch(getSteelTypesEnglishAPI(data, parseFloat(size(sheets)))))
+        axios.get("http://127.0.0.1:8080/steeltypesenglish")
+            // .then((response) => response.json())
+            .then((response) => dispatch(getSteelTypesEnglishAPI(response.data, parseFloat(size(sheets)))))
             .catch((error) => {
                 console.log(error)
             });
     }
 
     const getMetricSectionProperties = () => {
-        fetch("http://127.0.0.1:8080/sectionpropertiesmetric")
-            .then((response) => response.json())
-            .then((data) => dispatch(getSectionPropertiesMetric(data, parseFloat(size(sheets)))))
-            // .then((data) => console.log(sectionPropertiesMetric))
+        axios.get("http://127.0.0.1:8080/sectionpropertiesmetric")
+            // .then((response) => response.json())
+            .then((response) => dispatch(getSectionPropertiesMetric(response.data, parseFloat(size(sheets)))))
+            // .then((response) => console.log(sectionPropertiesMetric))
             .catch((error) => {
                 console.log(error)
             });
     }
 
     const getEnglishSectionProperties = () => {
-        fetch("http://127.0.0.1:8080/sectionpropertiesenglish")
-            .then((response) => response.json())
-            .then((data) => dispatch(getSectionPropertiesEnglish(data, parseFloat(size(sheets)))))
+        axios.get("http://127.0.0.1:8080/sectionpropertiesenglish")
+            // .then((response) => response.json())
+            .then((response) => dispatch(getSectionPropertiesEnglish(response.data, parseFloat(size(sheets)))))
             .catch((error) => {
                 console.log(error)
             });
@@ -292,6 +293,7 @@ const SheetTabs = () => {
                 currentShape: 'I-shaped',
                 route: '',
                 calculatedData: null,
+                selectedMemberIndex: 0,
                 apiData: {
                     steelSections: [],
                     shapes: [],
@@ -483,6 +485,7 @@ const SheetTabs = () => {
                 currentShape: 'I-shaped',
                 route: '',
                 calculatedData: null,
+                selectedMemberIndex: 0,
                 apiData: {
                     steelSections: [],
                     shapes: [],
