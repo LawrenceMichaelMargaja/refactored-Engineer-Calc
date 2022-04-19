@@ -4,10 +4,13 @@ import {
     ADD_NEW_SHEET,
     ADD_SECTION_PROPERTY,
     ADD_SECTION_PROPERTY_ENGLISH,
-    ADD_SECTION_PROPERTY_METRIC, ADD_SHEET_NAME,
-    CHANGE_MATERIAL_CUSTOM_STATUS, CLEAR_CALCULATED_DATA,
+    ADD_SECTION_PROPERTY_METRIC,
+    ADD_SHEET_NAME,
+    CHANGE_MATERIAL_CUSTOM_STATUS,
+    CLEAR_CALCULATED_DATA,
     CLEAR_METRIC_MATERIAL_PROPERTIES,
-    CLEAR_REMOVED_MEMBERS_ARRAY, EDIT_SELECTED_ENGLISH_MATERIAL_PROPERTY,
+    CLEAR_REMOVED_MEMBERS_ARRAY,
+    EDIT_SELECTED_ENGLISH_MATERIAL_PROPERTY,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTIES,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
     EDIT_SELECTED_SECTION,
@@ -16,7 +19,9 @@ import {
     GET_2_L_SHAPES_ENGLISH,
     GET_2_L_SHAPES_METRIC,
     GET_C_SHAPES_ENGLISH,
-    GET_C_SHAPES_METRIC, GET_DESIGN_MEMBERS_ENGLISH, GET_DESIGN_MEMBERS_METRIC,
+    GET_C_SHAPES_METRIC,
+    GET_DESIGN_MEMBERS_ENGLISH,
+    GET_DESIGN_MEMBERS_METRIC,
     GET_I_SHAPES_ENGLISH,
     GET_I_SHAPES_METRIC,
     GET_L_SHAPES_ENGLISH,
@@ -32,7 +37,8 @@ import {
     GET_SECTION_DIMENSIONS_METRIC,
     GET_SECTION_PROPERTIES_ENGLISH,
     GET_SECTION_PROPERTIES_METRIC,
-    GET_SHAPES, GET_STEEL_SECTIONS,
+    GET_SHAPES,
+    GET_STEEL_SECTIONS,
     GET_STEEL_TYPES_ENGLISH_API,
     GET_STEEL_TYPES_METRIC_API,
     GET_T_SHAPES_ENGLISH,
@@ -41,7 +47,9 @@ import {
     REMOVE_ALL_SECTION_PROPERTIES,
     REMOVE_MEMBER_ROW,
     REMOVE_METRIC_MATERIAL_PROPERTY_ROW,
-    REMOVE_SELECTED_SECTION_PROPERTY, REMOVE_SELECTED_SECTION_PROPERTY_ENGLISH, REMOVE_SELECTED_SECTION_PROPERTY_METRIC,
+    REMOVE_SELECTED_SECTION_PROPERTY,
+    REMOVE_SELECTED_SECTION_PROPERTY_ENGLISH,
+    REMOVE_SELECTED_SECTION_PROPERTY_METRIC,
     REMOVE_SHEET,
     RESET_ENGLISH_MATERIAL_PROPERTIES,
     RESET_ENGLISH_SECTION_PROPERTIES,
@@ -49,17 +57,23 @@ import {
     RESET_METRIC_MATERIAL_PROPERTIES,
     RESET_METRIC_MATERIAL_PROPERTIES_INDEX,
     RESET_METRIC_SECTION_PROPERTIES,
-    RESET_SECTION_INDEX, RESET_SECTION_INDEX_ENGLISH, RESET_SECTION_INDEX_METRIC,
+    RESET_SECTION_INDEX,
+    RESET_SECTION_INDEX_ENGLISH,
+    RESET_SECTION_INDEX_METRIC,
     SET_ARRAY_CHECK,
     SET_AXIAL,
     SET_BENDING_MOMENT_ALONG_X_AXIS,
-    SET_BENDING_MOMENT_ALONG_Y_AXIS, SET_CALCULATED_DATA, SET_CURRENT_ENGLISH_MATERIAL_PROPERTIES_INDEX,
+    SET_BENDING_MOMENT_ALONG_Y_AXIS,
+    SET_CALCULATED_DATA,
+    SET_CURRENT_ENGLISH_MATERIAL_PROPERTIES_INDEX,
     SET_CURRENT_ENGLISH_SECTION_PROPERTY_INDEX,
     SET_CURRENT_MATERIALS_ARRAY,
     SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX,
     SET_CURRENT_METRIC_SECTION_PROPERTY_INDEX,
-    SET_CURRENT_SECTION_PROPERTIES_ARRAY, SET_CURRENT_SHAPE,
-    SET_CUSTOM_SELECTED_STEEL_TYPE, SET_DATA_TO_BE_LOOPED_FOR_DESIGN_MEMBERS_POST_REQUEST,
+    SET_CURRENT_SECTION_PROPERTIES_ARRAY,
+    SET_CURRENT_SHAPE,
+    SET_CUSTOM_SELECTED_STEEL_TYPE,
+    SET_DATA_TO_BE_LOOPED_FOR_DESIGN_MEMBERS_POST_REQUEST,
     SET_DISABLE_MENU_BUTTONS,
     SET_ENGLISH_EMPA,
     SET_ENGLISH_FUMPA,
@@ -67,7 +81,8 @@ import {
     SET_ENGLISH_MATERIAL_STEEL_TYPES,
     SET_ERROR_LOCATION,
     SET_ERROR_MESSAGE,
-    SET_LATERAL_TORSIONAL_MODIFICATION_FACTOR, SET_LATEST_MATERIAL_METRIC_ID,
+    SET_LATERAL_TORSIONAL_MODIFICATION_FACTOR,
+    SET_LATEST_MATERIAL_METRIC_ID,
     SET_LLT,
     SET_LST,
     SET_MAPPED_STEEL_TYPE_ENGLISH,
@@ -101,7 +116,10 @@ import {
     SET_SECTION_DIMENSIONS_ARRAY,
     SET_SECTION_DIMENSIONS_ARRAY_ENGLISH,
     SET_SECTION_DIMENSIONS_ARRAY_METRIC,
-    SET_SECTION_ID, SET_SECTION_SHAPE_DESIGN, SET_SECTION_SHAPE_DESIGN_ENGLISH, SET_SECTION_SHAPE_DESIGN_METRIC,
+    SET_SECTION_ID,
+    SET_SECTION_SHAPE_DESIGN,
+    SET_SECTION_SHAPE_DESIGN_ENGLISH,
+    SET_SECTION_SHAPE_DESIGN_METRIC,
     SET_SELECTED_SHEET,
     SET_SELECTED_STEEL_TYPE,
     SET_SHEAR_ALONG_X_AXIS,
@@ -116,7 +134,11 @@ import {
     SET_Z_AXIS_EFFECTIVE_LENGTH_FACTOR,
     SET_Z_AXIS_UNBRACED_LENGTH,
     SHIFT_REMOVED_MEMBER_ROW_ARRAY,
-    SET_ALL_MEMBER_VALUES, SET_SELECTED_MEMBER_INDEX, SET_ALL_MEMBER_INDEX
+    SET_ALL_MEMBER_VALUES,
+    SET_SELECTED_MEMBER_INDEX,
+    SET_ALL_MEMBER_INDEX,
+    REMOVE_CURRENT_SECTION_PROPERTY_INDEX,
+    CLEAR_SECTION_PROPERTIES_INDEX_ARRAY, REMOVE_SELECTED_MATERIALS_ARRAY_INDEX, SET_DESIGN_METHOD_SHAPE
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -204,7 +226,8 @@ const initialState = {
                         name: 'Custom Steel Type',
                         EMPA: '',
                         FYMPA: '',
-                        FUMPA: false,
+                        FUMPA: '',
+                        custom: false
                     }
                 },
                 sectionPropertiesMetric: {
@@ -537,8 +560,71 @@ const Reducer = (state = initialState, action) => {
             return setSelectedMemberIndex(state, action.payload)
         case SET_ALL_MEMBER_INDEX:
             return setAllMemberIndex(state, action.payload)
+        case REMOVE_CURRENT_SECTION_PROPERTY_INDEX:
+            return removeCurrentSectionPropertyIndex(state, action.payload)
+        case CLEAR_SECTION_PROPERTIES_INDEX_ARRAY:
+            return clearSectionPropertiesIndexArray(state, action.payload)
+        case REMOVE_SELECTED_MATERIALS_ARRAY_INDEX:
+            return removeSelectedMaterialArrayIndex(state, action.payload)
+        case SET_DESIGN_METHOD_SHAPE:
+            return setDesignMethodShape(state, action.payload)
         default:
             return state
+    }
+}
+
+const setDesignMethodShape = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                apiMap: {
+                    ...state.sheets[payload.sheetIndex].apiMap,
+                    sectionPropertiesMetric: {
+                        ...state.sheets[payload.sheetIndex].apiMap.sectionPropertiesMetric,
+                        [payload.sectionIndex]: {
+                            ...state.sheets[payload.sheetIndex].apiMap.sectionPropertiesMetric[payload.sectionIndex],
+                            sectionShape: payload.metricData
+                        }
+                    },
+                    sectionPropertiesEnglish: {
+                        ...state.sheets[payload.sheetIndex].apiMap.sectionPropertiesEnglish,
+                        [payload.sectionIndex]: {
+                            ...state.sheets[payload.sheetIndex].apiMap.sectionPropertiesEnglish[payload.sectionIndex],
+                            sectionShape: payload.englishData
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+const clearSectionPropertiesIndexArray = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                currentSectionsArray: []
+            }
+        }
+    }
+}
+
+const removeCurrentSectionPropertyIndex = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                currentSectionsArray: payload.data
+            }
+        }
     }
 }
 
@@ -2083,7 +2169,7 @@ const setLST = (state, payload) => {
  */
 
 const setMetricMaterialSteelType = (state, payload) => {
-    alert("at the reducer == " + JSON.stringify(payload.data));
+    // alert("at the reducer == " + JSON.stringify(payload.data));
     return {
         ...state,
         sheets: {
@@ -2183,7 +2269,7 @@ const editSelectedMetricMaterialProperty = (state, payload) => {
 }
 
 const editSelectedEnglishMaterialProperty = (state, payload) => {
-    alert("the payload == " + payload.EMPA);
+    // alert("the payload == " + payload.EMPA);
     return {
         ...state,
         sheets: {
@@ -2240,7 +2326,8 @@ const clearMetricMaterialProperties = (state, payload) => {
                 ...state.sheets[payload],
                 apiMap: {
                     ...state.sheets[payload].apiMap,
-                    steelTypeMetricProperties: null
+                    steelTypeMetricProperties: null,
+                    steelTypeEnglishProperties: null,
                 }
             }
         }
@@ -2258,6 +2345,19 @@ const setCurrentMaterialsArray = (state, payload) => {
                     ...state.sheets[payload.sheetIndex].currentMaterialsArray,
                     payload.data
                 ]
+            }
+        }
+    }
+}
+
+const removeSelectedMaterialArrayIndex = (state, payload) => {
+    return {
+        ...state,
+        sheets: {
+            ...state.sheets,
+            [payload.sheetIndex]: {
+                ...state.sheets[payload.sheetIndex],
+                currentMaterialsArray: payload.data
             }
         }
     }
@@ -2452,6 +2552,7 @@ const removeSelectedSectionPropertyMetric = (state, payload) => {
 }
 
 const removeSelectedSectionPropertyEnglish = (state, payload) => {
+    // alert("I am here")
     let newState = {...state}
     delete newState.sheets[payload.sheetIndex].apiMap.sectionPropertiesEnglish[payload.sectionIndex]
     return newState

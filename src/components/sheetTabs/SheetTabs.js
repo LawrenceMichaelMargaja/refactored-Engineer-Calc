@@ -32,6 +32,7 @@ import {useNavigate} from "react-router";
 import {makeStyles} from "@material-ui/core/styles";
 import {objectChecker} from "../../utilities/utilities";
 import axios from "axios";
+import {Tooltip} from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
     indicator: {
@@ -285,12 +286,12 @@ const SheetTabs = () => {
                 method: "Investigation",
                 currentMaterialsArray: [1],
                 currentSectionsArray: [1],
-                sectionDimensionsArrayMetric: ['I-shaped'],
+                sectionDimensionsArrayMetric: ['I'],
                 sectionDimensionsArrayEnglish: [],
                 removedMemberRowArray: [],
                 arrayCheck: [],
                 dataToBeLoopedForPostRequest: [],
-                currentShape: 'I-shaped',
+                currentShape: 'I',
                 route: '',
                 calculatedData: null,
                 selectedMemberIndex: 0,
@@ -674,14 +675,14 @@ const SheetTabs = () => {
             const proceed = window.confirm("Are you sure you want to remove this sheet?")
             if (proceed) {
                 if (parseFloat(selectedSheet) === 0 && parseFloat(Math.max(size(sheets) - 1)) === 0) {
-                    alert("condition 1: We want this condition to run when there is only 1 sheet and we delete it.");
+                    // alert("condition 1: We want this condition to run when there is only 1 sheet and we delete it.");
                     dispatch(removeSheet(sheetIndex))
                     dispatch(setSelectedSheet(null))
                     dispatch(setDisableMenuButtons(true))
                     navigate('/no-sheet')
                     // return;
                 } else if (parseFloat(selectedSheet) === 0 && size(sheets) !== 1 && Math.max(size(sheets)) > parseFloat(sheetIndex) && parseFloat(sheetIndex) === 0) {
-                    alert("Condition 2: We want this condition to run when we are deleting the primary sheet and there is more than one sheet open.");
+                    // alert("Condition 2: We want this condition to run when we are deleting the primary sheet and there is more than one sheet open.");
                     dispatch(removeSheet(sheetIndex))
 
                     let newNumber = 0
@@ -694,7 +695,7 @@ const SheetTabs = () => {
                     dispatch(setDisableMenuButtons(false))
                     dispatch(setSelectedSheet(parseFloat(sheetIndex)))
                 } else if (parseFloat(selectedSheet) > 0 && parseFloat(sheetIndex) === 0 && Math.max(size(sheets) - 1) > 1) {
-                    alert("Condition 3: We want this condition to run when we are removing the primary sheet and there are more than one sheet open and the selected sheet is not the primary sheet.");
+                    // alert("Condition 3: We want this condition to run when we are removing the primary sheet and there are more than one sheet open and the selected sheet is not the primary sheet.");
                     dispatch(removeSheet(sheetIndex))
 
                     let newNumber = 0
@@ -707,7 +708,7 @@ const SheetTabs = () => {
                     dispatch(setDisableMenuButtons(false))
                     dispatch(setSelectedSheet(parseFloat(selectedSheet) - 1))
                 } else if (parseFloat(sheetIndex) > 0 && parseFloat(sheetIndex) < parseFloat(Math.max(size(sheets)) - 1) && parseFloat(selectedSheet) <= Math.max(size(sheets) - 1)) {
-                    alert("Condition 4: We want this condition to run when we are removing a sheet that is not the primary sheet, there is more than one sheet open and the selected sheet is not the last sheet.");
+                    // alert("Condition 4: We want this condition to run when we are removing a sheet that is not the primary sheet, there is more than one sheet open and the selected sheet is not the last sheet.");
                     // const tabInSheet = sheets.sheets[parseFloat(currentSheetIndex) - 1].newTabsState
                     dispatch(removeSheet(sheetIndex))
                     let newNumber = 0
@@ -727,7 +728,7 @@ const SheetTabs = () => {
                 } else if (parseFloat(sheetIndex) === Math.max(size(sheets) - 1) && parseFloat(selectedSheet) === Math.max(size(sheets) - 1)) {
                     // alert("sheet Index = " + selectedSheet)
                     dispatch(removeSheet(sheetIndex))
-                    alert("Condition 5: We want this condition to run when we are removing the last sheet and the selected sheet is the last sheet.");
+                    // alert("Condition 5: We want this condition to run when we are removing the last sheet and the selected sheet is the last sheet.");
                     let newNumber = 0
 
                     const objectMapper = (object) => {
@@ -740,7 +741,7 @@ const SheetTabs = () => {
                 } else if (parseFloat(selectedSheet) < Math.max(size(sheets) - 1) && size(sheets) > 1) {
                     // const tabInSheet = dashboard.sheets[parseFloat(currentSheetIndex) - 1].newTabsState
                     dispatch(removeSheet(sheetIndex))
-                    alert("Condition 6: We want this condition run when are removing the last sheet, there is more than one sheet open, and the selected sheet is not the last sheet.");
+                    // alert("Condition 6: We want this condition run when are removing the last sheet, there is more than one sheet open, and the selected sheet is not the last sheet.");
                     let newNumber = 0
 
                     const objectMapper = (object) => {
@@ -770,11 +771,11 @@ const SheetTabs = () => {
     const changeName = () => {
         let newName = prompt("change the name of this member row")
         const alphaExp = /^[a-z0-9]+$/i
-        alert("the changed name === " + newName)
-        if(newName) {
-            if(newName === null || !newName.match(alphaExp)) {
+        // alert("the changed name === " + newName)
+        if (newName) {
+            if (newName === null || !newName.match(alphaExp)) {
                 prompt("Name cannot be white space or blank.sss")
-            } else if(newName.length !== 0 && newName.match(alphaExp)) {
+            } else if (newName.length !== 0 && newName.match(alphaExp)) {
                 dispatch(addSheetName(newName, selectedSheet))
             }
         } else {
@@ -805,15 +806,17 @@ const SheetTabs = () => {
                         <span style={{width: '100%', zIndex: 1}}>
                             {name}
                             {/*{name}*/}
-                            <CancelIcon
-                                color='primary'
-                                style={{
-                                    width: '20%',
-                                    marginRight: '-5px',
-                                    float: 'right'
-                                }}
-                                onMouseDown={(event) => removeSelectedSheet(currentSheetIndex, event)}
-                            />
+                            <Tooltip title={<p>Click to remove selected sheet.</p>}>
+                                <CancelIcon
+                                    color='primary'
+                                    style={{
+                                        width: '20%',
+                                        marginRight: '-5px',
+                                        float: 'right'
+                                    }}
+                                    onMouseDown={(event) => removeSelectedSheet(currentSheetIndex, event)}
+                                />
+                            </Tooltip>
                         </span>
                     }>
                 </Tab>
@@ -846,9 +849,11 @@ const SheetTabs = () => {
     return (
         <div style={{display: 'flex', backgroundColor: '#d1d1d1'}}>
             {renderSheets()}
-            <Button onClick={() => insertSheet()}>
-                <AddIcon/>
-            </Button>
+            <Tooltip title={<p>Click to add new sheet.</p>}>
+                <Button onClick={() => insertSheet()}>
+                    <AddIcon/>
+                </Button>
+            </Tooltip>
         </div>
     )
 }

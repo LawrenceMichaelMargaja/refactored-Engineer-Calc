@@ -45,6 +45,7 @@ export const removeSelectedSectionPropertyMetric = (data, sheetIndex, sectionInd
 }
 
 export const removeSelectedSectionPropertyEnglish = (data, sheetIndex, sectionIndex) => {
+    // alert("waaat da faaaak");
     return {
         type: REMOVE_SELECTED_SECTION_PROPERTY_ENGLISH,
         payload: {data: data, sheetIndex: sheetIndex, sectionIndex: sectionIndex}

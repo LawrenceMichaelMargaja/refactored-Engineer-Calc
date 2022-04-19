@@ -28,9 +28,11 @@ import {
     getSteelTypesMetricAPI
 } from "../../../../store/actions/sheets/sheets";
 import {objectChecker} from "../../../../utilities/utilities";
-import {Stack} from "@mui/material";
+import {Stack, Tooltip} from "@mui/material";
 import {DataGrid} from "@mui/x-data-grid";
 import axios from "axios";
+import {setCurrentSectionPropertiesArray} from "../../../../store/actions/sheets/sheetCalculationComponents/sectionProperties/sectionProperties";
+import AddIcon from "@material-ui/icons/Add";
 
 
 const Members = () => {
@@ -40,9 +42,12 @@ const Members = () => {
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     const system = useSelector(state => state.sheets.sheets[selectedSheet].system)
     const members = useSelector(state => state.sheets.sheets[selectedSheet].members)
+    const sectionsMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric'])
+    const sectionsEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesEnglish'])
     const removedMemberRowsArray = useSelector(state => state.sheets.sheets[selectedSheet].removedMemberRowArray)
     const method = objectChecker(sheets, ['sheets', selectedSheet, 'method'])
     const selectedMemberIndex = objectChecker(sheets, ['sheets', selectedSheet, 'selectedMemberIndex'])
+
 
     const [disableButton, setDisableButton] = useState(false)
 
@@ -67,9 +72,9 @@ const Members = () => {
     }
 
     // const getSteelTypesMetric = () => {
-    //     axios.get("http://127.0.0.1:8080/steeltypesmetric")
+    //     axios.get("www.adm-steel.com/steeltypesmetric")
     //         // .then((response) => response.json())
-    //         .then((data) => dispatch(getSteelTypesMetricAPI(data, selectedSheet)))
+    //         .then((response) => dispatch(getSteelTypesMetricAPI(response.data, selectedSheet)))
     //         //     .then((data) => alert(JSON.stringify(data)))
     //         .catch((error) => {
     //             console.log(error)
@@ -77,24 +82,23 @@ const Members = () => {
     // }
     //
     // const getSteelTypesEnglish = () => {
-    //     axios.get("http://127.0.0.1:8080/steeltypesenglish")
+    //     axios.get("www.adm-steel.com/steeltypesenglish")
     //         // .then((response) => response.json())
-    //         .then((data) => dispatch(getSteelTypesEnglishAPI(data, selectedSheet)))
+    //         .then((response) => dispatch(getSteelTypesEnglishAPI(response.data, selectedSheet)))
     //         .catch((error) => {
     //             console.log(error)
     //         });
     // }
-
+    //
     // const fetchSectionPropertiesMetric = () => {
-    //     fetch("http://127.0.0.1:8080/sectionpropertiesmetric")
-    //         .then((response) => response.json())
-    //         .then((data) => dispatch(getSectionPropertiesMetric(data, selectedSheet)))
+    //     fetch("www.adm-steel.com/sectionpropertiesmetric")
+    //         .then((response) => dispatch(getSectionPropertiesMetric(response.data, selectedSheet)))
     //         .catch((error) => {
     //             console.log(error)
     //         })
     // }
-
-
+    //
+    //
     // useEffect(() => {
     //     getSteelTypesMetric()
     //     getSteelTypesEnglish()
@@ -122,36 +126,10 @@ const Members = () => {
                 LST: 300
             }
             dispatch(addInitialMember(initialMember, selectedSheet))
-        }
-        // else if (removedMemberRowsArray.length > 0) {
-        //     // alert("I am called")
-        //     // const newSizeIndex = Object.keys(members).length - 1
-        //     const sortedRemovedMemberRowsArray = removedMemberRowsArray.sort()
-        //     const newSizeIndex = sortedRemovedMemberRowsArray.shift()
-        //     // alert("the new size " + newSizeIndex)
-        //     const currentMembers = {...members}
-        //     currentMembers[newSizeIndex] = {
-        //         memberId: parseFloat(newSizeIndex) + parseFloat(1),
-        //         materialId: 1,
-        //         sectionId: 1,
-        //         totalLengthOfMember: 1,
-        //         yAxisUnbracedLength: 1,
-        //         yAxisEffectiveLengthFactor: 1,
-        //         zAxisUnbracedLength: 1,
-        //         zAxisEffectiveLengthFactor: 1,
-        //         LLT: '1.0',
-        //         unbracedLengthLateralTorsional: 1.0,
-        //         lateralTorsionalModificationFactor: 1.0,
-        //         slendernessRatioInCompression: 200,
-        //         LST: 300
-        //     }
-        //     dispatch(addInitialMember(currentMembers, selectedSheet))
-        //     // dispatch(shiftRemovedMemberRows(newRemovedMemberRowsArray, selectedSheet))
-        // }
-        else {
+        } else {
             const newSizeIndex = size(members)
             const currentMembers = {...members}
-            alert("the memberId == " + JSON.stringify(members[parseFloat(newSizeIndex) - 1].memberId));
+            // alert("the memberId == " + JSON.stringify(members[parseFloat(newSizeIndex) - 1].memberId));
             currentMembers[newSizeIndex] = {
                 memberId: parseFloat(members[parseFloat(newSizeIndex) - 1].memberId) + 1,
                 materialId: 1,
@@ -213,140 +191,149 @@ const Members = () => {
             correct[iterator.toString()] = ordered[i]
             iterator++
         }
-
-        console.log('ordered', ordered);
-        console.log('correct', correct);
-
-        // const ordered = () => {
-        //     Object.keys(members).sort().reduce(
-        //         (obj, key) => {
-        //             // obj[key] = members[key];
-        //             alert("the obj == " + JSON.stringify(key));
-        //             // return obj;
-        //         }
-        //     );
-        // }
-        // ordered()
         dispatch(setAllMemberIndex(correct, selectedSheet))
+    }
+
+    const tip = () => {
+        return (
+            <Tooltip title={<p>the tool tip</p>}><AddIcon/></Tooltip>
+        )
     }
 
     const columns = [
         {
             field: 'memberId',
             headerClassName: 'super-app-theme--header',
+            headerAlign: 'center',
             headerName: 'Member ID',
-            width: 150
+            sortable: true,
+            width: 200
         },
         {
             field: 'materialId',
             headerClassName: 'super-app-theme--header',
             headerName: 'Material ID',
-            width: 150,
+            headerAlign: 'center',
+            sortable: true,
+            width: 200,
             editable: true,
         },
         {
             field: 'sectionId',
             headerClassName: 'super-app-theme--header',
             headerName: 'Section ID',
-            width: 150,
+            headerAlign: 'center',
+            sortable: true,
+            width: 200,
             editable: true,
         },
         {
             field: 'lm',
             headerClassName: 'super-app-theme--header',
-            headerName: 'L(m)',
-            type: 'number',
-            width: 110,
+            headerName: system === 'Metric' ? 'L(m)' : 'L(ft)',
+            description: 'Total length of the design member',
+            headerAlign: 'center',
+            sortable: true,
+            width: 200,
             editable: true,
         },
         {
             field: 'lx',
             headerClassName: 'super-app-theme--header',
-            headerName: 'Lx(m)',
-            description: 'This column has a value getter and is not sortable.',
+            headerName: system === 'Metric' ? 'Lx(m)' : 'Lx(ft)',
+            description: 'unbraced length for buckling about the weak axis',
+            headerAlign: 'center',
             sortable: true,
-            width: 160,
+            width: 200,
             editable: true,
         },
         {
             field: 'kx',
             headerClassName: 'super-app-theme--header',
             headerName: 'Kx',
-            description: 'This column has a value getter and is not sortable.',
+            description: 'effective length factor for flexural buckling about x-axis',
+            headerAlign: 'center',
             sortable: true,
-            width: 160,
+            width: 200,
             editable: true,
         },
         {
             field: 'ly',
             headerClassName: 'super-app-theme--header',
-            headerName: 'Ly',
-            description: 'This column has a value getter and is not sortable.',
+            headerName: system === 'Metric' ? 'Ly(m)' : 'Ly(ft)',
+            description: 'unbraced length for buckling about the strong axis',
+            headerAlign: 'center',
             sortable: true,
-            width: 160,
+            width: 200,
             editable: true,
         },
         {
             field: 'ky',
             headerClassName: 'super-app-theme--header',
             headerName: 'Ky',
-            description: 'This column has a value getter and is not sortable.',
+            description: 'effective length factor for flexural buckling about y-axis',
+            headerAlign: 'center',
             sortable: true,
-            width: 160,
+            width: 200,
             editable: true,
         },
         {
             field: 'llt',
             headerClassName: 'super-app-theme--header',
-            headerName: 'LLT',
-            description: 'This column has a value getter and is not sortable.',
+            headerName: system === 'Metric' ? 'LLT(m)' : 'LLT(ft)',
+            description: 'unbraced length for laternal torsional buckling',
+            headerAlign: 'center',
             sortable: true,
-            width: 160,
+            width: 200,
             editable: true,
         },
         {
             field: 'cbx',
             headerClassName: 'super-app-theme--header',
             headerName: 'Cbx',
-            description: 'This column has a value getter and is not sortable.',
+            description: 'coefficient of bending about x',
+            headerAlign: 'center',
             sortable: true,
-            width: 160,
+            width: 200,
             editable: true,
         },
         {
             field: 'cby',
             headerClassName: 'super-app-theme--header',
             headerName: 'Cby',
-            description: 'This column has a value getter and is not sortable.',
+            description: 'coefficient of bending about y',
+            headerAlign: 'center',
             sortable: true,
-            width: 160,
+            width: 200,
             editable: true,
         },
         {
             field: 'lsc',
             headerClassName: 'super-app-theme--header',
             headerName: 'LSC',
-            description: 'This column has a value getter and is not sortable.',
+            description: 'slenderness ratio in compression',
+            headerAlign: 'center',
             sortable: true,
-            width: 160,
+            width: 200,
             editable: true,
         },
         {
             field: 'lst',
             headerClassName: 'super-app-theme--header',
             headerName: 'LST',
-            description: 'This column has a value getter and is not sortable.',
+            description: 'slenderness ratio in tension',
+            headerAlign: 'center',
             sortable: true,
-            width: 160,
+            width: 200,
             editable: true,
         },
         {
             field: 'delete',
             headerClassName: 'super-app-theme--header',
             headerName: 'DELETE',
-            description: 'This column has a value getter and is not sortable.',
+            headerAlign: 'center',
             sortable: false,
-            width: 160,
+            width: 200,
             renderCell: () => {
                 return (
                     <Button
@@ -385,15 +372,12 @@ const Members = () => {
             lst: 'Calculating...',
         }]
         if (newMembers === null) {
-            alert("here man");
+            // alert("here man");
             // console.log("The new new members === ", JSON.stringify(newMembers));
             return loading
         } else {
             console.log("The new new members === ", JSON.stringify(newMembers));
             let id = 0
-            // for(let index in newMembers) {
-            //     id = index
-            // }
             const newOptions = newMembers.map((data) => ({
                 id: id++,
                 memberId: data.memberId,
@@ -427,12 +411,13 @@ const Members = () => {
         for(let index in model) {
             modelIndex = parseFloat(index)
             const modelValue = model[index]
-            alert("the index == " + JSON.stringify(index) + " and the diminished index == " + JSON.stringify(modelIndex))
+            // alert("the index == " + JSON.stringify(index) + " and the diminished index == " + JSON.stringify(modelIndex))
             for(let y in modelValue) {
                 if(y === 'materialId') {
                     dispatch(setMaterialId(modelValue[y].value, selectedSheet, modelIndex))
                 } else if(y === 'sectionId') {
                     dispatch(setSectionId(modelValue[y].value, selectedSheet, modelIndex))
+                    // dispatch(setCurrentSectionPropertiesArray(modelValue[y].value, selectedSheet))
                 } else if(y === 'lm') {
                     dispatch(setTotalLengthOfMember(modelValue[y].value, selectedSheet, modelIndex))
                 } else if(y === 'lx') {
@@ -459,40 +444,43 @@ const Members = () => {
     }
 
     const height = 200
+    const currentSections = objectChecker(sheets, ['sheets', selectedSheet, 'currentSectionsArray'])
+    const insertedSteelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties'])
+    const insertedSteelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeEnglishProperties'])
+    const currentMaterials = objectChecker(sheets, ['sheets', selectedSheet, 'currentMaterialsArray'])
+    const sectionDimensionsArray = objectChecker(sheets, ['sheets', selectedSheet, 'sectionDimensionsArrayMetric'])
+    const currentSectionPropertiesArray = objectChecker(sheets, ['sheets', selectedSheet, 'currentSectionsArray'])
 
     return (
         <div style={{height: '100vh'}}>
-            <p style={{
-                padding: '2em',
-                wordWrap: 'break-word'
-                // width: '50vw'
-            }}>
-                {JSON.stringify(members)}
-            </p>
             <div style={{
-                height: '10%',
+                // height: '10%',
                 // backgroundColor: '#fff',
                 textAlign: 'right',
                 padding: '1em 1em 0 1em'
             }}>
-                <Button
-                    disabled={disableButton}
-                    style={{margin: '5px'}}
-                    variant='contained'
-                    color='primary'
-                    onClick={() => insertNewMember()}
-                >
-                    ADD MEMBER
-                </Button>
-                <Button
-                    disabled={disableButton}
-                    style={{margin: '5px'}}
-                    variant='contained'
-                    color='secondary'
-                    onClick={deleteAllMemberRows}
-                >
-                    REMOVE ALL
-                </Button>
+                <Tooltip title={<p>Click to add Member Row</p>}>
+                    <Button
+                        disabled={disableButton}
+                        style={{margin: '5px'}}
+                        variant='contained'
+                        color='primary'
+                        onClick={() => insertNewMember()}
+                    >
+                        ADD MEMBER
+                    </Button>
+                </Tooltip>
+                <Tooltip title={<p>Click to Remove all Member Rows</p>}>
+                    <Button
+                        disabled={disableButton}
+                        style={{margin: '5px'}}
+                        variant='contained'
+                        color='secondary'
+                        onClick={deleteAllMemberRows}
+                    >
+                        REMOVE ALL
+                    </Button>
+                </Tooltip>
             </div>
             <div style={{height: newMembers.length === 1 ? 200: (height + (newMembers.length * 40)), flexGrow: 1, overFlow: 'hidden', margin: '1em 0'}}>
                 <DataGrid
@@ -525,12 +513,15 @@ const Members = () => {
                             fontWeight: 'bold',
                             fill: "#fff" // or whatever you need
                         },
-                        '.MuiDataGrid-row:nth-child(even)': {
+                        '& .MuiDataGrid-row:nth-child(even)': {
                             backgroundColor: '#e1e1e1'
                         },
-                        '.MuiDataGrid-row:nth-child(odd)': {
+                        '& .MuiDataGrid-row:nth-child(odd)': {
                             backgroundColor: '#fff'
                         },
+                        '& .MuiDataGrid-virtualScroller': {
+                            backgroundColor: '#fff'
+                        }
                     }}
                     components={{
                         NoRowsOverlay: () => (
@@ -544,39 +535,16 @@ const Members = () => {
                     componentsProps={{
                         columnMenu: { background: 'red'},
                     }}
-                    //{"model":{"1":{"materialId":{"value":"23"}}},"details":{}}
                     onEditRowsModelChange={(model) => {
-                        // alert("model == " + JSON.stringify(model));
-                        // let modelIndex = null
-                        // for(let index in model) {
-                        //     modelIndex = parseFloat(index) - 1
-                        // }
-                        // dispatch(setSelectedMemberIndex(modelIndex, selectedSheet))
-                        for(let memberIndex in members) {
-                            // alert("memberIndex == " + JSON.stringify(memberIndex));
-                        }
                         onChangeHandler(model)
                     }}
                     onCellClick={(model) => {
-                        // alert("please");
                         let modelIndex = null
                         for(let index in model) {
-                            // alert("the model == " + JSON.stringify(model) );
                             modelIndex = parseFloat(model.id)
-                            // alert("the modal index == " + JSON.stringify(modelIndex));
-                            // removeSelectedMember(modelIndex)
-                            // const modelValue = model[index]
-                            // for(let y in modelValue) {
-                            //     // alert("here?");
-                            //     if(y === 'delete') {
-                            //         alert(JSON.stringify(modelIndex));
-                            //         // removeSelectedMember(modelIndex)
-                            //     }
-                            // }
                         }
                         if(model.field === 'delete') {
                             removeSelectedMember(modelIndex)
-                            // alert("model" + JSON.stringify(model));
                         } else {
                             return
                         }
@@ -597,279 +565,6 @@ const Members = () => {
                 </div>
             </div>
         </div>
-        // // <div>
-        //         {/*<Card style={{*/}
-        //         {/*    backgroundColor: '#efefef',*/}
-        //         {/*    border: '1px solid black',*/}
-        //         {/*}}>*/}
-        //         {/*    <div style={{*/}
-        //         {/*        padding: '1em'*/}
-        //         {/*    }}>*/}
-        //         {/*        <div style={{*/}
-        //         {/*            display: 'flex',*/}
-        //         {/*        }}>*/}
-        //         {/*            <Grid item xs style={{*/}
-        //         {/*                paddingRight: '0px',*/}
-        //         {/*                width: '7.14%',*/}
-        //         {/*            }}>*/}
-        //         {/*                <div style={{*/}
-        //         {/*                    marginBottom: '0px',*/}
-        //         {/*                    border: '1px solid black',*/}
-        //         {/*                    padding: '5px',*/}
-        //         {/*                    backgroundColor: '#e2e2e2',*/}
-        //         {/*                    textAlign: 'center'*/}
-        //         {/*                }}>*/}
-        //         {/*                    <p>*/}
-        //         {/*                        <strong>Member ID<sub></sub></strong>*/}
-        //         {/*                    </p>*/}
-        //         {/*                </div>*/}
-        //         {/*            </Grid>*/}
-        //         {/*            <Grid item xs style={{*/}
-        //         {/*                paddingRight: '0px',*/}
-        //         {/*                paddingLeft: '0px',*/}
-        //         {/*                width: '7.14%',*/}
-        //         {/*            }}>*/}
-        //         {/*                <div style={{*/}
-        //         {/*                    marginBottom: '0px',*/}
-        //         {/*                    border: '1px solid black',*/}
-        //         {/*                    padding: '5px',*/}
-        //         {/*                    backgroundColor: '#e2e2e2',*/}
-        //         {/*                    textAlign: 'center'*/}
-        //         {/*                }}>*/}
-        //         {/*                    <p>*/}
-        //         {/*                        <strong>Material ID <sub></sub></strong>*/}
-        //         {/*                    </p>*/}
-        //         {/*                </div>*/}
-        //         {/*            </Grid>*/}
-        //         {/*            <Grid item xs style={{*/}
-        //         {/*                paddingRight: '0px',*/}
-        //         {/*                paddingLeft: '0px',*/}
-        //         {/*                width: '7.14%',*/}
-        //         {/*            }}>*/}
-        //         {/*                <div style={{*/}
-        //         {/*                    marginBottom: '0px',*/}
-        //         {/*                    border: '1px solid black',*/}
-        //         {/*                    padding: '5px',*/}
-        //         {/*                    backgroundColor: '#e2e2e2',*/}
-        //         {/*                    textAlign: 'center'*/}
-        //         {/*                }}>*/}
-        //         {/*                    <p>*/}
-        //         {/*                        <strong>Section ID <sub></sub></strong>*/}
-        //         {/*                    </p>*/}
-        //         {/*                </div>*/}
-        //         {/*            </Grid>*/}
-        //         {/*            <div style={{*/}
-        //         {/*                paddingRight: '0px',*/}
-        //         {/*                paddingLeft: '0px',*/}
-        //         {/*                width: '7.14%',*/}
-        //         {/*            }}>*/}
-        //         {/*                <div style={{*/}
-        //         {/*                    marginBottom: '0px',*/}
-        //         {/*                    border: '1px solid black',*/}
-        //         {/*                    padding: '5px',*/}
-        //         {/*                    backgroundColor: '#e2e2e2',*/}
-        //         {/*                    textAlign: 'center'*/}
-        //         {/*                }}>*/}
-        //         {/*                    <p>*/}
-        //         {/*                        <strong>L({unitHandler()}) <sub></sub></strong>*/}
-        //         {/*                    </p>*/}
-        //         {/*                </div>*/}
-        //         {/*            </div>*/}
-        //
-        //
-        //         {/*            <div style={{*/}
-        //         {/*                paddingRight: '0px',*/}
-        //         {/*                paddingLeft: '0px',*/}
-        //         {/*                width: '14.28%',*/}
-        //         {/*            }}>*/}
-        //         {/*                <div style={{*/}
-        //         {/*                    marginBottom: '0px',*/}
-        //         {/*                    border: '1px solid black',*/}
-        //         {/*                    backgroundColor: '#e2e2e2',*/}
-        //         {/*                    textAlign: 'center'*/}
-        //         {/*                }}>*/}
-        //         {/*                    <div style={{*/}
-        //         {/*                        borderBottom: '1px solid black',*/}
-        //         {/*                        padding: '4px'*/}
-        //         {/*                    }}>*/}
-        //         {/*                        <p style={{margin: '0px 0 0 0', padding: 0, wordBreak: 'break-word'}}>*/}
-        //         {/*                            <strong style={{verticalAlign: 'sub'}}>Buckling about X-axis <sub></sub></strong>*/}
-        //         {/*                        </p>*/}
-        //         {/*                    </div>*/}
-        //
-        //         {/*                    <div style={{*/}
-        //         {/*                        display: 'flex',*/}
-        //         {/*                        padding: '2.5px'*/}
-        //         {/*                    }}>*/}
-        //         {/*                        <div style={{*/}
-        //         {/*                            width: '50%',*/}
-        //         {/*                        }}>*/}
-        //         {/*                            <p style={{margin: 0, padding: '0px', borderRight: '1px solid black'}}>*/}
-        //         {/*                                <strong>L<sub>x</sub>({unitHandler()}) <sub></sub></strong>*/}
-        //         {/*                            </p>*/}
-        //         {/*                        </div>*/}
-        //         {/*                        <div style={{*/}
-        //         {/*                            width: '50%'*/}
-        //         {/*                        }}>*/}
-        //         {/*                            <p style={{margin: 0, padding: '0px'}}>*/}
-        //         {/*                                <strong>K<sub>x</sub> <sub></sub></strong>*/}
-        //         {/*                            </p>*/}
-        //         {/*                        </div>*/}
-        //         {/*                    </div>*/}
-        //         {/*                </div>*/}
-        //         {/*            </div>*/}
-        //         {/*            <div style={{*/}
-        //         {/*                paddingRight: '0px',*/}
-        //         {/*                paddingLeft: '0px',*/}
-        //         {/*                width: '14.28%',*/}
-        //         {/*            }}>*/}
-        //         {/*                <div style={{*/}
-        //         {/*                    marginBottom: '0px',*/}
-        //         {/*                    border: '1px solid black',*/}
-        //         {/*                    backgroundColor: '#e2e2e2',*/}
-        //         {/*                    textAlign: 'center'*/}
-        //         {/*                }}>*/}
-        //         {/*                    <div style={{*/}
-        //         {/*                        borderBottom: '1px solid black',*/}
-        //         {/*                        padding: '4px'*/}
-        //         {/*                    }}>*/}
-        //         {/*                        <p style={{margin: '0px 0 0 0', padding: 0, wordBreak: 'break-word'}}>*/}
-        //         {/*                            <strong style={{verticalAlign: 'sub'}}>Buckling about Y-axis <sub></sub></strong>*/}
-        //         {/*                        </p>*/}
-        //         {/*                    </div>*/}
-        //
-        //         {/*                    <div style={{*/}
-        //         {/*                        display: 'flex',*/}
-        //         {/*                        padding: '2.5px'*/}
-        //         {/*                    }}>*/}
-        //         {/*                        <div style={{*/}
-        //         {/*                            width: '50%',*/}
-        //         {/*                        }}>*/}
-        //         {/*                            <p style={{margin: 0, padding: '0px', borderRight: '1px solid black'}}>*/}
-        //         {/*                                <strong>L<sub>y</sub>({unitHandler()}) <sub></sub></strong>*/}
-        //         {/*                            </p>*/}
-        //         {/*                        </div>*/}
-        //         {/*                        <div style={{*/}
-        //         {/*                            width: '50%'*/}
-        //         {/*                        }}>*/}
-        //         {/*                            <p style={{margin: 0, padding: '0px'}}>*/}
-        //         {/*                                <strong>K<sub>y</sub> <sub></sub></strong>*/}
-        //         {/*                            </p>*/}
-        //         {/*                        </div>*/}
-        //         {/*                    </div>*/}
-        //         {/*                </div>*/}
-        //         {/*            </div>*/}
-        //         {/*            <div style={{*/}
-        //         {/*                paddingRight: '0px',*/}
-        //         {/*                paddingLeft: '0px',*/}
-        //         {/*                width: '7.14%',*/}
-        //         {/*            }}>*/}
-        //         {/*                <div style={{*/}
-        //         {/*                    marginBottom: '0px',*/}
-        //         {/*                    border: '1px solid black',*/}
-        //         {/*                    padding: '5px',*/}
-        //         {/*                    backgroundColor: '#e2e2e2',*/}
-        //         {/*                    textAlign: 'center'*/}
-        //         {/*                }}>*/}
-        //         {/*                    <p>*/}
-        //         {/*                        <strong>LLT <sub></sub></strong>*/}
-        //         {/*                    </p>*/}
-        //         {/*                </div>*/}
-        //         {/*            </div>*/}
-        //         {/*            <div style={{*/}
-        //         {/*                paddingRight: '0px',*/}
-        //         {/*                paddingLeft: '0px',*/}
-        //         {/*                width: '7.14%',*/}
-        //         {/*            }}>*/}
-        //         {/*                <div style={{*/}
-        //         {/*                    marginBottom: '0px',*/}
-        //         {/*                    border: '1px solid black',*/}
-        //         {/*                    padding: '5px',*/}
-        //         {/*                    backgroundColor: '#e2e2e2',*/}
-        //         {/*                    textAlign: 'center'*/}
-        //         {/*                }}>*/}
-        //         {/*                    <p>*/}
-        //         {/*                        <strong>C<sub>bx </sub></strong>*/}
-        //         {/*                    </p>*/}
-        //         {/*                </div>*/}
-        //         {/*            </div>*/}
-        //         {/*            <div style={{*/}
-        //         {/*                paddingRight: '0px',*/}
-        //         {/*                paddingLeft: '0px',*/}
-        //         {/*                width: '7.14%',*/}
-        //         {/*            }}>*/}
-        //         {/*                <div style={{*/}
-        //         {/*                    marginBottom: '0px',*/}
-        //         {/*                    border: '1px solid black',*/}
-        //         {/*                    padding: '5px',*/}
-        //         {/*                    backgroundColor: '#e2e2e2',*/}
-        //         {/*                    textAlign: 'center'*/}
-        //         {/*                }}>*/}
-        //         {/*                    <p>*/}
-        //         {/*                        <strong>C<sub>by</sub></strong>*/}
-        //         {/*                    </p>*/}
-        //         {/*                </div>*/}
-        //         {/*            </div>*/}
-        //         {/*            <div style={{*/}
-        //         {/*                paddingRight: '0px',*/}
-        //         {/*                paddingLeft: '0px',*/}
-        //         {/*                width: '7.14%',*/}
-        //         {/*            }}>*/}
-        //         {/*                <div style={{*/}
-        //         {/*                    marginBottom: '0px',*/}
-        //         {/*                    border: '1px solid black',*/}
-        //         {/*                    padding: '5px',*/}
-        //         {/*                    backgroundColor: '#e2e2e2',*/}
-        //         {/*                    textAlign: 'center'*/}
-        //         {/*                }}>*/}
-        //         {/*                    <p>*/}
-        //         {/*                        <strong>LSC <sub></sub></strong>*/}
-        //         {/*                    </p>*/}
-        //         {/*                </div>*/}
-        //         {/*            </div>*/}
-        //         {/*            <div style={{*/}
-        //         {/*                paddingRight: '0px',*/}
-        //         {/*                paddingLeft: '0px',*/}
-        //         {/*                width: '7.14%',*/}
-        //         {/*            }}>*/}
-        //         {/*                <div style={{*/}
-        //         {/*                    marginBottom: '0px',*/}
-        //         {/*                    border: '1px solid black',*/}
-        //         {/*                    padding: '5px',*/}
-        //         {/*                    backgroundColor: '#e2e2e2',*/}
-        //         {/*                    textAlign: 'center'*/}
-        //         {/*                }}>*/}
-        //         {/*                    <p>*/}
-        //         {/*                        <strong>LST <sub></sub></strong>*/}
-        //         {/*                    </p>*/}
-        //         {/*                </div>*/}
-        //         {/*            </div>*/}
-        //         {/*            <div style={{*/}
-        //         {/*                paddingLeft: '0px',*/}
-        //         {/*                width: '7.14%',*/}
-        //         {/*            }}>*/}
-        //         {/*                <div style={{*/}
-        //         {/*                    marginBottom: '0px',*/}
-        //         {/*                    border: '1px solid black',*/}
-        //         {/*                    padding: '5px',*/}
-        //         {/*                    backgroundColor: '#e2e2e2',*/}
-        //         {/*                    textAlign: 'center'*/}
-        //         {/*                }}>*/}
-        //         {/*                    <p><strong>DELETE <sub></sub></strong></p>*/}
-        //         {/*                </div>*/}
-        //         {/*            </div>*/}
-        //         {/*        </div>*/}
-        //         {/*        <MemberFieldRows/>*/}
-        //         {/*    </div>*/}
-        //
-        //         {/*    <div style={{*/}
-        //         {/*        display: 'flex',*/}
-        //         {/*    }}>*/}
-        //         {/*        <MaterialProperties/>*/}
-        //         {/*        <SectionProperties/>*/}
-        //         {/*    </div>*/}
-        //         {/*</Card>*/}
-        // // </div>
     )
 }
 export default Members;

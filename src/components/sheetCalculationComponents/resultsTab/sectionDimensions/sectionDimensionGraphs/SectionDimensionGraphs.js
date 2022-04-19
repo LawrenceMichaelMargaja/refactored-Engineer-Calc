@@ -177,6 +177,7 @@ const SectionDimensionGraphs = () => {
 
     const renderGraphs = () => {
         return (
+            <div>
             <div style={{width: 'fit-content', margin: '1em auto', display: 'flex'}}>
                 <div style={{width: 'fit-content', display: `${iShapeDisplay}`, padding: '0 0.5em'}}>
                     <img style={{width: '235px', height: '215px'}} src={iShape} alt="angle shape"/>
@@ -190,6 +191,8 @@ const SectionDimensionGraphs = () => {
                 <div style={{width: 'fit-content', display: `${tShapeDisplay}`, padding: '0 0.5em'}}>
                     <img style={{width: '235px', height: '215px'}} src={tShape} alt="angle shape"/>
                 </div>
+            </div>
+            <div style={{width: 'fit-content', margin: '1em auto', display: 'flex'}}>
                 <div style={{width: 'fit-content', display: `${doubleAnglesDisplay}`, padding: '0 0.5em'}}>
                     <img style={{width: '235px', height: '215px'}} src={doubleAngles} alt="angle shape"/>
                 </div>
@@ -199,6 +202,7 @@ const SectionDimensionGraphs = () => {
                 <div style={{width: 'fit-content', display: `${roundHSAndPipeDisplay}`, padding: '0 0.5em'}}>
                     <img style={{width: '235px', height: '215px'}} src={pipeAndRoundShape} alt="angle shape"/>
                 </div>
+            </div>
             </div>
         )
     }

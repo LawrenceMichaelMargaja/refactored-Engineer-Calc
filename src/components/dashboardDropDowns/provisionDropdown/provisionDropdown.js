@@ -9,6 +9,7 @@ import {
 } from "../../../store/actions/sheets/sheetCalculationComponents/factors/factors";
 import {objectChecker} from "../../../utilities/utilities";
 import {size} from "lodash";
+import {Tooltip} from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
     dropDown: {
@@ -18,6 +19,10 @@ const useStyles = makeStyles((theme) => ({
         width: '10%',
         border: '1px solid black',
         backgroundColor: '#e2e2e2'
+    },
+    inputLabelRoot: {
+        color: 'black',
+        fontWeight: 'bold'
     }
 }))
 
@@ -58,19 +63,21 @@ const ProvisionDropdown = () => {
     return (
         <div sx={{ minWidth: 120 }} className={classes.dropDown}>
             <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Provision</InputLabel>
-                <Select
-                    disabled={disable()}
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="Age"
-                    value={provision}
-                    // options{options}
-                    onChange={(event) => handleChange(event)}
-                >
-                    <MenuItem value={"ASD"}>AISC 360-16 ASD</MenuItem>
-                    <MenuItem value={"LRFD"}>AISC 360-16 LRFD</MenuItem>
-                </Select>
+                <InputLabel id="demo-simple-select-label" className={classes.inputLabelRoot}>Provision</InputLabel>
+                {/*<Tooltip title={<p>Click to change provision.</p>}>*/}
+                    <Select
+                        disabled={disable()}
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        label="Age"
+                        value={provision}
+                        // options{options}
+                        onChange={(event) => handleChange(event)}
+                    >
+                        <MenuItem value={"ASD"}>AISC 360-16 ASD</MenuItem>
+                        <MenuItem value={"LRFD"}>AISC 360-16 LRFD</MenuItem>
+                    </Select>
+                {/*</Tooltip>*/}
             </FormControl>
         </div>
     )

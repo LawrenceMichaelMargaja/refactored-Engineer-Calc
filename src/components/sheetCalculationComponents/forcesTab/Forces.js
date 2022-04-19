@@ -9,6 +9,7 @@ import {
     setBendingMomentAlongYAxis, setShearAlongXAxis, setShearAlongYAxis
 } from "../../../store/actions/sheets/sheetCalculationComponents/forces/forces";
 import {objectChecker} from "../../../utilities/utilities";
+import {Tooltip} from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
     textField: {
@@ -133,21 +134,33 @@ const Forces = () => {
                     // marginLeft: '1em',
                     display: 'flex'
                 }}>
-                    <form key='bendingMomentAlongXAxis' className={classes.textField} noValidate autoComplete="off">
-                        <div style={{
-                            margin: '0 8px',
-                            textAlign: 'initial',
-                            borderBottom: '1px solid black',
-                            paddingLeft: '15px'
-                        }}>
-                            <strong>Mx({unitHandlerForBendingFunc()})</strong>
-                            <sub> </sub>
-                        </div>
+                    <div key='bendingMomentAlongXAxis' className={classes.textField} noValidate autoComplete="off">
+                        <Tooltip title={<p>Label for Mx</p>}>
+                            <div style={{
+                                margin: '0 8px',
+                                textAlign: 'initial',
+                                borderBottom: '1px solid black',
+                                paddingLeft: '15px'
+                            }}>
+                                <strong>Mx({unitHandlerForBendingFunc()})</strong>
+                                <sub> </sub>
+                            </div>
+                        </Tooltip>
                         <TextField
                             type='number'
                             id='bendingMomentAlongXAxis'
                             className={classes.input}
-                            label={`Bending Moment along X-axis`}
+                            label={`Bending Moment about X-axis`}
+                            // onKeyPress={(event) => {
+                            //     if(event.key === 'enter') {
+                            //         event.preventDefault()
+                            //     }
+                            // }}
+                            // onKeyUp={(event) => {
+                            //     if(event.key === 'enter') {
+                            //         bendingMomentAlongYAxisHandler(event)
+                            //     }
+                            // }}
                             variant="outlined"
                             type='number'
                             value={bendingMomentAlongXAxisValue}
@@ -155,22 +168,25 @@ const Forces = () => {
                             onBlur={(event) => blurValueChecker(event)}
                             onChange={(event) => bendingMomentAlongXAxisHandler(event)}
                         />
-                    </form>
-                    <form key='bendingMomentAlongYAxis' className={classes.textField} noValidate autoComplete="off">
-                        <div style={{
-                            margin: '0 8px',
-                            textAlign: 'initial',
-                            borderBottom: '1px solid black',
-                            paddingLeft: '15px'
-                        }}>
-                            <strong>My({unitHandlerForBendingFunc()})</strong>
-                            <sub> </sub>
-                        </div>
+                        <p>TEST</p>
+                    </div>
+                    <div key='bendingMomentAlongYAxis' className={classes.textField} noValidate autoComplete="off">
+                        <Tooltip title={<p>Label for My</p>}>
+                            <div style={{
+                                margin: '0 8px',
+                                textAlign: 'initial',
+                                borderBottom: '1px solid black',
+                                paddingLeft: '15px'
+                            }}>
+                                <strong>My({unitHandlerForBendingFunc()})</strong>
+                                <sub> </sub>
+                            </div>
+                        </Tooltip>
                         <TextField
                             type='number'
                             id='bendingMomentAlongYAxis'
                             className={classes.input}
-                            label={`Bending Moment along Y-axis`}
+                            label={`Bending Moment about Y-axis`}
                             variant="outlined"
                             type='number'
                             onFocus={(event) => focusValueChecker(event)}
@@ -178,17 +194,19 @@ const Forces = () => {
                             value={bendingMomentAlongYAxisValue}
                             onChange={(event) => bendingMomentAlongYAxisHandler(event)}
                         />
-                    </form>
-                    <form key='shearAlongXAxis' className={classes.textField} noValidate autoComplete="off">
-                        <div style={{
-                            margin: '0 8px',
-                            textAlign: 'initial',
-                            borderBottom: '1px solid black',
-                            paddingLeft: '15px'
-                        }}>
-                            <strong>Vx({unitHandlerForShearAndAxialFunc()})</strong>
-                            <sub> </sub>
-                        </div>
+                    </div>
+                    <div key='shearAlongXAxis' className={classes.textField} noValidate autoComplete="off">
+                        <Tooltip title={<p>Label for Vx</p>}>
+                            <div style={{
+                                margin: '0 8px',
+                                textAlign: 'initial',
+                                borderBottom: '1px solid black',
+                                paddingLeft: '15px'
+                            }}>
+                                <strong>Vx({unitHandlerForShearAndAxialFunc()})</strong>
+                                <sub> </sub>
+                            </div>
+                        </Tooltip>
                         <TextField
                             type='number'
                             id='shearAlongXAxis'
@@ -202,17 +220,19 @@ const Forces = () => {
                             onChange={(event) => shearAlongXAxisHandler(event)}
                         />
 
-                    </form>
-                    <form key='shearAlongYAxis' className={classes.textField} noValidate autoComplete="off">
-                        <div style={{
-                            margin: '0 8px',
-                            textAlign: 'initial',
-                            borderBottom: '1px solid black',
-                            paddingLeft: '15px'
-                        }}>
-                            <strong>Vy({unitHandlerForShearAndAxialFunc()})</strong>
-                            <sub> </sub>
-                        </div>
+                    </div>
+                    <div key='shearAlongYAxis' className={classes.textField} noValidate autoComplete="off">
+                        <Tooltip title={<p>Label for Vy</p>}>
+                            <div style={{
+                                margin: '0 8px',
+                                textAlign: 'initial',
+                                borderBottom: '1px solid black',
+                                paddingLeft: '15px'
+                            }}>
+                                <strong>Vy({unitHandlerForShearAndAxialFunc()})</strong>
+                                <sub> </sub>
+                            </div>
+                        </Tooltip>
                         <TextField
                             type='number'
                             id='shearAlongYAxis'
@@ -225,17 +245,19 @@ const Forces = () => {
                             value={shearAlongYAxisValue}
                             onChange={(event) => shearAlongYAxisHandler(event)}
                         />
-                    </form>
-                    <form key='axial' className={classes.textField} noValidate autoComplete="off">
-                        <div style={{
-                            margin: '0 8px',
-                            textAlign: 'initial',
-                            borderBottom: '1px solid black',
-                            paddingLeft: '15px'
-                        }}>
-                            <strong>P({unitHandlerForShearAndAxialFunc()})</strong>
-                            <sub> </sub>
-                        </div>
+                    </div>
+                    <div key='axial' className={classes.textField} noValidate autoComplete="off">
+                        <Tooltip title={<p>Label for P</p>}>
+                            <div style={{
+                                margin: '0 8px',
+                                textAlign: 'initial',
+                                borderBottom: '1px solid black',
+                                paddingLeft: '15px'
+                            }}>
+                                <strong>P({unitHandlerForShearAndAxialFunc()})</strong>
+                                <sub> </sub>
+                            </div>
+                        </Tooltip>
                         <TextField
                             type='number'
                             id='axial'
@@ -248,7 +270,7 @@ const Forces = () => {
                             value={axialValue}
                             onChange={(event) => axialHandler(event)}
                         />
-                    </form>
+                    </div>
                 </div>
             </Card>
         </Grid>

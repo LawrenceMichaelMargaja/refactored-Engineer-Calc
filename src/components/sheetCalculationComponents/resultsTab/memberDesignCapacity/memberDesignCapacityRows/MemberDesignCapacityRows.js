@@ -12,35 +12,7 @@ const MemberDesignCapacityRows = () => {
 
     let memberRows = []
 
-    // let systemValue = 'Metric'
-    //
-    // useEffect(() => {
-    //     if(system === 'Metric') {
-    //         systemValue = 'Metric'
-    //     } else  if(system === 'English') {
-    //         systemValue = 'English'
-    //     }
-    // }, [system])
-
     const renderMemberRows = () => {
-
-            // const materialId = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'materialId'])
-            // const sectionId = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'sectionId'])
-            // const totalLengthOfMember = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'totalLengthOfMember'])
-            // const yAxisUnbracedLength = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'yAxisUnbracedLength'])
-            // const yAxisEffectiveLengthFactor = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'yAxisEffectiveLengthFactor'])
-            // const zAxisUnbracedLength = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'yAxisEffectiveLengthFactor'])
-            // const zAxisEffectiveLengthFactor = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'zAxisEffectiveLengthFactor'])
-            // const LLT = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'LLT'])
-            // const unbracedLengthLateralTorsional = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'unbracedLengthLateralTorsional'])
-            // const lateralTorsionalModificationFactor = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'lateralTorsionalModificationFactor'])
-            // const slendernessRatioInCompression = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'slendernessRatioInCompression'])
-            // const LST = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'LST'])
-
-            // const result = calculatedData.map(data => ({ pt: data.pt, pc: data.pc, mcx: data.mcx, mcy: data.mcy, vcx: data.vcx, vcy: data.vcy }));
-            // console.log("the calculated result == ", result);
-
-
 
             for(let calculatedIndex in calculatedData) {
 
@@ -51,7 +23,6 @@ const MemberDesignCapacityRows = () => {
                 } else  if(system === 'English') {
                     systemValue = 'English'
                 }
-
 
                 memberRows.push(
                     <div style={{

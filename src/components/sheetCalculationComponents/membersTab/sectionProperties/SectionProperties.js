@@ -5,26 +5,30 @@ import SectionPropertiesRows from "./sectionPropertiesRows/SectionPropertiesRows
 import {useDispatch, useSelector} from "react-redux";
 import {
     addSectionPropertyEnglish,
-    addSectionPropertyMetric,
+    addSectionPropertyMetric, editSelectedSectionEnglish, editSelectedSectionMetric,
     removeAllSectionProperties,
+    removeSelectedSectionPropertyEnglish,
+    removeSelectedSectionPropertyMetric, resetSectionIndexEnglish,
+    resetSectionIndexMetric, setCurrentEnglishSectionPropertyIndex, setCurrentMetricSectionPropertyIndex,
     setCurrentSectionPropertiesArray,
     setCurrentSectionPropertyIndex
 } from "../../../../store/actions/sheets/sheetCalculationComponents/sectionProperties/sectionProperties";
-import {size} from "lodash";
+import {mapKeys, size} from "lodash";
 import {
     setEnglishMaterialSteelType,
     setMetricMaterialSteelType
 } from "../../../../store/actions/sheets/sheetCalculationComponents/materialProperties/materialProperties";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import {Autocomplete} from "@mui/material";
+import {Autocomplete, Stack, Tooltip} from "@mui/material";
 import {
+    clearSectionPropertiesIndexArray,
     getCShapeEnglish,
     getSectionPropertiesEnglish,
     getSectionPropertiesMetric,
     getShapes,
     getSteelTypesEnglishAPI,
-    getSteelTypesMetricAPI,
+    getSteelTypesMetricAPI, removeCurrentSectionPropertyIndex, setCurrentShape, setDesignMethodShape,
     setSectionDimensionsArrayEnglish,
     setSectionDimensionsArrayMetric,
     setSectionDimensionsArrray
@@ -32,6 +36,20 @@ import {
 import {objectChecker} from "../../../../utilities/utilities";
 import {setSystemDropdown} from "../../../../store/actions/dashboardDropdowns/systemDropdown";
 import SectionPropertiesRowsDesign from "./sectionPropertiesRows/SectionPropertiesRowsDesign";
+import {DataGrid} from "@mui/x-data-grid";
+import {
+    setLateralTorsionalModificationFactor,
+    setLLT, setLST,
+    setMaterialId,
+    setSectionId, setSlendernessRatioInCompression,
+    setTotalLengthOfMember, setUnbracedLengthLateralTorsional,
+    setYAxisEffectiveLengthFactor,
+    setYAxisUnbracedLength,
+    setZAxisEffectiveLengthFactor,
+    setZAxisUnbracedLength
+} from "../../../../store/actions/sheets/sheetCalculationComponents/memberFields/memberFields";
+import BorderColorIcon from "@material-ui/icons/BorderColor";
+import CancelIcon from "@material-ui/icons/Cancel";
 
 
 const SectionProperties = () => {
@@ -77,6 +95,36 @@ const SectionProperties = () => {
 
     const [disableButton, setDisableButton] = useState(false)
     const [theCurrentSectionIndex, setTheCurrentSectionIndex] = useState(0)
+    const [editMode, setEditMode] = useState(false)
+    const [theModelIndex, setTheModelIndex] = useState(1)
+    const [theEditIndex, setTheEditIndex] = useState(1)
+
+    const getTheEditIndex = (theModelId) => {
+        if(system === 'Metric') {
+            for(let index in insertedSectionPropertiesMetric) {
+                if(insertedSectionPropertiesMetric[index].sectionId === theModelId) {
+                    setEditMode(true)
+                    setTheEditIndex(theModelId)
+                    setOpenNestedModal(true)
+                }
+            }
+        } else if(system === 'English') {
+            // alert("oh yes == " + JSON.stringify(theModelId));
+            for(let index in insertedSectionPropertiesEnglish) {
+                if(insertedSectionPropertiesEnglish[index].sectionId === theModelId) {
+                    setEditMode(true)
+                    setTheEditIndex(theModelId)
+                    // alert("theEditIndex == " + JSON.stringify(theEditIndex));
+                    setOpenNestedModal(true)
+                }
+            }
+        }
+    }
+
+    // useEffect(() => {
+    //     alert("called me");
+    //     getTheEditIndex()
+    // }, [theModelIndex])
 
     useEffect(() => {
         if (method === 'Investigation') {
@@ -88,34 +136,6 @@ const SectionProperties = () => {
 
     const [openNestedModal, setOpenNestedModal] = useState(false);
 
-    // const fetchShapes = () => {
-    //     fetch("http://127.0.0.1:8080/shape")
-    //         .then((response) => response.json())
-    //         .then((data) => dispatch(getShapes(data, selectedSheet)))
-    //         .catch((error) => {
-    //             console.log(error)
-    //         })
-    // }
-
-    // const getMetricSectionProperties = () => {
-    //     fetch("http://127.0.0.1:8080/sectionpropertiesmetric")
-    //         .then((response) => response.json())
-    //         .then((data) => dispatch(getSectionPropertiesMetric(data, selectedSheet)))
-    //         // .then((data) => console.log(sectionPropertiesMetric))
-    //         .catch((error) => {
-    //             console.log(error)
-    //         });
-    // }
-    //
-    // const getEnglishSectionProperties = () => {
-    //     fetch("http://127.0.0.1:8080/sectionpropertiesenglish")
-    //         .then((response) => response.json())
-    //         .then((data) => dispatch(getSectionPropertiesEnglish(data, selectedSheet)))
-    //         .catch((error) => {
-    //             console.log(error)
-    //         });
-    // }
-
     const hashMetric = useMemo(() => {
         let hash = {}
         for (let i in sectionPropertiesMetric) {
@@ -123,6 +143,18 @@ const SectionProperties = () => {
                 section_properties_metric_name,
             } = sectionPropertiesMetric[i]
             hash[section_properties_metric_name] = steelTypesMetric[i]
+        }
+        return hash
+    }, [sectionPropertiesMetric])
+
+    const hashMetricId = useMemo(() => {
+        let hash = {}
+        // alert(JSON.stringify(steelTypesMetric))
+        for (let i in sectionPropertiesMetric) {
+            let {
+                id,
+            } = sectionPropertiesMetric[i]
+            hash[id] = sectionPropertiesMetric[i]
         }
         return hash
     }, [sectionPropertiesMetric])
@@ -138,9 +170,21 @@ const SectionProperties = () => {
         return hash
     }, [sectionPropertiesEnglish])
 
+    const hashEnglishId = useMemo(() => {
+        let hash = {}
+        for (let i in sectionPropertiesEnglish) {
+            let {
+                id,
+            } = sectionPropertiesEnglish[i]
+            hash[id] = sectionPropertiesEnglish[i]
+        }
+        return hash
+    }, [sectionPropertiesEnglish])
+
     const deleteAllSectionProperties = () => {
         const proceed = window.confirm("Are you sure you want to delete all section properties?")
         if (proceed) {
+            dispatch(clearSectionPropertiesIndexArray(null, selectedSheet))
             dispatch(removeAllSectionProperties(selectedSheet))
         } else {
             return
@@ -292,23 +336,11 @@ const SectionProperties = () => {
 
     const display2LShapesMetric = () => {
         const twoLMetricOptions = twoLShapesMetricData.map((data) => {
-            let layout = { value: `${data['two_l_shape_metric_name']}`, label: `${data['two_l_shape_metric_name']}` }
+            let layout = {value: `${data['two_l_shape_metric_name']}`, label: `${data['two_l_shape_metric_name']}`}
             return layout
         })
         return twoLMetricOptions
     }
-
-    // function insertDataFromAPI(item) {
-    //     return {
-    //         value: `${item[`two_l_shape_metric_name`]}`,
-    //         label: `${item[`two_l_shape_metric_name`]}`
-    //     }
-    // }
-    //
-    // const display2LShapesMetric = () => {
-    //     // alert(JSON.stringify(twoLShapesMetricData))
-    //     return twoLShapesMetricData.map(insertDataFromAPI)
-    // }
 
     const display2LShapesEnglish = () => {
         const twoLEnglishOptions = twoLShapesEnglishData.map((data) => ({
@@ -321,29 +353,9 @@ const SectionProperties = () => {
      * end of API Data per shape.
      */
 
-    // useEffect(() => {
-    //     fetchShapes()
-    //     getMetricSectionProperties()
-    //     getEnglishSectionProperties()
-    // }, [])
-
     const handleOpenNestedModal = () => {
         setOpenNestedModal(true);
     };
-
-    // const fetchCShapeEnglish = () => {
-    //     fetch("http://127.0.0.1:8080/cshapeenglish")
-    //         .then((response) => response.json())
-    //         .then((data) => dispatch(getCShapeEnglish(data, selectedSheet)))
-    //         .catch((error) => {
-    //             console.log(error)
-    //         })
-    // }
-    //
-    // useEffect(() => {
-    //     fetchCShapeEnglish()
-    // }, [])
-
 
     const NestedModal = () => {
 
@@ -351,49 +363,46 @@ const SectionProperties = () => {
 
         const [selectedSectionName, setSelectedSectionName] = useState('')
         const [selectedSectionShape, setSelectedSectionShape] = useState('')
-
-        const [selectListName, setSelectListName] = useState('')
-        const [selectListShape, setSelectListShape] = useState('')
         const [requiredShape, setRequiredShape] = useState(false)
         const [requiredName, setRequiredName] = useState(false)
 
         const systemCheck = () => {
             if (system === 'Metric') {
-                if(selectedSectionShape === 'I') {
+                if (selectedSectionShape === 'I') {
                     return displayIShapesMetric()
-                } else if(selectedSectionShape === 'C') {
+                } else if (selectedSectionShape === 'C') {
                     return displayCShapesMetric()
-                } else if(selectedSectionShape === 'L') {
+                } else if (selectedSectionShape === 'L') {
                     return displayLShapesMetric()
-                } else if(selectedSectionShape === 'T') {
+                } else if (selectedSectionShape === 'T') {
                     return displayTShapesMetric()
-                } else if(selectedSectionShape === '2L') {
+                } else if (selectedSectionShape === '2L') {
                     return display2LShapesMetric()
-                } else if(selectedSectionShape === 'recHSS') {
+                } else if (selectedSectionShape === 'recHSS') {
                     return displayRecHSShapesMetric()
-                } else if(selectedSectionShape === 'roundHSS') {
+                } else if (selectedSectionShape === 'roundHSS') {
                     return displayRoundHSShapesMetric()
-                } else if(selectedSectionShape === 'Pipe') {
+                } else if (selectedSectionShape === 'Pipe') {
                     return displayPipeShapesMetric()
                 } else {
                     return displaySectionPropertiesMetric()
                 }
             } else if (system === 'English') {
-                if(selectedSectionShape === 'I') {
+                if (selectedSectionShape === 'I') {
                     return displayIShapesEnglish()
-                } else if(selectedSectionShape === 'C') {
+                } else if (selectedSectionShape === 'C') {
                     return displayCShapesEnglish()
-                } else if(selectedSectionShape === 'Angles') {
+                } else if (selectedSectionShape === 'L') {
                     return displayLShapesEnglish()
-                } else if(selectedSectionShape === 'T') {
+                } else if (selectedSectionShape === 'T') {
                     return displayTShapesEnglish()
-                } else if(selectedSectionShape === 'Double Angles') {
+                } else if (selectedSectionShape === '2L') {
                     return display2LShapesEnglish()
-                } else if(selectedSectionShape === 'Rectangular HSS') {
+                } else if (selectedSectionShape === 'recHSS') {
                     return displayRecHSShapesEnglish()
-                } else if(selectedSectionShape === 'Round HSS') {
+                } else if (selectedSectionShape === 'roundHSS') {
                     return displayRoundHSShapesEnglish()
-                } else if(selectedSectionShape === 'Pipe') {
+                } else if (selectedSectionShape === 'Pipe') {
                     return displayPipeShapesEnglish()
                 } else {
                     return displaySectionPropertiesEnglish()
@@ -423,10 +432,10 @@ const SectionProperties = () => {
             if (selectedSectionShape !== '') {
                 setRequiredShape(false)
             }
-            if (selectedSectionName !== '') {
+            if (selectedSectionName !== '' || method === 'Design') {
                 setRequiredName(false)
             }
-        }, [selectedSectionShape, selectedSectionName])
+        }, [selectedSectionShape, selectedSectionName, method])
 
         const requiredNameMessage = () => {
             if (requiredName) {
@@ -444,51 +453,51 @@ const SectionProperties = () => {
         const metricNameIndexChecker = () => {
             let checkedIndexMetric = null
 
-            if(selectedSectionShape === 'I') {
+            if (selectedSectionShape === 'I') {
                 iShapesMetricData.map((data) => {
-                    if(selectedSectionName === data.i_shape_metric_name) {
+                    if (selectedSectionName === data.i_shape_metric_name) {
                         checkedIndexMetric = parseFloat(data.id) - 1
                     }
                 })
-            } else if(selectedSectionShape === 'C') {
+            } else if (selectedSectionShape === 'C') {
                 cShapesMetricData.map((data) => {
-                    if(selectedSectionName === data.c_shape_metric_name) {
+                    if (selectedSectionName === data.c_shape_metric_name) {
                         checkedIndexMetric = parseFloat(data.id) - 1
                     }
                 })
-            } else if(selectedSectionShape === 'Angles') {
+            } else if (selectedSectionShape === 'L') {
                 lShapesMetricData.map((data) => {
-                    if(selectedSectionName === data.l_shape_metric_name) {
+                    if (selectedSectionName === data.l_shape_metric_name) {
                         checkedIndexMetric = parseFloat(data.id) - 1
                     }
                 })
-            } else if(selectedSectionShape === 'T') {
+            } else if (selectedSectionShape === 'T') {
                 tShapesMetricData.map((data) => {
-                    if(selectedSectionName === data.t_shape_metric_name) {
+                    if (selectedSectionName === data.t_shape_metric_name) {
                         checkedIndexMetric = parseFloat(data.id) - 1
                     }
                 })
-            } else if(selectedSectionShape === 'Double Angles') {
+            } else if (selectedSectionShape === '2L') {
                 twoLShapesMetricData.map((data) => {
-                    if(selectedSectionName === data.two_l_shape_metric_name) {
+                    if (selectedSectionName === data.two_l_shape_metric_name) {
                         checkedIndexMetric = parseFloat(data.id) - 1
                     }
                 })
-            } else if(selectedSectionShape === 'Rectangular HSS') {
+            } else if (selectedSectionShape === 'recHSS') {
                 recHSShapesMetricData.map((data) => {
-                    if(selectedSectionName === data.rec_hs_shape_metric_name) {
+                    if (selectedSectionName === data.rec_hs_shape_metric_name) {
                         checkedIndexMetric = parseFloat(data.id) - 1
                     }
                 })
-            } else if(selectedSectionShape === 'Round HSS') {
+            } else if (selectedSectionShape === 'roundHSS') {
                 roundHSShapesMetricData.map((data) => {
-                    if(selectedSectionName === data.round_hs_shape_name) {
+                    if (selectedSectionName === data.round_hs_shape_name) {
                         checkedIndexMetric = parseFloat(data.id) - 1
                     }
                 })
-            } else if(selectedSectionShape === 'Pipe') {
+            } else if (selectedSectionShape === 'Pipe') {
                 pipeShapesMetricData.map((data) => {
-                    if(selectedSectionName === data.pipe_shape_metric_name) {
+                    if (selectedSectionName === data.pipe_shape_metric_name) {
                         checkedIndexMetric = parseFloat(data.id) - 1
                     }
                 })
@@ -501,51 +510,51 @@ const SectionProperties = () => {
         const englishNameIndexChecker = () => {
             let checkedIndexEnglish = null
 
-            if(selectedSectionShape === 'I') {
+            if (selectedSectionShape === 'I') {
                 iShapesEnglishData.map((data) => {
-                    if(selectedSectionName === data.i_shape_english_name) {
+                    if (selectedSectionName === data.i_shape_english_name) {
                         checkedIndexEnglish = parseFloat(data.id) - 1
                     }
                 })
-            } else if(selectedSectionShape === 'C') {
+            } else if (selectedSectionShape === 'C') {
                 cShapesEnglishData.map((data) => {
-                    if(selectedSectionName === data.c_shape_english_name) {
+                    if (selectedSectionName === data.c_shape_english_name) {
                         checkedIndexEnglish = parseFloat(data.id) - 1
                     }
                 })
-            } else if(selectedSectionShape === 'Angles') {
+            } else if (selectedSectionShape === 'L') {
                 lShapesEnglishData.map((data) => {
-                    if(selectedSectionName === data.l_shape_english_name) {
+                    if (selectedSectionName === data.l_shape_english_name) {
                         checkedIndexEnglish = parseFloat(data.id) - 1
                     }
                 })
-            } else if(selectedSectionShape === 'T') {
+            } else if (selectedSectionShape === 'T') {
                 tShapesEnglishData.map((data) => {
-                    if(selectedSectionName === data.t_shape_english_name) {
+                    if (selectedSectionName === data.t_shape_english_name) {
                         checkedIndexEnglish = parseFloat(data.id) - 1
                     }
                 })
-            } else if(selectedSectionShape === 'Double Angles') {
+            } else if (selectedSectionShape === '2L') {
                 twoLShapesEnglishData.map((data) => {
-                    if(selectedSectionName === data.two_l_shape_english_name) {
+                    if (selectedSectionName === data.two_l_shape_english_name) {
                         checkedIndexEnglish = parseFloat(data.id) - 1
                     }
                 })
-            } else if(selectedSectionShape === 'Rectangular HSS') {
+            } else if (selectedSectionShape === 'recHSS') {
                 recHSShapesEnglishData.map((data) => {
-                    if(selectedSectionName === data.rec_hs_shape_english_name) {
+                    if (selectedSectionName === data.rec_hs_shape_english_name) {
                         checkedIndexEnglish = parseFloat(data.id) - 1
                     }
                 })
-            } else if(selectedSectionShape === 'Round HSS') {
+            } else if (selectedSectionShape === 'roundHSS') {
                 roundHSShapesEnglishData.map((data) => {
-                    if(selectedSectionName === data.round_hs_shape_english_name) {
+                    if (selectedSectionName === data.round_hs_shape_english_name) {
                         checkedIndexEnglish = parseFloat(data.id) - 1
                     }
                 })
-            } else if(selectedSectionShape === 'Pipe') {
+            } else if (selectedSectionShape === 'Pipe') {
                 pipeShapesEnglishData.map((data) => {
-                    if(selectedSectionName === data.pipe_shape_english_name) {
+                    if (selectedSectionName === data.pipe_shape_english_name) {
                         checkedIndexEnglish = parseFloat(data.id) - 1
                     }
                 })
@@ -557,43 +566,43 @@ const SectionProperties = () => {
 
         const insertSectionProperty = () => {
             const counterNameValue = () => {
-                if(system === 'Metric') {
-                    if(selectedSectionShape === 'I') {
+                if (system === 'Metric') {
+                    if (selectedSectionShape === 'I') {
                         return iShapesEnglishData[metricNameIndexChecker()].i_shape_english_name
-                    } else if(selectedSectionShape === 'C') {
+                    } else if (selectedSectionShape === 'C') {
                         return cShapesEnglishData[metricNameIndexChecker()].c_shape_english_name
-                    } else if(selectedSectionShape === 'Angles') {
+                    } else if (selectedSectionShape === 'L') {
                         return lShapesEnglishData[metricNameIndexChecker()].l_shape_english_name
-                    } else if(selectedSectionShape === 'T') {
+                    } else if (selectedSectionShape === 'T') {
                         return tShapesEnglishData[metricNameIndexChecker()].t_shape_english_name
-                    } else if(selectedSectionShape === 'Double Angles') {
+                    } else if (selectedSectionShape === '2L') {
                         return twoLShapesEnglishData[metricNameIndexChecker()].two_l_shape_english_name
-                    } else if(selectedSectionShape === 'Rectangular HSS') {
+                    } else if (selectedSectionShape === 'recHSS') {
                         return recHSShapesEnglishData[metricNameIndexChecker()].rec_hs_shape_english_name
-                    } else if(selectedSectionShape === 'Round HSS') {
+                    } else if (selectedSectionShape === 'roundHSS') {
                         return roundHSShapesEnglishData[metricNameIndexChecker()].round_hs_shape_english_name
-                    } else if(selectedSectionShape === 'Pipe') {
+                    } else if (selectedSectionShape === 'Pipe') {
                         return pipeShapesEnglishData[metricNameIndexChecker()].pipe_shape_english_name
                     } else {
                         // alert("here boi")
                         return null
                     }
-                } else if(system === 'English') {
-                    if(selectedSectionShape === 'I') {
+                } else if (system === 'English') {
+                    if (selectedSectionShape === 'I') {
                         return iShapesMetricData[englishNameIndexChecker()].i_shape_metric_name
-                    } else if(selectedSectionShape === 'C') {
+                    } else if (selectedSectionShape === 'C') {
                         return cShapesMetricData[englishNameIndexChecker()].c_shape_metric_name
-                    } else if(selectedSectionShape === 'Angles') {
+                    } else if (selectedSectionShape === 'L') {
                         return lShapesMetricData[englishNameIndexChecker()].l_shape_metric_name
-                    } else if(selectedSectionShape === 'T') {
+                    } else if (selectedSectionShape === 'T') {
                         return tShapesMetricData[englishNameIndexChecker()].t_shape_metric_name
-                    } else if(selectedSectionShape === 'Double Angles') {
+                    } else if (selectedSectionShape === '2L') {
                         return twoLShapesMetricData[englishNameIndexChecker()].two_l_shape_metric_name
-                    } else if(selectedSectionShape === 'Rectangular HSS') {
+                    } else if (selectedSectionShape === 'recHSS') {
                         return recHSShapesMetricData[englishNameIndexChecker()].rec_hs_shape_metric_name
-                    } else if(selectedSectionShape === 'Round HSS') {
+                    } else if (selectedSectionShape === 'roundHSS') {
                         return roundHSShapesMetricData[englishNameIndexChecker()].round_hs_shape_name
-                    } else if(selectedSectionShape === 'Pipe') {
+                    } else if (selectedSectionShape === 'Pipe') {
                         return pipeShapesMetricData[englishNameIndexChecker()].pipe_shape_metric_name
                     } else {
                         // alert("cheers")
@@ -603,23 +612,24 @@ const SectionProperties = () => {
             }
 
             if (system === 'Metric') {
+                // alert("babababa");
                 if (size(insertedSectionPropertiesMetric) === 0) {
                     // alert("made it inside")
                     let initialSectionMetric = {}
                     let initialSectionEnglish = {}
 
                     initialSectionMetric[0] = {
-                        sectionId: 0,
+                        sectionId: 1,
                         sectionShape: selectedSectionShape,
                         sectionName: selectedSectionName,
                     }
                     initialSectionEnglish[0] = {
-                        sectionId: 0,
+                        sectionId: 1,
                         sectionShape: selectedSectionShape,
                         sectionName: counterNameValue()
                     }
-                    for(let index in sectionDimensionsArray) {
-                        if(selectedSectionShape === sectionDimensionsArray[index]) {
+                    for (let index in sectionDimensionsArray) {
+                        if (selectedSectionShape === sectionDimensionsArray[index]) {
                             // alert("oh no")
                             return
                             break
@@ -629,15 +639,25 @@ const SectionProperties = () => {
                         }
                     }
                     // alert("shit")
+                    dispatch(setCurrentShape(selectedSectionShape, selectedSheet))
                     dispatch(addSectionPropertyMetric(initialSectionMetric, selectedSheet))
                     dispatch(setCurrentSectionPropertiesArray(1, selectedSheet))
                     dispatch(addSectionPropertyEnglish(initialSectionEnglish, selectedSheet))
                     setOpenNestedModal(false)
                 } else {
+                    // alert("Here I am in materials insert");
                     let currentSectionEnglish = {...insertedSectionPropertiesEnglish}
                     let currentSectionsMetric = {...insertedSectionPropertiesMetric}
-                    const newSectionSizeEnglish = size(insertedSectionPropertiesEnglish)
-                    const newSectionSizeMetric = size(insertedSectionPropertiesMetric)
+                    const newSectionSizeEnglish = editMode ? parseFloat(theEditIndex) - 1 : size(insertedSectionPropertiesEnglish)
+                    const newSectionSizeMetric = editMode ? parseFloat(theEditIndex) - 1 : size(insertedSectionPropertiesMetric)
+                    const currentSectionPropertiesArrayValueForEdit = parseFloat(newSectionSizeMetric) + 2
+                    const currentSectionPropertiesArrayValueInsert = parseFloat(newSectionSizeMetric) + 1
+                    let currentSectionPropertiesArrayValue = null
+                    if(editMode) {
+                        currentSectionPropertiesArrayValue = currentSectionPropertiesArrayValueForEdit
+                    } else {
+                        currentSectionPropertiesArrayValue = currentSectionPropertiesArrayValueInsert
+                    }
                     currentSectionsMetric[newSectionSizeMetric] = {
                         sectionId: parseFloat(newSectionSizeMetric + 1),
                         sectionShape: selectedSectionShape,
@@ -649,97 +669,328 @@ const SectionProperties = () => {
                         sectionName: counterNameValue()
                     }
 
-                    if(sectionDimensionsArray.length <= 0) {
-                        // alert("please")
+                    if (sectionDimensionsArray.length <= 0) {
+                        dispatch(setCurrentShape(selectedSectionShape, selectedSheet))
                         dispatch(setSectionDimensionsArrayMetric(selectedSectionShape, selectedSheet))
                         dispatch(setSectionDimensionsArrayEnglish(selectedSectionShape, selectedSheet))
-                        dispatch(setCurrentSectionPropertiesArray(parseFloat(newSectionSizeMetric) + 1, selectedSheet))
+                        dispatch(setSectionDimensionsArrayMetric(selectedSectionShape, selectedSheet))
+                        dispatch(setSectionDimensionsArrayEnglish(selectedSectionShape, selectedSheet))
+                        dispatch(setCurrentSectionPropertiesArray(currentSectionPropertiesArrayValue, selectedSheet))
                         dispatch(addSectionPropertyMetric(currentSectionsMetric, selectedSheet))
                         dispatch(addSectionPropertyEnglish(currentSectionEnglish, selectedSheet))
                         setOpenNestedModal(false)
-                    } else if(sectionDimensionsArray.length >= 1) {
+                    } else if (sectionDimensionsArray.length >= 1) {
                         // alert("gotcha")
                         let stop = false
-                        for(let index in sectionDimensionsArray) {
-                            if(sectionDimensionsArray.includes(selectedSectionShape)) {
-                                dispatch(setCurrentSectionPropertiesArray(parseFloat(newSectionSizeMetric) + 1, selectedSheet))
+                        for (let index in sectionDimensionsArray) {
+                            if (sectionDimensionsArray.includes(selectedSectionShape)) {
+                                if(!editMode) {
+                                    dispatch(setCurrentSectionPropertiesArray(currentSectionPropertiesArrayValue, selectedSheet))
+                                }
                                 dispatch(addSectionPropertyMetric(currentSectionsMetric, selectedSheet))
                                 dispatch(addSectionPropertyEnglish(currentSectionEnglish, selectedSheet))
                                 setOpenNestedModal(false)
                                 stop = true
                                 break
                             } else {
-                                dispatch(setSectionDimensionsArrayMetric(selectedSectionShape, selectedSheet))
-                                dispatch(setSectionDimensionsArrayEnglish(selectedSectionShape, selectedSheet))
-                                dispatch(setCurrentSectionPropertiesArray(parseFloat(newSectionSizeMetric) + 1, selectedSheet))
-                                dispatch(addSectionPropertyMetric(currentSectionsMetric, selectedSheet))
-                                dispatch(addSectionPropertyEnglish(currentSectionEnglish, selectedSheet))
+                                // const newShapesArray = sectionDimensionsArray.slice(selectedSectionShape, 1)
+                                if(editMode) {
+                                    // alert("New shapes array == " + JSON.stringify(newShapesArray));
+                                    if(!sectionDimensionsArray.includes(selectedSectionShape)) {
+                                        dispatch(setSectionDimensionsArrayMetric(selectedSectionShape, selectedSheet))
+                                        dispatch(setSectionDimensionsArrayEnglish(selectedSectionShape, selectedSheet))
+                                    }
+                                    dispatch(setCurrentShape(selectedSectionShape, selectedSheet))
+                                    dispatch(setSectionDimensionsArrayMetric(selectedSectionShape, selectedSheet))
+                                    dispatch(setSectionDimensionsArrayEnglish(selectedSectionShape, selectedSheet))
+                                    dispatch(addSectionPropertyMetric(currentSectionsMetric, selectedSheet))
+                                    dispatch(addSectionPropertyEnglish(currentSectionEnglish, selectedSheet))
+                                } else {
+                                    dispatch(setCurrentShape(selectedSectionShape, selectedSheet))
+                                    dispatch(setSectionDimensionsArrayMetric(selectedSectionShape, selectedSheet))
+                                    dispatch(setSectionDimensionsArrayEnglish(selectedSectionShape, selectedSheet))
+                                    dispatch(setCurrentSectionPropertiesArray(currentSectionPropertiesArrayValue, selectedSheet))
+                                    dispatch(addSectionPropertyMetric(currentSectionsMetric, selectedSheet))
+                                    dispatch(addSectionPropertyEnglish(currentSectionEnglish, selectedSheet))
+                                }
                                 setOpenNestedModal(false)
                                 break
                             }
                         }
                     }
-
                 }
             } else if (system === 'English') {
                 if (size(insertedSectionPropertiesEnglish) === 0) {
-                    let initialSectionEnglish = {}
+                    // alert("made it inside")
                     let initialSectionMetric = {}
-                    initialSectionEnglish[0] = {
-                        sectionId: 0,
-                        sectionShape: selectedSectionShape,
-                        sectionName: selectedSectionName,
-                    }
+                    let initialSectionEnglish = {}
+
                     initialSectionMetric[0] = {
-                        sectionId: 0,
+                        sectionId: 1,
                         sectionShape: selectedSectionShape,
-                        sectionName: counterNameValue()
+                        sectionName: counterNameValue(),
                     }
-                    for(let index in sectionDimensionsArray) {
-                        if(selectedSectionShape === sectionDimensionsArray[index]) {
+                    initialSectionEnglish[0] = {
+                        sectionId: 1,
+                        sectionShape: selectedSectionShape,
+                        sectionName: selectedSectionName
+                    }
+                    for (let index in sectionDimensionsArray) {
+                        if (selectedSectionShape === sectionDimensionsArray[index]) {
                             return
                             break
                         } else {
+                            dispatch(setCurrentShape(selectedSectionShape, selectedSheet))
                             dispatch(setSectionDimensionsArrayMetric(selectedSectionShape, selectedSheet))
                             dispatch(setSectionDimensionsArrayEnglish(selectedSectionShape, selectedSheet))
                         }
                     }
-                    dispatch(setCurrentSectionPropertiesArray(1, selectedSheet))
+                    // alert("shit")
+                    dispatch(setCurrentShape(selectedSectionShape, selectedSheet))
                     dispatch(addSectionPropertyMetric(initialSectionMetric, selectedSheet))
+                    dispatch(setCurrentSectionPropertiesArray(1, selectedSheet))
                     dispatch(addSectionPropertyEnglish(initialSectionEnglish, selectedSheet))
                     setOpenNestedModal(false)
                 } else {
-                    let currentSectionsEnglish = {...insertedSectionPropertiesEnglish}
+                    // alert("the edit index == " + JSON.stringify(theEditIndex) + " " + "the edit index - 1 === " + JSON.stringify(parseFloat(theEditIndex) - 1));
+                    let currentSectionEnglish = {...insertedSectionPropertiesEnglish}
                     let currentSectionsMetric = {...insertedSectionPropertiesMetric}
-                    const newSectionSizeEnglish = size(insertedSectionPropertiesEnglish)
-                    const newSectionSizeMetric = size(insertedSectionPropertiesMetric)
-                    currentSectionsEnglish[newSectionSizeEnglish] = {
-                        sectionId: parseFloat(newSectionSizeEnglish + 1),
-                        sectionShape: selectedSectionShape,
-                        sectionName: selectedSectionName
+                    // const newSectionSizeEnglish = size(insertedSectionPropertiesEnglish) - 1
+                    // const newSectionSizeMetric = size(insertedSectionPropertiesMetric) - 1
+                    const newSectionSizeEnglish = editMode ? parseFloat(theEditIndex) - 1 : size(insertedSectionPropertiesEnglish)
+                    const newSectionSizeMetric = editMode ? parseFloat(theEditIndex) - 1 : size(insertedSectionPropertiesMetric)
+                    const currentSectionPropertiesArrayValueForEdit = parseFloat(newSectionSizeEnglish) + 2
+                    const currentSectionPropertiesArrayValueInsert = parseFloat(newSectionSizeEnglish) + 1
+                    let currentSectionPropertiesArrayValue = null
+                    if(editMode) {
+                        currentSectionPropertiesArrayValue = currentSectionPropertiesArrayValueForEdit
+                    } else {
+                        currentSectionPropertiesArrayValue = currentSectionPropertiesArrayValueInsert
                     }
+                    // alert("the endglish size == " + JSON.stringify(newSectionSizeEnglish));
                     currentSectionsMetric[newSectionSizeMetric] = {
                         sectionId: parseFloat(newSectionSizeMetric + 1),
                         sectionShape: selectedSectionShape,
                         sectionName: counterNameValue()
                     }
-                    for(let index in sectionDimensionsArray) {
-                        if(selectedSectionShape === sectionDimensionsArray[index]) {
-                            // alert("bullshit")
-                            // return
-                            break
-                        } else {
-                            dispatch(setSectionDimensionsArrayMetric(selectedSectionShape, selectedSheet))
-                            dispatch(setSectionDimensionsArrayEnglish(selectedSectionShape, selectedSheet))
+                    currentSectionEnglish[newSectionSizeEnglish] = {
+                        sectionId: parseFloat(newSectionSizeEnglish + 1),
+                        sectionShape: selectedSectionShape,
+                        sectionName: selectedSectionName
+                    }
+
+                    if (sectionDimensionsArray.length <= 0) {
+                        dispatch(setCurrentShape(selectedSectionShape, selectedSheet))
+                        dispatch(setSectionDimensionsArrayMetric(selectedSectionShape, selectedSheet))
+                        dispatch(setSectionDimensionsArrayEnglish(selectedSectionShape, selectedSheet))
+                        dispatch(setSectionDimensionsArrayMetric(selectedSectionShape, selectedSheet))
+                        dispatch(setSectionDimensionsArrayEnglish(selectedSectionShape, selectedSheet))
+                        dispatch(setCurrentSectionPropertiesArray(parseFloat(newSectionSizeMetric) + 1, selectedSheet))
+                        dispatch(addSectionPropertyMetric(currentSectionsMetric, selectedSheet))
+                        dispatch(addSectionPropertyEnglish(currentSectionEnglish, selectedSheet))
+                        setOpenNestedModal(false)
+                    } else if (sectionDimensionsArray.length >= 1) {
+                        // alert("gotcha")
+                        let stop = false
+                        for (let index in sectionDimensionsArray) {
+                            if (sectionDimensionsArray.includes(selectedSectionShape)) {
+                                if(!editMode) {
+                                    dispatch(setCurrentSectionPropertiesArray(currentSectionPropertiesArrayValue, selectedSheet))
+                                }
+                                dispatch(setCurrentShape(selectedSectionShape, selectedSheet))
+                                dispatch(addSectionPropertyMetric(currentSectionsMetric, selectedSheet))
+                                dispatch(addSectionPropertyEnglish(currentSectionEnglish, selectedSheet))
+                                setOpenNestedModal(false)
+                                stop = true
+                                break
+                            } else {
+                                // const newShapesArray = sectionDimensionsArray.slice(selectedSectionShape, 1)
+                                if(editMode) {
+                                    // alert("New shapes array == " + JSON.stringify(newShapesArray));
+                                    if(!sectionDimensionsArray.includes(selectedSectionShape)) {
+                                        dispatch(setCurrentShape(selectedSectionShape, selectedSheet))
+                                        dispatch(setSectionDimensionsArrayMetric(selectedSectionShape, selectedSheet))
+                                        dispatch(setSectionDimensionsArrayEnglish(selectedSectionShape, selectedSheet))
+                                    }
+                                    dispatch(setCurrentShape(selectedSectionShape, selectedSheet))
+                                    dispatch(setSectionDimensionsArrayMetric(selectedSectionShape, selectedSheet))
+                                    dispatch(setSectionDimensionsArrayEnglish(selectedSectionShape, selectedSheet))
+                                    dispatch(addSectionPropertyMetric(currentSectionsMetric, selectedSheet))
+                                    dispatch(addSectionPropertyEnglish(currentSectionEnglish, selectedSheet))
+                                } else {
+                                    dispatch(setCurrentShape(selectedSectionShape, selectedSheet))
+                                    dispatch(setSectionDimensionsArrayMetric(selectedSectionShape, selectedSheet))
+                                    dispatch(setSectionDimensionsArrayEnglish(selectedSectionShape, selectedSheet))
+                                    dispatch(setCurrentSectionPropertiesArray(currentSectionPropertiesArrayValue, selectedSheet))
+                                    dispatch(addSectionPropertyMetric(currentSectionsMetric, selectedSheet))
+                                    dispatch(addSectionPropertyEnglish(currentSectionEnglish, selectedSheet))
+                                }
+                                setOpenNestedModal(false)
+                                break
+                            }
                         }
                     }
-                    dispatch(setCurrentSectionPropertiesArray(parseFloat(newSectionSizeMetric) + 1, selectedSheet))
-                    dispatch(addSectionPropertyMetric(currentSectionsMetric, selectedSheet))
-                    dispatch(addSectionPropertyEnglish(currentSectionsEnglish, selectedSheet))
-                    setOpenNestedModal(false)
                 }
             }
 
+        }
+
+        useEffect(() => {
+            if (editMode) {
+                if (system === 'Metric') {
+                    setSelectedSectionName(insertedSectionPropertiesMetric[parseFloat(theCurrentSectionIndex) - 1].sectionName)
+                } else if (system === 'English') {
+                    setSelectedSectionName(insertedSectionPropertiesEnglish[parseFloat(theCurrentSectionIndex) - 1].sectionName)
+                }
+            }
+        }, [insertedSectionPropertiesMetric, insertedSectionPropertiesEnglish])
+
+        useEffect(() => {
+            if (editMode) {
+                if (system === 'Metric') {
+                    if (insertedSectionPropertiesMetric[parseFloat(theCurrentSectionIndex) - 1].sectionShape === 'I') {
+                        setSelectedSectionShape('I')
+                    } else if (insertedSectionPropertiesMetric[parseFloat(theCurrentSectionIndex) - 1].sectionShape === 'C') {
+                        setSelectedSectionShape('C')
+                    } else if (insertedSectionPropertiesMetric[parseFloat(theCurrentSectionIndex) - 1].sectionShape === 'L') {
+                        setSelectedSectionShape('Angles')
+                    } else if (insertedSectionPropertiesMetric[parseFloat(theCurrentSectionIndex) - 1].sectionShape === 'T') {
+                        setSelectedSectionShape('T')
+                    } else if (insertedSectionPropertiesMetric[parseFloat(theCurrentSectionIndex) - 1].sectionShape === '2L') {
+                        setSelectedSectionShape('Double Angles')
+                    } else if (insertedSectionPropertiesMetric[parseFloat(theCurrentSectionIndex) - 1].sectionShape === 'recHSS') {
+                        setSelectedSectionShape('Rectangular HSS')
+                    } else if (insertedSectionPropertiesMetric[parseFloat(theCurrentSectionIndex) - 1].sectionShape === 'roundHSS') {
+                        setSelectedSectionShape('Round HSS')
+                    } else if (insertedSectionPropertiesMetric[parseFloat(theCurrentSectionIndex) - 1].sectionShape === 'Pipe') {
+                        setSelectedSectionShape('Pipe')
+                    }
+                    // setSelectedSectionShape(insertedSectionPropertiesMetric[parseFloat(theCurrentSectionIndex - 1)].sectionShape)
+                } else if (system === 'English') {
+                    if (insertedSectionPropertiesEnglish[parseFloat(theCurrentSectionIndex) - 1].sectionShape === 'I') {
+                        setSelectedSectionShape('I')
+                    } else if (insertedSectionPropertiesEnglish[parseFloat(theCurrentSectionIndex) - 1].sectionShape === 'C') {
+                        setSelectedSectionShape('C')
+                    } else if (insertedSectionPropertiesEnglish[parseFloat(theCurrentSectionIndex) - 1].sectionShape === 'L') {
+                        setSelectedSectionShape('Angles')
+                    } else if (insertedSectionPropertiesEnglish[parseFloat(theCurrentSectionIndex) - 1].sectionShape === 'T') {
+                        setSelectedSectionShape('T')
+                    } else if (insertedSectionPropertiesEnglish[parseFloat(theCurrentSectionIndex) - 1].sectionShape === '2L') {
+                        setSelectedSectionShape('Double Angles')
+                    } else if (insertedSectionPropertiesEnglish[parseFloat(theCurrentSectionIndex) - 1].sectionShape === 'recHSS') {
+                        setSelectedSectionShape('Rectangular HSS')
+                    } else if (insertedSectionPropertiesEnglish[parseFloat(theCurrentSectionIndex) - 1].sectionShape === 'roundHSS') {
+                        setSelectedSectionShape('Round HSS')
+                    } else if (insertedSectionPropertiesEnglish[parseFloat(theCurrentSectionIndex) - 1].sectionShape === 'Pipe') {
+                        setSelectedSectionShape('Pipe')
+                    }
+                }
+            }
+        }, [insertedSectionPropertiesMetric, insertedSectionPropertiesEnglish])
+
+        /**
+         * The System is currently in METRIC and we edit the value of the shape. Used to provide a counter value for english
+         */
+        const shapeEnglishCounterValue = () => {
+            // alert("the selected section name == " + JSON.stringify(hashMetric[selectedSectionName].id));
+            // alert("the hash english == " + JSON.stringify(hashEnglishId[hashMetric[selectedSectionName].id].section_properties_english_name));
+            // alert(JSON.stringify(hashMetric[selectedSectionName]));
+            // return hashEnglishId[hashMetric[selectedSectionName].id].section_properties_english_name
+        }
+
+        /**
+         * The System is currently in ENGLISH and we edit the value of the shape. Used to provide a counter value for metric
+         */
+        const shapeMetricCounterValue = () => {
+            // alert(JSON.stringify(hashMetric[hashEnglish[selectedSectionName].id].section_properties_metric_name));
+            // return hashMetricId[hashEnglish[selectedSectionName].id].section_properties_metric_name
+        }
+
+        const editSectionProperty = () => {
+            if (system === 'Metric') {
+                if (size(insertedSectionPropertiesMetric) === 0) {
+                    const initialSection = {}
+                    initialSection[0] = {
+                        id: 0,
+                        sectionShape: 'Test',
+                        sectionName: 'Test'
+                    }
+                    // console.log("sheet index == " + selectedSheet)
+                    dispatch(editSelectedSectionMetric('test', 'apple', selectedSheet, theCurrentSectionIndex))
+                    // dispatch(editSelectedSectionEnglish(selectedSectionShape, selectedSectionName, selectedSheet, theCurrentSectionIndex))
+                    setOpenNestedModal(false)
+                } else {
+                    const shapeValue = () => {
+                        if (selectedSectionShape === 'I') {
+                            return 'I'
+                        } else if (selectedSectionShape === 'C') {
+                            return 'C'
+                        } else if (selectedSectionShape === 'Angles') {
+                            return 'L'
+                        } else if (selectedSectionShape === 'T') {
+                            return 'T'
+                        } else if (selectedSectionShape === 'Double Angles') {
+                            return '2L'
+                        } else if (selectedSectionShape === 'Rectangular HSS') {
+                            return 'recHSS'
+                        } else if (selectedSectionShape === 'Round HSS') {
+                            return 'roundHSS'
+                        } else if (selectedSectionShape === 'Pipe') {
+                            return 'Pipe'
+                        }
+                    }
+                    const proceed = window.confirm("Are you sure you want to keep these changes?")
+                    if (proceed) {
+                        // alert("to be dispatched == " + selectedSectionName)
+                        dispatch(editSelectedSectionMetric(shapeValue(), selectedSectionName, selectedSheet, theCurrentSectionIndex))
+                        dispatch(editSelectedSectionEnglish(shapeValue(), shapeEnglishCounterValue(), selectedSheet, theCurrentSectionIndex))
+                        setOpenNestedModal(false)
+                    } else {
+                        return;
+                    }
+                }
+            } else if (system === 'English') {
+                if (size(insertedSectionPropertiesMetric) === 0) {
+                    const initialSection = {}
+                    initialSection[0] = {
+                        id: 0,
+                        sectionShape: 'Test',
+                        sectionName: 'Test'
+                    }
+                    // console.log("sheet index == " + selectedSheet)
+                    dispatch(editSelectedSectionEnglish('test', 'apple', selectedSheet, theCurrentSectionIndex))
+                    setOpenNestedModal(false)
+                } else {
+                    const shapeValue = () => {
+                        if (selectedSectionShape === 'I') {
+                            return 'I'
+                        } else if (selectedSectionShape === 'C') {
+                            return 'C'
+                        } else if (selectedSectionShape === 'Angles') {
+                            return 'L'
+                        } else if (selectedSectionShape === 'T') {
+                            return 'T'
+                        } else if (selectedSectionShape === 'Double Angles') {
+                            return '2L'
+                        } else if (selectedSectionShape === 'Rectangular HSS') {
+                            return 'recHSS'
+                        } else if (selectedSectionShape === 'Round HSS') {
+                            return 'roundHSS'
+                        } else if (selectedSectionShape === 'Pipe') {
+                            return 'Pipe'
+                        }
+                    }
+                    const proceed = window.confirm("Are you sure you want to keep these changes?")
+                    if (proceed) {
+                        shapeMetricCounterValue()
+                        dispatch(editSelectedSectionEnglish(shapeValue(), selectedSectionName, selectedSheet, theCurrentSectionIndex))
+                        dispatch(editSelectedSectionMetric(shapeValue(), shapeMetricCounterValue(), selectedSheet, theCurrentSectionIndex))
+                        setOpenNestedModal(false)
+                    } else {
+                        return;
+                    }
+                }
+            }
         }
 
         const setSectionName = (event) => {
@@ -747,22 +998,30 @@ const SectionProperties = () => {
         }
 
         const setSectionShape = (event) => {
-            if(event.target.textContent === 'I') {
+            if (event.target.textContent === 'I') {
                 setSelectedSectionShape('I')
-            } else if(event.target.textContent === 'C') {
+                // dispatch(setCurrentShape('I', selectedSheet))
+            } else if (event.target.textContent === 'C') {
                 setSelectedSectionShape('C')
-            } else if(event.target.textContent === 'Angles') {
+                // dispatch(setCurrentShape('C', selectedSheet))
+            } else if (event.target.textContent === 'Angles') {
                 setSelectedSectionShape('L')
-            } else if(event.target.textContent === 'T') {
+                // dispatch(setCurrentShape('L', selectedSheet))
+            } else if (event.target.textContent === 'T') {
                 setSelectedSectionShape('T')
-            } else if(event.target.textContent === 'Double Angles') {
+                // dispatch(setCurrentShape('T', selectedSheet))
+            } else if (event.target.textContent === 'Double Angles') {
                 setSelectedSectionShape('2L')
-            } else if(event.target.textContent === 'Rectangular HSS') {
+                // dispatch(setCurrentShape('2L', selectedSheet))
+            } else if (event.target.textContent === 'Rectangular HSS') {
                 setSelectedSectionShape('recHSS')
-            } else if(event.target.textContent === 'Round HSS') {
+                // dispatch(setCurrentShape('recHSS', selectedSheet))
+            } else if (event.target.textContent === 'Round HSS') {
                 setSelectedSectionShape('roundHSS')
-            } else if(event.target.textContent === 'Pipe') {
+                // dispatch(setCurrentShape('roundHSS', selectedSheet))
+            } else if (event.target.textContent === 'Pipe') {
                 setSelectedSectionShape('Pipe')
+                // dispatch(setCurrentShape('Pipe', selectedSheet))
             }
             setSelectedSectionName("")
         }
@@ -818,7 +1077,7 @@ const SectionProperties = () => {
                             }}>
                                 {displayError()}
                                 <div style={{width: '100%', padding: '1em'}}>
-                                    <FormControl fullWidth>
+                                    {/*<FormControl fullWidth>*/}
                                         <p style={{
                                             color: '#000',
                                             fontWeight: 'bold',
@@ -828,16 +1087,24 @@ const SectionProperties = () => {
                                         }}>Shape</p>
                                         <Autocomplete
                                             // disablePortal
+                                            freeSolo={true}
                                             id="combo-box-demo"
                                             sx={{width: '100%', overflow: 'visible'}}
                                             // ListboxProps={{ style: { maxHeight: 200, overflow: 'visible', zIndex: 1} }}
                                             options={displayApiShapes()}
+                                            onKeyPress={(event) => {
+                                                if (event.key === 'Enter' || event.key === 'enter') {
+                                                    console.log("key up");
+                                                    // setSelectedSectionShape('I')
+                                                    // setSectionShape(event)
+                                                }
+                                            }}
                                             onChange={(event) => setSectionShape(event)}
                                             value={selectedSectionShape}
                                             renderInput={(params) => <TextField {...params} label="Preset Section Shapes"/>}
                                         />
                                         {requiredShapeMessage()}
-                                    </FormControl>
+                                    {/*</FormControl>*/}
                                 </div>
                             </div>
                             <div style={{
@@ -859,11 +1126,12 @@ const SectionProperties = () => {
                                         }}>Name</p>
                                         <Autocomplete
                                             // disablePortal
+                                            disabled={disableButton}
                                             id="combo-box-demo"
                                             sx={{width: '100%'}}
                                             options={systemCheck()}
                                             onChange={(event) => setSectionName(event)}
-                                            value={selectedSectionName}
+                                            value={method === 'Design' ? 'N/A' : selectedSectionName}
                                             renderInput={(params) => <TextField {...params} label="Preset Section Names"/>}
                                         />
                                         {requiredNameMessage()}
@@ -887,23 +1155,27 @@ const SectionProperties = () => {
                                     variant='contained'
                                     color='primary'
                                     onClick={() => {
-                                        if (selectedSectionName === '' && selectedSectionShape === '') {
-                                            // alert("I am here")
-                                            handleRequiredShape()
-                                            handleRequiredName()
-                                        } else if (selectedSectionShape === '') {
-                                            handleRequiredShape()
-                                            // alert("actually here")
-                                        } else if (selectedSectionName === '') {
-                                            handleRequiredName()
-                                            // alert("really here")
-                                        } else {
-                                            // toggleStop()
-                                            // alert("selected section name -- " + selectedSectionShape)
-                                            insertSectionProperty(selectedSectionName, selectedSectionShape)
+                                        if(method === 'Investigation') {
+                                            if (selectedSectionName === '' && selectedSectionShape === '') {
+                                                handleRequiredShape()
+                                                handleRequiredName()
+                                            } else if (selectedSectionShape === '') {
+                                                handleRequiredShape()
+                                            } else if (selectedSectionName === '') {
+                                                handleRequiredName()
+                                            } else {
+                                                insertSectionProperty(selectedSectionName, selectedSectionShape)
+                                            }
+                                        } else if(method === 'Design') {
+                                            if (selectedSectionShape === '') {
+                                                handleRequiredShape()
+                                            } else {
+                                                dispatch(setDesignMethodShape(selectedSectionShape, selectedSectionShape, selectedSheet, 0))
+                                                dispatch(setCurrentShape(selectedSectionShape, selectedSheet))
+                                                setOpenNestedModal(false)
+                                            }
                                         }
                                     }}
-                                    // onClick={() => insertSectionProperty()}
                                 >
                                     ADD
                                 </Button>
@@ -938,14 +1210,195 @@ const SectionProperties = () => {
     }
 
     const displayRows = () => {
-        if(method === 'Investigation') {
+        if (method === 'Investigation') {
             return (
                 <SectionPropertiesRows/>
             )
-        } else if(method === 'Design') {
+        } else if (method === 'Design') {
             return (
                 <SectionPropertiesRowsDesign/>
             )
+        }
+    }
+
+    const currentSectionPropertiesArray = objectChecker(sheets, ['sheets', selectedSheet, 'currentSectionsArray'])
+
+    const removeSection = (modelIndex) => {
+        const proceed = window.confirm("Are you sure you want to delete this section row?")
+        if(proceed) {
+            if(system === 'Metric') {
+                for(let newSectionIndex in insertedSectionPropertiesMetric) {
+                    if(insertedSectionPropertiesMetric[newSectionIndex].sectionId === modelIndex) {
+                        let newNumber = 0
+                        const objectMapper = (object) => {
+                            let newObj = mapKeys(object, (value, key) => newNumber++)
+                            return newObj
+                        }
+                        let copyCurrent = [...currentSectionPropertiesArray]
+                        // alert("parseFloat(newSectionIndex) - 1 == " + JSON.stringify(newSectionIndex));
+                        const toBeRemoved = copyCurrent.indexOf(insertedSectionPropertiesMetric[newSectionIndex].sectionId)
+                        copyCurrent.splice(toBeRemoved, 1)
+                        dispatch(removeCurrentSectionPropertyIndex(copyCurrent, selectedSheet))
+                        dispatch(removeSelectedSectionPropertyMetric(null, selectedSheet, newSectionIndex))
+                        dispatch(removeSelectedSectionPropertyEnglish(null, selectedSheet, newSectionIndex))
+                        dispatch(resetSectionIndexMetric(objectMapper(insertedSectionPropertiesMetric), selectedSheet))
+                        dispatch(resetSectionIndexEnglish(objectMapper(insertedSectionPropertiesMetric), selectedSheet))
+                        break
+                    }
+                }
+            } else if(system === 'English') {
+                // alert("what da fakssss");
+                for(let newSectionIndex in insertedSectionPropertiesEnglish) {
+                    if(insertedSectionPropertiesEnglish[newSectionIndex].sectionId === modelIndex) {
+                        let newNumber = 0
+                        const objectMapper = (object) => {
+                            let newObj = mapKeys(object, (value, key) => newNumber++)
+                            return newObj
+                        }
+                        let copyCurrent = [...currentSectionPropertiesArray]
+                        alert("parseFloat(newSectionIndex) - 1 == " + JSON.stringify(newSectionIndex));
+                        const toBeRemoved = copyCurrent.indexOf(insertedSectionPropertiesEnglish[newSectionIndex].sectionId)
+                        copyCurrent.splice(toBeRemoved, 1)
+                        dispatch(removeCurrentSectionPropertyIndex(copyCurrent, selectedSheet))
+                        dispatch(removeSelectedSectionPropertyMetric(null, selectedSheet, newSectionIndex))
+                        dispatch(removeSelectedSectionPropertyEnglish(null, selectedSheet, newSectionIndex))
+                        dispatch(resetSectionIndexMetric(objectMapper(insertedSectionPropertiesEnglish), selectedSheet))
+                        dispatch(resetSectionIndexEnglish(objectMapper(insertedSectionPropertiesEnglish), selectedSheet))
+                        break
+                    }
+                }
+            }
+        } else {
+            return
+        }
+    }
+
+    const columns = [
+        {
+            field: 'id',
+            headerClassName: 'super-app-theme--header',
+            headerName: 'ID',
+            headerAlign: 'center',
+            sortable: true,
+            // flex: 1,
+            width: 50
+        },
+        {
+            field: 'shape',
+            headerClassName: 'super-app-theme--header',
+            headerName: 'Shape',
+            headerAlign: 'center',
+            sortable: true,
+            flex: 1,
+            // width: 150
+        },
+        {
+            field: 'name',
+            headerClassName: 'super-app-theme--header',
+            headerName: 'Name',
+            headerAlign: 'center',
+            sortable: true,
+            flex: 1,
+            // width: 150
+        },
+        {
+            field: 'edit',
+            headerClassName: 'super-app-theme--header',
+            headerName: 'Edit',
+            headerAlign: 'center',
+            sortable: false,
+            // flex: 1,
+            width: 60,
+            renderCell: () => {
+                return (
+                    <div style={{margin: '1px', width: '20%'}}>
+                        <div style={{display: 'column'}}>
+                            <p style={{
+                                margin: '7px 0px 2px'
+                            }}>
+                                <Tooltip title={<p>Click to edit Section Property row.</p>}>
+                                    <BorderColorIcon
+                                        style={{marginRight: '5px'}}
+                                        index={{color: 'primary'}}
+                                        color='primary'
+                                        // onClick={() => openSectionEditModal(sectionIndex)}
+                                    />
+                                </Tooltip>
+                            </p>
+                        </div>
+                    </div>
+                );
+            }
+        },
+        {
+            field: 'delete',
+            headerClassName: 'super-app-theme--header',
+            headerName: 'Delete',
+            headerAlign: 'center',
+            isSelectable: method === 'Investigation' ? true : false,
+            sortable: false,
+            // flex: 1,
+            width: 70,
+            renderCell: () => {
+                return (
+                    <div style={{margin: '1px', width: '20%'}}>
+                        <div style={{display: 'column'}}>
+                            <p style={{
+                                margin: '7px 0px 2px'
+                            }}>
+                                <Tooltip title={<p>Click to remover Section Property row.</p>}>
+                                    <CancelIcon
+                                        color={method === 'Investigation' ? 'secondary' : 'none'}
+                                    />
+                                </Tooltip>
+                            </p>
+                        </div>
+                    </div>
+                );
+            }
+        },
+    ];
+
+    const newSections = []
+
+    if (system === 'Metric') {
+        for (let index in insertedSectionPropertiesMetric) {
+            newSections.push(insertedSectionPropertiesMetric[index])
+        }
+    } else if (system === 'English') {
+        for (let index in insertedSectionPropertiesEnglish) {
+            newSections.push(insertedSectionPropertiesEnglish[index])
+        }
+    }
+    // alert("the new sections == " + JSON.stringify(newSections));
+
+    const displayApiData = () => {
+        const loading = [{
+            id: 'Calculating...',
+            shape: 'Calculating...',
+            name: 'Calculating...',
+        }]
+        if (newSections === null) {
+            return loading
+        } else {
+            const newOptions = newSections.map((data) => ({
+                id: data.sectionId,
+                shape: data.sectionShape,
+                name: method === 'Investigation' ? data.sectionName : 'N/A'
+            }));
+            return newOptions
+        }
+    }
+
+    const height = 200
+
+    const onChangeHandler = (model) => {
+        let modelIndex = null
+        for (let index in model) {
+            modelIndex = parseFloat(index)
+            const modelValue = model[index]
+            for (let y in modelValue) {
+            }
         }
     }
 
@@ -964,97 +1417,168 @@ const SectionProperties = () => {
                         style={{
                             textAlign: 'right'
                         }}>
-                        <Button
-                            disabled={disableButton}
-                            style={{
-                                margin: '10px'
-                            }}
-                            variant='contained'
-                            color='primary'
-                            onClick={() => {
-                                // dispatch(setSystemDropdown('Metric', selectedSheet))
-                                handleOpenNestedModal()
-                            }}
-                        >
-                            Add Section
-                        </Button>
-                        <Button
-                            disabled={disableButton}
-                            variant='contained'
-                            color='secondary'
-                            onClick={() => deleteAllSectionProperties()}
-                        >
-                            Remove All
-                        </Button>
+                        <Tooltip title={<p>Click to add Section Property row.</p>}>
+                            <Button
+                                disabled={disableButton}
+                                style={{
+                                    margin: '10px'
+                                }}
+                                variant='contained'
+                                color='primary'
+                                onClick={() => {
+                                    // dispatch(setSystemDropdown('Metric', selectedSheet))
+                                    setEditMode(false)
+                                    handleOpenNestedModal()
+                                }}
+                            >
+                                Add Section
+                            </Button>
+                        </Tooltip>
+                        <Tooltip title={<p>Click to remove all Section Property rows.</p>}>
+                            <Button
+                                disabled={disableButton}
+                                variant='contained'
+                                color='secondary'
+                                onClick={() => deleteAllSectionProperties()}
+                            >
+                                Remove All
+                            </Button>
+                        </Tooltip>
                     </div>
                 </div>
                 <Card style={{
                     marginBottom: '0px',
                     border: '1px solid black',
                     padding: '5px',
-                    backgroundColor: '#e2e2e2',
+                    backgroundColor: '#fff',
                     textAlign: 'center'
                 }}>
                     <p style={{margin: '0px'}}><strong>SECTIONS</strong></p>
                 </Card>
                 <div style={{
-                    display: 'flex',
-                    height: '100%',
-                    width: '100%'
+                    height: newSections.length === 1 ? 200 : (height + (newSections.length * 40)),
+                    flexGrow: 1,
+                    overFlow: 'hidden',
+                    margin: '1em 0'
                 }}>
-                    <div style={{
-                        paddingRight: '0px',
-                        width: '20%',
-                        textAlign: 'center'
-                    }}>
-                        <p>
-                            <strong>ID</strong>
-                        </p>
-                    </div>
-                    <div style={{
-                        paddingRight: '0px',
-                        width: '25%',
-                        textAlign: 'center'
-                    }}>
-                        <p>
-                            <strong>Shape</strong>
-                        </p>
-                    </div>
+                    <DataGrid
+                        sx={{
+                            width: '100%%',
+                            margin: '0 auto',
+                            boxShadow: 2,
+                            border: 2,
+                            // overFlow: 'hidden',
+                            color: '#000',
+                            justifyContent: 'center',
+                            borderColor: 'primary.dark',
+                            '& .MuiDataGrid-cell:hover': {
+                                color: 'primary.main',
+                            },
+                            '& .super-app-theme--header': {
+                                backgroundColor: '#184a8c',
+                                color: '#fff',
+                                justifyContent: 'center',
+                            },
+                            '& .MuiDataGrid-cell': {
+                                justifyContent: 'center',
+                                fontWeight: 'bold'
+                            },
+                            '& .css-1pans1z-MuiDataGrid-virtualScroller': {
+                                overflow: 'overlay'
+                            },
+                            '& .MuiDataGrid-sortIcon': {
+                                opacity: 100,
+                                fontWeight: 'bold',
+                                fill: "#fff" // or whatever you need
+                            },
+                            '& .MuiSvgIcon-fontSizeSmall': {
+                                fill: "#fff" // or whatever you need
+                            },
+                            '& .MuiDataGrid-row:nth-child(even)': {
+                                backgroundColor: '#e1e1e1'
+                            },
+                            '& .MuiDataGrid-row:nth-child(odd)': {
+                                backgroundColor: '#fff'
+                            },
+                            '& .MuiDataGrid-virtualScroller': {
+                                backgroundColor: '#fff'
+                            }
+                        }}
+                        components={{
+                            NoRowsOverlay: () => (
+                                <Stack height="100%" alignItems="center" justifyContent="center">
+                                    Add a row.
+                                </Stack>
+                            ),
+                        }}
+                        // sortModel={false}
+                        disableColumnSelector
+                        componentsProps={{
+                            columnMenu: {background: 'red'},
+                        }}
+                        onEditRowsModelChange={(model) => {
+                            onChangeHandler(model)
+                        }}
+                        onCellClick={(model) => {
+                            if(system === 'Metric') {
+                                for(let index in insertedSectionPropertiesMetric) {
+                                    if(insertedSectionPropertiesMetric[index].sectionId === model.id) {
+                                        let modelIndex = model.id
+                                        setTheCurrentSectionIndex(model.id)
+                                        if (model.field === 'delete') {
+                                            if(method === 'Investigation') {
+                                                alert("the model index == " + JSON.stringify(modelIndex));
+                                                removeSection(modelIndex)
+                                            } else if(method === 'Design') {
+                                                return
+                                            }
 
-                    <div style={{
-                        paddingRight: '0px',
-                        width: '25%',
-                        textAlign: 'center'
-                    }}>
-                        <p>
-                            <strong>Name</strong>
-                        </p>
-                    </div>
-                    <div style={{
-                        paddingRight: '0px',
-                        width: '10%',
-                        textAlign: 'center'
-                    }}>
-                        <p>
-                            <strong>View</strong>
-                        </p>
-                    </div>
+                                        } else if (model.field === 'edit') {
+                                            let modelIndex = model.id
+                                            getTheEditIndex(modelIndex)
+                                            // editSection(model, model.id)
+                                            break
+                                        }
+                                    }
+                                }
+                            } else if(system === 'English') {
+                                for(let index in insertedSectionPropertiesEnglish) {
+                                    if(insertedSectionPropertiesEnglish[index].sectionId === model.id) {
+                                        let modelIndex = model.id
+                                        setTheCurrentSectionIndex(model.id)
+                                        if (model.field === 'delete') {
+                                            if(method === 'Investigation') {
+                                                // alert("the model index == " + JSON.stringify(modelIndex));
+                                                removeSection(modelIndex)
+                                            } else if(method === 'Design') {
+                                                return
+                                            }
 
-                    <div style={{
-                        paddingRight: '0px',
-                        width: '20%',
-                        textAlign: 'center'
-                    }}>
-                        <p>
-                            <strong>Edit</strong>
-                        </p>
-                    </div>
+                                        } else if (model.field === 'edit') {
+                                            let modelIndex = model.id
+                                            getTheEditIndex(modelIndex)
+                                            // editSection(model, model.id)
+                                            break
+                                        }
+                                    }
+                                }
+                            }
+
+                        }}
+                        rows={displayApiData()}
+                        // rows={rows}
+                        disableExtendRowFullWidth={true}
+                        columns={columns}
+                        pageSize={10}
+                        rowsPerPageOptions={[5]}
+                        disableSelectionOnClick
+                    />
                 </div>
             </div>
-            <div style={{margin: '0 auto', width: '95%'}}>
-                {displayRows()}
-                {/*<SectionPropertiesRows/>*/}
-            </div>
+            {/*<div style={{margin: '0 auto', width: '95%'}}>*/}
+            {/*    {displayRows()}*/}
+            {/*    /!*<SectionPropertiesRows/>*!/*/}
+            {/*</div>*/}
             {displayModal()}
         </div>
     )

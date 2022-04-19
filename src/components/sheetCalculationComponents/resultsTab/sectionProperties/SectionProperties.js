@@ -4,6 +4,8 @@ import SectionPropertiesRows from "../../membersTab/sectionProperties/sectionPro
 import SectionPropertiesResultsRows from "./sectionPropertiesRows/SectionPropertiesRows";
 import {useSelector} from "react-redux";
 import {objectChecker} from "../../../../utilities/utilities";
+import SectionPropertiesRowsDataGrid from "../designMembers/designMembersRows/SectionDimensionsRowsDataGrid";
+import SectionDimensionsRowsDataGrid from "./sectionPropertiesRows/SectionPropertiesRowsDataGrid";
 
 const SectionProperties = () => {
 
@@ -38,86 +40,9 @@ const SectionProperties = () => {
                 }}>
                     <p style={{margin: '0px'}}><strong>Section Properties</strong></p>
                 </Card>
-                <div style={{
-                    display: 'flex',
-                    height: '100%',
-                }}>
-                    <div style={{
-                        paddingRight: '0px',
-                        width: '20%',
-                    }}>
-                        <p>
-                            <strong>ID</strong>
-                        </p>
-                    </div>
-                    <div style={{
-                        paddingRight: '0px',
-                        width: '20%',
-                    }}>
-                        <p>
-                            <strong>Name</strong>
-                        </p>
-                    </div>
-
-                    <div style={{
-                        paddingRight: '0px',
-                        width: '20%',
-                    }}>
-                        <p>
-                            <strong>A({unit}<sup>4</sup>)</strong>
-                        </p>
-                    </div>
-                    <div style={{
-                        paddingRight: '0px',
-                        width: '20%',
-                    }}>
-                        <p>
-                            <strong>J({unit}<sup>4</sup>)</strong>
-                        </p>
-                    </div>
-                    <div style={{
-                        paddingRight: '0px',
-                        width: '20%',
-                    }}>
-                        <p>
-                            <strong>I<sub>xp</sub>({unit}<sup>4</sup>)</strong>
-                        </p>
-                    </div>
-                    <div style={{
-                        paddingRight: '0px',
-                        width: '20%',
-                    }}>
-                        <p>
-                            <strong>I<sub>yp</sub>({unit}<sup>4</sup>)</strong>
-                        </p>
-                    </div>
-                    <div style={{
-                        paddingRight: '0px',
-                        width: '20%',
-                    }}>
-                        <p>
-                            <strong>I<sub>w</sub>({unit}<sup>6</sup>)</strong>
-                        </p>
-                    </div>
-                    <div style={{
-                        paddingRight: '0px',
-                        width: '20%',
-                    }}>
-                        <p>
-                            <strong>S<sub>xp</sub>({unit}<sup>3</sup>)</strong>
-                        </p>
-                    </div>
-                    <div style={{
-                        paddingRight: '0px',
-                        width: '20%',
-                    }}>
-                        <p>
-                            <strong>S<sub>yp</sub>({unit}<sup>4</sup>)</strong>
-                        </p>
-                    </div>
-                </div>
+                <SectionDimensionsRowsDataGrid/>
             </div>
-            <SectionPropertiesResultsRows/>
+            {/*<SectionPropertiesResultsRows/>*/}
         </>
     )
 }

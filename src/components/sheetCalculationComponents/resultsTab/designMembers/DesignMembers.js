@@ -59,119 +59,12 @@ const DesignMembers = () => {
                 }}>
                     <p><strong>Design Members</strong></p>
                 </div>
-
-                {/*<div style={{*/}
-                {/*    display: 'flex',*/}
-                {/*    height: '100%'*/}
-                {/*}}>*/}
-                {/*    <div style={{*/}
-                {/*        width: '16.66%',*/}
-                {/*        height: '100%'*/}
-                {/*    }}>*/}
-                {/*        <div style={{*/}
-                {/*            marginBottom: '0px',*/}
-                {/*            border: '1px solid black',*/}
-                {/*            padding: '5px',*/}
-                {/*            height: '50%',*/}
-                {/*            backgroundColor: '#fff',*/}
-                {/*        }}>*/}
-                {/*            <strong>ID</strong>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*    <div style={{*/}
-                {/*        width: '16.66%',*/}
-                {/*        height: '100%'*/}
-                {/*    }}>*/}
-                {/*        <div style={{*/}
-                {/*            marginBottom: '0px',*/}
-                {/*            border: '1px solid black',*/}
-                {/*            padding: '5px',*/}
-                {/*            height: '50%',*/}
-                {/*            backgroundColor: '#fff',*/}
-                {/*        }}>*/}
-                {/*            <strong>Section</strong>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*    <div style={{*/}
-                {/*        padding: '15px',*/}
-                {/*        paddingRight: '0px',*/}
-                {/*        paddingTop: '0px',*/}
-                {/*        paddingLeft: '0px',*/}
-                {/*        width: '16.66%',*/}
-                {/*        height: '100%'*/}
-                {/*    }}>*/}
-                {/*        <div style={{*/}
-                {/*            marginBottom: '0px',*/}
-                {/*            border: '1px solid black',*/}
-                {/*            padding: '5px',*/}
-                {/*            height: '50%',*/}
-                {/*            backgroundColor: '#fff',*/}
-                {/*        }}>*/}
-                {/*            <strong>Overall Depth{unit}</strong>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*    <div style={{*/}
-                {/*        padding: '15px',*/}
-                {/*        paddingRight: '0px',*/}
-                {/*        paddingTop: '0px',*/}
-                {/*        paddingLeft: '0px',*/}
-                {/*        width: '16.66%',*/}
-                {/*        height: '100%',*/}
-                {/*        margin: '0px'*/}
-                {/*    }}>*/}
-                {/*        <div style={{*/}
-                {/*            marginBottom: '0px',*/}
-                {/*            border: '1px solid black',*/}
-                {/*            padding: '5px',*/}
-                {/*            height: '50%',*/}
-                {/*            backgroundColor: '#fff',*/}
-                {/*        }}>*/}
-                {/*            <strong>Weight({weight})</strong>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*    <div style={{*/}
-                {/*        padding: '15px',*/}
-                {/*        paddingRight: '0px',*/}
-                {/*        paddingTop: '0px',*/}
-                {/*        paddingLeft: '0px',*/}
-                {/*        width: '16.66%',*/}
-                {/*        height: '100%',*/}
-                {/*        margin: '0px'*/}
-                {/*    }}>*/}
-                {/*        <div style={{*/}
-                {/*            marginBottom: '0px',*/}
-                {/*            border: '1px solid black',*/}
-                {/*            padding: '5px',*/}
-                {/*            height: '50%',*/}
-                {/*            backgroundColor: '#fff',*/}
-                {/*        }}>*/}
-                {/*            <strong>Critical Design Ratio</strong>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*    <div style={{*/}
-                {/*        padding: '15px',*/}
-                {/*        paddingRight: '0px',*/}
-                {/*        paddingTop: '0px',*/}
-                {/*        paddingLeft: '0px',*/}
-                {/*        width: '16.66%',*/}
-                {/*        height: '100%',*/}
-                {/*        margin: '0px'*/}
-                {/*    }}>*/}
-                {/*        <div style={{*/}
-                {/*            marginBottom: '0px',*/}
-                {/*            border: '1px solid black',*/}
-                {/*            padding: '5px',*/}
-                {/*            height: '50%',*/}
-                {/*            backgroundColor: '#fff',*/}
-                {/*        }}>*/}
-                {/*            <strong>KL/r</strong>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
             </Card>
-            {displayDesignMemberRows()}
-            {/*<DesignMembersRows/>*/}
-            {/*<DesignMaterialsRows/>*/}
+            <div style={{
+                width: '100%'
+            }}>
+                {displayDesignMemberRows()}
+            </div>
         </>
     )
 }

@@ -8,6 +8,7 @@ import {
     setSafetyFactorForTensile
 } from "../../../store/actions/sheets/sheetCalculationComponents/factors/factors";
 import {objectChecker} from "../../../utilities/utilities";
+import {Tooltip} from "@mui/material";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -90,8 +91,10 @@ const Factors = () => {
                         marginLeft: '1em',
                         display: 'flex'
                     }}>
-                        <form className={classes.textField} noValidate autoComplete="off">
-                            <p style={{margin: '0 8px', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}> <strong>{factorsSymbolHandler()}<sub>t</sub></strong></p>
+                        <div className={classes.textField} noValidate autoComplete="off">
+                            <Tooltip title={<p>Label for Safety factor for tensile</p>}>
+                                <p style={{margin: '0 8px', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}> <strong>{factorsSymbolHandler()}<sub>t</sub></strong></p>
+                            </Tooltip>
                             <TextField
                                 className={classes.input}
                                 label={'Safety factor for tensile'}
@@ -100,9 +103,11 @@ const Factors = () => {
                                 value={safetyFactorForTensile}
                                 onChange={(event) => safetyFactorForTensileHandler(event)}
                             />
-                        </form>
-                        <form className={classes.textField} noValidate autoComplete="off">
-                            <p style={{margin: '0 8px', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}> <strong>{factorsSymbolHandler()}<sub>c</sub></strong></p>
+                        </div>
+                        <div className={classes.textField} noValidate autoComplete="off">
+                            <Tooltip title={<p>Label for Safety factor for compression</p>}>
+                                <p style={{margin: '0 8px', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}> <strong>{factorsSymbolHandler()}<sub>c</sub></strong></p>
+                            </Tooltip>
                             <TextField
                                 className={classes.input}
                                 label={'Safety factor for compression'}
@@ -111,9 +116,11 @@ const Factors = () => {
                                 value={safetyFactorForCompression}
                                 onChange={(event) => safetyFactorForCompressionHandler(event)}
                             />
-                        </form>
-                        <form className={classes.textField} noValidate autoComplete="off">
-                            <p style={{margin: '0 8px', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}> <strong>{factorsSymbolHandler()}<sub>b</sub></strong></p>
+                        </div>
+                        <div className={classes.textField} noValidate autoComplete="off">
+                            <Tooltip title={<p>Label for Safety factor for flexure</p>}>
+                                <p style={{margin: '0 8px', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}> <strong>{factorsSymbolHandler()}<sub>b</sub></strong></p>
+                            </Tooltip>
                             <TextField
                                 className={classes.input}
                                 label={'Safety factor for flexure'}
@@ -122,9 +129,11 @@ const Factors = () => {
                                 value={safetyFactorForFlexure}
                                 onChange={(event) => safetyFactorForFlexureHandler(event)}
                             />
-                        </form>
-                        <form className={classes.textField} noValidate autoComplete="off">
-                            <p style={{margin: '0 8px', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}> <strong>{factorsSymbolHandler()}<sub>v</sub></strong></p>
+                        </div>
+                        <div className={classes.textField} noValidate autoComplete="off">
+                            <Tooltip title={<p>Label for Safety factor for shear</p>}>
+                                <p style={{margin: '0 8px', textAlign: 'initial', borderBottom: '1px solid black', paddingLeft: '15px'}}> <strong>{factorsSymbolHandler()}<sub>v</sub></strong></p>
+                            </Tooltip>
                             <TextField
                                 className={classes.input}
                                 label={'Safety factor for shear'}
@@ -133,7 +142,7 @@ const Factors = () => {
                                 value={safetyFactorForShear}
                                 onChange={(event) => safetyFactorForShearHandler(event)}
                             />
-                        </form>
+                        </div>
                     </div>
                 </Card>
             </Grid>

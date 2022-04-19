@@ -16,51 +16,16 @@ const DataGridDemo = () => {
     const system = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
     const calculatedData = objectChecker(sheets, ['sheets', selectedSheet, 'calculatedData'])
 
-    /**
-     * Metric Data to be looped
-     */
-    const iShapeMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'iShapesMetric'])
-    const cShapeMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'cShapesMetric'])
-    const anglesMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'lShapesMetric'])
-    const tShapeMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'tShapesMetric'])
-    const doubleAnglesMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'twoLShapesMetric'])
-    const recHSSMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'recHSShapesMetric'])
-    const roundHSSMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'roundHSShapesMetric'])
-    const pipeMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'pipeShapesMetric'])
-
-    /**
-     * English Data to be looped
-     */
-    const iShapeEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'iShapesEnglish'])
-    const cShapeEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'cShapesEnglish'])
-    const anglesEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'lShapesEnglish'])
-    const tShapeEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'tShapesEnglish'])
-    const doubleAnglesEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'twoLShapesEnglish'])
-    const recHSSEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'recHSShapesEnglish'])
-    const roundHSSEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'roundHSShapesEnglish'])
-    const pipeEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'pipeShapesEnglish'])
-
-    const steelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'steelTypesEnglish'])
-    const sectionsMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'sectionPropertiesMetric'])
-    const insertedSectionMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric'])
-    const insertedSectionEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesEnglish'])
-    const insertedSteelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties'])
-    const insertedSteelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeEnglishProperties'])
-
-    const designMembersEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'designMemberEnglish'])
-
-    const currentShape = objectChecker(sheets, ['sheets', selectedSheet, 'currentSheets'])
-    const dispatch = useDispatch()
-
     const columns = [
         {
             field: 'id',
             headerName: 'ID',
+            flex: 1,
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
             fontWeight: 'bold',
             type: 'number',
-            width: 100
+            // width: 100
         },
         {
             field: 'section',
@@ -69,8 +34,9 @@ const DataGridDemo = () => {
             headerAlign: 'center',
             fontWeight: 'bold',
             type: 'string',
-            width: 155
             // width: 155,
+            flex: 1,
+            // // width: 155,
             // editable: true,
         },
         {
@@ -79,8 +45,9 @@ const DataGridDemo = () => {
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
             type: 'number',
-            width: 155
-            // width: 200,
+            // width: 155,
+            flex: 1,
+            // // width: 200,
             // editable: true,
         },
         {
@@ -89,8 +56,9 @@ const DataGridDemo = () => {
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
             type: 'number',
-            width: 155
             // width: 155,
+            flex: 1,
+            // // width: 155,
             // editable: true,
         },
         {
@@ -99,8 +67,9 @@ const DataGridDemo = () => {
             headerClassName: 'super-app-theme--header',
             headerAlign: 'center',
             type: 'number',
-            width: 175
-            // width: 210,
+            // width: 175,
+            flex: 1,
+            // // width: 210,
             // editable: true,
         },
         {
@@ -110,7 +79,8 @@ const DataGridDemo = () => {
             headerAlign: 'center',
             description: 'This column has a value getter and is not sortable.',
             type: 'number',
-            width: 160,
+            // width: 160,
+            flex: 1,
             // sortable: false,
             // width: 160,
         },
@@ -150,7 +120,7 @@ const DataGridDemo = () => {
         <div style={{height: 800, flexGrow: 1, overFlow: 'hidden', margin: '1em 0'}}>
             <DataGrid
                 sx={{
-                    width: '50%',
+                    width: '100%',
                     margin: '0 auto',
                     boxShadow: 2,
                     border: 2,
@@ -178,12 +148,15 @@ const DataGridDemo = () => {
                         fontWeight: 'bold',
                         fill: "#fff" // or whatever you need
                     },
-                    '.MuiDataGrid-row:nth-child(even)': {
+                    '& .MuiDataGrid-row:nth-child(even)': {
                         backgroundColor: '#e1e1e1'
                     },
-                    '.MuiDataGrid-row:nth-child(odd)': {
+                    '& .MuiDataGrid-row:nth-child(odd)': {
                         backgroundColor: '#fff'
                     },
+                    '& .MuiDataGrid-root': {
+                        width: '100%'
+                    }
                 }}
                 components={{
                     NoRowsOverlay: () => (

@@ -15,7 +15,7 @@ import {
     setCurrentSectionPropertyIndex
 } from "../../../../../store/actions/sheets/sheetCalculationComponents/sectionProperties/sectionProperties";
 import {mapKeys} from "lodash";
-import {setSelectedSheet} from "../../../../../store/actions/sheets/sheets";
+import {removeCurrentSectionPropertyIndex, setSelectedSheet} from "../../../../../store/actions/sheets/sheets";
 import {editSelectedMetricMaterialProperty} from "../../../../../store/actions/sheets/sheetCalculationComponents/materialProperties/materialProperties";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
@@ -112,12 +112,14 @@ const SectionPropertiesRows = () => {
         return hash
     }, [sectionPropertiesEnglish])
 
+    const currentSectionPropertiesArray = objectChecker(sheets, ['sheets', selectedSheet, 'currentSectionsArray'])
+
     const removeSection = (selectedSheet, sectionIndex) => {
 
         const proceed = window.confirm("Are you sure you want to delete this section row?")
 
         if (size(insertedSectionPropertiesMetric) === 1 && proceed) {
-            console.log("at remove section || if triggered");
+            // alert("at remove section || if triggered");
             let newNumber = 0
 
             const objectMapper = (object) => {
@@ -129,16 +131,15 @@ const SectionPropertiesRows = () => {
             dispatch(removeSelectedSectionPropertyEnglish(null, selectedSheet, sectionIndex))
             dispatch(resetSectionIndexMetric(objectMapper(insertedSectionPropertiesMetric), selectedSheet))
             dispatch(resetSectionIndexEnglish(objectMapper(insertedSectionPropertiesMetric), selectedSheet))
+            // dispatch(removeCurrentSectionPropertyIndex(currentSectionPropertiesArray, selectedSheet))
         } else if (size(insertedSectionPropertiesMetric) !== 1 && proceed) {
-            console.log("at remove section || else triggered");
-
             let newNumber = 0
-
             const objectMapper = (object) => {
                 let newObj = mapKeys(object, (value, key) => newNumber++)
                 return newObj
             }
-
+            const toBeRemoved = currentSectionPropertiesArray.indexOf(insertedSectionPropertiesMetric[sectionIndex].sectionId)
+            currentSectionPropertiesArray.splice(toBeRemoved, 1)
             dispatch(removeSelectedSectionPropertyMetric(null, selectedSheet, sectionIndex))
             dispatch(removeSelectedSectionPropertyEnglish(null, selectedSheet, sectionIndex))
             dispatch(resetSectionIndexMetric(objectMapper(insertedSectionPropertiesMetric), selectedSheet))
@@ -177,7 +178,6 @@ const SectionPropertiesRows = () => {
             } else if(insertedSectionPropertiesMetric[sectionIndex].sectionShape === 'Pipe') {
                 return 'Pipe'
             }
-            // return hashMetric[insertedSectionPropertiesMetric[sectionIndex].sectionShape].section_properties_metric_shape
         } else if (system === 'English') {
             if(insertedSectionPropertiesEnglish[sectionIndex].sectionShape === 'I') {
                 return 'I'
@@ -480,10 +480,6 @@ const SectionPropertiesRows = () => {
                 }
             }
         }, [insertedSectionPropertiesMetric, insertedSectionPropertiesEnglish])
-
-        const editDispatchHandler = () => {
-
-        }
 
         /**
          * The System is currently in METRIC and we edit the value of the shape. Used to provide a counter value for english
@@ -804,51 +800,7 @@ const SectionPropertiesRows = () => {
         }
     }
 
-    const clearAllSections = () => {
-
-        if (size(insertedSectionPropertiesMetric) === 0) {
-            return;
-        } else if (size(insertedSectionPropertiesMetric) !== 0) {
-            const proceed = window.confirm("Are you sure you want to delete all section rows?");
-            if (proceed) {
-                // dispatch(clearSectionObject(null, selectedSheet))
-                // dispatch(clearRemovedSectionsArray(selectedSheet, null))
-            } else {
-                return
-            }
-        }
-    }
-
     const sectionRows = []
-
-    const [sectionNameMetric, setSectionNameMetric] = useState('W1100X499')
-    const [sectionShapeMetric, setSectionShapeMetric] = useState('W1100X499')
-    const [sectionNameEnglish, setSectionNameEnglish] = useState('')
-    const [sectionShapeEnglish, setSectionShapeEnglish] = useState('')
-
-    // useEffect(() => {
-    //     if(sectionPropertiesMetric.length > 0) {
-    //         // setSectionNameMetric("test")
-    //         // setSectionShapeMetric("Test Two")
-    //         // alert("at the useEffect == " + sectionNameMetric)
-    //         alert("at thee useEffect == " + currentSectionPropertyIndex)
-    //         setSectionNameMetric(insertedSectionPropertiesMetric[currentSectionPropertyIndex].sectionName)
-    //         setSectionShapeMetric(insertedSectionPropertiesMetric[currentSectionPropertyIndex].sectionShape)
-    //     } else {
-    //         return 'Hey'
-    //     }
-    // }, [insertedSectionPropertiesMetric])
-    //
-    // useEffect(() => {
-    //     if(sectionPropertiesEnglish.length > 0) {
-    //         // setSectionNameEnglish("New")
-    //         // setSectionShapeEnglish("New Two")
-    //         setSectionNameEnglish(insertedSectionPropertiesEnglish[currentSectionPropertyIndex].sectionName)
-    //         setSectionShapeEnglish(insertedSectionPropertiesEnglish[currentSectionPropertyIndex].sectionShape)
-    //     } else {
-    //         return
-    //     }
-    // }, [insertedSectionPropertiesEnglish])
 
     for (let sectionIndex in insertedSectionPropertiesMetric) {
 

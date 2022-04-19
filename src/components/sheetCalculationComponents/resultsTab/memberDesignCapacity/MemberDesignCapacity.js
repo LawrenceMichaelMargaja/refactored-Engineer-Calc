@@ -8,11 +8,21 @@ const MemberDesignCapacity = () => {
 
     const sheets = useSelector(state => state.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
+    const provision = objectChecker(sheets, ['sheets', selectedSheet, 'provision'])
     const system = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
     const calculatedData = objectChecker(sheets, ['sheets', selectedSheet, 'calculatedData'])
 
     const [unit, setUnit] = useState('')
     const [unitWithMeter, setUnitWithMeter] = useState('')
+    const [symbol, setSymbol] = useState('')
+
+    useEffect(() => {
+        if(provision === 'ASD') {
+            setSymbol('Ω')
+        } else {
+            setSymbol('Φ')
+        }
+    }, [provision])
 
     useEffect(() => {
         if(system === 'Metric') {
@@ -75,7 +85,7 @@ const MemberDesignCapacity = () => {
                             padding: '5px',
                             backgroundColor: '#fff'
                         }}>
-                            <strong>P<sub>n</sub>/Ω<sub>t</sub>({unit})</strong>
+                            <strong>P<sub>n</sub>/{symbol}<sub>t</sub>({unit})</strong>
                         </div>
                     </div>
                     <div style={{
@@ -90,7 +100,7 @@ const MemberDesignCapacity = () => {
                             padding: '5px',
                             backgroundColor: '#fff'
                         }}>
-                            <strong>P<sub>n</sub>/Ω<sub>c</sub>({unit})</strong>
+                            <strong>P<sub>n</sub>/{symbol}<sub>c</sub>({unit})</strong>
                         </div>
                     </div>
                     <div style={{
@@ -105,7 +115,7 @@ const MemberDesignCapacity = () => {
                             padding: '5px',
                             backgroundColor: '#fff'
                         }}>
-                            <strong>M<sub>xn</sub>/Ω<sub>b</sub>({unitWithMeter})</strong>
+                            <strong>M<sub>xn</sub>/{symbol}<sub>b</sub>({unitWithMeter})</strong>
                         </div>
                     </div>
                     <div style={{
@@ -120,7 +130,7 @@ const MemberDesignCapacity = () => {
                             padding: '5px',
                             backgroundColor: '#fff'
                         }}>
-                            <strong>M<sub>yn</sub>/Ω<sub>b</sub>({unitWithMeter})</strong>
+                            <strong>M<sub>yn</sub>/{symbol}<sub>b</sub>({unitWithMeter})</strong>
                         </div>
                     </div>
 
@@ -136,7 +146,7 @@ const MemberDesignCapacity = () => {
                             padding: '5px',
                             backgroundColor: '#fff'
                         }}>
-                            <strong>V<sub>xn</sub>/Ω<sub>v</sub>({unit})</strong>
+                            <strong>V<sub>xn</sub>/{symbol}<sub>v</sub>({unit})</strong>
                         </div>
                     </div>
                     <div style={{
@@ -151,7 +161,7 @@ const MemberDesignCapacity = () => {
                             padding: '5px',
                             backgroundColor: '#fff'
                         }}>
-                            <strong>V<sub>yn</sub>/Ω<sub>v</sub>({unit})</strong>
+                            <strong>V<sub>yn</sub>/{symbol}<sub>v</sub>({unit})</strong>
                         </div>
                     </div>
                 </div>

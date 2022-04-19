@@ -61,7 +61,7 @@ const Dashboard = () => {
     const dispatch = useDispatch()
 
     const fetchShapes = () => {
-        axios.get("http://127.0.0.1:8080/shape")
+        axios.get("/shape")
             // .then((response) => response.json())
             .then((response) => dispatch(getShapes(response.data, selectedSheet)))
             .catch((error) => {
@@ -70,7 +70,7 @@ const Dashboard = () => {
     }
 
     const fetchDesignMembersMetric = () => {
-        axios.get("http://127.0.0.1:8080/designMembersMetric")
+        axios.get("/designMembersMetric")
             // .then((response) => response.json())
             .then((response) => dispatch(getDesignMembersMetric(response.data, selectedSheet)))
             .catch((error) => {
@@ -79,7 +79,7 @@ const Dashboard = () => {
     }
 
     const fetchDesignMembersEnglish = () => {
-        axios.get("http://127.0.0.1:8080/designMembersEnglish")
+        axios.get("/designMembersEnglish")
             // .then((response) => response.json())
             .then((response) => dispatch(getDesignMembersEnglish(response.data, selectedSheet)))
             .catch((error) => {
@@ -88,7 +88,7 @@ const Dashboard = () => {
     }
 
     const fetchSectionDimensionsMetric = () => {
-        axios.get("http://127.0.0.1:8080/sectiondimensionmetric")
+        axios.get("/sectiondimensionmetric")
             // .then((response) => response.json())
             .then((response) => dispatch(getSectionDimensionsMetric(response.data, selectedSheet)))
             .catch((error) => {
@@ -97,7 +97,7 @@ const Dashboard = () => {
     }
 
     const fetchSectionDimensionsEnglish = () => {
-        axios.get("http://127.0.0.1:8080/sectiondimensionenglish")
+        axios.get("/sectiondimensionenglish")
             // .then((response) => response.json())
             .then((response) => dispatch(getSectionDimensionsEnglish(response.data, selectedSheet)))
             .catch((error) => {
@@ -109,7 +109,7 @@ const Dashboard = () => {
      * Start of T-Shape
      */
     const fetchTShapeMetric = () => {
-        axios.get("http://127.0.0.1:8080/tshapemetric")
+        axios.get("/tshapemetric")
             // .then((response) => response.json())
             .then((response) => dispatch(getTShapesMetric(response.data, selectedSheet)))
             .catch((error) => {
@@ -118,7 +118,7 @@ const Dashboard = () => {
     }
 
     const fetchTShapeEnglish = () => {
-        axios.get("http://127.0.0.1:8080/tshapeenglish")
+        axios.get("/tshapeenglish")
             // .then((response) => response.json())
             .then((response) => dispatch(getTShapesEnglish(response.data, selectedSheet)))
             .catch((error) => {
@@ -133,7 +133,7 @@ const Dashboard = () => {
      * Start of Round HS - Shape
      */
     const fetchRoundHSShapeMetric = () => {
-        axios.get("http://127.0.0.1:8080/roundhsshapemetric")
+        axios.get("/roundhsshapemetric")
             // .then((response) => response.json())
             .then((response) => dispatch(getRoundHsShapesMetric(response.data, selectedSheet)))
             .catch((error) => {
@@ -142,7 +142,7 @@ const Dashboard = () => {
     }
 
     const fetchRoundHSShapeEnglish = () => {
-        axios.get("http://127.0.0.1:8080/roundhsshapeenglish")
+        axios.get("/roundhsshapeenglish")
             // .then((response) => response.json())
             .then((response) => dispatch(getRoundHsShapesEnglish(response.data, selectedSheet)))
             .catch((error) => {
@@ -151,7 +151,7 @@ const Dashboard = () => {
     }
 
     const fetchRecHSShapeMetric = () => {
-        axios.get("http://127.0.0.1:8080/rechsshapemetric")
+        axios.get("/rechsshapemetric")
             // .then((response) => response.json())
             .then((response) => dispatch(getRecHsShapesMetric(response.data, selectedSheet)))
             .catch((error) => {
@@ -160,7 +160,7 @@ const Dashboard = () => {
     }
 
     const fetchRecHSShapeEnglish = () => {
-        axios.get("http://127.0.0.1:8080/rechsshapeenglish")
+        axios.get("/rechsshapeenglish")
             // .then((response) => response.json())
             .then((response) => dispatch(getRecHsShapesEnglish(response.data, selectedSheet)))
             .catch((error) => {
@@ -169,7 +169,7 @@ const Dashboard = () => {
     }
 
     const fetchPipeShapeMetric = () => {
-        axios.get("http://127.0.0.1:8080/pipeshapemetric")
+        axios.get("/pipeshapemetric")
             // .then((response) => response.json())
             .then((response) => dispatch(getPipeShapesMetric(response.data, selectedSheet)))
             .catch((error) => {
@@ -178,7 +178,7 @@ const Dashboard = () => {
     }
 
     const fetchPipeShapeEnglish = () => {
-        axios.get("http://127.0.0.1:8080/pipeshapeenglish")
+        axios.get("/pipeshapeenglish")
             // .then((response) => response.json())
             .then((response) => dispatch(getPipeShapesEnglish(response.data, selectedSheet)))
             .catch((error) => {
@@ -187,7 +187,7 @@ const Dashboard = () => {
     }
 
     const fetchLShapeMetric = () => {
-        axios.get("http://127.0.0.1:8080/lshapemetric")
+        axios.get("/lshapemetric")
             // .then((response) => response.json())
             .then((response) => dispatch(getLShapesMetric(response.data, selectedSheet)))
             .catch((error) => {
@@ -196,7 +196,7 @@ const Dashboard = () => {
     }
 
     const fetchLShapeEnglish = () => {
-        axios.get("http://127.0.0.1:8080/lshapeenglish")
+        axios.get("/lshapeenglish")
             // .then((response) => response.json())
             .then((response) => dispatch(getLShapesEnglish(response.data, selectedSheet)))
             .catch((error) => {
@@ -205,7 +205,7 @@ const Dashboard = () => {
     }
 
     const fetchIShapeMetric = () => {
-        axios.get("http://127.0.0.1:8080/ishapemetric")
+        axios.get("/ishapemetric")
             // .then((response) => response.json())
             .then((response) => dispatch(getIShapesMetric(response.data, selectedSheet)))
             .catch((error) => {
@@ -214,7 +214,7 @@ const Dashboard = () => {
     }
 
     const fetchIShapeEnglish = () => {
-        axios.get("http://127.0.0.1:8080/ishapeenglish")
+        axios.get("/ishapeenglish")
             // .then((response) => response.json())
             .then((response) => dispatch(getIShapesEnglish(response.data, selectedSheet)))
             .catch((error) => {
@@ -223,7 +223,7 @@ const Dashboard = () => {
     }
 
     const fetchCShapeMetric = () => {
-        axios.get("http://127.0.0.1:8080/cshapemetric")
+        axios.get("/cshapemetric")
             // .then((response) => response.json())
             .then((response) => dispatch(getCShapeMetric(response.data, selectedSheet)))
             .catch((error) => {
@@ -232,7 +232,7 @@ const Dashboard = () => {
     }
 
     const fetchCShapeEnglish = () => {
-        axios.get("http://127.0.0.1:8080/cshapeenglish")
+        axios.get("/cshapeenglish")
             // .then((response) => response.json())
             .then((response) => dispatch(getCShapeEnglish(response.data, selectedSheet)))
             .catch((error) => {
@@ -241,7 +241,7 @@ const Dashboard = () => {
     }
 
     const fetch2LShapeMetric = () => {
-        axios.get("http://127.0.0.1:8080/2lshapemetric")
+        axios.get("/2lshapemetric")
             // .then((response) => response.json())
             .then((response) => dispatch(get2LShapeMetric(response.data, selectedSheet)))
             .catch((error) => {
@@ -250,7 +250,7 @@ const Dashboard = () => {
     }
 
     const fetch2LShapeEnglish = () => {
-        axios.get("http://127.0.0.1:8080/2lshapeenglish")
+        axios.get("/2lshapeenglish")
             // .then((response) => response.json())
             .then((response) => dispatch(get2LShapeEnglish(response.data, selectedSheet)))
             .catch((error) => {
@@ -259,7 +259,7 @@ const Dashboard = () => {
     }
 
     const getSteelTypesMetric = () => {
-        axios.get("http://127.0.0.1:8080/steeltypesmetric")
+        axios.get("/steeltypesmetric")
             // .then((response) => response.json())
             .then((response) => dispatch(getSteelTypesMetricAPI(response.data, selectedSheet)))
             //     .then((data) => alert(JSON.stringify(data)))
@@ -269,7 +269,7 @@ const Dashboard = () => {
     }
 
     const getSteelTypesEnglish = () => {
-        axios.get("http://127.0.0.1:8080/steeltypesenglish")
+        axios.get("/steeltypesenglish")
             // .then((response) => response.json())
             .then((response) => dispatch(getSteelTypesEnglishAPI(response.data, selectedSheet)))
             .catch((error) => {
@@ -332,7 +332,7 @@ const Dashboard = () => {
     }, [])
 
     const getMetricSectionProperties = () => {
-        axios.get("http://127.0.0.1:8080/sectionpropertiesmetric")
+        axios.get("/sectionpropertiesmetric")
             // .then((response) => response.json())
             .then((response) => dispatch(getSectionPropertiesMetric(response.data, selectedSheet)))
             // .then((data) => console.log(sectionPropertiesMetric))
@@ -342,7 +342,7 @@ const Dashboard = () => {
     }
 
     const getEnglishSectionProperties = () => {
-        axios.get("http://127.0.0.1:8080/sectionpropertiesenglish")
+        axios.get("/sectionpropertiesenglish")
             // .then((response) => response.json())
             .then((response) => dispatch(getSectionPropertiesEnglish(response.data, selectedSheet)))
             .catch((error) => {

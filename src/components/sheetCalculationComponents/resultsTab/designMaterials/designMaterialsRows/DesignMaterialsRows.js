@@ -40,7 +40,7 @@ const DesignMaterialsRows = () => {
 
     const renderMemberRowsMetric = () => {
 
-        for (let index in sectionsMetric) {
+        for (let index in insertedSteelTypesMetric) {
 
             const materialId = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'materialId'])
             const sectionId = objectChecker(sheets, ['sheets', selectedSheet, 'members', index, 'sectionId'])
@@ -96,7 +96,7 @@ const DesignMaterialsRows = () => {
                             border: '1px solid black',
                             padding: '0.5em'
                         }}>
-                            <strong>{parseFloat(index) + 1} <sub> </sub></strong>
+                            <strong>{insertedSteelTypesMetric[index].id} <sub> </sub></strong>
                         </p>
                         <p style={{
                             width: '25%',

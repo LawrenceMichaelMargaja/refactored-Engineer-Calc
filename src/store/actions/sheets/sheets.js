@@ -1,5 +1,9 @@
 import {
-    ADD_NEW_SHEET, ADD_SHEET_NAME, CLEAR_CALCULATED_DATA, EDIT_SELECTED_ENGLISH_MATERIAL_PROPERTY,
+    ADD_NEW_SHEET,
+    ADD_SHEET_NAME,
+    CLEAR_CALCULATED_DATA,
+    CLEAR_SECTION_PROPERTIES_INDEX_ARRAY,
+    EDIT_SELECTED_ENGLISH_MATERIAL_PROPERTY,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTIES,
     EDIT_SELECTED_METRIC_MATERIAL_PROPERTY,
     GET_2_L_SHAPES_ENGLISH,
@@ -30,15 +34,19 @@ import {
     GET_STEEL_TYPES_METRIC_API,
     GET_T_SHAPES_ENGLISH,
     GET_T_SHAPES_METRIC,
+    REMOVE_CURRENT_SECTION_PROPERTY_INDEX, REMOVE_SELECTED_MATERIALS_ARRAY_INDEX,
     REMOVE_SHEET,
-    SET_CALCULATED_DATA, SET_CURRENT_ENGLISH_MATERIAL_PROPERTIES_INDEX,
-    SET_CURRENT_METRIC_ENGLISH_PROPERTIES_INDEX, SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX,
+    SET_CALCULATED_DATA,
+    SET_CURRENT_ENGLISH_MATERIAL_PROPERTIES_INDEX,
+    SET_CURRENT_METRIC_ENGLISH_PROPERTIES_INDEX,
+    SET_CURRENT_METRIC_MATERIAL_PROPERTIES_INDEX,
     SET_CURRENT_SHAPE,
-    SET_DATA_TO_BE_LOOPED_FOR_DESIGN_MEMBERS_POST_REQUEST,
+    SET_DATA_TO_BE_LOOPED_FOR_DESIGN_MEMBERS_POST_REQUEST, SET_DESIGN_METHOD_SHAPE,
     SET_DISABLE_MENU_BUTTONS,
     SET_ENGLISH_EMPA,
     SET_ENGLISH_FUMPA,
-    SET_ENGLISH_FYMPA, SET_LATEST_MATERIAL_METRIC_ID,
+    SET_ENGLISH_FYMPA,
+    SET_LATEST_MATERIAL_METRIC_ID,
     SET_MAPPED_STEEL_TYPE_ENGLISH,
     SET_MAPPED_STEEL_TYPE_METRIC,
     SET_METRIC_EMPA,
@@ -450,5 +458,33 @@ export const setCurrentShape = (data, sheetIndex) => {
     return {
         type: SET_CURRENT_SHAPE,
         payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const removeCurrentSectionPropertyIndex = (data, sheetIndex) => {
+    return {
+        type: REMOVE_CURRENT_SECTION_PROPERTY_INDEX,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const clearSectionPropertiesIndexArray = (data, sheetIndex) => {
+    return {
+        type: CLEAR_SECTION_PROPERTIES_INDEX_ARRAY,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const removeSelectedMaterialArrayIndex = (data, sheetIndex) => {
+    return {
+        type: REMOVE_SELECTED_MATERIALS_ARRAY_INDEX,
+        payload: {data: data, sheetIndex: sheetIndex}
+    }
+}
+
+export const setDesignMethodShape = (metricData, englishData, sheetIndex, sectionIndex) => {
+    return {
+        type: SET_DESIGN_METHOD_SHAPE,
+        payload: {metricData: metricData, englishData: englishData, sheetIndex: sheetIndex, sectionIndex: sectionIndex}
     }
 }

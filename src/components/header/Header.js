@@ -119,7 +119,7 @@ const Header = () => {
     const insertedSteelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeEnglishProperties'])
     const latestMaterialMetricId = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'latestMaterialMetricId'])
     const selectedMemberIndex = objectChecker(sheets, ['sheets', selectedSheet, 'selectedMemberIndex'])
-
+    const currentSections = objectChecker(sheets, ['sheets', selectedSheet, 'currentSectionsArray'])
 
 
     const hashSections = useMemo(() => {
@@ -146,20 +146,20 @@ const Header = () => {
         <div>
             <div>
                 {/*{listSectionIds()}*/}
-                <p style={{
-                    padding: '2em',
-                    wordWrap: 'break-word'
-                    // width: '50vw'
-                }}>
-                    {JSON.stringify(members)}
-                </p>
-                <p style={{
-                    padding: '2em',
-                    wordWrap: 'break-word'
-                    // width: '50vw'
-                }}>
-                    {JSON.stringify(selectedMemberIndex)}
-                </p>
+                {/*<p style={{*/}
+                {/*    padding: '2em',*/}
+                {/*    wordWrap: 'break-word'*/}
+                {/*    // width: '50vw'*/}
+                {/*}}>*/}
+                {/*    {JSON.stringify(members)}*/}
+                {/*</p>*/}
+                {/*<p style={{*/}
+                {/*    padding: '2em',*/}
+                {/*    wordWrap: 'break-word'*/}
+                {/*    // width: '50vw'*/}
+                {/*}}>*/}
+                {/*    {JSON.stringify(materials)}*/}
+                {/*</p>*/}
             </div>
             <div className={classes.root}>
                 <div className={classes.titleContainer}>

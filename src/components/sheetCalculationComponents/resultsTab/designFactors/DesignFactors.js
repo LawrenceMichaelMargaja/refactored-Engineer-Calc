@@ -8,6 +8,7 @@ const DesignFactors = () => {
     const sheets = useSelector(state => state.sheets)
     const selectedSheet = useSelector(state => state.sheets.selectedSheet)
     const provision = objectChecker(sheets, ['sheets', selectedSheet, 'provision'])
+    const system = objectChecker(sheets, ['sheets', selectedSheet, 'system'])
 
 
     const [unit, setUnit] = useState('')
@@ -53,7 +54,7 @@ const DesignFactors = () => {
                 paddingTop: '10px',
                 margin: '0px'
             }}>
-                <strong>Project Unit: </strong> {projectUnit}
+                <strong>Project Unit: </strong> {system}
             </p>
             <p style={{
                 textAlign: 'initial',

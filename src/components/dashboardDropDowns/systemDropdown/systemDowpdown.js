@@ -23,6 +23,7 @@ import {
 } from "../../../store/actions/sheets/sheetCalculationComponents/sectionProperties/sectionProperties";
 import {useNavigate} from "react-router";
 import axios from "axios";
+import {Tooltip} from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
     dropDown: {
@@ -32,6 +33,10 @@ const useStyles = makeStyles((theme) => ({
         width: '10%',
         border: '1px solid black',
         backgroundColor: '#e2e2e2'
+    },
+    inputLabelRoot: {
+        color: 'black',
+        fontWeight: 'bold'
     }
 }))
 
@@ -97,46 +102,27 @@ const SystemDropdown = () => {
         }
     }
 
-    // const getMaterialProperties = () => {
-    //     if(systemValue === 'Metric') {
-    //         axios.get("http://127.0.0.1:8080/steeltypesmetric")
-    //             // .then((response) => response.json())
-    //             .then((data) => dispatch(getSteelTypesMetricAPI(data, selectedSheet)))
-    //             //     .then((data) => alert(JSON.stringify(data)))
-    //             .catch((error) => {
-    //                 console.log(error)
-    //             });
-    //     } else if(systemValue === 'English') {
-    //         axios.get("http://127.0.0.1:8080/steeltypesenglish")
-    //             // .then((response) => response.json())
-    //             .then((data) => dispatch(getSteelTypesEnglishAPI(data, selectedSheet)))
-    //             //     .then((data) => alert(JSON.stringify(data)))
-    //             .catch((error) => {
-    //                 console.log(error)
-    //             });
-    //     }
-    // }
-
-
     return (
         <div sx={{ minWidth: 120 }} className={classes.dropDown}>
             <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">System</InputLabel>
-                <Select
-                    disabled={disable()}
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={systemValue}
-                    label="Age"
-                    defaultValue={systemValue}
-                    onChange={(event) => {
-                        handleChange(event)
-                        // getMaterialProperties()
-                    }}
-                >
-                    <MenuItem value={'Metric'}>Metric</MenuItem>
-                    <MenuItem value={'English'}>English</MenuItem>
-                </Select>
+                <InputLabel id="demo-simple-select-label" className={classes.inputLabelRoot}>System</InputLabel>
+                {/*<Tooltip title={<p>Click to change system.</p>} placement='right'>*/}
+                    <Select
+                        disabled={disable()}
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={systemValue}
+                        label="Age"
+                        defaultValue={systemValue}
+                        onChange={(event) => {
+                            handleChange(event)
+                            // getMaterialProperties()
+                        }}
+                    >
+                        <MenuItem value={'Metric'}>Metric</MenuItem>
+                        <MenuItem value={'English'}>English</MenuItem>
+                    </Select>
+                {/*</Tooltip>*/}
             </FormControl>
         </div>
     )

@@ -16,6 +16,7 @@ import {
 } from "../../../store/actions/sheets/sheetCalculationComponents/materialProperties/materialProperties";
 import {useNavigate} from "react-router";
 import {setCalculatedData, setDataToBeLoopedForPostRequest, setTabState} from "../../../store/actions/sheets/sheets";
+import {Tooltip} from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
     dropDown: {
@@ -25,6 +26,10 @@ const useStyles = makeStyles((theme) => ({
         width: '10%',
         border: '1px solid black',
         backgroundColor: '#e2e2e2',
+    },
+    inputLabelRoot: {
+        color: 'black',
+        fontWeight: 'bold'
     }
 }))
 
@@ -48,117 +53,6 @@ const MethodDropdown = () => {
             return false
         }
     }
-
-    const [dataToBeLooped, setDataToBeLooped] = useState('')
-    const [dataName, setDataName] = useState('')
-    const [name, setName] = useState('')
-
-    // const dispatch = useDispatch()
-    /**
-     * Metric Data to be looped
-     */
-    const iShapeMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'iShapesMetric'])
-    const cShapeMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'cShapesMetric'])
-    const anglesMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'lShapesMetric'])
-    const tShapeMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'tShapesMetric'])
-    const doubleAnglesMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'twoLShapesMetric'])
-    const recHSSMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'recHSShapesMetric'])
-    const roundHSSMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'roundHSShapesMetric'])
-    const pipeMetricData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'pipeShapesMetric'])
-
-    /**
-     * English Data to be looped
-     */
-    const iShapeEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'iShapesEnglish'])
-    const cShapeEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'cShapesEnglish'])
-    const anglesEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'lShapesEnglish'])
-    const tShapeEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'tShapesEnglish'])
-    const doubleAnglesEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'twoLShapesEnglish'])
-    const recHSSEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'recHSShapesEnglish'])
-    const roundHSSEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'roundHSShapesEnglish'])
-    const pipeEnglishData = objectChecker(sheets, ['sheets', selectedSheet, 'apiData', 'pipeShapesEnglish'])
-
-    const insertedSectionMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesMetric'])
-    const insertedSteelTypesEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeEnglishProperties'])
-    const insertedSectionEnglish = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'sectionPropertiesEnglish'])
-    const insertedSteelTypesMetric = objectChecker(sheets, ['sheets', selectedSheet, 'apiMap', 'steelTypeMetricProperties'])
-
-
-    // useEffect(() => {
-    //     if(system === 'Metric') {
-    //         for (let index in insertedSectionMetric) {
-    //             if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('I-shaped').toUpperCase()) {
-    //                 setDataToBeLooped(iShapeMetricData)
-    //                 // dispatch(setCurrentShape('I-shaped', selectedSheet))
-    //                 dispatch(setDataToBeLoopedForPostRequest(iShapeMetricData, selectedSheet))
-    //             } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('C-shaped').toUpperCase()) {
-    //                 setDataToBeLooped(cShapeMetricData)
-    //                 // dispatch(setCurrentShape('C-shaped', selectedSheet))
-    //                 dispatch(setDataToBeLoopedForPostRequest(cShapeMetricData, selectedSheet))
-    //             } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Angles').toUpperCase()) {
-    //                 setDataToBeLooped(anglesMetricData)
-    //                 // dispatch(setCurrentShape('Angles', selectedSheet))
-    //                 dispatch(setDataToBeLoopedForPostRequest(anglesMetricData, selectedSheet))
-    //             } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('T-shaped').toUpperCase()) {
-    //                 setDataToBeLooped(tShapeMetricData)
-    //                 // dispatch(setCurrentShape('T-shaped', selectedSheet))
-    //                 dispatch(setDataToBeLoopedForPostRequest(tShapeMetricData, selectedSheet))
-    //             } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Double Angles').toUpperCase()) {
-    //                 setDataToBeLooped(doubleAnglesMetricData)
-    //                 // dispatch(setCurrentShape('Double Angles', selectedSheet))
-    //                 dispatch(setDataToBeLoopedForPostRequest(doubleAnglesMetricData, selectedSheet))
-    //             } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Rectangular HSS').toUpperCase()) {
-    //                 setDataToBeLooped(recHSSMetricData)
-    //                 // dispatch(setCurrentShape('Rectangular HSS', selectedSheet))
-    //                 dispatch(setDataToBeLoopedForPostRequest(recHSSMetricData, selectedSheet))
-    //             } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Round HSS').toUpperCase()) {
-    //                 setDataToBeLooped(roundHSSMetricData)
-    //                 // dispatch(setCurrentShape('Round HSS', selectedSheet))
-    //                 dispatch(setDataToBeLoopedForPostRequest(roundHSSMetricData, selectedSheet))
-    //             } else if ((insertedSectionMetric[index].sectionShape).toUpperCase() === ('Pipe').toUpperCase()) {
-    //                 setDataToBeLooped(pipeMetricData)
-    //                 // dispatch(setCurrentShape('Pipe', selectedSheet))
-    //                 dispatch(setDataToBeLoopedForPostRequest(pipeMetricData, selectedSheet))
-    //             }
-    //         }
-    //     } else if(system === 'English') {
-    //         for (let index in insertedSectionEnglish) {
-    //             if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('I-shaped').toUpperCase()) {
-    //                 setDataToBeLooped(iShapeEnglishData)
-    //                 // dispatch(setCurrentShape('I-shaped', selectedSheet))
-    //                 dispatch(setDataToBeLoopedForPostRequest(iShapeEnglishData, selectedSheet))
-    //             } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('C-shaped').toUpperCase()) {
-    //                 setDataToBeLooped(cShapeEnglishData)
-    //                 // dispatch(setCurrentShape('C-shaped', selectedSheet))
-    //                 dispatch(setDataToBeLoopedForPostRequest(cShapeEnglishData, selectedSheet))
-    //             } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Angles').toUpperCase()) {
-    //                 setDataToBeLooped(anglesEnglishData)
-    //                 // dispatch(setCurrentShape('Angles', selectedSheet))
-    //                 dispatch(setDataToBeLoopedForPostRequest(anglesEnglishData, selectedSheet))
-    //             } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('T-shaped').toUpperCase()) {
-    //                 setDataToBeLooped(tShapeEnglishData)
-    //                 // dispatch(setCurrentShape('T-shaped', selectedSheet))
-    //                 dispatch(setDataToBeLoopedForPostRequest(tShapeEnglishData, selectedSheet))
-    //             } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Double Angles').toUpperCase()) {
-    //                 setDataToBeLooped(doubleAnglesEnglishData)
-    //                 // dispatch(setCurrentShape('Double Angles', selectedSheet))
-    //                 dispatch(setDataToBeLoopedForPostRequest(doubleAnglesEnglishData, selectedSheet))
-    //             } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Rectangular HSS').toUpperCase()) {
-    //                 setDataToBeLooped(recHSSEnglishData)
-    //                 // dispatch(setCurrentShape('Rectangular HSS', selectedSheet))
-    //                 dispatch(setDataToBeLoopedForPostRequest(recHSSEnglishData, selectedSheet))
-    //             } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Round HSS').toUpperCase()) {
-    //                 setDataToBeLooped(roundHSSEnglishData)
-    //                 // dispatch(setCurrentShape('Round HSS', selectedSheet))
-    //                 dispatch(setDataToBeLoopedForPostRequest(roundHSSEnglishData, selectedSheet))
-    //             } else if ((insertedSectionEnglish[index].sectionShape).toUpperCase() === ('Pipe').toUpperCase()) {
-    //                 setDataToBeLooped(pipeEnglishData)
-    //                 // dispatch(setCurrentShape('Pipe', selectedSheet))
-    //                 dispatch(setDataToBeLoopedForPostRequest(pipeEnglishData, selectedSheet))
-    //             }
-    //         }
-    //     }
-    // }, [methodValue])
 
     const handleChange = (event) => {
         if(event.target.value === 'Design') {
@@ -200,19 +94,21 @@ const MethodDropdown = () => {
     return (
         <div sx={{ minWidth: 120 }} className={classes.dropDown}>
             <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Method</InputLabel>
-                <Select
-                    disabled={disable()}
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={methodValue}
-                    label="Age"
-                    defaultValue={methodValue}
-                    onChange={(event) => handleChange(event)}
-                >
-                    <MenuItem value={'Investigation'}>Investigation</MenuItem>
-                    <MenuItem value={'Design'}>Design</MenuItem>
-                </Select>
+                <InputLabel id="demo-simple-select-label" className={classes.inputLabelRoot}>Mode</InputLabel>
+                {/*<Tooltip title={<p>Click to change method.</p>}>*/}
+                    <Select
+                        disabled={disable()}
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={methodValue}
+                        label="Age"
+                        defaultValue={methodValue}
+                        onChange={(event) => handleChange(event)}
+                    >
+                        <MenuItem value={'Investigation'}>Investigation</MenuItem>
+                        <MenuItem value={'Design'}>Design</MenuItem>
+                    </Select>
+                {/*</Tooltip>*/}
             </FormControl>
         </div>
     )

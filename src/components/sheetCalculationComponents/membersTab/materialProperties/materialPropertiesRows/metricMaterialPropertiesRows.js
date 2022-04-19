@@ -1008,7 +1008,12 @@ const MetricMaterialPropertiesRows = () => {
                     } else {
                         // alert("the steel Types metric == ", + JSON.stringify(steelTypesMetric));
                         // alert("steelTypesMetric" + JSON.stringify(insertedSteelTypesMetric[materialPropertyIndex].name));
-                        return hashMetric[insertedSteelTypesMetric[materialPropertyIndex].name].steel_type_metric_e
+                        if(hashMetric.length === 0) {
+                            return
+                        } else {
+                            // alert("the hashMetric == " + JSON.stringify(hashMetric[insertedSteelTypesMetric[materialPropertyIndex].name].steel_type_metric_e));
+                            return hashMetric[insertedSteelTypesMetric[materialPropertyIndex].name].steel_type_metric_e
+                        }
                     }
                 } else {
                     for (let name in steelTypesMetric) {
@@ -1016,7 +1021,11 @@ const MetricMaterialPropertiesRows = () => {
                             if (!hashMetric[[insertedSteelTypesMetric[materialPropertyIndex].name]]) {
                                 return null
                             } else {
-                                return hashMetric[insertedSteelTypesMetric[materialPropertyIndex].name].EMPA
+                                if(hashMetric.length === 0) {
+                                    return
+                                } else {
+                                    return hashMetric[insertedSteelTypesMetric[materialPropertyIndex].name].EMPA
+                                }
                             }
                         } else {
                             return insertedSteelTypesMetric[materialPropertyIndex].EMPA
